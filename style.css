@@ -213,7 +213,7 @@
     padding: 2px 4px;
     border-radius: 4px;
     font-weight: 400;
-    font-variation-settings: 'wdth' 95;
+    font-variation-settings: 'wdth'95;
 }
 
 .ksmm-subfilter:hover {
@@ -242,15 +242,15 @@
 
 .ksmm-list-item h4 {
     margin: 0 0 8px 0;
-    font-variation-settings: 'wdth' 105;
+    font-variation-settings: 'wdth'105;
 }
 
 .ksmm-list-item p {
     margin: 0;
     font-size: 14px;
     color: #333;
-    font-variation-settings: 'wdth' 105;
-    font-weight: 399!important;
+    font-variation-settings: 'wdth'105;
+    font-weight: 399 !important;
 }
 
 .ksmm-list-item.highlight {
@@ -308,7 +308,7 @@
 
 
 #ksmm-map {
-/*    width: 100%;
+    /*    width: 100%;
     height: 100%;*/
     display: block;
     cursor: grab;
@@ -390,7 +390,7 @@
     display: flex;
     flex-direction: column;
     /*temp*/
-    display: none!important;
+    display: none !important;
 }
 
 .ksmm-floor-btn {
@@ -523,4 +523,9 @@
         right: 10px;
         padding: 5px;
     }
+
+    #krok-services-map-module {
+        height: auto;
+    }
+
 }
