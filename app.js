@@ -2,6 +2,7 @@
     // --- 2. ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ и DOM-ЭЛЕМЕНТЫ ---
     const SVG_NS = "http://www.w3.org/2000/svg";
     const mapWrapper = document.getElementById('ksmm-map-wrapper');
+    const mapBaseLayer = document.getElementById('ksmm-map-base');
     const mapAreasContainer = document.getElementById('ksmm-map-areas');
     const mapTitle = document.getElementById('ksmm-map-title');
     const listContainer = document.getElementById('ksmm-services-list');
@@ -10,6 +11,9 @@
     const searchInput = document.getElementById('ksmm-search-input');
     const floorSwitcher = document.getElementById('ksmm-floor-switcher');
     const svgMap = document.getElementById('ksmm-map');
+    const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
+    const floorSvgCache = {};
+    let activeAreaId = null;
     let currentBuilding = 'B1';
     let currentFloor = buildingFloorStructure[currentBuilding].defaultFloor;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
@@ -40,6 +44,27 @@
         return parts.join(' • ');
     }
 
+    function getServicesForFloor(building, floor) {
+        return allServices.filter(s => s.building === building && s.floor === floor);
+    }
+
+    function getZoneElement(areaId) {
+        if (!areaId || !mapBaseLayer) return null;
+        return mapBaseLayer.querySelector(`#${areaId}`);
+    }
+
+    function setActiveArea(areaId) {
+        if (activeAreaId === areaId) return;
+        document.querySelectorAll('.ksmm-map-area.active').forEach(el => el.classList.remove('active'));
+        activeAreaId = null;
+        if (!areaId) return;
+        const targetArea = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
+        if (targetArea) {
+            targetArea.classList.add('active');
+            activeAreaId = areaId;
+        }
+    }
+
     function showPopup(service) {
         popupTitle.textContent = service.name;
         popupDesc.textContent = service.desc;
@@ -48,10 +73,14 @@
         popupContacts.textContent = service.contacts;
         popupLink.href = service.link;
         popupLink.style.display = (service.link === '#') ? 'none' : 'inline-block';
+        setActiveArea(service.areaId);
         popup.style.display = 'block';
     }
 
-    function hidePopup() { popup.style.display = 'none'; }
+    function hidePopup() {
+        popup.style.display = 'none';
+        setActiveArea(null);
+    }
 
     function setHighlight(id, state) {
         const service = getServiceById(id);
@@ -104,14 +133,14 @@
             e.preventDefault();
             // ПЛАВНЫЙ ЗУМ: Меньший фактор для плавности (1.05)
             const scaleFactor = 1.05;
-            const newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor; // // Ограничиваем зум 
+            const newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor; // Ограничиваем зум
             const prevScale = mapState.scale;
             mapState.scale = Math.max(0.5, Math.min(3, newScale));
-            // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию //
-            if (mapState.scale === prevScale && newScale !== prevScale) return; // // Зум относительно курсора (центр зума) // 
-            const bbox = svgMap.getBoundingClientRect(); //
-            const mouseX = e.clientX - bbox.left; //
-            const mouseY = e.clientY - bbox.top; // // Смещение в зависимости от нового масштаба //
+            // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию
+            if (mapState.scale === prevScale && newScale !== prevScale) return; //  Зум относительно курсора (центр зума)
+            const bbox = svgMap.getBoundingClientRect();
+            const mouseX = e.clientX - bbox.left;
+            const mouseY = e.clientY - bbox.top; // Смещение в зависимости от нового масштаба //
             mapState.x = mapState.x - (mouseX - mapState.x) * (mapState.scale / prevScale - 1);
             mapState.y = mapState.y - (mouseY - mapState.y) * (mapState.scale / prevScale - 1);
             applyMapTransform();
@@ -119,22 +148,71 @@
     }
 
     function centerOnArea(areaId) {
-        const areaData = areaDefinitions[`${currentBuilding}-F${currentFloor}`].find(a => a.id === areaId);
-        if (!areaData) return;
-        // Центр SVG в мировых координатах (SVG viewBox: 800x600)
+        const areaElement = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
+        if (!areaElement || typeof areaElement.getBBox !== 'function') return;
+        const bbox = areaElement.getBBox();
+        if (!bbox || (bbox.width === 0 && bbox.height === 0)) return;
         const mapCenterX = SVG_VIEWBOX_WIDTH / 2;
         const mapCenterY = SVG_VIEWBOX_HEIGHT / 2;
-        // Координаты центра области
-        const targetX = areaData.xCenter;
-        const targetY = areaData.yCenter;
-        // Требуемый сдвиг для центрирования
+        const targetX = bbox.x + (bbox.width / 2);
+        const targetY = bbox.y + (bbox.height / 2);
         const offsetX = mapCenterX - targetX;
         const offsetY = mapCenterY - targetY;
-        // Устанавливаем масштаб для центрирования
         mapState.scale = 1;
         mapState.x = offsetX * mapState.scale;
         mapState.y = offsetY * mapState.scale;
         applyMapTransform();
+    }
+
+    function renderFloorBaseLayer(floorKey) {
+        return new Promise((resolve) => {
+            mapBaseLayer.innerHTML = '';
+            const config = floorPlanCatalog[floorKey];
+            if (!config) {
+                resolve();
+                return;
+            }
+
+            const injectSvg = (svgText) => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(svgText, 'image/svg+xml');
+                const inlineSvg = document.importNode(doc.documentElement, true);
+                inlineSvg.removeAttribute('id');
+                inlineSvg.setAttribute('width', '100%');
+                inlineSvg.setAttribute('height', '100%');
+                if (config.viewBox && !inlineSvg.getAttribute('viewBox')) {
+                    inlineSvg.setAttribute('viewBox', config.viewBox);
+                }
+                if (!inlineSvg.getAttribute('preserveAspectRatio')) {
+                    inlineSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                }
+                inlineSvg.classList.add('ksmm-floorplan');
+                mapBaseLayer.innerHTML = '';
+                mapBaseLayer.appendChild(inlineSvg);
+                resolve();
+            };
+
+            if (floorSvgCache[floorKey]) {
+                injectSvg(floorSvgCache[floorKey]);
+                return;
+            }
+
+            fetch(config.src)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    floorSvgCache[floorKey] = text;
+                    injectSvg(text);
+                })
+                .catch(err => {
+                    console.error(`Не удалось загрузить SVG карту для ${floorKey}:`, err);
+                    resolve();
+                });
+        });
     }
     // --- 5. ФУНКЦИИ РЕНДЕРИНГА (Обновлены) ---
     function createListItem(service) {
@@ -154,38 +232,39 @@
 
     function renderMapAreas(b, f) {
         mapAreasContainer.innerHTML = '';
-        const floorKey = `${b}-F${f}`;
-        // Использование заглушек для этажей без реальных данных
-        const areas = areaDefinitions[floorKey] || [];
+        setActiveArea(null);
+        const servicesOnFloor = getServicesForFloor(b, f).filter(service => Boolean(service.areaId));
         mapTitle.textContent = `${buildingFloorStructure[b].label}, ${f} этаж`;
-        // Если для этажа нет данных карты, отображаем предупреждение
-        if (areas.length === 0) {
+        if (servicesOnFloor.length === 0) {
             const text = document.createElementNS(SVG_NS, 'text');
-            text.setAttribute('x', '400');
-            text.setAttribute('y', '300');
+            text.setAttribute('x', (SVG_VIEWBOX_WIDTH / 2).toString());
+            text.setAttribute('y', (SVG_VIEWBOX_HEIGHT / 2).toString());
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('font-size', '24');
             text.setAttribute('fill', '#999');
-            text.textContent = `План этажа ${f} пока не отрисован.`;
+            text.textContent = `На этаже ${f} пока нет отмеченных зон.`;
             mapAreasContainer.appendChild(text);
+            return;
         }
-        areas.forEach(areaData => {
-            const service = getServiceById(areaData.serviceId);
-            if (!service) return;
-            const area = document.createElementNS(SVG_NS, 'path');
-            area.setAttribute('d', areaData.d);
-            area.setAttribute('class', 'ksmm-map-area');
-            area.setAttribute('data-service-id', service.id);
-            area.setAttribute('data-area-id', areaData.id);
-            area.setAttribute('data-category', service.category);
-            mapAreasContainer.appendChild(area);
-            // Привязка событий
-            area.addEventListener('click', () => {
+
+        servicesOnFloor.forEach(service => {
+            const originalZone = getZoneElement(service.areaId);
+            if (!originalZone || !originalZone.parentNode) return;
+            const zone = originalZone.cloneNode(true);
+            originalZone.parentNode.replaceChild(zone, originalZone);
+            zone.removeAttribute('style');
+            ['fill', 'stroke', 'stroke-width', 'opacity', 'fill-opacity'].forEach(attr => zone.removeAttribute(attr));
+            zone.classList.add('ksmm-map-area');
+            zone.setAttribute('data-service-id', service.id);
+            zone.setAttribute('data-area-id', service.areaId);
+            zone.setAttribute('data-category', service.category);
+            zone.style.pointerEvents = 'all';
+            zone.addEventListener('click', () => {
                 showPopup(service);
-                centerOnArea(areaData.id);
+                centerOnArea(service.areaId);
             });
-            area.addEventListener('mouseenter', () => setHighlight(service.id, true));
-            area.addEventListener('mouseleave', () => setHighlight(service.id, false));
+            zone.addEventListener('mouseenter', () => setHighlight(service.id, true));
+            zone.addEventListener('mouseleave', () => setHighlight(service.id, false));
         });
     }
 
@@ -218,25 +297,25 @@
     function switchFloor(b, f) {
         currentBuilding = b;
         currentFloor = f;
-        // 1. Обновляем кнопки
+        const floorKey = `${b}-F${f}`;
         document.querySelectorAll('.ksmm-floor-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`.ksmm-floor-btn[data-building="${b}"][data-floor="${f}"]`).classList.add('active');
-        // 2. Рендерим карту для нового этажа
-        renderMapAreas(b, f);
-        // 3. Обновляем список и фильтры
-        updateListAndFilters();
-        // 4. Сбрасываем Pan/Zoom
-        mapState.x = 0;
-        mapState.y = 0;
-        mapState.scale = 1;
-        applyMapTransform();
-        hidePopup();
+        const currentBtn = document.querySelector(`.ksmm-floor-btn[data-building="${b}"][data-floor="${f}"]`);
+        if (currentBtn) currentBtn.classList.add('active');
+
+        renderFloorBaseLayer(floorKey).then(() => {
+            renderMapAreas(b, f);
+            updateListAndFilters();
+            mapState.x = 0;
+            mapState.y = 0;
+            mapState.scale = 1;
+            applyMapTransform();
+            hidePopup();
+        });
     }
 
     function updateListAndFilters() {
         listContainer.innerHTML = '';
-        // Использование заглушек сервисов для этажей без реальных данных
-        const servicesOnCurrentFloor = allServices.filter(s => s.building === currentBuilding && s.floor === currentFloor);
+        const servicesOnCurrentFloor = getServicesForFloor(currentBuilding, currentFloor);
         if (servicesOnCurrentFloor.length === 0) {
             listContainer.innerHTML = '<div style="padding: 15px; color: #999;">На этом этаже пока нет зарегистрированных сервисов.</div>';
         }
@@ -245,7 +324,7 @@
             const item = createListItem(service);
             item.addEventListener('click', () => {
                 showPopup(service);
-                centerOnArea(service.areaId);
+                // centerOnArea(service.areaId);
             });
             item.addEventListener('mouseenter', () => setHighlight(service.id, true));
             item.addEventListener('mouseleave', () => setHighlight(service.id, false));

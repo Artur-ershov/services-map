@@ -16,6 +16,11 @@
 
     --highlight-priority: #fff3b0;
     --highlight-secondary: #fcfade;
+    --zone-meeting: #00C573;
+    --zone-food: #FFA436;
+    --zone-opacity-idle: 0.2;
+    --zone-opacity-active: 0.4;
+    --zone-opacity-dimmed: 0.05;
 }
 
 @keyframes pulse {
@@ -220,7 +225,8 @@
 
 /* Контейнер для скролла списка */
 .ksmm-scroll-list {
-    overflow-y: auto;
+    overflow-y: scroll;
+    max-height: 400px;
     flex-grow: 1;
 }
 
@@ -281,6 +287,19 @@
     overflow: hidden;
 }
 
+.ksmm-floorplan {
+    width: 100%;
+    height: 100%;
+}
+
+.ksmm-floorplan path,
+.ksmm-floorplan polygon {
+/*    fill: rgba(23, 39, 54, 0.05);
+    stroke: rgba(23, 39, 54, 0.08);
+    stroke-width: 1.5;*/
+    pointer-events: none;
+}
+
 #ksmm-map {
     width: 100%;
     height: 100%;
@@ -300,59 +319,50 @@
 /* Области/Комнаты на карте */
 .ksmm-map-area {
     cursor: pointer;
-    fill-opacity: 0.6;
-    stroke: #fff;
-    stroke-width: 5;
-    transition: all 0.3s ease;
-}
-
-.ksmm-map-area:hover,
-.ksmm-map-area.highlight {
-    fill-opacity: 0.8;
-    stroke-width: 7;
-    stroke: white;
-}
-
-/* --- ВОССТАНОВЛЕННЫЕ СТИЛИ ЦВЕТА ОБЛАСТЕЙ --- */
-.ksmm-map-area[data-category="food"] {
-    fill: var(--krok-orange);
-}
-
-.ksmm-map-area[data-category="sport"] {
-    fill: var(--krok-green);
+    /*stroke: rgba(23, 39, 54, 0.45);*/
+    /*stroke-width: 2;*/
+    opacity: var(--zone-opacity-idle);
+    transition: opacity 0.2s ease, stroke-width 0.2s ease;
+    pointer-events: all;
 }
 
 .ksmm-map-area[data-category="meeting"] {
-    fill: var(--krok-purple);
+    fill: var(--zone-meeting);
 }
 
-.ksmm-map-area[data-category="relax"] {
-    fill: var(--krok-red);
+.ksmm-map-area[data-category="food"] {
+    fill: var(--zone-food);
 }
 
-.ksmm-map-area[data-category="service"] {
-    fill: var(--krok-blue);
+.ksmm-map-area.highlight,
+.ksmm-map-area.active {
+    opacity: var(--zone-opacity-active);
+    stroke-width: 1;
+}
+
+.ksmm-map-area.dimmed {
+    opacity: var(--zone-opacity-dimmed);
 }
 
 /* --- КОНЕЦ ВОССТАНОВЛЕННЫХ СТИЛЕЙ ОБЛАСТЕЙ --- */
 
 /* Логика .dimmed для Карты */
 .ksmm-map-area.dimmed {
-    opacity: 0.4;
-    fill-opacity: 0.2;
+   /* opacity: 0.4;
+    fill-opacity: 0.2;*/
     pointer-events: none;
 }
 
 /* Подсветка Поиска на карте */
 .ksmm-map-area.search-match-priority {
     stroke: #d4a100;
-    stroke-width: 8;
+    /*stroke-width: 8;*/
     animation: pulse 1s infinite;
 }
 
 .ksmm-map-area.search-match-secondary {
     stroke: #aaa;
-    stroke-width: 6;
+    /*stroke-width: 6;*/
     fill-opacity: 0.7;
 }
 
