@@ -62,7 +62,7 @@
 .ksmm-content {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    height: 900px;
+    /*height: 900px;*/
 }
 
 /* --- Стили Левого Блока (Список) --- */
@@ -289,7 +289,7 @@
 .ksmm-map-container {
     position: relative;
     background: var(--bg);
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .ksmm-floorplan {
@@ -304,6 +304,8 @@
     stroke-width: 1.5;*/
     pointer-events: none;
 }
+
+
 
 #ksmm-map {
 /*    width: 100%;
@@ -329,6 +331,10 @@
     opacity: var(--zone-opacity-idle);
     transition: opacity 0.2s ease, stroke-width 0.2s ease;
     pointer-events: all;
+}
+
+#ksmm-map text {
+    pointer-events: none;
 }
 
 .ksmm-map-area[data-category="meeting"] {

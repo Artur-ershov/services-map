@@ -18,7 +18,7 @@
     let currentFloor = buildingFloorStructure[currentBuilding].defaultFloor;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
     const SVG_VIEWBOX_WIDTH = 800;
-    const SVG_VIEWBOX_HEIGHT = 600;
+    const SVG_VIEWBOX_HEIGHT = 550;
 
     function getServiceById(id) {
         return allServices.find(s => s.id === id);
