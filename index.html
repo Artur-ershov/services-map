@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КРОК СЕРВИСЫ</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tmp.css">
+</head>
+
+<body>
+    <div id="krok-services-map-module">
+        <div class="ksmm-content">
+            <div class="ksmm-list-container">
+                <h2 class="ksmm-map-title" id="ksmm-map-title"></h2>
+                <div class="ksmm-search-bar">
+                    <input type="search" id="ksmm-search-input" placeholder="Поиск по названию или описанию...">
+                </div>
+                <div class="ksmm-filter-controls">
+                    <button class="ksmm-filter-btn active" data-category="all">Все</button>
+                    <button class="ksmm-filter-btn" data-category="food">Питание</button>
+                    <button class="ksmm-filter-btn" data-category="sport">Спорт</button>
+                    <button class="ksmm-filter-btn" data-category="meeting">Переговорки</button>
+                    <button class="ksmm-filter-btn" data-category="relax">Релакс</button>
+                    <button class="ksmm-filter-btn" data-category="service">Сервисы</button>
+                </div>
+                <div id="ksmm-subfilter-controls" class="ksmm-subfilter-controls">
+                </div>
+                <div id="ksmm-services-list" class="ksmm-scroll-list">
+                </div>
+            </div>
+            <div class="ksmm-map-container">
+                <div id="ksmm-floor-switcher" class="ksmm-floor-switcher"></div>
+                <svg id="ksmm-map" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+                    <g id="ksmm-map-wrapper">
+                        <rect x="0" y="0" width="800" height="600" fill="#fcfcfc" stroke="#ccc" stroke-width="2" />
+                        <g id="ksmm-map-areas"></g>
+                    </g>
+                </svg>
+                <div id="ksmm-popup" class="ksmm-popup" style="display: none;">
+                    <button id="ksmm-popup-close" class="ksmm-popup-close">&times;</button>
+                    <img id="ksmm-popup-img" alt="Фото сервиса" class="ksmm-popup-img">
+                    <h3 id="ksmm-popup-title"></h3>
+                    <p id="ksmm-popup-desc"></p>
+                    <p id="ksmm-popup-contacts"></p>
+                    <a id="ksmm-popup-link" href="#" target="_blank" class="ksmm-btn">Бронировать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

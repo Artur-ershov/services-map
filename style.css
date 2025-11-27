@@ -1,0 +1,503 @@
+/* Корпоративные цвета + RGB версии для rgba() */
+:root {
+    --krok-green: #00C573;
+    --krok-blue: #475DEB;
+    --krok-purple: #7027E2;
+    --krok-red: #FF645A;
+    --krok-orange: #FFA436;
+    --bg: #eee;
+    --hl: #f0f8ff;
+
+    --krok-green-rgb: 0, 197, 115;
+    --krok-blue-rgb: 71, 93, 235;
+    --krok-purple-rgb: 112, 39, 226;
+    --krok-red-rgb: 255, 100, 90;
+    --krok-orange-rgb: 255, 164, 54;
+
+    --highlight-priority: #fff3b0;
+    --highlight-secondary: #fcfade;
+}
+
+@keyframes pulse {
+    0% {
+        stroke-opacity: 1;
+    }
+
+    50% {
+        stroke-opacity: 0.7;
+    }
+
+    100% {
+        stroke-opacity: 1;
+    }
+}
+
+/* Общий контейнер модуля */
+#krok-services-map-module {
+    font-family: "Crocnew", sans-serif;
+    max-width: 100%;
+    margin: auto;
+    border: 1px solid var(--bg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#krok-services-map-module * {
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+#ksmm-map-title {
+    padding: 1em 0.75em .5em;
+    margin: 0;
+}
+
+/* Контент (Увеличена высота до 900px) */
+.ksmm-content {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    height: 900px;
+}
+
+/* --- Стили Левого Блока (Список) --- */
+.ksmm-list-container {
+    border-right: 1px solid var(--bg);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fdfdfd;
+}
+
+/* Поиск */
+.ksmm-search-bar {
+    padding: 15px;
+    border-bottom: 1px solid var(--bg);
+    font-weight: 400;
+}
+
+#ksmm-search-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#ksmm-search-input:focus {
+    outline: none;
+    border-color: var(--krok-blue);
+    box-shadow: 0 0 0 2px rgba(var(--krok-blue-rgb), 0.2);
+}
+
+/* Фильтры Категорий */
+.ksmm-filter-controls {
+    padding: 10px 15px 10px 15px;
+    background: #f9f9f9;
+    border-bottom: 1px solid var(--bg);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ksmm-filter-btn {
+    padding: 5px 12px;
+    border: 2px solid;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+/* --- ВОССТАНОВЛЕННЫЕ СТИЛИ ЦВЕТА КНОПОК --- */
+.ksmm-filter-btn[data-category="all"] {
+    color: #000;
+    border-color: rgba(0,0,0, 0.2);
+}
+
+.ksmm-filter-btn[data-category="all"].active {
+    background-color: #000;
+    color: white;
+    border-color: #000;
+}
+
+.ksmm-filter-btn[data-category="food"] {
+    color: var(--krok-orange);
+    border-color: rgba(var(--krok-orange-rgb), 0.2);
+}
+
+.ksmm-filter-btn[data-category="food"].active {
+    background-color: var(--krok-orange);
+    color: white;
+    border-color: var(--krok-orange);
+}
+
+.ksmm-filter-btn[data-category="sport"] {
+    color: var(--krok-green);
+    border-color: rgba(var(--krok-green-rgb), 0.2);
+}
+
+.ksmm-filter-btn[data-category="sport"].active {
+    background-color: var(--krok-green);
+    color: white;
+    border-color: var(--krok-green);
+}
+
+.ksmm-filter-btn[data-category="meeting"] {
+    color: var(--krok-purple);
+    border-color: rgba(var(--krok-purple-rgb), 0.2);
+}
+
+.ksmm-filter-btn[data-category="meeting"].active {
+    background-color: var(--krok-purple);
+    color: white;
+    border-color: var(--krok-purple);
+}
+
+.ksmm-filter-btn[data-category="relax"] {
+    color: var(--krok-red);
+    border-color: rgba(var(--krok-red-rgb), 0.2);
+}
+
+.ksmm-filter-btn[data-category="relax"].active {
+    background-color: var(--krok-red);
+    color: white;
+    border-color: var(--krok-red);
+}
+
+.ksmm-filter-btn[data-category="service"] {
+    color: var(--krok-blue);
+    border-color: rgba(var(--krok-blue-rgb), 0.2);
+}
+
+.ksmm-filter-btn[data-category="service"].active {
+    background-color: var(--krok-blue);
+    color: white;
+    border-color: var(--krok-blue);
+}
+
+/* --- КОНЕЦ ВОССТАНОВЛЕННЫХ СТИЛЕЙ КНОПОК --- */
+
+
+/* Стили Подфильтров */
+.ksmm-subfilter-controls {
+    padding: 0 15px 15px 15px;
+    border-bottom: 1px solid var(--bg);
+    display: none;
+}
+
+.ksmm-subfilter-group-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.ksmm-subfilter {
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    margin-right: 8px;
+    margin-bottom: 5px;
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 400;
+}
+
+.ksmm-subfilter:hover {
+    background-color: #f0f0f0;
+}
+
+.ksmm-subfilter.active {
+    font-weight: 500;
+    background-color: #e0e0e0;
+}
+
+/* Контейнер для скролла списка */
+.ksmm-scroll-list {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* Элементы списка */
+.ksmm-list-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--bg);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ksmm-list-item h4 {
+    margin: 0 0 8px 0;
+}
+
+.ksmm-list-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.ksmm-list-item.highlight {
+    background-color: var(--hl);
+}
+
+/* Логика .hidden для Списка */
+.ksmm-list-item.hidden {
+    display: none;
+}
+
+.ksmm-list-item:hover {
+    background-color: var(--hl);
+}
+
+.ksmm-item-attrs {
+    color: #555 !important;
+    font-size: 13px !important;
+    line-height: 1.4;
+}
+
+/* Подсветка Поиска */
+.ksmm-list-item.search-highlight-priority {
+    background-color: var(--highlight-priority);
+}
+
+.ksmm-list-item.search-highlight-priority h4 {
+    font-weight: 900;
+}
+
+.ksmm-list-item.search-highlight-secondary {
+    background-color: var(--highlight-secondary);
+}
+
+/* --- Стили Правого Блока (Карта) --- */
+.ksmm-map-container {
+    position: relative;
+    background: var(--bg);
+    overflow: hidden;
+}
+
+#ksmm-map {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+    transition: all 0.15s ease-out;
+}
+
+#ksmm-map * {
+    transition: all 0.15s ease-out;
+}
+
+#ksmm-map.dragging {
+    cursor: grabbing;
+}
+
+/* Области/Комнаты на карте */
+.ksmm-map-area {
+    cursor: pointer;
+    fill-opacity: 0.6;
+    stroke: #fff;
+    stroke-width: 5;
+    transition: all 0.3s ease;
+}
+
+.ksmm-map-area:hover,
+.ksmm-map-area.highlight {
+    fill-opacity: 0.8;
+    stroke-width: 7;
+    stroke: white;
+}
+
+/* --- ВОССТАНОВЛЕННЫЕ СТИЛИ ЦВЕТА ОБЛАСТЕЙ --- */
+.ksmm-map-area[data-category="food"] {
+    fill: var(--krok-orange);
+}
+
+.ksmm-map-area[data-category="sport"] {
+    fill: var(--krok-green);
+}
+
+.ksmm-map-area[data-category="meeting"] {
+    fill: var(--krok-purple);
+}
+
+.ksmm-map-area[data-category="relax"] {
+    fill: var(--krok-red);
+}
+
+.ksmm-map-area[data-category="service"] {
+    fill: var(--krok-blue);
+}
+
+/* --- КОНЕЦ ВОССТАНОВЛЕННЫХ СТИЛЕЙ ОБЛАСТЕЙ --- */
+
+/* Логика .dimmed для Карты */
+.ksmm-map-area.dimmed {
+    opacity: 0.4;
+    fill-opacity: 0.2;
+    pointer-events: none;
+}
+
+/* Подсветка Поиска на карте */
+.ksmm-map-area.search-match-priority {
+    stroke: #d4a100;
+    stroke-width: 8;
+    animation: pulse 1s infinite;
+}
+
+.ksmm-map-area.search-match-secondary {
+    stroke: #aaa;
+    stroke-width: 6;
+    fill-opacity: 0.7;
+}
+
+/* --- Переключатель Этажей (СВЕРХУ) --- */
+.ksmm-floor-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ksmm-floor-btn {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border: none;
+    background: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    font-variant-numeric: tabular-nums;
+    text-align: left;
+}
+
+.ksmm-floor-btn:last-child {
+    margin-bottom: 0;
+}
+
+.ksmm-floor-btn:hover {
+    background: #e0e0e0;
+}
+
+.ksmm-floor-btn.active {
+    background: var(--krok-blue);
+    color: white;
+    box-shadow: 0 1px 3px rgba(var(--krok-blue-rgb), 0.5);
+}
+
+.ksmm-floor-group-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #999;
+    text-transform: uppercase;
+    margin: 5px 0;
+    padding-top: 5px;
+    border-top: 1px solid var(--bg);
+}
+
+.ksmm-floor-group-title:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+/* Pop-up окно */
+.ksmm-popup {
+    position: absolute;
+    top: 20%;
+    left: 20px;
+    /*transform: translate(-50%, -50%);*/
+    width: 300px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 20px;
+}
+
+.ksmm-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.ksmm-popup-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    background: #f0f0f0;
+}
+
+.ksmm-popup h3 {
+    margin: 0 0 10px 0;
+}
+
+.ksmm-popup p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+#ksmm-popup-contacts {
+    font-weight: bold;
+    color: #333;
+}
+
+.ksmm-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--krok-blue);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .ksmm-content {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .ksmm-map-container {
+        height: 400px;
+        order: -1;
+    }
+
+    .ksmm-list-container {
+        border-right: none;
+        border-top: 1px solid #ddd;
+        height: auto;
+    }
+
+    .ksmm-scroll-list {
+        max-height: 400px;
+    }
+
+    .ksmm-floor-switcher {
+        top: 10px;
+        right: 10px;
+        padding: 5px;
+    }
+}
