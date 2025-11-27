@@ -180,12 +180,12 @@
                 inlineSvg.removeAttribute('id');
                 inlineSvg.setAttribute('width', '100%');
                 inlineSvg.setAttribute('height', '100%');
-                if (config.viewBox && !inlineSvg.getAttribute('viewBox')) {
-                    inlineSvg.setAttribute('viewBox', config.viewBox);
-                }
-                if (!inlineSvg.getAttribute('preserveAspectRatio')) {
-                    inlineSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-                }
+                // if (config.viewBox && !inlineSvg.getAttribute('viewBox')) {
+                //     inlineSvg.setAttribute('viewBox', config.viewBox);
+                // }
+                // if (!inlineSvg.getAttribute('preserveAspectRatio')) {
+                //     inlineSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                // }
                 inlineSvg.classList.add('ksmm-floorplan');
                 mapBaseLayer.innerHTML = '';
                 mapBaseLayer.appendChild(inlineSvg);
