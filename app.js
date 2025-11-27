@@ -1,5 +1,9 @@
 (function() {
-    // --- 2. ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ и DOM-ЭЛЕМЕНТЫ ---
+    // --- КОНФИГУРАЦИЯ GOOGLE SHEETS ---
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlLYPaWGFoalKQt-IAgSzU78Yz9Us6GEOSmqTilhPl7e-HTanFn7oZyLR5YteteTUWsYcVG__3cEe8/pub?gid=0&single=true&output=tsv';
+    const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
+
+    // --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ---
     const SVG_NS = "http://www.w3.org/2000/svg";
     const mapWrapper = document.getElementById('ksmm-map-wrapper');
     const mapBaseLayer = document.getElementById('ksmm-map-base');
@@ -13,31 +17,124 @@
     const svgMap = document.getElementById('ksmm-map');
     const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
     const floorSvgCache = {};
+    
+    let allServices = []; // Будет заполнено из Google Sheets
+    let buildingFloorStructure = {}; // Будет сгенерировано автоматически
     let activeAreaId = null;
     let currentBuilding = 'B1';
-    let currentFloor = buildingFloorStructure[currentBuilding].defaultFloor;
+    let currentFloor = 3;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
     const SVG_VIEWBOX_WIDTH = 800;
     const SVG_VIEWBOX_HEIGHT = 550;
 
-    function getServiceById(id) {
-        return allServices.find(s => s.id === id);
+    // --- ФУНКЦИИ ДЛЯ РАБОТЫ С GOOGLE SHEETS ---
+    async function loadServicesFromGoogleSheet() {
+        try {
+            console.log('Загрузка данных из Google Sheets...');
+            const response = await fetch(SHEET_URL);
+            const tsvData = await response.text();
+            
+            // Разбиваем TSV данные на строки и колонки
+            const lines = tsvData.trim().split('\n');
+            const headers = lines[0].split('\t');
+            
+            const services = [];
+            
+            // Обрабатываем каждую строку, начиная со второй (первая - заголовки)
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split('\t');
+                const service = {};
+                
+                // Сопоставляем значения с заголовками
+                headers.forEach((header, index) => {
+                    const value = values[index] || '';
+                    service[header.trim()] = value.trim();
+                });
+                
+                // Преобразуем в нужный формат
+                const formattedService = {
+                    id: parseInt(service.id) || i,
+                    name: service.name || 'Без названия',
+                    category: service.category || 'meeting',
+                    building: service.building || 'B1',
+                    floor: parseInt(service.floor) || 3,
+                    areaId: service.areaId || 'area_' + i,
+                    desc: service.desc || '',
+                    contacts: service.contacts || '',
+                    img: service.img || DUMMY_IMG_URL + encodeURIComponent(service.name || 'Помещение'),
+                    link: service.link || '#',
+                    attributes: {
+                        location: service.location || '',
+                        capacity: service.capacity || '',
+                        equipment: service.equipment || '',
+                        hours: service.hours || ''
+                    }
+                };
+                
+                services.push(formattedService);
+            }
+            
+            console.log('Загружено ' + services.length + ' услуг из Google Sheets');
+            return services;
+            
+        } catch (error) {
+            console.error('Ошибка загрузки данных из Google Sheets:', error);
+            // Возвращаем пустой массив в случае ошибки
+            return [];
+        }
     }
-    // ... (Popup/Attribute formatting functions) ...
-    const popup = document.getElementById('ksmm-popup');
-    const popupCloseBtn = document.getElementById('ksmm-popup-close');
-    const popupTitle = document.getElementById('ksmm-popup-title');
-    const popupDesc = document.getElementById('ksmm-popup-desc');
-    const popupContacts = document.getElementById('ksmm-popup-contacts');
-    const popupImg = document.getElementById('ksmm-popup-img');
-    const popupLink = document.getElementById('ksmm-popup-link');
+
+    function generateBuildingStructure(services) {
+        const structure = {};
+        
+        services.forEach(function(service) {
+            const building = service.building;
+            const floor = service.floor;
+            
+            if (!structure[building]) {
+                structure[building] = {
+                    label: 'Корпус ' + building.replace('B', ''),
+                    floors: [],
+                    defaultFloor: floor
+                };
+            }
+            
+            if (structure[building].floors.indexOf(floor) === -1) {
+                structure[building].floors.push(floor);
+                structure[building].floors.sort(function(a, b) { return a - b; });
+            }
+            
+            // Обновляем defaultFloor на минимальный этаж
+            structure[building].defaultFloor = Math.min.apply(Math, structure[building].floors);
+        });
+        
+        return structure;
+    }
+
+    // --- СУЩЕСТВУЮЩИЕ ФУНКЦИИ (с небольшими изменениями) ---
+    function getServiceById(id) {
+        for (var i = 0; i < allServices.length; i++) {
+            if (allServices[i].id === id) {
+                return allServices[i];
+            }
+        }
+        return null;
+    }
+
+    var popup = document.getElementById('ksmm-popup');
+    var popupCloseBtn = document.getElementById('ksmm-popup-close');
+    var popupTitle = document.getElementById('ksmm-popup-title');
+    var popupDesc = document.getElementById('ksmm-popup-desc');
+    var popupContacts = document.getElementById('ksmm-popup-contacts');
+    var popupImg = document.getElementById('ksmm-popup-img');
+    var popupLink = document.getElementById('ksmm-popup-link');
 
     function formatAttributes(service) {
-        const attrs = service.attributes;
-        let parts = [];
+        var attrs = service.attributes;
+        var parts = [];
         if (attrs.location) parts.push(attrs.location);
-        for (const key in attrs) {
-            if (key !== 'location') {
+        for (var key in attrs) {
+            if (key !== 'location' && attrs[key]) {
                 parts.push(attrs[key]);
             }
         }
@@ -45,20 +142,25 @@
     }
 
     function getServicesForFloor(building, floor) {
-        return allServices.filter(s => s.building === building && s.floor === floor);
+        return allServices.filter(function(s) {
+            return s.building === building && s.floor === floor;
+        });
     }
 
     function getZoneElement(areaId) {
         if (!areaId || !mapBaseLayer) return null;
-        return mapBaseLayer.querySelector(`#${areaId}`);
+        return mapBaseLayer.querySelector('#' + areaId);
     }
 
     function setActiveArea(areaId) {
         if (activeAreaId === areaId) return;
-        document.querySelectorAll('.ksmm-map-area.active').forEach(el => el.classList.remove('active'));
+        var activeAreas = document.querySelectorAll('.ksmm-map-area.active');
+        for (var i = 0; i < activeAreas.length; i++) {
+            activeAreas[i].classList.remove('active');
+        }
         activeAreaId = null;
         if (!areaId) return;
-        const targetArea = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
+        var targetArea = document.querySelector('.ksmm-map-area[data-area-id="' + areaId + '"]');
         if (targetArea) {
             targetArea.classList.add('active');
             activeAreaId = areaId;
@@ -68,7 +170,6 @@
     function showPopup(service) {
         popupTitle.textContent = service.name;
         popupDesc.textContent = service.desc;
-        // ИЗМЕНЕНИЕ: Исправление источника картинки
         popupImg.src = service.img;
         popupContacts.textContent = service.contacts;
         popupLink.href = service.link;
@@ -83,32 +184,35 @@
     }
 
     function setHighlight(id, state) {
-        const service = getServiceById(id);
-        const area = document.querySelector(`.ksmm-map-area[data-area-id="${service.areaId}"]`);
-        const item = document.querySelector(`.ksmm-list-item[data-id="${id}"]`);
+        var service = getServiceById(id);
+        if (!service) return;
+        
+        var area = document.querySelector('.ksmm-map-area[data-area-id="' + service.areaId + '"]');
+        var item = document.querySelector('.ksmm-list-item[data-id="' + id + '"]');
+        
         if (area && item && !area.classList.contains('dimmed') && !item.classList.contains('hidden')) {
             area.classList.toggle('highlight', state);
             item.classList.toggle('highlight', state);
         }
     }
-    // --- 4. ЛОГИКА КАРТЫ (Pan, Zoom, Center) ---
+
+    // --- ЛОГИКА КАРТЫ (Pan, Zoom, Center) ---
     function applyMapTransform() {
-        mapWrapper.style.transform = `translate(${mapState.x}px, ${mapState.y}px) scale(${mapState.scale})`;
+        mapWrapper.style.transform = 'translate(' + mapState.x + 'px, ' + mapState.y + 'px) scale(' + mapState.scale + ')';
     }
 
     function initMapInteraction() {
         // Drag (Pan) Logic
-        svgMap.addEventListener('mousedown', (e) => {
-            // Игнорируем клики по областям, заголовку и переключателю этажей
+        svgMap.addEventListener('mousedown', function(e) {
             if (e.target.closest('.ksmm-map-area') || e.target.id === 'ksmm-map-title' || e.target.closest('.ksmm-floor-switcher')) return;
-            // Проверяем, что не начали перетаскивание скроллбара или элемента внутри переключателя
             if (e.target.closest('.ksmm-floor-switcher')) return;
+            
             mapState.dragging = true;
             svgMap.classList.add('dragging');
-            // Получаем текущие смещения
-            const transformMatrix = window.getComputedStyle(mapWrapper).transform;
+            
+            var transformMatrix = window.getComputedStyle(mapWrapper).transform;
             if (transformMatrix !== 'none') {
-                const matrixValues = transformMatrix.match(/matrix.*\((.+)\)/)[1].split(', ');
+                var matrixValues = transformMatrix.match(/matrix.*\((.+)\)/)[1].split(', ');
                 mapState.x = parseFloat(matrixValues[4]);
                 mapState.y = parseFloat(matrixValues[5]);
             } else {
@@ -118,29 +222,33 @@
             mapState.startX = e.clientX - mapState.x;
             mapState.startY = e.clientY - mapState.y;
         });
-        document.addEventListener('mousemove', (e) => {
+        
+        document.addEventListener('mousemove', function(e) {
             if (!mapState.dragging) return;
             mapState.x = e.clientX - mapState.startX;
             mapState.y = e.clientY - mapState.startY;
             applyMapTransform();
         });
-        document.addEventListener('mouseup', () => {
+        
+        document.addEventListener('mouseup', function() {
             mapState.dragging = false;
             svgMap.classList.remove('dragging');
         });
+        
         // Zoom Logic (Wheel)
-        svgMap.addEventListener('wheel', (e) => {
+        svgMap.addEventListener('wheel', function(e) {
             e.preventDefault();
-            // ПЛАВНЫЙ ЗУМ: Меньший фактор для плавности (1.05)
-            const scaleFactor = 1.05;
-            const newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor; // Ограничиваем зум
-            const prevScale = mapState.scale;
+            var scaleFactor = 1.05;
+            var newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor;
+            var prevScale = mapState.scale;
             mapState.scale = Math.max(0.5, Math.min(3, newScale));
-            // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию
-            if (mapState.scale === prevScale && newScale !== prevScale) return; //  Зум относительно курсора (центр зума)
-            const bbox = svgMap.getBoundingClientRect();
-            const mouseX = e.clientX - bbox.left;
-            const mouseY = e.clientY - bbox.top; // Смещение в зависимости от нового масштаба //
+            
+            if (mapState.scale === prevScale && newScale !== prevScale) return;
+            
+            var bbox = svgMap.getBoundingClientRect();
+            var mouseX = e.clientX - bbox.left;
+            var mouseY = e.clientY - bbox.top;
+            
             mapState.x = mapState.x - (mouseX - mapState.x) * (mapState.scale / prevScale - 1);
             mapState.y = mapState.y - (mouseY - mapState.y) * (mapState.scale / prevScale - 1);
             applyMapTransform();
@@ -148,16 +256,19 @@
     }
 
     function centerOnArea(areaId) {
-        const areaElement = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
+        var areaElement = document.querySelector('.ksmm-map-area[data-area-id="' + areaId + '"]');
         if (!areaElement || typeof areaElement.getBBox !== 'function') return;
-        const bbox = areaElement.getBBox();
+        
+        var bbox = areaElement.getBBox();
         if (!bbox || (bbox.width === 0 && bbox.height === 0)) return;
-        const mapCenterX = SVG_VIEWBOX_WIDTH / 2;
-        const mapCenterY = SVG_VIEWBOX_HEIGHT / 2;
-        const targetX = bbox.x + (bbox.width / 2);
-        const targetY = bbox.y + (bbox.height / 2);
-        const offsetX = mapCenterX - targetX;
-        const offsetY = mapCenterY - targetY;
+        
+        var mapCenterX = SVG_VIEWBOX_WIDTH / 2;
+        var mapCenterY = SVG_VIEWBOX_HEIGHT / 2;
+        var targetX = bbox.x + (bbox.width / 2);
+        var targetY = bbox.y + (bbox.height / 2);
+        var offsetX = mapCenterX - targetX;
+        var offsetY = mapCenterY - targetY;
+        
         mapState.scale = 1;
         mapState.x = offsetX * mapState.scale;
         mapState.y = offsetY * mapState.scale;
@@ -165,27 +276,21 @@
     }
 
     function renderFloorBaseLayer(floorKey) {
-        return new Promise((resolve) => {
+        return new Promise(function(resolve) {
             mapBaseLayer.innerHTML = '';
-            const config = floorPlanCatalog[floorKey];
+            var config = floorPlanCatalog[floorKey];
             if (!config) {
                 resolve();
                 return;
             }
 
-            const injectSvg = (svgText) => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(svgText, 'image/svg+xml');
-                const inlineSvg = document.importNode(doc.documentElement, true);
+            var injectSvg = function(svgText) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(svgText, 'image/svg+xml');
+                var inlineSvg = document.importNode(doc.documentElement, true);
                 inlineSvg.removeAttribute('id');
                 inlineSvg.setAttribute('width', '100%');
                 inlineSvg.setAttribute('height', '100%');
-                // if (config.viewBox && !inlineSvg.getAttribute('viewBox')) {
-                //     inlineSvg.setAttribute('viewBox', config.viewBox);
-                // }
-                // if (!inlineSvg.getAttribute('preserveAspectRatio')) {
-                //     inlineSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-                // }
                 inlineSvg.classList.add('ksmm-floorplan');
                 mapBaseLayer.innerHTML = '';
                 mapBaseLayer.appendChild(inlineSvg);
@@ -198,34 +303,35 @@
             }
 
             fetch(config.src)
-                .then(response => {
+                .then(function(response) {
                     if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
+                        throw new Error('HTTP ' + response.status);
                     }
                     return response.text();
                 })
-                .then(text => {
+                .then(function(text) {
                     floorSvgCache[floorKey] = text;
                     injectSvg(text);
                 })
-                .catch(err => {
-                    console.error(`Не удалось загрузить SVG карту для ${floorKey}:`, err);
+                .catch(function(err) {
+                    console.error('Не удалось загрузить SVG карту для ' + floorKey + ':', err);
                     resolve();
                 });
         });
     }
-    // --- 5. ФУНКЦИИ РЕНДЕРИНГА (Обновлены) ---
+
+    // --- ФУНКЦИИ РЕНДЕРИНГА ---
     function createListItem(service) {
-        const item = document.createElement('div');
+        var item = document.createElement('div');
         item.className = 'ksmm-list-item';
         item.setAttribute('data-id', service.id);
         item.setAttribute('data-category', service.category);
         item.setAttribute('data-area-id', service.areaId);
-        const formattedAttrs = formatAttributes(service);
-        item.innerHTML = `
-    <h4>${service.name}</h4>
-    <p class="ksmm-item-attrs">${formattedAttrs}</p>
-    `;
+        var formattedAttrs = formatAttributes(service);
+        item.innerHTML = '\
+            <h4>' + service.name + '</h4>\
+            <p class="ksmm-item-attrs">' + formattedAttrs + '</p>\
+        ';
         listContainer.appendChild(item);
         return item;
     }
@@ -233,76 +339,100 @@
     function renderMapAreas(b, f) {
         mapAreasContainer.innerHTML = '';
         setActiveArea(null);
-        const servicesOnFloor = getServicesForFloor(b, f).filter(service => Boolean(service.areaId));
-        mapTitle.textContent = `${buildingFloorStructure[b].label}, ${f} этаж`;
+        var servicesOnFloor = getServicesForFloor(b, f).filter(function(service) {
+            return Boolean(service.areaId);
+        });
+        
+        if (buildingFloorStructure[b]) {
+            mapTitle.textContent = buildingFloorStructure[b].label + ', ' + f + ' этаж';
+        }
+        
         if (servicesOnFloor.length === 0) {
-            const text = document.createElementNS(SVG_NS, 'text');
+            var text = document.createElementNS(SVG_NS, 'text');
             text.setAttribute('x', (SVG_VIEWBOX_WIDTH / 2).toString());
             text.setAttribute('y', (SVG_VIEWBOX_HEIGHT / 2).toString());
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('font-size', '24');
             text.setAttribute('fill', '#999');
-            text.textContent = `На этаже ${f} пока нет отмеченных зон.`;
+            text.textContent = 'На этаже ' + f + ' пока нет отмеченных зон.';
             mapAreasContainer.appendChild(text);
             return;
         }
 
-        servicesOnFloor.forEach(service => {
-            const originalZone = getZoneElement(service.areaId);
+        servicesOnFloor.forEach(function(service) {
+            var originalZone = getZoneElement(service.areaId);
             if (!originalZone || !originalZone.parentNode) return;
-            const zone = originalZone.cloneNode(true);
+            
+            var zone = originalZone.cloneNode(true);
             originalZone.parentNode.replaceChild(zone, originalZone);
             zone.removeAttribute('style');
-            ['fill', 'stroke', 'stroke-width', 'opacity', 'fill-opacity'].forEach(attr => zone.removeAttribute(attr));
+            ['fill', 'stroke', 'stroke-width', 'opacity', 'fill-opacity'].forEach(function(attr) {
+                zone.removeAttribute(attr);
+            });
+            
             zone.classList.add('ksmm-map-area');
             zone.setAttribute('data-service-id', service.id);
             zone.setAttribute('data-area-id', service.areaId);
             zone.setAttribute('data-category', service.category);
             zone.style.pointerEvents = 'all';
-            zone.addEventListener('click', () => {
+            
+            zone.addEventListener('click', function() {
                 showPopup(service);
                 centerOnArea(service.areaId);
             });
-            zone.addEventListener('mouseenter', () => setHighlight(service.id, true));
-            zone.addEventListener('mouseleave', () => setHighlight(service.id, false));
+            zone.addEventListener('mouseenter', function() {
+                setHighlight(service.id, true);
+            });
+            zone.addEventListener('mouseleave', function() {
+                setHighlight(service.id, false);
+            });
         });
     }
 
     function renderFloorSwitcher() {
         floorSwitcher.innerHTML = '';
-        for (const buildingKey in buildingFloorStructure) {
-            const bData = buildingFloorStructure[buildingKey];
-            const title = document.createElement('div');
-            title.className = 'ksmm-floor-group-title';
-            title.textContent = bData.label;
-            floorSwitcher.appendChild(title);
-            // Рендерим этажи в обратном порядке (сверху вниз)
-            bData.floors.sort((a, b) => b - a).forEach(f => {
-                const btn = document.createElement('button');
-                btn.className = 'ksmm-floor-btn';
-                btn.textContent = `${f} этаж`;
-                btn.setAttribute('data-building', buildingKey);
-                btn.setAttribute('data-floor', f);
-                if (buildingKey === currentBuilding && f === currentFloor) {
-                    btn.classList.add('active');
-                }
-                btn.addEventListener('click', () => {
-                    switchFloor(buildingKey, f);
+        
+        for (var buildingKey in buildingFloorStructure) {
+            if (buildingFloorStructure.hasOwnProperty(buildingKey)) {
+                var bData = buildingFloorStructure[buildingKey];
+                var title = document.createElement('div');
+                title.className = 'ksmm-floor-group-title';
+                title.textContent = bData.label;
+                floorSwitcher.appendChild(title);
+                
+                bData.floors.sort(function(a, b) { return b - a; }).forEach(function(f) {
+                    var btn = document.createElement('button');
+                    btn.className = 'ksmm-floor-btn';
+                    btn.textContent = f + ' этаж';
+                    btn.setAttribute('data-building', buildingKey);
+                    btn.setAttribute('data-floor', f);
+                    
+                    if (buildingKey === currentBuilding && f === currentFloor) {
+                        btn.classList.add('active');
+                    }
+                    
+                    btn.addEventListener('click', function() {
+                        switchFloor(buildingKey, f);
+                    });
+                    floorSwitcher.appendChild(btn);
                 });
-                floorSwitcher.appendChild(btn);
-            });
+            }
         }
     }
 
     function switchFloor(b, f) {
         currentBuilding = b;
         currentFloor = f;
-        const floorKey = `${b}-F${f}`;
-        document.querySelectorAll('.ksmm-floor-btn').forEach(btn => btn.classList.remove('active'));
-        const currentBtn = document.querySelector(`.ksmm-floor-btn[data-building="${b}"][data-floor="${f}"]`);
+        var floorKey = b + '-F' + f;
+        
+        var floorButtons = document.querySelectorAll('.ksmm-floor-btn');
+        for (var i = 0; i < floorButtons.length; i++) {
+            floorButtons[i].classList.remove('active');
+        }
+        var currentBtn = document.querySelector('.ksmm-floor-btn[data-building="' + b + '"][data-floor="' + f + '"]');
         if (currentBtn) currentBtn.classList.add('active');
 
-        renderFloorBaseLayer(floorKey).then(() => {
+        renderFloorBaseLayer(floorKey).then(function() {
             renderMapAreas(b, f);
             updateListAndFilters();
             mapState.x = 0;
@@ -315,28 +445,34 @@
 
     function updateListAndFilters() {
         listContainer.innerHTML = '';
-        const servicesOnCurrentFloor = getServicesForFloor(currentBuilding, currentFloor);
+        var servicesOnCurrentFloor = getServicesForFloor(currentBuilding, currentFloor);
+        
         if (servicesOnCurrentFloor.length === 0) {
             listContainer.innerHTML = '<div style="padding: 15px; color: #999;">На этом этаже пока нет зарегистрированных сервисов.</div>';
+            return;
         }
-        // Создаем элементы списка для текущего этажа
-        servicesOnCurrentFloor.forEach(service => {
-            const item = createListItem(service);
-            item.addEventListener('click', () => {
+        
+        servicesOnCurrentFloor.forEach(function(service) {
+            var item = createListItem(service);
+            item.addEventListener('click', function() {
                 showPopup(service);
-                // centerOnArea(service.areaId);
             });
-            item.addEventListener('mouseenter', () => setHighlight(service.id, true));
-            item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+            item.addEventListener('mouseenter', function() {
+                setHighlight(service.id, true);
+            });
+            item.addEventListener('mouseleave', function() {
+                setHighlight(service.id, false);
+            });
         });
-        // Сбрасываем/рендерим подфильтры для текущей категории/этажа
-        const currentCategory = filterControls.querySelector('.active').getAttribute('data-category');
+        
+        var activeFilter = filterControls.querySelector('.active');
+        var currentCategory = activeFilter ? activeFilter.getAttribute('data-category') : 'all';
         renderSubfilters(currentCategory);
-        // Применяем фильтрацию
         updateView();
     }
-    // --- 6. ЛОГИКА ФИЛЬТРОВ ---
-    const subfilterDefinitions = {
+
+    // --- ЛОГИКА ФИЛЬТРОВ ---
+    var subfilterDefinitions = {
         'food': ['hours'],
         'sport': ['access'],
         'meeting': ['capacity', 'equipment'],
@@ -346,85 +482,108 @@
 
     function renderSubfilters(category) {
         subfilterControls.innerHTML = '';
-        const definition = subfilterDefinitions[category];
+        var definition = subfilterDefinitions[category];
+        
         if (!definition) {
             subfilterControls.style.display = 'none';
             return;
         }
+        
         subfilterControls.style.display = 'block';
-        definition.forEach(attrKey => {
-            const groupEl = document.createElement('div');
+        definition.forEach(function(attrKey) {
+            var groupEl = document.createElement('div');
             groupEl.className = 'ksmm-subfilter-group';
-            const allValues = allServices
-                .filter(s => s.building === currentBuilding && s.floor === currentFloor && s.category === category && s.attributes[attrKey])
-                .map(s => s.attributes[attrKey]);
-            const uniqueValues = [...new Set(allValues)].sort();
+            
+            var allValues = allServices
+                .filter(function(s) {
+                    return s.building === currentBuilding && s.floor === currentFloor && s.category === category && s.attributes[attrKey];
+                })
+                .map(function(s) {
+                    return s.attributes[attrKey];
+                });
+                
+            var uniqueValues = allValues.filter(function(value, index, self) {
+                return self.indexOf(value) === index;
+            }).sort();
+            
             if (uniqueValues.length === 0) return;
-            groupEl.innerHTML = `<div class="ksmm-subfilter-group-title">${attrKey}</div>`;
-            const allEl = document.createElement('span');
+            
+            groupEl.innerHTML = '<div class="ksmm-subfilter-group-title">' + attrKey + '</div>';
+            
+            var allEl = document.createElement('span');
             allEl.className = 'ksmm-subfilter active';
             allEl.textContent = 'Все';
             allEl.setAttribute('data-key', attrKey);
             allEl.setAttribute('data-value', 'all');
             groupEl.appendChild(allEl);
-            uniqueValues.forEach(value => {
-                const el = document.createElement('span');
+            
+            uniqueValues.forEach(function(value) {
+                var el = document.createElement('span');
                 el.className = 'ksmm-subfilter';
                 el.textContent = value;
                 el.setAttribute('data-key', attrKey);
                 el.setAttribute('data-value', value);
                 groupEl.appendChild(el);
             });
+            
             subfilterControls.appendChild(groupEl);
         });
     }
 
     function getActiveSubfilters() {
-        const filters = {};
-        document.querySelectorAll('.ksmm-subfilter.active:not([data-value="all"])').forEach(el => {
-            const key = el.getAttribute('data-key');
-            const value = el.getAttribute('data-value');
+        var filters = {};
+        var activeSubfilters = document.querySelectorAll('.ksmm-subfilter.active:not([data-value="all"])');
+        for (var i = 0; i < activeSubfilters.length; i++) {
+            var el = activeSubfilters[i];
+            var key = el.getAttribute('data-key');
+            var value = el.getAttribute('data-value');
             if (!filters[key]) filters[key] = [];
             filters[key].push(value);
-        });
+        }
         return filters;
     }
-    // Главная функция обновления вида
+
     function updateView() {
-        const currentCategory = filterControls.querySelector('.active').getAttribute('data-category');
-        const currentSearch = searchInput.value.toLowerCase();
-        const currentSubfilters = getActiveSubfilters();
-        // Фильтруем только сервисы на текущем этаже
-        const currentFloorServices = allServices.filter(s => s.building === currentBuilding && s.floor === currentFloor);
-        currentFloorServices.forEach(service => {
-            const id = service.id;
-            const listItem = document.querySelector(`.ksmm-list-item[data-id="${id}"]`);
-            const mapArea = document.querySelector(`.ksmm-map-area[data-service-id="${id}"]`);
-            if (!listItem) return; // Элемент списка может отсутствовать, если нет сервисов на этаже
-            // 1. Фильтр по Категории
-            const isCategoryMatch = (currentCategory === 'all' || service.category === currentCategory);
-            // 2. Фильтр по Поиску
-            const nameMatch = service.name.toLowerCase().includes(currentSearch);
-            const descMatch = service.desc.toLowerCase().includes(currentSearch);
-            const isSearchMatch = (currentSearch === '') || nameMatch || descMatch;
-            // 3. Фильтр по Подфильтрам
-            let isSubfilterMatch = true;
-            for (const key in currentSubfilters) {
-                const serviceValue = service.attributes[key];
-                const allowedValues = currentSubfilters[key];
-                if (allowedValues.length > 0 && !allowedValues.includes(serviceValue)) {
-                    isSubfilterMatch = false;
-                    break;
+        var activeFilter = filterControls.querySelector('.active');
+        var currentCategory = activeFilter ? activeFilter.getAttribute('data-category') : 'all';
+        var currentSearch = searchInput.value.toLowerCase();
+        var currentSubfilters = getActiveSubfilters();
+        
+        var currentFloorServices = allServices.filter(function(s) {
+            return s.building === currentBuilding && s.floor === currentFloor;
+        });
+        
+        currentFloorServices.forEach(function(service) {
+            var id = service.id;
+            var listItem = document.querySelector('.ksmm-list-item[data-id="' + id + '"]');
+            var mapArea = document.querySelector('.ksmm-map-area[data-service-id="' + id + '"]');
+            
+            if (!listItem) return;
+            
+            var isCategoryMatch = (currentCategory === 'all' || service.category === currentCategory);
+            var nameMatch = service.name.toLowerCase().indexOf(currentSearch) !== -1;
+            var descMatch = service.desc.toLowerCase().indexOf(currentSearch) !== -1;
+            var isSearchMatch = (currentSearch === '') || nameMatch || descMatch;
+            
+            var isSubfilterMatch = true;
+            for (var key in currentSubfilters) {
+                if (currentSubfilters.hasOwnProperty(key)) {
+                    var serviceValue = service.attributes[key];
+                    var allowedValues = currentSubfilters[key];
+                    if (allowedValues.length > 0 && allowedValues.indexOf(serviceValue) === -1) {
+                        isSubfilterMatch = false;
+                        break;
+                    }
                 }
             }
-            // 4. Решение о видимости
-            const isVisible = isCategoryMatch && isSearchMatch && isSubfilterMatch;
-            // СПИСОК СКРЫВАЕМ
+            
+            var isVisible = isCategoryMatch && isSearchMatch && isSubfilterMatch;
+            
             listItem.classList.toggle('hidden', !isVisible);
-            // КАРТУ ПРИГЛУШАЕМ (если mapArea существует)
+            
             if (mapArea) {
                 mapArea.classList.toggle('dimmed', !isVisible);
-                // 5. Логика Подсветки Поиска
+                
                 if (isVisible && currentSearch !== '') {
                     listItem.classList.toggle('search-highlight-priority', nameMatch);
                     listItem.classList.toggle('search-highlight-secondary', !nameMatch && descMatch);
@@ -437,44 +596,78 @@
             }
         });
     }
-    // --- 7. ЗАПУСК И ИНИЦИАЛИЗАЦИЯ ---
-    function init() {
-        // Устанавливаем начальный этаж
-        currentBuilding = 'B1';
-        currentFloor = buildingFloorStructure['B1'].defaultFloor;
-        renderFloorSwitcher();
-        switchFloor(currentBuilding, currentFloor);
-        initMapInteraction();
-        // Обработчик Категорий
-        filterControls.addEventListener('click', (e) => {
-            if (!e.target.matches('.ksmm-filter-btn')) return;
-            filterControls.querySelector('.active').classList.remove('active');
-            e.target.classList.add('active');
-            renderSubfilters(e.target.getAttribute('data-category'));
-            updateView();
-        });
-        // Обработчик Подфильтров
-        subfilterControls.addEventListener('click', (e) => {
-            if (!e.target.matches('.ksmm-subfilter')) return;
-            const el = e.target;
-            const value = el.getAttribute('data-value');
-            const groupContainer = el.parentElement;
-            if (value === 'all') {
-                groupContainer.querySelectorAll('.ksmm-subfilter').forEach(sub => sub.classList.remove('active'));
-                el.classList.add('active');
-            } else {
-                groupContainer.querySelector('.ksmm-subfilter[data-value="all"]').classList.remove('active');
-                el.classList.toggle('active');
-                if (groupContainer.querySelectorAll('.ksmm-subfilter.active').length === 0) {
-                    groupContainer.querySelector('.ksmm-subfilter[data-value="all"]').classList.add('active');
+
+    // --- ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ ---
+    async function init() {
+        try {
+            // Загружаем данные из Google Sheets
+            allServices = await loadServicesFromGoogleSheet();
+            
+            // Если данные не загрузились, используем fallback
+            if (allServices.length === 0) {
+                console.warn('Не удалось загрузить данные из Google Sheets, используются тестовые данные');
+                // Проверяем, есть ли уже данные от старой версии
+                if (typeof allServices === 'undefined') {
+                    allServices = [];
                 }
             }
-            updateView();
-        });
-        // Обработчик Поиска
-        searchInput.addEventListener('input', updateView);
-        // Закрытие Pop-up
-        popupCloseBtn.addEventListener('click', hidePopup);
+            
+            // Генерируем структуру зданий
+            buildingFloorStructure = generateBuildingStructure(allServices);
+            
+            // Устанавливаем текущее здание и этаж
+            var buildingKeys = Object.keys(buildingFloorStructure);
+            if (buildingKeys.length > 0) {
+                currentBuilding = buildingKeys[0];
+                currentFloor = buildingFloorStructure[currentBuilding].defaultFloor;
+            }
+            
+            // Инициализируем интерфейс
+            renderFloorSwitcher();
+            switchFloor(currentBuilding, currentFloor);
+            initMapInteraction();
+            
+            // Обработчики событий
+            filterControls.addEventListener('click', function(e) {
+                if (!e.target.matches('.ksmm-filter-btn')) return;
+                filterControls.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                renderSubfilters(e.target.getAttribute('data-category'));
+                updateView();
+            });
+            
+            subfilterControls.addEventListener('click', function(e) {
+                if (!e.target.matches('.ksmm-subfilter')) return;
+                var el = e.target;
+                var value = el.getAttribute('data-value');
+                var groupContainer = el.parentElement;
+                
+                if (value === 'all') {
+                    var subfilters = groupContainer.querySelectorAll('.ksmm-subfilter');
+                    for (var i = 0; i < subfilters.length; i++) {
+                        subfilters[i].classList.remove('active');
+                    }
+                    el.classList.add('active');
+                } else {
+                    groupContainer.querySelector('.ksmm-subfilter[data-value="all"]').classList.remove('active');
+                    el.classList.toggle('active');
+                    if (groupContainer.querySelectorAll('.ksmm-subfilter.active').length === 0) {
+                        groupContainer.querySelector('.ksmm-subfilter[data-value="all"]').classList.add('active');
+                    }
+                }
+                updateView();
+            });
+            
+            searchInput.addEventListener('input', updateView);
+            popupCloseBtn.addEventListener('click', hidePopup);
+            
+            console.log('Приложение инициализировано с данными из Google Sheets');
+            
+        } catch (error) {
+            console.error('Ошибка инициализации приложения:', error);
+        }
     }
+
+    // Запускаем приложение
     init();
 })();

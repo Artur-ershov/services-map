@@ -155,7 +155,7 @@ const allServices = [
 
 const svgFloorPlans = {
     'B1-F3': {
-        src: 'floor-B1-F3.svg',
+        src: 'https://artur-ershov.github.io/services-map/floor-B1-F3.svg',
         viewBox: '0 0 1991 909'
     }
 };
