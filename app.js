@@ -479,6 +479,25 @@
         }
         // Применяем фильтрацию
         updateView();
+        
+        // #region agent log
+        // Проверяем размеры контейнеров для диагностики проблемы со скроллом
+        setTimeout(() => {
+            const listEl = listContainer;
+            const listContainerEl = listContainer.closest('.ksmm-list-container');
+            const contentEl = document.querySelector('.ksmm-content');
+            const moduleEl = document.getElementById('krok-services-map-module');
+            
+            const listRect = listEl.getBoundingClientRect();
+            const listComputed = window.getComputedStyle(listEl);
+            const listContainerRect = listContainerEl?.getBoundingClientRect();
+            const listContainerComputed = listContainerEl ? window.getComputedStyle(listContainerEl) : null;
+            const contentRect = contentEl?.getBoundingClientRect();
+            const moduleRect = moduleEl?.getBoundingClientRect();
+            
+            fetch('http://127.0.0.1:7242/ingest/18e7525a-b758-45b2-9052-cffaad536804',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app.js:481',message:'Scroll container dimensions check',data:{listScrollHeight:listEl.scrollHeight,listClientHeight:listEl.clientHeight,listOffsetHeight:listEl.offsetHeight,listHeight:listRect.height,listOverflowY:listComputed.overflowY,listFlex:listComputed.flex,listMinHeight:listComputed.minHeight,listContainerHeight:listContainerRect?.height,listContainerComputedHeight:listContainerComputed?.height,contentHeight:contentRect?.height,moduleHeight:moduleRect?.height,itemCount:listEl.children.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+        }, 100);
+        // #endregion
     }
     // --- 6. ЛОГИКА ФИЛЬТРОВ ---
     const subfilterDefinitions = {

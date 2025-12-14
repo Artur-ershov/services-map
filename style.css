@@ -62,7 +62,7 @@
 .ksmm-content {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    /*height: 900px;*/
+    height: 100%;
 }
 
 /* --- Стили Левого Блока (Список) --- */
@@ -227,9 +227,9 @@
 
 /* Контейнер для скролла списка */
 .ksmm-scroll-list {
-    overflow-y: scroll;
-    max-height: 600px;
-    flex-grow: 1;
+    overflow-y: auto;
+    flex: 1 1 0;
+    min-height: 0;
 }
 
 /* Элементы списка */
