@@ -11,11 +11,12 @@
     const searchInput = document.getElementById('ksmm-search-input');
     const floorSwitcher = document.getElementById('ksmm-floor-switcher');
     const svgMap = document.getElementById('ksmm-map');
+    
     const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
     const floorSvgCache = {};
     let activeAreaId = null;
     let currentBuilding = 'B1';
-    let currentFloor = buildingFloorStructure[currentBuilding].defaultFloor;
+    let currentFloor = (typeof buildingFloorStructure !== 'undefined' && buildingFloorStructure[currentBuilding]) ? buildingFloorStructure[currentBuilding].defaultFloor : 3;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
     const SVG_VIEWBOX_WIDTH = 800;
     const SVG_VIEWBOX_HEIGHT = 550;
@@ -92,8 +93,22 @@
         }
     }
     // --- 4. ЛОГИКА КАРТЫ (Pan, Zoom, Center) ---
-    function applyMapTransform() {
+    function applyMapTransform(disableTransition = false) {
+        // Используем transform-origin для зума к курсору
+        // Но для панорамирования нужно использовать translate
+        // Поэтому комбинируем: сначала устанавливаем transform-origin, потом применяем transform
+        if (disableTransition) {
+            mapWrapper.style.transition = 'none';
+        }
         mapWrapper.style.transform = `translate(${mapState.x}px, ${mapState.y}px) scale(${mapState.scale})`;
+        if (disableTransition) {
+            // Восстанавливаем transition после применения transform
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    mapWrapper.style.transition = '';
+                });
+            });
+        }
     }
 
     function initMapInteraction() {
@@ -131,36 +146,158 @@
         // Zoom Logic (Wheel)
         svgMap.addEventListener('wheel', (e) => {
             e.preventDefault();
+            
+            // Временно отключаем transition для мгновенного применения transform
+            // Это нужно для правильной работы зума к курсору
+            const originalTransition = mapWrapper.style.transition;
+            mapWrapper.style.transition = 'none';
+            
+            // Синхронизируем mapState с реальным transform перед вычислениями
+            // Это важно, если предыдущий зум еще не завершился (transition)
+            const currentTransform = window.getComputedStyle(mapWrapper).transform;
+            if (currentTransform !== 'none') {
+                const matrixValues = currentTransform.match(/matrix.*\((.+)\)/)[1].split(', ');
+                mapState.scale = parseFloat(matrixValues[0]);
+                mapState.x = parseFloat(matrixValues[4]);
+                mapState.y = parseFloat(matrixValues[5]);
+            }
+            
             // ПЛАВНЫЙ ЗУМ: Меньший фактор для плавности (1.05)
             const scaleFactor = 1.05;
             const newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor; // Ограничиваем зум
             const prevScale = mapState.scale;
             mapState.scale = Math.max(0.5, Math.min(3, newScale));
             // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию
-            if (mapState.scale === prevScale && newScale !== prevScale) return; //  Зум относительно курсора (центр зума)
+            if (mapState.scale === prevScale && newScale !== mapState.scale) {
+                return;
+            }
             const bbox = svgMap.getBoundingClientRect();
             const mouseX = e.clientX - bbox.left;
-            const mouseY = e.clientY - bbox.top; // Смещение в зависимости от нового масштаба //
-            mapState.x = mapState.x - (mouseX - mapState.x) * (mapState.scale / prevScale - 1);
-            mapState.y = mapState.y - (mouseY - mapState.y) * (mapState.scale / prevScale - 1);
+            const mouseY = e.clientY - bbox.top;
+            
+            // Зум относительно курсора
+            // Transform применяется к wrapper: translate(x, y) scale(s)
+            // Порядок операций: сначала scale, потом translate
+            // Transform-origin по умолчанию для <g> - это (0, 0)
+            //
+            // Чтобы точка под курсором осталась на месте после зума:
+            // 1. Точка под курсором в viewBox координатах (до зума)
+            // 2. После зума эта точка должна остаться на том же месте на экране
+            // 3. Вычисляем новое смещение так, чтобы это было так
+            
+            const viewBox = svgMap.viewBox.baseVal;
+            const viewBoxWidth = viewBox.width || 1991;
+            const viewBoxHeight = viewBox.height || 909;
+            const viewBoxToScreenX = bbox.width / viewBoxWidth;
+            const viewBoxToScreenY = bbox.height / viewBoxHeight;
+            
+            // ИСПРАВЛЕННАЯ ФОРМУЛА ЗУМА К КУРСОРУ
+            // Transform: translate(tx, ty) scale(s) применяется в пространстве viewBox
+            // Порядок: сначала scale (относительно 0,0), потом translate
+            // Точка (vx, vy) в пространстве wrapper отображается в viewBox как: (vx * s + tx, vy * s + ty)
+            // И затем viewBox преобразует в экранные координаты: (viewBoxX * viewBoxToScreenX, viewBoxY * viewBoxToScreenY)
+            
+            // 1. Преобразуем координаты мыши из экранных в viewBox
+            const mouseViewBoxX = mouseX / viewBoxToScreenX;
+            const mouseViewBoxY = mouseY / viewBoxToScreenY;
+            
+            // 2. Вычисляем точку в пространстве wrapper (до transform)
+            // viewBoxX = vx * scale + translateX => vx = (viewBoxX - translateX) / scale
+            const vx = (mouseViewBoxX - mapState.x) / prevScale;
+            const vy = (mouseViewBoxY - mapState.y) / prevScale;
+            
+            const oldX = mapState.x;
+            const oldY = mapState.y;
+            
+            // 3. После зума, точка должна остаться на том же месте в viewBox
+            // viewBoxX = vx * newScale + newTranslateX => newTranslateX = viewBoxX - vx * newScale
+            mapState.x = mouseViewBoxX - vx * mapState.scale;
+            mapState.y = mouseViewBoxY - vy * mapState.scale;
+            
             applyMapTransform();
+            
+            // Восстанавливаем transition после применения transform
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    mapWrapper.style.transition = originalTransition;
+                });
+            });
         });
     }
 
     function centerOnArea(areaId) {
         const areaElement = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
         if (!areaElement || typeof areaElement.getBBox !== 'function') return;
+        
+        // getBBox() возвращает координаты в системе координат SVG (viewBox)
+        // НО: если на wrapper уже применен transform, getBBox может вернуть координаты в другой системе
+        // Поэтому нужно получить bbox ДО применения transform, или использовать getBoundingClientRect
         const bbox = areaElement.getBBox();
         if (!bbox || (bbox.width === 0 && bbox.height === 0)) return;
-        const mapCenterX = SVG_VIEWBOX_WIDTH / 2;
-        const mapCenterY = SVG_VIEWBOX_HEIGHT / 2;
-        const targetX = bbox.x + (bbox.width / 2);
-        const targetY = bbox.y + (bbox.height / 2);
-        const offsetX = mapCenterX - targetX;
-        const offsetY = mapCenterY - targetY;
-        mapState.scale = 1;
-        mapState.x = offsetX * mapState.scale;
-        mapState.y = offsetY * mapState.scale;
+        
+        // Получаем реальные размеры контейнера SVG
+        const svgRect = svgMap.getBoundingClientRect();
+        const containerWidth = svgRect.width;
+        const containerHeight = svgRect.height;
+        
+        // Получаем viewBox основного SVG
+        const viewBox = svgMap.viewBox.baseVal;
+        const viewBoxWidth = viewBox.width || 1991;
+        const viewBoxHeight = viewBox.height || 909;
+        
+        // Вычисляем центр области в viewBox координатах
+        const targetCenterX = bbox.x + (bbox.width / 2);
+        const targetCenterY = bbox.y + (bbox.height / 2);
+        
+        // Добавляем padding (25% от размера области для лучшего спейсинга)
+        const paddingX = bbox.width * 0.25;
+        const paddingY = bbox.height * 0.25;
+        
+        // Вычисляем масштаб viewBox к экрану (без учета нашего scale)
+        const viewBoxToScreenX = containerWidth / viewBoxWidth;
+        const viewBoxToScreenY = containerHeight / viewBoxHeight;
+        const viewBoxToScreen = Math.min(viewBoxToScreenX, viewBoxToScreenY);
+        
+        // Вычисляем оптимальный масштаб, чтобы область поместилась с padding
+        // bbox.width и bbox.height - в viewBox координатах
+        // Нужно конвертировать их в пиксели экрана: bbox.width * viewBoxToScreen
+        // Затем вычислить scale так, чтобы область + padding поместилась в 75% контейнера
+        const bboxWidthScreen = bbox.width * viewBoxToScreen;
+        const bboxHeightScreen = bbox.height * viewBoxToScreen;
+        const paddingXScreen = paddingX * viewBoxToScreen;
+        const paddingYScreen = paddingY * viewBoxToScreen;
+        
+        const scaleX = (containerWidth * 0.75) / (bboxWidthScreen + paddingXScreen * 2);
+        const scaleY = (containerHeight * 0.75) / (bboxHeightScreen + paddingYScreen * 2);
+        const optimalScale = Math.min(scaleX, scaleY, 2.5); // Ограничиваем максимальный зум
+        
+        // Центр контейнера в пикселях экрана
+        const containerCenterX = containerWidth / 2;
+        const containerCenterY = containerHeight / 2;
+        
+        // Центр области в пикселях экрана (конвертируем из viewBox координат)
+        const targetCenterXScreen = targetCenterX * viewBoxToScreenX;
+        const targetCenterYScreen = targetCenterY * viewBoxToScreenY;
+        
+        // Transform применяется к wrapper: translate(x, y) scale(s)
+        // Порядок операций: сначала scale, потом translate
+        // Transform-origin по умолчанию для <g> - это (0, 0)
+        // 
+        // После применения scale(s), все координаты умножаются на s
+        // Затем применяется translate(x, y), который смещает уже масштабированный элемент
+        //
+        // Чтобы центр области оказался в центре контейнера:
+        // 1. Центр области после scale будет: targetCenterXScreen * optimalScale
+        // 2. Нужно сместить так, чтобы: targetCenterXScreen * optimalScale + x = containerCenterX
+        // 3. Отсюда: x = containerCenterX - targetCenterXScreen * optimalScale
+        const offsetXScreen = containerCenterX - (targetCenterXScreen * optimalScale);
+        const offsetYScreen = containerCenterY - (targetCenterYScreen * optimalScale);
+        
+        // Применяем трансформацию
+        mapState.scale = optimalScale;
+        mapState.x = offsetXScreen;
+        mapState.y = offsetYScreen;
+        
         applyMapTransform();
     }
 
@@ -176,19 +313,27 @@
             const injectSvg = (svgText) => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(svgText, 'image/svg+xml');
-                const inlineSvg = document.importNode(doc.documentElement, true);
-                inlineSvg.removeAttribute('id');
-                inlineSvg.setAttribute('width', '100%');
-                inlineSvg.setAttribute('height', '100%');
-                // if (config.viewBox && !inlineSvg.getAttribute('viewBox')) {
-                //     inlineSvg.setAttribute('viewBox', config.viewBox);
-                // }
-                // if (!inlineSvg.getAttribute('preserveAspectRatio')) {
-                //     inlineSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-                // }
-                inlineSvg.classList.add('ksmm-floorplan');
+                const sourceSvg = doc.documentElement;
+                
+                // Извлекаем viewBox из исходного SVG
+                const sourceViewBox = sourceSvg.getAttribute('viewBox');
+                if (sourceViewBox && config.viewBox) {
+                    // Обновляем viewBox основного SVG
+                    svgMap.setAttribute('viewBox', config.viewBox);
+                    // Устанавливаем preserveAspectRatio для заполнения контейнера
+                    svgMap.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+                }
+                
+                // Извлекаем все дочерние элементы из исходного SVG (не сам SVG)
+                // Клонируем все элементы внутри <svg>
+                const children = Array.from(sourceSvg.children);
                 mapBaseLayer.innerHTML = '';
-                mapBaseLayer.appendChild(inlineSvg);
+                
+                children.forEach(child => {
+                    const clonedChild = document.importNode(child, true);
+                    mapBaseLayer.appendChild(clonedChild);
+                });
+                
                 resolve();
             };
 
@@ -236,9 +381,12 @@
         const servicesOnFloor = getServicesForFloor(b, f).filter(service => Boolean(service.areaId));
         mapTitle.textContent = `${buildingFloorStructure[b].label}, ${f} этаж`;
         if (servicesOnFloor.length === 0) {
+            const viewBox = svgMap.viewBox.baseVal;
+            const viewBoxWidth = viewBox.width || 1991;
+            const viewBoxHeight = viewBox.height || 909;
             const text = document.createElementNS(SVG_NS, 'text');
-            text.setAttribute('x', (SVG_VIEWBOX_WIDTH / 2).toString());
-            text.setAttribute('y', (SVG_VIEWBOX_HEIGHT / 2).toString());
+            text.setAttribute('x', (viewBoxWidth / 2).toString());
+            text.setAttribute('y', (viewBoxHeight / 2).toString());
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('font-size', '24');
             text.setAttribute('fill', '#999');
@@ -318,6 +466,7 @@
         const servicesOnCurrentFloor = getServicesForFloor(currentBuilding, currentFloor);
         if (servicesOnCurrentFloor.length === 0) {
             listContainer.innerHTML = '<div style="padding: 15px; color: #999;">На этом этаже пока нет зарегистрированных сервисов.</div>';
+            return;
         }
         // Создаем элементы списка для текущего этажа
         servicesOnCurrentFloor.forEach(service => {
@@ -330,8 +479,10 @@
             item.addEventListener('mouseleave', () => setHighlight(service.id, false));
         });
         // Сбрасываем/рендерим подфильтры для текущей категории/этажа
-        const currentCategory = filterControls.querySelector('.active').getAttribute('data-category');
-        renderSubfilters(currentCategory);
+        const currentCategory = filterControls.querySelector('.active')?.getAttribute('data-category');
+        if (currentCategory) {
+            renderSubfilters(currentCategory);
+        }
         // Применяем фильтрацию
         updateView();
     }
@@ -391,7 +542,9 @@
     }
     // Главная функция обновления вида
     function updateView() {
-        const currentCategory = filterControls.querySelector('.active').getAttribute('data-category');
+        const activeFilter = filterControls.querySelector('.active');
+        if (!activeFilter) return; // Если нет активной кнопки, выходим
+        const currentCategory = activeFilter.getAttribute('data-category');
         const currentSearch = searchInput.value.toLowerCase();
         const currentSubfilters = getActiveSubfilters();
         // Фильтруем только сервисы на текущем этаже
@@ -440,6 +593,10 @@
     // --- 7. ЗАПУСК И ИНИЦИАЛИЗАЦИЯ ---
     function init() {
         // Устанавливаем начальный этаж
+        if (typeof buildingFloorStructure === 'undefined' || !buildingFloorStructure['B1']) {
+            console.error('buildingFloorStructure не загружен!');
+            return;
+        }
         currentBuilding = 'B1';
         currentFloor = buildingFloorStructure['B1'].defaultFloor;
         renderFloorSwitcher();
@@ -448,7 +605,8 @@
         // Обработчик Категорий
         filterControls.addEventListener('click', (e) => {
             if (!e.target.matches('.ksmm-filter-btn')) return;
-            filterControls.querySelector('.active').classList.remove('active');
+            const activeBtn = filterControls.querySelector('.active');
+            if (activeBtn) activeBtn.classList.remove('active');
             e.target.classList.add('active');
             renderSubfilters(e.target.getAttribute('data-category'));
             updateView();
