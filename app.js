@@ -272,13 +272,9 @@
         const scaleY = (containerHeight * 0.75) / (bboxHeightScreen + paddingYScreen * 2);
         const optimalScale = Math.min(scaleX, scaleY, 2.5); // Ограничиваем максимальный зум
         
-        // Центр контейнера в пикселях экрана
-        const containerCenterX = containerWidth / 2;
-        const containerCenterY = containerHeight / 2;
-        
-        // Центр области в пикселях экрана (конвертируем из viewBox координат)
-        const targetCenterXScreen = targetCenterX * viewBoxToScreenX;
-        const targetCenterYScreen = targetCenterY * viewBoxToScreenY;
+        // Центр контейнера в viewBox координатах
+        const containerCenterXViewBox = (containerWidth / 2) / viewBoxToScreenX;
+        const containerCenterYViewBox = (containerHeight / 2) / viewBoxToScreenY;
         
         // Transform применяется к wrapper: translate(x, y) scale(s)
         // Порядок операций: сначала scale, потом translate
@@ -288,16 +284,13 @@
         // Затем применяется translate(x, y), который смещает уже масштабированный элемент
         //
         // Чтобы центр области оказался в центре контейнера:
-        // 1. Центр области после scale будет: targetCenterXScreen * optimalScale
-        // 2. Нужно сместить так, чтобы: targetCenterXScreen * optimalScale + x = containerCenterX
-        // 3. Отсюда: x = containerCenterX - targetCenterXScreen * optimalScale
-        const offsetXScreen = containerCenterX - (targetCenterXScreen * optimalScale);
-        const offsetYScreen = containerCenterY - (targetCenterYScreen * optimalScale);
-        
-        // Применяем трансформацию
+        // 1. Центр области после scale будет: targetCenterX * optimalScale
+        // 2. Нужно сместить так, чтобы: targetCenterX * optimalScale + x = containerCenterXViewBox
+        // 3. Отсюда: x = containerCenterXViewBox - targetCenterX * optimalScale
+        // mapState.x и mapState.y должны быть в viewBox координатах (как в функции зума)
         mapState.scale = optimalScale;
-        mapState.x = offsetXScreen;
-        mapState.y = offsetYScreen;
+        mapState.x = containerCenterXViewBox - targetCenterX * optimalScale;
+        mapState.y = containerCenterYViewBox - targetCenterY * optimalScale;
         
         applyMapTransform();
     }
@@ -474,7 +467,7 @@
             const item = createListItem(service);
             item.addEventListener('click', () => {
                 showPopup(service);
-                // centerOnArea(service.areaId);
+                centerOnArea(service.areaId);
             });
             item.addEventListener('mouseenter', () => setHighlight(service.id, true));
             item.addEventListener('mouseleave', () => setHighlight(service.id, false));
