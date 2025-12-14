@@ -169,6 +169,7 @@
             mapState.scale = Math.max(0.5, Math.min(3, newScale));
             // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию
             if (mapState.scale === prevScale && newScale !== mapState.scale) {
+                mapWrapper.style.transition = originalTransition;
                 return;
             }
             const bbox = svgMap.getBoundingClientRect();
@@ -320,8 +321,8 @@
                 if (sourceViewBox && config.viewBox) {
                     // Обновляем viewBox основного SVG
                     svgMap.setAttribute('viewBox', config.viewBox);
-                    // Устанавливаем preserveAspectRatio для заполнения контейнера
-                    svgMap.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+                    // Устанавливаем preserveAspectRatio для вписывания карты в контейнер
+                    svgMap.setAttribute('preserveAspectRatio', 'xMidYMid meet');
                 }
                 
                 // Извлекаем все дочерние элементы из исходного SVG (не сам SVG)
