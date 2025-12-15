@@ -193,82 +193,6 @@
     font-weight: 600;
 }
 
-.ksmm-toggle-panel {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5em;
-    margin-left: 0.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    transition: color 0.2s ease, transform 0.2s ease;
-    border-radius: 4px;
-}
-
-.ksmm-toggle-panel:hover {
-    background-color: var(--hl);
-    color: var(--krok-blue);
-}
-
-.ksmm-toggle-icon {
-    font-size: 1.5em;
-    line-height: 1;
-    font-weight: bold;
-    transition: transform 0.3s ease;
-}
-
-.ksmm-list-container.collapsed .ksmm-toggle-icon {
-    transform: rotate(180deg);
-}
-
-.ksmm-list-container.collapsed {
-    height: auto;
-}
-
-.ksmm-list-container.collapsed .ksmm-search-bar {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    opacity: 0;
-}
-
-.ksmm-list-container.collapsed .ksmm-filter-controls {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    opacity: 0;
-}
-
-.ksmm-list-container.collapsed .ksmm-subfilter-controls {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    opacity: 0;
-}
-
-.ksmm-list-container.collapsed .ksmm-scroll-list {
-    max-height: 0;
-    opacity: 0;
-}
-
-.ksmm-list-container.collapsed .ksmm-title-wrapper {
-    border-bottom: none;
-    padding: 1em 0.75em;
-    white-space: nowrap;
-}
-
-.ksmm-list-container.collapsed .ksmm-floor-dropdown {
-    flex: 0 0 auto;
-}
-
-.ksmm-list-container.collapsed .ksmm-floor-dropdown-btn {
-    white-space: nowrap;
-}
 
 /* Контент (Увеличена высота до 900px) */
 .ksmm-content {
@@ -774,32 +698,39 @@
     position: absolute;
     top: 20%;
     left: 20px;
-    width: 400px;
+    width: 300px;
     max-width: calc(100vw - 40px);
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    padding: 24px;
+    padding: 20px;
 }
 
 .ksmm-popup-close {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: none;
+    background: white;
     border: none;
     font-size: 24px;
     cursor: pointer;
     color: #aaa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ksmm-popup-img {
-    width: 100%;
+    width: calc(100% + 40px);
     height: 150px;
     object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 15px;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 15px -20px;
     background: #f0f0f0;
 }
 

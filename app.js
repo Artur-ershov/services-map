@@ -919,14 +919,6 @@
         searchInput.addEventListener('input', updateView);
         // Закрытие Pop-up
         popupCloseBtn.addEventListener('click', hidePopup);
-        // Переключение панели
-        const togglePanelBtn = document.getElementById('ksmm-toggle-panel');
-        const listContainerEl = document.getElementById('ksmm-list-container');
-        if (togglePanelBtn && listContainerEl) {
-            togglePanelBtn.addEventListener('click', () => {
-                listContainerEl.classList.toggle('collapsed');
-            });
-        }
     }
     init();
 })();
