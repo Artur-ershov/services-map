@@ -236,7 +236,16 @@
 
     function centerOnArea(areaId) {
         const areaElement = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
-        if (!areaElement || typeof areaElement.getBBox !== 'function') return;
+        if (!areaElement || typeof areaElement.getBBox !== 'function') {
+            // Если элемент не найден, пробуем еще раз через небольшую задержку
+            setTimeout(() => {
+                const retryElement = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
+                if (retryElement && typeof retryElement.getBBox === 'function') {
+                    centerOnArea(areaId);
+                }
+            }, 50);
+            return;
+        }
         
         // getBBox() возвращает координаты в системе координат SVG (viewBox)
         // НО: если на wrapper уже применен transform, getBBox может вернуть координаты в другой системе
@@ -653,7 +662,11 @@
             zone.style.pointerEvents = 'all';
             zone.addEventListener('click', () => {
                 showPopup(service);
-                centerOnArea(service.areaId);
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        centerOnArea(service.areaId);
+                    });
+                });
             });
             zone.addEventListener('mouseenter', () => setHighlight(service.id, true));
             zone.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -985,9 +998,13 @@
                     item.addEventListener('click', () => {
                         switchFloor(service.building, service.floor);
                         setTimeout(() => {
-                            showPopup(service);
-                            centerOnArea(service.areaId);
-                        }, 100);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    showPopup(service);
+                                    centerOnArea(service.areaId);
+                                });
+                            });
+                        }, 150);
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1003,9 +1020,13 @@
                     item.addEventListener('click', () => {
                         switchFloor(service.building, service.floor);
                         setTimeout(() => {
-                            showPopup(service);
-                            centerOnArea(service.areaId);
-                        }, 100);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    showPopup(service);
+                                    centerOnArea(service.areaId);
+                                });
+                            });
+                        }, 150);
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1037,7 +1058,12 @@
                     const item = createListItem(service, true);
                     item.addEventListener('click', () => {
                         showPopup(service);
-                        centerOnArea(service.areaId);
+                        // Небольшая задержка для гарантии, что DOM обновлен
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                centerOnArea(service.areaId);
+                            });
+                        });
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1058,9 +1084,13 @@
                         switchFloor(service.building, service.floor);
                         // После переключения показываем попап и центрируем на области
                         setTimeout(() => {
-                            showPopup(service);
-                            centerOnArea(service.areaId);
-                        }, 100);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    showPopup(service);
+                                    centerOnArea(service.areaId);
+                                });
+                            });
+                        }, 150);
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1076,9 +1106,13 @@
                         switchFloor(service.building, service.floor);
                         // После переключения показываем попап и центрируем на области
                         setTimeout(() => {
-                            showPopup(service);
-                            centerOnArea(service.areaId);
-                        }, 100);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    showPopup(service);
+                                    centerOnArea(service.areaId);
+                                });
+                            });
+                        }, 150);
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
