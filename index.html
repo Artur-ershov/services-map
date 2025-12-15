@@ -41,6 +41,24 @@
             </div>
             <div class="ksmm-map-container">
                 <div id="ksmm-floor-switcher" class="ksmm-floor-switcher"></div>
+                <!-- Переключатели этажей (вертикальные, сверху/снизу) -->
+                <button id="ksmm-floor-prev" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-prev" style="display: none;" aria-label="Предыдущий этаж">
+                    <span class="ksmm-nav-icon">▲</span>
+                    <span class="ksmm-nav-label"></span>
+                </button>
+                <button id="ksmm-floor-next" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-next" style="display: none;" aria-label="Следующий этаж">
+                    <span class="ksmm-nav-icon">▼</span>
+                    <span class="ksmm-nav-label"></span>
+                </button>
+                <!-- Переключатели корпусов (горизонтальные, слева/справа) -->
+                <button id="ksmm-building-prev" class="ksmm-building-nav-btn ksmm-building-nav-btn-prev" style="display: none;" aria-label="Предыдущий корпус">
+                    <span class="ksmm-nav-icon">◀</span>
+                    <span class="ksmm-nav-label"></span>
+                </button>
+                <button id="ksmm-building-next" class="ksmm-building-nav-btn ksmm-building-nav-btn-next" style="display: none;" aria-label="Следующий корпус">
+                    <span class="ksmm-nav-icon">▶</span>
+                    <span class="ksmm-nav-label"></span>
+                </button>
                 <svg id="ksmm-map" viewBox="0 0 800 550" preserveAspectRatio="xMidYMid meet">
                     <g id="ksmm-map-wrapper">
                         <g id="ksmm-map-base" class="ksmm-map-base"></g>

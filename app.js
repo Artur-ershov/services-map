@@ -13,6 +13,10 @@
     const subfilterControls = document.getElementById('ksmm-subfilter-controls');
     const searchInput = document.getElementById('ksmm-search-input');
     const svgMap = document.getElementById('ksmm-map');
+    const floorPrevBtn = document.getElementById('ksmm-floor-prev');
+    const floorNextBtn = document.getElementById('ksmm-floor-next');
+    const buildingPrevBtn = document.getElementById('ksmm-building-prev');
+    const buildingNextBtn = document.getElementById('ksmm-building-next');
     
     const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
     // Кэш распарсенного DOM (вместо текста SVG) - парсинг происходит только 1 раз
@@ -22,6 +26,7 @@
     let currentFloor = (typeof buildingFloorStructure !== 'undefined' && buildingFloorStructure[currentBuilding]) ? buildingFloorStructure[currentBuilding].defaultFloor : 3;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
     let floorSwitchSequence = 0; // Sequence number to track the most recent floor switch
+    let isBuildingViewMode = false; // Режим просмотра всего корпуса
     const SVG_VIEWBOX_WIDTH = 800;
     const SVG_VIEWBOX_HEIGHT = 550;
 
@@ -484,6 +489,133 @@
         return item;
     }
 
+    function renderBuildingView(building) {
+        // Очищаем слои
+        mapBaseLayer.innerHTML = '';
+        mapAreasContainer.innerHTML = '';
+        setActiveArea(null);
+        
+        // Обновляем текст кнопки дропдауна
+        if (floorDropdownText) {
+            floorDropdownText.textContent = `${buildingFloorStructure[building].label} (все этажи)`;
+        }
+        
+        const bData = buildingFloorStructure[building];
+        if (!bData) return;
+        
+        // Получаем все этажи корпуса
+        const sortedFloors = [...bData.floors].sort((a, b) => a - b);
+        
+        // Параметры для размещения этажей
+        const FLOOR_HEIGHT = 100; // Высота прямоугольника этажа (компактный)
+        const FLOOR_SPACING = 20; // Отступ между этажами
+        const PADDING = 50; // Отступы по краям
+        const viewBoxWidth = 1200; // Фиксированная ширина
+        
+        // Вычисляем общую высоту viewBox
+        const totalHeight = sortedFloors.length * FLOOR_HEIGHT + (sortedFloors.length - 1) * FLOOR_SPACING + 2 * PADDING;
+        
+        // Устанавливаем viewBox для всего корпуса
+        svgMap.setAttribute('viewBox', `0 0 ${viewBoxWidth} ${totalHeight}`);
+        svgMap.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        
+        // Цвета по категориям
+        const categoryColors = {
+            'meeting': '#00C573',
+            'food': '#FFA436',
+            'sport': '#7027E2',
+            'relax': '#FF645A',
+            'service': '#475DEB'
+        };
+        
+        // Отображаем все этажи
+        sortedFloors.forEach((floor, index) => {
+            const yOffset = PADDING + index * (FLOOR_HEIGHT + FLOOR_SPACING);
+            
+            // Создаем группу для этажа
+            const floorGroup = document.createElementNS(SVG_NS, 'g');
+            floorGroup.setAttribute('class', 'ksmm-floor-rectangle');
+            floorGroup.setAttribute('data-floor', floor);
+            floorGroup.setAttribute('data-building', building);
+            
+            // Создаем прямоугольник этажа
+            const rect = document.createElementNS(SVG_NS, 'rect');
+            rect.setAttribute('x', PADDING);
+            rect.setAttribute('y', yOffset);
+            rect.setAttribute('width', viewBoxWidth - 2 * PADDING);
+            rect.setAttribute('height', FLOOR_HEIGHT);
+            rect.setAttribute('fill', '#f9f9f9');
+            rect.setAttribute('stroke', '#ddd');
+            rect.setAttribute('stroke-width', '2');
+            rect.setAttribute('rx', '8');
+            rect.style.cursor = 'pointer';
+            rect.addEventListener('click', () => {
+                switchFloor(building, floor);
+            });
+            floorGroup.appendChild(rect);
+            
+            // Добавляем подпись этажа
+            const label = document.createElementNS(SVG_NS, 'text');
+            label.setAttribute('x', PADDING + 30);
+            label.setAttribute('y', yOffset + FLOOR_HEIGHT / 2);
+            label.setAttribute('font-size', '28');
+            label.setAttribute('font-weight', 'bold');
+            label.setAttribute('fill', '#333');
+            label.setAttribute('dominant-baseline', 'middle');
+            label.textContent = `${floor} этаж`;
+            label.classList.add('ksmm-floor-label');
+            floorGroup.appendChild(label);
+            
+            // Получаем сервисы этого этажа
+            const servicesOnFloor = getServicesForFloor(building, floor);
+            
+            // Рисуем кружочки для каждого сервиса
+            const CIRCLE_RADIUS = 12;
+            const CIRCLE_SPACING = 4;
+            const START_X = PADDING + 200;
+            const CIRCLE_Y = yOffset + FLOOR_HEIGHT / 2;
+            
+            servicesOnFloor.forEach((service, serviceIndex) => {
+                const circle = document.createElementNS(SVG_NS, 'circle');
+                const circleX = START_X + serviceIndex * (CIRCLE_RADIUS * 2 + CIRCLE_SPACING);
+                circle.setAttribute('cx', circleX);
+                circle.setAttribute('cy', CIRCLE_Y);
+                circle.setAttribute('r', CIRCLE_RADIUS);
+                circle.setAttribute('fill', categoryColors[service.category] || '#999');
+                circle.setAttribute('stroke', '#fff');
+                circle.setAttribute('stroke-width', '2');
+                circle.classList.add('ksmm-service-dot');
+                circle.setAttribute('data-service-id', service.id);
+                circle.setAttribute('data-floor', floor);
+                circle.setAttribute('data-category', service.category);
+                circle.style.cursor = 'pointer';
+                circle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    switchFloor(building, floor);
+                    setTimeout(() => {
+                        showPopup(service);
+                        centerOnArea(service.areaId);
+                    }, 100);
+                });
+                circle.addEventListener('mouseenter', () => {
+                    circle.setAttribute('r', CIRCLE_RADIUS + 3);
+                    setHighlight(service.id, true);
+                });
+                circle.addEventListener('mouseleave', () => {
+                    circle.setAttribute('r', CIRCLE_RADIUS);
+                    setHighlight(service.id, false);
+                });
+                floorGroup.appendChild(circle);
+            });
+            
+            mapBaseLayer.appendChild(floorGroup);
+        });
+        
+        // Обновляем список
+        updateListAndFilters();
+        updateNavigationButtons();
+    }
+
     function renderMapAreas(b, f) {
         mapAreasContainer.innerHTML = '';
         setActiveArea(null);
@@ -545,10 +677,20 @@
             const buildingColumn = document.createElement('div');
             buildingColumn.className = 'ksmm-floor-dropdown-building-column';
             
-            // Заголовок корпуса
+            // Заголовок корпуса (кликабельный)
             const buildingHeader = document.createElement('div');
             buildingHeader.className = 'ksmm-floor-dropdown-building-header';
+            if (buildingKey === currentBuilding && isBuildingViewMode) {
+                buildingHeader.classList.add('active');
+            }
             buildingHeader.textContent = bData.label;
+            buildingHeader.setAttribute('data-building', buildingKey);
+            buildingHeader.style.cursor = 'pointer';
+            buildingHeader.addEventListener('click', (e) => {
+                e.stopPropagation();
+                switchFloor(buildingKey, null);
+                closeFloorDropdown();
+            });
             buildingColumn.appendChild(buildingHeader);
             
             // Контейнер для этажей (вертикальный список)
@@ -604,7 +746,132 @@
         }
     }
 
+    // Функции для получения следующего/предыдущего этажа
+    function getNextFloor(building, currentFloorNum) {
+        const bData = buildingFloorStructure[building];
+        if (!bData) return null;
+        const sortedFloors = [...bData.floors].sort((a, b) => a - b);
+        const currentIndex = sortedFloors.indexOf(currentFloorNum);
+        if (currentIndex >= 0 && currentIndex < sortedFloors.length - 1) {
+            return sortedFloors[currentIndex + 1];
+        }
+        return null;
+    }
+    
+    function getPrevFloor(building, currentFloorNum) {
+        const bData = buildingFloorStructure[building];
+        if (!bData) return null;
+        const sortedFloors = [...bData.floors].sort((a, b) => a - b);
+        const currentIndex = sortedFloors.indexOf(currentFloorNum);
+        if (currentIndex > 0) {
+            return sortedFloors[currentIndex - 1];
+        }
+        return null;
+    }
+    
+    // Функции для получения следующего/предыдущего корпуса
+    function getNextBuilding(currentBuildingKey) {
+        const buildingKeys = Object.keys(buildingFloorStructure).sort();
+        const currentIndex = buildingKeys.indexOf(currentBuildingKey);
+        if (currentIndex >= 0 && currentIndex < buildingKeys.length - 1) {
+            return buildingKeys[currentIndex + 1];
+        }
+        return null;
+    }
+    
+    function getPrevBuilding(currentBuildingKey) {
+        const buildingKeys = Object.keys(buildingFloorStructure).sort();
+        const currentIndex = buildingKeys.indexOf(currentBuildingKey);
+        if (currentIndex > 0) {
+            return buildingKeys[currentIndex - 1];
+        }
+        return null;
+    }
+    
+    // Обновление видимости кнопок навигации
+    function updateNavigationButtons() {
+        if (isBuildingViewMode) {
+            // Режим корпуса - показываем кнопки переключения корпусов
+            floorPrevBtn.style.display = 'none';
+            floorNextBtn.style.display = 'none';
+            
+            const nextBuilding = getNextBuilding(currentBuilding);
+            const prevBuilding = getPrevBuilding(currentBuilding);
+            
+            if (prevBuilding) {
+                buildingPrevBtn.style.display = 'flex';
+                const prevLabel = buildingPrevBtn.querySelector('.ksmm-nav-label');
+                if (prevLabel) {
+                    prevLabel.textContent = buildingFloorStructure[prevBuilding].label;
+                }
+            } else {
+                buildingPrevBtn.style.display = 'none';
+            }
+            
+            if (nextBuilding) {
+                buildingNextBtn.style.display = 'flex';
+                const nextLabel = buildingNextBtn.querySelector('.ksmm-nav-label');
+                if (nextLabel) {
+                    nextLabel.textContent = buildingFloorStructure[nextBuilding].label;
+                }
+            } else {
+                buildingNextBtn.style.display = 'none';
+            }
+        } else {
+            // Режим этажа - показываем кнопки переключения этажей
+            buildingPrevBtn.style.display = 'none';
+            buildingNextBtn.style.display = 'none';
+            
+            const nextFloor = getNextFloor(currentBuilding, currentFloor);
+            const prevFloor = getPrevFloor(currentBuilding, currentFloor);
+            
+            if (prevFloor) {
+                floorPrevBtn.style.display = 'flex';
+                const prevLabel = floorPrevBtn.querySelector('.ksmm-nav-label');
+                if (prevLabel) {
+                    prevLabel.textContent = `${prevFloor} этаж`;
+                }
+            } else {
+                floorPrevBtn.style.display = 'none';
+            }
+            
+            if (nextFloor) {
+                floorNextBtn.style.display = 'flex';
+                const nextLabel = floorNextBtn.querySelector('.ksmm-nav-label');
+                if (nextLabel) {
+                    nextLabel.textContent = `${nextFloor} этаж`;
+                }
+            } else {
+                floorNextBtn.style.display = 'none';
+            }
+        }
+    }
+    
     function switchFloor(b, f) {
+        // Если f === null, активируем режим просмотра корпуса
+        if (f === null) {
+            isBuildingViewMode = true;
+            currentBuilding = b;
+            currentFloor = null;
+            renderBuildingView(b);
+            // updateListAndFilters вызывается в renderBuildingView после загрузки всех этажей
+            mapState.x = 0;
+            mapState.y = 0;
+            mapState.scale = 1;
+            applyMapTransform();
+            hidePopup();
+            // Обновляем активный элемент в дропдауне
+            document.querySelectorAll('.ksmm-floor-dropdown-floor-btn, .ksmm-floor-dropdown-building-header').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const buildingHeader = document.querySelector(`.ksmm-floor-dropdown-building-header[data-building="${b}"]`);
+            if (buildingHeader) buildingHeader.classList.add('active');
+            updateNavigationButtons();
+            return;
+        }
+        
+        // Обычный режим просмотра одного этажа
+        isBuildingViewMode = false;
         currentBuilding = b;
         currentFloor = f;
         const floorKey = `${b}-F${f}`;
@@ -613,7 +880,7 @@
         const thisSwitchSequence = floorSwitchSequence;
         
         // Обновляем активный элемент в дропдауне
-        document.querySelectorAll('.ksmm-floor-dropdown-floor-btn').forEach(btn => {
+        document.querySelectorAll('.ksmm-floor-dropdown-floor-btn, .ksmm-floor-dropdown-building-header').forEach(btn => {
             btn.classList.remove('active');
         });
         const currentBtn = document.querySelector(`.ksmm-floor-dropdown-floor-btn[data-building="${b}"][data-floor="${f}"]`);
@@ -644,6 +911,7 @@
             mapState.scale = 1;
             applyMapTransform();
             hidePopup();
+            updateNavigationButtons();
         });
     }
 
@@ -654,76 +922,168 @@
         return sectionTitle;
     }
 
+    // Функция для получения координат области на карте для сортировки
+    function getAreaPosition(areaId) {
+        if (!areaId) return { y: Infinity, x: Infinity };
+        const areaElement = getZoneElement(areaId);
+        if (!areaElement || typeof areaElement.getBBox !== 'function') {
+            return { y: Infinity, x: Infinity };
+        }
+        try {
+            const bbox = areaElement.getBBox();
+            // Используем центр области для более точной сортировки
+            return { y: bbox.y + bbox.height / 2, x: bbox.x + bbox.width / 2 };
+        } catch (e) {
+            return { y: Infinity, x: Infinity };
+        }
+    }
+
+    // Функция сортировки сервисов по позиции на карте (сверху вниз, слева направо)
+    function sortServicesByMapPosition(services) {
+        return services.sort((a, b) => {
+            const posA = getAreaPosition(a.areaId);
+            const posB = getAreaPosition(b.areaId);
+            
+            // Сначала по Y (сверху вниз) - используем порог 20 пикселей для группировки
+            if (Math.abs(posA.y - posB.y) > 20) {
+                return posA.y - posB.y;
+            }
+            // Затем по X (слева направо)
+            return posA.x - posB.x;
+        });
+    }
+
     function updateListAndFilters() {
         listContainer.innerHTML = '';
         
-        // Разделяем все сервисы на группы
-        const currentFloorServices = allServices.filter(s => s.building === currentBuilding && s.floor === currentFloor);
-        const otherFloorsServices = allServices.filter(s => s.building === currentBuilding && s.floor !== currentFloor);
-        const otherBuildingsServices = allServices.filter(s => s.building !== currentBuilding);
-        
-        // Сортируем другие этажи от ближнего к дальнему
-        otherFloorsServices.sort((a, b) => {
-            const diffA = Math.abs(a.floor - currentFloor);
-            const diffB = Math.abs(b.floor - currentFloor);
-            if (diffA !== diffB) {
-                return diffA - diffB;
+        // Режим просмотра корпуса - показываем все этажи корпуса
+        if (isBuildingViewMode) {
+            const buildingServices = allServices.filter(s => s.building === currentBuilding);
+            
+            // Группируем по этажам
+            const servicesByFloor = {};
+            buildingServices.forEach(service => {
+                if (!servicesByFloor[service.floor]) {
+                    servicesByFloor[service.floor] = [];
+                }
+                servicesByFloor[service.floor].push(service);
+            });
+            
+            // Сортируем этажи
+            const sortedFloors = Object.keys(servicesByFloor).map(Number).sort((a, b) => a - b);
+            
+            sortedFloors.forEach(floor => {
+                const floorServices = servicesByFloor[floor];
+                // Сортируем сервисы этажа по позиции на карте
+                const sortedFloorServices = sortServicesByMapPosition([...floorServices]);
+                
+                // Добавляем заголовок этажа
+                listContainer.appendChild(createSectionTitle(`${floor} этаж`));
+                
+                sortedFloorServices.forEach(service => {
+                    const item = createListItem(service, false);
+                    item.addEventListener('click', () => {
+                        switchFloor(service.building, service.floor);
+                        setTimeout(() => {
+                            showPopup(service);
+                            centerOnArea(service.areaId);
+                        }, 100);
+                    });
+                    item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                    item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+                });
+            });
+            
+            // Другие корпуса
+            const otherBuildingsServices = allServices.filter(s => s.building !== currentBuilding);
+            if (otherBuildingsServices.length > 0) {
+                listContainer.appendChild(createSectionTitle('Другие корпуса'));
+                otherBuildingsServices.forEach(service => {
+                    const item = createListItem(service, false);
+                    item.addEventListener('click', () => {
+                        switchFloor(service.building, service.floor);
+                        setTimeout(() => {
+                            showPopup(service);
+                            centerOnArea(service.areaId);
+                        }, 100);
+                    });
+                    item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                    item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+                });
             }
-            return a.floor - b.floor;
-        });
-        
-        // Текущий этаж
-        if (currentFloorServices.length > 0) {
-            currentFloorServices.forEach(service => {
-                const item = createListItem(service, true);
-                item.addEventListener('click', () => {
-                    showPopup(service);
-                    centerOnArea(service.areaId);
-                });
-                item.addEventListener('mouseenter', () => setHighlight(service.id, true));
-                item.addEventListener('mouseleave', () => setHighlight(service.id, false));
-            });
         } else {
-            const emptyMsg = document.createElement('div');
-            emptyMsg.style.cssText = 'padding: 15px; color: #999;';
-            emptyMsg.textContent = 'На этом этаже пока нет зарегистрированных сервисов.';
-            listContainer.appendChild(emptyMsg);
-        }
-        
-        // Другие этажи
-        if (otherFloorsServices.length > 0) {
-            listContainer.appendChild(createSectionTitle('Другие этажи'));
-            otherFloorsServices.forEach(service => {
-                const item = createListItem(service, false);
-                item.addEventListener('click', () => {
-                    switchFloor(service.building, service.floor);
-                    // После переключения показываем попап и центрируем на области
-                    setTimeout(() => {
+            // Обычный режим просмотра одного этажа
+            // Разделяем все сервисы на группы
+            const currentFloorServices = allServices.filter(s => s.building === currentBuilding && s.floor === currentFloor);
+            const otherFloorsServices = allServices.filter(s => s.building === currentBuilding && s.floor !== currentFloor);
+            const otherBuildingsServices = allServices.filter(s => s.building !== currentBuilding);
+            
+            // Сортируем другие этажи от ближнего к дальнему
+            otherFloorsServices.sort((a, b) => {
+                const diffA = Math.abs(a.floor - currentFloor);
+                const diffB = Math.abs(b.floor - currentFloor);
+                if (diffA !== diffB) {
+                    return diffA - diffB;
+                }
+                return a.floor - b.floor;
+            });
+            
+            // Сортируем сервисы текущего этажа по позиции на карте
+            const sortedCurrentFloorServices = sortServicesByMapPosition([...currentFloorServices]);
+            
+            // Текущий этаж
+            if (sortedCurrentFloorServices.length > 0) {
+                sortedCurrentFloorServices.forEach(service => {
+                    const item = createListItem(service, true);
+                    item.addEventListener('click', () => {
                         showPopup(service);
                         centerOnArea(service.areaId);
-                    }, 100);
+                    });
+                    item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                    item.addEventListener('mouseleave', () => setHighlight(service.id, false));
                 });
-                item.addEventListener('mouseenter', () => setHighlight(service.id, true));
-                item.addEventListener('mouseleave', () => setHighlight(service.id, false));
-            });
-        }
-        
-        // Другие корпуса
-        if (otherBuildingsServices.length > 0) {
-            listContainer.appendChild(createSectionTitle('Другие корпуса'));
-            otherBuildingsServices.forEach(service => {
-                const item = createListItem(service, false);
-                item.addEventListener('click', () => {
-                    switchFloor(service.building, service.floor);
-                    // После переключения показываем попап и центрируем на области
-                    setTimeout(() => {
-                        showPopup(service);
-                        centerOnArea(service.areaId);
-                    }, 100);
+            } else {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.style.cssText = 'padding: 15px; color: #999;';
+                emptyMsg.textContent = 'На этом этаже пока нет зарегистрированных сервисов.';
+                listContainer.appendChild(emptyMsg);
+            }
+            
+            // Другие этажи
+            if (otherFloorsServices.length > 0) {
+                listContainer.appendChild(createSectionTitle('Другие этажи'));
+                otherFloorsServices.forEach(service => {
+                    const item = createListItem(service, false);
+                    item.addEventListener('click', () => {
+                        switchFloor(service.building, service.floor);
+                        // После переключения показываем попап и центрируем на области
+                        setTimeout(() => {
+                            showPopup(service);
+                            centerOnArea(service.areaId);
+                        }, 100);
+                    });
+                    item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                    item.addEventListener('mouseleave', () => setHighlight(service.id, false));
                 });
-                item.addEventListener('mouseenter', () => setHighlight(service.id, true));
-                item.addEventListener('mouseleave', () => setHighlight(service.id, false));
-            });
+            }
+            
+            // Другие корпуса
+            if (otherBuildingsServices.length > 0) {
+                listContainer.appendChild(createSectionTitle('Другие корпуса'));
+                otherBuildingsServices.forEach(service => {
+                    const item = createListItem(service, false);
+                    item.addEventListener('click', () => {
+                        switchFloor(service.building, service.floor);
+                        // После переключения показываем попап и центрируем на области
+                        setTimeout(() => {
+                            showPopup(service);
+                            centerOnArea(service.areaId);
+                        }, 100);
+                    });
+                    item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                    item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+                });
+            }
         }
         
         // Сбрасываем/рендерим подфильтры для текущей категории
@@ -865,6 +1225,42 @@
         currentFloor = buildingFloorStructure['B1'].defaultFloor;
         renderFloorDropdown();
         switchFloor(currentBuilding, currentFloor);
+        
+        // Обработчики для навигации этажей
+        if (floorPrevBtn) {
+            floorPrevBtn.addEventListener('click', () => {
+                const prevFloor = getPrevFloor(currentBuilding, currentFloor);
+                if (prevFloor !== null) {
+                    switchFloor(currentBuilding, prevFloor);
+                }
+            });
+        }
+        if (floorNextBtn) {
+            floorNextBtn.addEventListener('click', () => {
+                const nextFloor = getNextFloor(currentBuilding, currentFloor);
+                if (nextFloor !== null) {
+                    switchFloor(currentBuilding, nextFloor);
+                }
+            });
+        }
+        
+        // Обработчики для навигации корпусов
+        if (buildingPrevBtn) {
+            buildingPrevBtn.addEventListener('click', () => {
+                const prevBuilding = getPrevBuilding(currentBuilding);
+                if (prevBuilding !== null) {
+                    switchFloor(prevBuilding, null);
+                }
+            });
+        }
+        if (buildingNextBtn) {
+            buildingNextBtn.addEventListener('click', () => {
+                const nextBuilding = getNextBuilding(currentBuilding);
+                if (nextBuilding !== null) {
+                    switchFloor(nextBuilding, null);
+                }
+            });
+        }
         
         // Обработчики для дропдауна
         if (floorDropdownBtn) {
