@@ -146,15 +146,185 @@ const allServices = [
         img: DUMMY_IMG_URL + 'Буфет «Снэк»',
         link: '#',
         attributes: { location: 'У лестницы', hours: '09:00-18:00' }
+    },
+    {
+        id: 501,
+        name: 'Кофе-точка',
+        category: 'food',
+        building: 'B3',
+        floor: 1,
+        areaId: 'Group 1201',
+        desc: 'Быстрый кофе, сэндвичи и снеки для перекуса.',
+        contacts: 'Вн. 101',
+        img: DUMMY_IMG_URL + 'Кофе-точка',
+        link: '#',
+        attributes: { location: 'Центральная зона', hours: '08:00-20:00' }
+    },
+    {
+        id: 502,
+        name: 'Вендинг',
+        category: 'service',
+        building: 'B3',
+        floor: 1,
+        areaId: 'Group 1202',
+        desc: 'Автоматы с напитками, снеками и быстрыми перекусами.',
+        contacts: 'Автомат',
+        img: DUMMY_IMG_URL + 'Вендинг',
+        link: '#',
+        attributes: { location: 'У входа', hours: 'Круглосуточно' }
+    },
+    {
+        id: 503,
+        name: 'Гардероб',
+        category: 'service',
+        building: 'B3',
+        floor: 1,
+        areaId: 'Group 1200',
+        desc: 'Хранение верхней одежды и личных вещей.',
+        contacts: 'Вн. 102',
+        img: DUMMY_IMG_URL + 'Гардероб',
+        link: '#',
+        attributes: { location: 'Входная зона', hours: '08:00-20:00' }
+    },
+    {
+        id: 504,
+        name: 'Входная группа',
+        category: 'service',
+        building: 'B3',
+        floor: 1,
+        areaId: 'Group 1203',
+        desc: 'Ресепшн и информационная стойка.',
+        contacts: 'Ресепшн',
+        img: DUMMY_IMG_URL + 'Входная группа',
+        link: '#',
+        attributes: { location: 'Главный вход', hours: '08:00-20:00' }
     }
 ];
 
  const buildingFloorStructure = {
-    'B1': { label: 'Корпус 1', floors: [3], defaultFloor: 3 }
+    'B1': { label: 'Корпус 1', floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], defaultFloor: 3 },
+    'B2': { label: 'Корпус 2', floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], defaultFloor: 1 },
+    'B3': { label: 'Корпус 3', floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], defaultFloor: 1 }
 };
 
 const svgFloorPlans = {
+    'B1-F1': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F2': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
     'B1-F3': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F4': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F5': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F6': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F7': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F8': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F9': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B1-F10': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F1': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F2': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F3': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F4': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F5': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F6': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F7': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F8': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F9': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B2-F10': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F1': {
+        src: 'floor-B3-F1.svg',
+        viewBox: '0 0 1035 316'
+    },
+    'B3-F2': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F3': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F4': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F5': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F6': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F7': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F8': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F9': {
+        src: 'floor-B1-F3.svg',
+        viewBox: '0 0 1991 909'
+    },
+    'B3-F10': {
         src: 'floor-B1-F3.svg',
         viewBox: '0 0 1991 909'
     }

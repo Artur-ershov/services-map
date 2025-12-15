@@ -4,12 +4,14 @@
     const mapWrapper = document.getElementById('ksmm-map-wrapper');
     const mapBaseLayer = document.getElementById('ksmm-map-base');
     const mapAreasContainer = document.getElementById('ksmm-map-areas');
-    const mapTitle = document.getElementById('ksmm-map-title');
+    const floorDropdown = document.getElementById('ksmm-floor-dropdown');
+    const floorDropdownBtn = document.getElementById('ksmm-floor-dropdown-btn');
+    const floorDropdownText = document.getElementById('ksmm-floor-dropdown-text');
+    const floorDropdownList = document.getElementById('ksmm-floor-dropdown-list');
     const listContainer = document.getElementById('ksmm-services-list');
     const filterControls = document.querySelector('.ksmm-filter-controls');
     const subfilterControls = document.getElementById('ksmm-subfilter-controls');
     const searchInput = document.getElementById('ksmm-search-input');
-    const floorSwitcher = document.getElementById('ksmm-floor-switcher');
     const svgMap = document.getElementById('ksmm-map');
     
     const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
@@ -53,7 +55,8 @@
 
     function getZoneElement(areaId) {
         if (!areaId || !mapBaseLayer) return null;
-        return mapBaseLayer.querySelector(`#${areaId}`);
+        // Используем атрибут селектор для поддержки ID с пробелами (SVG)
+        return mapBaseLayer.querySelector(`[id="${areaId}"]`);
     }
 
     function setActiveArea(areaId) {
@@ -116,10 +119,8 @@
     function initMapInteraction() {
         // Drag (Pan) Logic
         svgMap.addEventListener('mousedown', (e) => {
-            // Игнорируем клики по областям, заголовку и переключателю этажей
-            if (e.target.closest('.ksmm-map-area') || e.target.id === 'ksmm-map-title' || e.target.closest('.ksmm-floor-switcher')) return;
-            // Проверяем, что не начали перетаскивание скроллбара или элемента внутри переключателя
-            if (e.target.closest('.ksmm-floor-switcher')) return;
+            // Игнорируем клики по областям и дропдауну этажей
+            if (e.target.closest('.ksmm-map-area') || e.target.closest('.ksmm-floor-dropdown')) return;
             mapState.dragging = true;
             svgMap.classList.add('dragging');
             // Получаем текущие смещения
@@ -477,7 +478,10 @@
         mapAreasContainer.innerHTML = '';
         setActiveArea(null);
         const servicesOnFloor = getServicesForFloor(b, f).filter(service => Boolean(service.areaId));
-        mapTitle.textContent = `${buildingFloorStructure[b].label}, ${f} этаж`;
+        // Обновляем текст кнопки дропдауна
+        if (floorDropdownText) {
+            floorDropdownText.textContent = `${buildingFloorStructure[b].label}, ${f} этаж`;
+        }
         if (servicesOnFloor.length === 0) {
             const viewBox = svgMap.viewBox.baseVal;
             const viewBoxWidth = viewBox.width || 1991;
@@ -514,29 +518,68 @@
         });
     }
 
-    function renderFloorSwitcher() {
-        floorSwitcher.innerHTML = '';
+    function renderFloorDropdown() {
+        if (!floorDropdownList) return;
+        
+        floorDropdownList.innerHTML = '';
+        
+        // Создаем плоский список всех этажей всех зданий
+        const allFloors = [];
         for (const buildingKey in buildingFloorStructure) {
             const bData = buildingFloorStructure[buildingKey];
-            const title = document.createElement('div');
-            title.className = 'ksmm-floor-group-title';
-            title.textContent = bData.label;
-            floorSwitcher.appendChild(title);
-            // Рендерим этажи в обратном порядке (сверху вниз)
-            bData.floors.sort((a, b) => b - a).forEach(f => {
-                const btn = document.createElement('button');
-                btn.className = 'ksmm-floor-btn';
-                btn.textContent = `${f} этаж`;
-                btn.setAttribute('data-building', buildingKey);
-                btn.setAttribute('data-floor', f);
-                if (buildingKey === currentBuilding && f === currentFloor) {
-                    btn.classList.add('active');
-                }
-                btn.addEventListener('click', () => {
-                    switchFloor(buildingKey, f);
+            bData.floors.forEach(floor => {
+                allFloors.push({
+                    building: buildingKey,
+                    floor: floor,
+                    label: `${bData.label}, ${floor} этаж`
                 });
-                floorSwitcher.appendChild(btn);
             });
+        }
+        
+        // Сортируем: сначала по зданию, потом по этажу (по возрастанию)
+        allFloors.sort((a, b) => {
+            if (a.building !== b.building) {
+                return a.building.localeCompare(b.building);
+            }
+            return a.floor - b.floor;
+        });
+        
+        // Создаем элементы списка
+        allFloors.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.className = 'ksmm-floor-dropdown-item';
+            if (item.building === currentBuilding && item.floor === currentFloor) {
+                listItem.classList.add('active');
+            }
+            listItem.textContent = item.label;
+            listItem.setAttribute('data-building', item.building);
+            listItem.setAttribute('data-floor', item.floor);
+            listItem.addEventListener('click', () => {
+                switchFloor(item.building, item.floor);
+                closeFloorDropdown();
+            });
+            floorDropdownList.appendChild(listItem);
+        });
+    }
+    
+    function openFloorDropdown() {
+        if (!floorDropdown || !floorDropdownList) return;
+        floorDropdown.classList.add('open');
+        floorDropdownList.style.display = 'block';
+    }
+    
+    function closeFloorDropdown() {
+        if (!floorDropdown || !floorDropdownList) return;
+        floorDropdown.classList.remove('open');
+        floorDropdownList.style.display = 'none';
+    }
+    
+    function toggleFloorDropdown() {
+        if (!floorDropdown) return;
+        if (floorDropdown.classList.contains('open')) {
+            closeFloorDropdown();
+        } else {
+            openFloorDropdown();
         }
     }
 
@@ -548,9 +591,12 @@
         floorSwitchSequence++;
         const thisSwitchSequence = floorSwitchSequence;
         
-        document.querySelectorAll('.ksmm-floor-btn').forEach(btn => btn.classList.remove('active'));
-        const currentBtn = document.querySelector(`.ksmm-floor-btn[data-building="${b}"][data-floor="${f}"]`);
-        if (currentBtn) currentBtn.classList.add('active');
+        // Обновляем активный элемент в дропдауне
+        document.querySelectorAll('.ksmm-floor-dropdown-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        const currentItem = document.querySelector(`.ksmm-floor-dropdown-item[data-building="${b}"][data-floor="${f}"]`);
+        if (currentItem) currentItem.classList.add('active');
 
         renderFloorBaseLayer(floorKey, thisSwitchSequence).then(() => {
             // Check if this is still the most recent floor switch
@@ -718,8 +764,23 @@
         }
         currentBuilding = 'B1';
         currentFloor = buildingFloorStructure['B1'].defaultFloor;
-        renderFloorSwitcher();
+        renderFloorDropdown();
         switchFloor(currentBuilding, currentFloor);
+        
+        // Обработчики для дропдауна
+        if (floorDropdownBtn) {
+            floorDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFloorDropdown();
+            });
+        }
+        
+        // Закрытие дропдауна при клике вне его
+        document.addEventListener('click', (e) => {
+            if (!floorDropdown || !floorDropdown.contains(e.target)) {
+                closeFloorDropdown();
+            }
+        });
         initMapInteraction();
         
         // Предзагрузка остальных этажей в фоне (низкий приоритет)
