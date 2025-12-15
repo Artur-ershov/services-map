@@ -336,8 +336,8 @@
                 }
                 
                 // Извлекаем все дочерние элементы из исходного SVG (не сам SVG)
-                // Клонируем все элементы внутри <svg>
                 const children = Array.from(sourceSvg.children);
+                
                 mapBaseLayer.innerHTML = '';
                 
                 // Final check before appending children
@@ -346,8 +346,68 @@
                     return;
                 }
                 
+                // Собираем все маски, clipPath и другие элементы из <defs> и из всего SVG
+                // Это нужно, потому что некоторые маски могут быть не в <defs>, а внутри групп
+                let allDefsContent = [];
+                const existingDefs = sourceSvg.querySelectorAll('defs');
+                existingDefs.forEach(defs => {
+                    Array.from(defs.children).forEach(child => {
+                        allDefsContent.push(child);
+                    });
+                });
+                
+                // Также ищем маски и clipPath, которые могут быть вне <defs>
+                const masksOutsideDefs = sourceSvg.querySelectorAll('mask:not(defs mask)');
+                const clipPathsOutsideDefs = sourceSvg.querySelectorAll('clipPath:not(defs clipPath)');
+                masksOutsideDefs.forEach(mask => allDefsContent.push(mask));
+                clipPathsOutsideDefs.forEach(clipPath => allDefsContent.push(clipPath));
+                
+                // Создаем <defs> в целевом SVG, если есть что копировать
+                if (allDefsContent.length > 0) {
+                    let targetDefs = svgMap.querySelector('defs');
+                    if (!targetDefs) {
+                        targetDefs = document.createElementNS(SVG_NS, 'defs');
+                        svgMap.insertBefore(targetDefs, svgMap.firstChild);
+                    }
+                    
+                    // Клонируем все элементы defs в целевой SVG
+                    allDefsContent.forEach(defsChild => {
+                        const clonedDefsChild = document.importNode(defsChild, true);
+                        // Проверяем, нет ли уже элемента с таким ID
+                        if (defsChild.id && svgMap.querySelector(`#${defsChild.id}`)) {
+                            // Элемент уже существует, пропускаем
+                            return;
+                        }
+                        targetDefs.appendChild(clonedDefsChild);
+                    });
+                }
+                
+                // Копируем остальные элементы (группы, path и т.д.)
                 children.forEach(child => {
+                    // Пропускаем <defs>, так как мы уже обработали их содержимое
+                    if (child.tagName === 'defs') {
+                        return;
+                    }
                     const clonedChild = document.importNode(child, true);
+                    
+                    // Исправляем проблему с черными зонами: устанавливаем fill="none" для элементов без fill
+                    // В исходном SVG есть fill="none" на корневом элементе, но при копировании это не наследуется
+                    // Без явного fill="none" браузер применяет черный цвет по умолчанию
+                    const allPathsInCloned = clonedChild.querySelectorAll('path');
+                    allPathsInCloned.forEach(path => {
+                        if (!path.getAttribute('fill')) {
+                            path.setAttribute('fill', 'none');
+                        }
+                    });
+                    
+                    // Также проверяем другие SVG элементы, которые могут иметь fill
+                    const allShapesInCloned = clonedChild.querySelectorAll('circle, ellipse, rect, polygon, polyline');
+                    allShapesInCloned.forEach(shape => {
+                        if (!shape.getAttribute('fill')) {
+                            shape.setAttribute('fill', 'none');
+                        }
+                    });
+                    
                     mapBaseLayer.appendChild(clonedChild);
                 });
                 
