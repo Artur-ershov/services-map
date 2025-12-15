@@ -35,6 +35,7 @@
     const popupContacts = document.getElementById('ksmm-popup-contacts');
     const popupImg = document.getElementById('ksmm-popup-img');
     const popupLink = document.getElementById('ksmm-popup-link');
+    const loadingIndicator = document.getElementById('ksmm-loading-indicator');
 
     function formatAttributes(service) {
         const attrs = service.attributes;
