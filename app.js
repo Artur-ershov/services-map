@@ -13,7 +13,8 @@
     const svgMap = document.getElementById('ksmm-map');
     
     const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
-    const floorSvgCache = {};
+    // Кэш распарсенного DOM (вместо текста SVG) - парсинг происходит только 1 раз
+    const floorDomCache = {};
     let activeAreaId = null;
     let currentBuilding = 'B1';
     let currentFloor = (typeof buildingFloorStructure !== 'undefined' && buildingFloorStructure[currentBuilding]) ? buildingFloorStructure[currentBuilding].defaultFloor : 3;
@@ -296,9 +297,114 @@
         applyMapTransform();
     }
 
+    // Парсит SVG текст и подготавливает кэшированные данные (выполняется только 1 раз на этаж)
+    function parseSvgAndPrepareCache(svgText) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, 'image/svg+xml');
+        const sourceSvg = doc.documentElement;
+        
+        // Собираем все defs, маски и clipPath
+        const defsFragment = document.createDocumentFragment();
+        const existingDefs = sourceSvg.querySelectorAll('defs');
+        existingDefs.forEach(defs => {
+            Array.from(defs.children).forEach(child => {
+                defsFragment.appendChild(child.cloneNode(true));
+            });
+        });
+        
+        // Маски и clipPath вне <defs>
+        const masksOutsideDefs = sourceSvg.querySelectorAll('mask:not(defs mask)');
+        const clipPathsOutsideDefs = sourceSvg.querySelectorAll('clipPath:not(defs clipPath)');
+        masksOutsideDefs.forEach(mask => defsFragment.appendChild(mask.cloneNode(true)));
+        clipPathsOutsideDefs.forEach(clipPath => defsFragment.appendChild(clipPath.cloneNode(true)));
+        
+        // Собираем контент (без defs)
+        const contentFragment = document.createDocumentFragment();
+        Array.from(sourceSvg.children).forEach(child => {
+            if (child.tagName !== 'defs') {
+                const clonedChild = child.cloneNode(true);
+                
+                // Исправление черных зон: устанавливаем fill="none" для элементов без fill
+                // Элементы со stroke должны иметь fill="none", чтобы не становиться черными,
+                // но stroke остается видимым
+                // Выполняется ОДИН РАЗ при парсинге, а не при каждом переключении
+                const allPaths = clonedChild.querySelectorAll('path');
+                allPaths.forEach(path => {
+                    const hasFill = path.getAttribute('fill');
+                    const isInMask = path.closest('mask');
+                    
+                    // Устанавливаем fill="none" только если нет fill и элемент не в mask
+                    // Это предотвратит черный fill по умолчанию, но stroke останется видимым
+                    if (!hasFill && !isInMask) {
+                        path.setAttribute('fill', 'none');
+                    }
+                });
+                
+                const allShapes = clonedChild.querySelectorAll('circle, ellipse, rect, polygon, polyline');
+                allShapes.forEach(shape => {
+                    const hasFill = shape.getAttribute('fill');
+                    const isInMask = shape.closest('mask');
+                    
+                    if (!hasFill && !isInMask) {
+                        shape.setAttribute('fill', 'none');
+                    }
+                });
+                
+                contentFragment.appendChild(clonedChild);
+            }
+        });
+        
+        return {
+            defs: defsFragment,
+            content: contentFragment,
+            viewBox: sourceSvg.getAttribute('viewBox')
+        };
+    }
+    
+    // Вставляет закэшированный контент в DOM (быстрая операция клонирования)
+    function injectCachedFloor(cached, config, sequenceNumber) {
+        if (sequenceNumber !== floorSwitchSequence) return;
+        
+        // Устанавливаем viewBox
+        if (config.viewBox) {
+            svgMap.setAttribute('viewBox', config.viewBox);
+            svgMap.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+        
+        // Очищаем слой
+        mapBaseLayer.innerHTML = '';
+        
+        if (sequenceNumber !== floorSwitchSequence) return;
+        
+        // Вставляем defs (если ещё нет)
+        if (cached.defs.childNodes.length > 0) {
+            let targetDefs = svgMap.querySelector('defs');
+            if (!targetDefs) {
+                targetDefs = document.createElementNS(SVG_NS, 'defs');
+                svgMap.insertBefore(targetDefs, svgMap.firstChild);
+            }
+            
+            // Клонируем defs из кэша
+            const defsClone = cached.defs.cloneNode(true);
+            Array.from(defsClone.childNodes).forEach(child => {
+                // Проверяем, нет ли уже элемента с таким ID
+                if (child.id && svgMap.querySelector(`#${CSS.escape(child.id)}`)) {
+                    return; // Уже существует
+                }
+                targetDefs.appendChild(child);
+            });
+        }
+        
+        if (sequenceNumber !== floorSwitchSequence) return;
+        
+        // Клонируем контент из кэша и вставляем
+        // Примечание: fill="none" для элементов без fill обрабатывается через CSS
+        mapBaseLayer.appendChild(cached.content.cloneNode(true));
+    }
+
     function renderFloorBaseLayer(floorKey, sequenceNumber) {
         return new Promise((resolve) => {
-            // Clear layer immediately for current switch (user sees loading state)
+            // Очищаем слой сразу (пользователь видит состояние загрузки)
             if (sequenceNumber === floorSwitchSequence) {
                 mapBaseLayer.innerHTML = '';
             }
@@ -309,116 +415,14 @@
                 return;
             }
 
-            const injectSvg = (svgText) => {
-                // Check if this operation is still current before modifying DOM
-                if (sequenceNumber !== floorSwitchSequence) {
-                    resolve(); // Stale operation, ignore
-                    return;
-                }
-                
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(svgText, 'image/svg+xml');
-                const sourceSvg = doc.documentElement;
-                
-                // Double-check sequence before DOM modification
-                if (sequenceNumber !== floorSwitchSequence) {
-                    resolve(); // Stale operation, ignore
-                    return;
-                }
-                
-                // Извлекаем viewBox из исходного SVG
-                const sourceViewBox = sourceSvg.getAttribute('viewBox');
-                if (sourceViewBox && config.viewBox) {
-                    // Обновляем viewBox основного SVG
-                    svgMap.setAttribute('viewBox', config.viewBox);
-                    // Устанавливаем preserveAspectRatio для вписывания карты в контейнер
-                    svgMap.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-                }
-                
-                // Извлекаем все дочерние элементы из исходного SVG (не сам SVG)
-                const children = Array.from(sourceSvg.children);
-                
-                mapBaseLayer.innerHTML = '';
-                
-                // Final check before appending children
-                if (sequenceNumber !== floorSwitchSequence) {
-                    resolve(); // Stale operation, ignore
-                    return;
-                }
-                
-                // Собираем все маски, clipPath и другие элементы из <defs> и из всего SVG
-                // Это нужно, потому что некоторые маски могут быть не в <defs>, а внутри групп
-                let allDefsContent = [];
-                const existingDefs = sourceSvg.querySelectorAll('defs');
-                existingDefs.forEach(defs => {
-                    Array.from(defs.children).forEach(child => {
-                        allDefsContent.push(child);
-                    });
-                });
-                
-                // Также ищем маски и clipPath, которые могут быть вне <defs>
-                const masksOutsideDefs = sourceSvg.querySelectorAll('mask:not(defs mask)');
-                const clipPathsOutsideDefs = sourceSvg.querySelectorAll('clipPath:not(defs clipPath)');
-                masksOutsideDefs.forEach(mask => allDefsContent.push(mask));
-                clipPathsOutsideDefs.forEach(clipPath => allDefsContent.push(clipPath));
-                
-                // Создаем <defs> в целевом SVG, если есть что копировать
-                if (allDefsContent.length > 0) {
-                    let targetDefs = svgMap.querySelector('defs');
-                    if (!targetDefs) {
-                        targetDefs = document.createElementNS(SVG_NS, 'defs');
-                        svgMap.insertBefore(targetDefs, svgMap.firstChild);
-                    }
-                    
-                    // Клонируем все элементы defs в целевой SVG
-                    allDefsContent.forEach(defsChild => {
-                        const clonedDefsChild = document.importNode(defsChild, true);
-                        // Проверяем, нет ли уже элемента с таким ID
-                        if (defsChild.id && svgMap.querySelector(`#${defsChild.id}`)) {
-                            // Элемент уже существует, пропускаем
-                            return;
-                        }
-                        targetDefs.appendChild(clonedDefsChild);
-                    });
-                }
-                
-                // Копируем остальные элементы (группы, path и т.д.)
-                children.forEach(child => {
-                    // Пропускаем <defs>, так как мы уже обработали их содержимое
-                    if (child.tagName === 'defs') {
-                        return;
-                    }
-                    const clonedChild = document.importNode(child, true);
-                    
-                    // Исправляем проблему с черными зонами: устанавливаем fill="none" для элементов без fill
-                    // В исходном SVG есть fill="none" на корневом элементе, но при копировании это не наследуется
-                    // Без явного fill="none" браузер применяет черный цвет по умолчанию
-                    const allPathsInCloned = clonedChild.querySelectorAll('path');
-                    allPathsInCloned.forEach(path => {
-                        if (!path.getAttribute('fill')) {
-                            path.setAttribute('fill', 'none');
-                        }
-                    });
-                    
-                    // Также проверяем другие SVG элементы, которые могут иметь fill
-                    const allShapesInCloned = clonedChild.querySelectorAll('circle, ellipse, rect, polygon, polyline');
-                    allShapesInCloned.forEach(shape => {
-                        if (!shape.getAttribute('fill')) {
-                            shape.setAttribute('fill', 'none');
-                        }
-                    });
-                    
-                    mapBaseLayer.appendChild(clonedChild);
-                });
-                
+            // Если есть кэш распарсенного DOM — используем его (мгновенно)
+            if (floorDomCache[floorKey]) {
+                injectCachedFloor(floorDomCache[floorKey], config, sequenceNumber);
                 resolve();
-            };
-
-            if (floorSvgCache[floorKey]) {
-                injectSvg(floorSvgCache[floorKey]);
                 return;
             }
 
+            // Загружаем и парсим SVG (только первый раз)
             fetch(config.src)
                 .then(response => {
                     if (!response.ok) {
@@ -427,13 +431,30 @@
                     return response.text();
                 })
                 .then(text => {
-                    floorSvgCache[floorKey] = text;
-                    injectSvg(text);
+                    // Парсим и кэшируем DOM (один раз)
+                    floorDomCache[floorKey] = parseSvgAndPrepareCache(text);
+                    // Вставляем в DOM
+                    injectCachedFloor(floorDomCache[floorKey], config, sequenceNumber);
+                    resolve();
                 })
                 .catch(err => {
                     console.error(`Не удалось загрузить SVG карту для ${floorKey}:`, err);
                     resolve();
                 });
+        });
+    }
+    
+    // Предзагрузка всех этажей в фоне (после первой загрузки)
+    function preloadAllFloors() {
+        Object.keys(floorPlanCatalog).forEach(floorKey => {
+            if (!floorDomCache[floorKey]) {
+                fetch(floorPlanCatalog[floorKey].src)
+                    .then(r => r.ok ? r.text() : Promise.reject())
+                    .then(text => {
+                        floorDomCache[floorKey] = parseSvgAndPrepareCache(text);
+                    })
+                    .catch(() => {}); // Тихо игнорируем ошибки предзагрузки
+            }
         });
     }
     // --- 5. ФУНКЦИИ РЕНДЕРИНГА (Обновлены) ---
@@ -700,6 +721,13 @@
         renderFloorSwitcher();
         switchFloor(currentBuilding, currentFloor);
         initMapInteraction();
+        
+        // Предзагрузка остальных этажей в фоне (низкий приоритет)
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => preloadAllFloors());
+        } else {
+            setTimeout(preloadAllFloors, 1000);
+        }
         // Обработчик Категорий
         filterControls.addEventListener('click', (e) => {
             if (!e.target.matches('.ksmm-filter-btn')) return;
