@@ -53,9 +53,92 @@
     box-sizing: border-box;
 }
 
+.ksmm-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75em;
+    border-bottom: 1px solid var(--bg);
+}
+
 #ksmm-map-title {
-    padding: 1em 0.75em .5em;
+    padding: 0.25em 0;
     margin: 0;
+    flex: 1;
+}
+
+.ksmm-toggle-panel {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5em;
+    margin-left: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: color 0.2s ease, transform 0.2s ease;
+    border-radius: 4px;
+}
+
+.ksmm-toggle-panel:hover {
+    background-color: var(--hl);
+    color: var(--krok-blue);
+}
+
+.ksmm-toggle-icon {
+    font-size: 1.5em;
+    line-height: 1;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.ksmm-list-container.collapsed .ksmm-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.ksmm-list-container.collapsed {
+    height: auto;
+}
+
+.ksmm-list-container.collapsed .ksmm-search-bar {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+.ksmm-list-container.collapsed .ksmm-filter-controls {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+.ksmm-list-container.collapsed .ksmm-subfilter-controls {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+.ksmm-list-container.collapsed .ksmm-scroll-list {
+    max-height: 0;
+    opacity: 0;
+}
+
+.ksmm-list-container.collapsed .ksmm-title-wrapper {
+    border-bottom: none;
+    padding: 1em 0.75em;
+    white-space: nowrap;
+}
+
+.ksmm-list-container.collapsed #ksmm-map-title {
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 
 /* Контент (Увеличена высота до 900px) */
@@ -63,7 +146,10 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
     height: 100%;
+    position: relative;
 }
+
+
 
 /* --- Стили Левого Блока (Список) --- */
 .ksmm-list-container {
@@ -72,6 +158,8 @@
     display: flex;
     flex-direction: column;
     background: #fdfdfd;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
 /* Поиск */
@@ -79,6 +167,9 @@
     padding: 15px;
     border-bottom: 1px solid var(--bg);
     font-weight: 400;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    overflow: hidden;
+    max-height: 100px;
 }
 
 #ksmm-search-input {
@@ -103,6 +194,9 @@
     border-bottom: 1px solid var(--bg);
     display: flex;
     flex-wrap: wrap;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    overflow: hidden;
+    max-height: 200px;
 }
 
 .ksmm-filter-btn {
@@ -193,6 +287,13 @@
     padding: 0 15px 15px 15px;
     border-bottom: 1px solid var(--bg);
     display: none;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    overflow: hidden;
+    max-height: 200px;
+}
+
+.ksmm-subfilter-controls:not([style*="display: none"]) {
+    display: block;
 }
 
 .ksmm-subfilter-group-title {
@@ -230,6 +331,8 @@
     overflow-y: auto;
     flex: 1 1 0;
     min-height: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    max-height: 1000px;
 }
 
 /* Элементы списка */
@@ -292,6 +395,7 @@
     /*overflow: hidden;*/
     height: 100%;
     min-height: 0;
+    z-index: 1;
 }
 
 .ksmm-floorplan {

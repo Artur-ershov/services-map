@@ -12,8 +12,13 @@
 <body>
     <div id="krok-services-map-module">
         <div class="ksmm-content">
-            <div class="ksmm-list-container">
-                <h2 class="ksmm-map-title" id="ksmm-map-title"></h2>
+            <div class="ksmm-list-container" id="ksmm-list-container">
+                <div class="ksmm-title-wrapper">
+                    <h2 class="ksmm-map-title" id="ksmm-map-title"></h2>
+                    <button class="ksmm-toggle-panel" id="ksmm-toggle-panel" aria-label="Скрыть/показать панель">
+                        <span class="ksmm-toggle-icon">‹</span>
+                    </button>
+                </div>
                 <div class="ksmm-search-bar">
                     <input type="search" id="ksmm-search-input" placeholder="Поиск по названию или описанию...">
                 </div>

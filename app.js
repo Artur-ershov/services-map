@@ -18,6 +18,7 @@
     let currentBuilding = 'B1';
     let currentFloor = (typeof buildingFloorStructure !== 'undefined' && buildingFloorStructure[currentBuilding]) ? buildingFloorStructure[currentBuilding].defaultFloor : 3;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
+    let floorSwitchSequence = 0; // Sequence number to track the most recent floor switch
     const SVG_VIEWBOX_WIDTH = 800;
     const SVG_VIEWBOX_HEIGHT = 550;
 
@@ -295,9 +296,13 @@
         applyMapTransform();
     }
 
-    function renderFloorBaseLayer(floorKey) {
+    function renderFloorBaseLayer(floorKey, sequenceNumber) {
         return new Promise((resolve) => {
-            mapBaseLayer.innerHTML = '';
+            // Clear layer immediately for current switch (user sees loading state)
+            if (sequenceNumber === floorSwitchSequence) {
+                mapBaseLayer.innerHTML = '';
+            }
+            
             const config = floorPlanCatalog[floorKey];
             if (!config) {
                 resolve();
@@ -305,9 +310,21 @@
             }
 
             const injectSvg = (svgText) => {
+                // Check if this operation is still current before modifying DOM
+                if (sequenceNumber !== floorSwitchSequence) {
+                    resolve(); // Stale operation, ignore
+                    return;
+                }
+                
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(svgText, 'image/svg+xml');
                 const sourceSvg = doc.documentElement;
+                
+                // Double-check sequence before DOM modification
+                if (sequenceNumber !== floorSwitchSequence) {
+                    resolve(); // Stale operation, ignore
+                    return;
+                }
                 
                 // Извлекаем viewBox из исходного SVG
                 const sourceViewBox = sourceSvg.getAttribute('viewBox');
@@ -322,6 +339,12 @@
                 // Клонируем все элементы внутри <svg>
                 const children = Array.from(sourceSvg.children);
                 mapBaseLayer.innerHTML = '';
+                
+                // Final check before appending children
+                if (sequenceNumber !== floorSwitchSequence) {
+                    resolve(); // Stale operation, ignore
+                    return;
+                }
                 
                 children.forEach(child => {
                     const clonedChild = document.importNode(child, true);
@@ -440,13 +463,34 @@
         currentBuilding = b;
         currentFloor = f;
         const floorKey = `${b}-F${f}`;
+        // Increment sequence number to mark this as the most recent switch
+        floorSwitchSequence++;
+        const thisSwitchSequence = floorSwitchSequence;
+        
         document.querySelectorAll('.ksmm-floor-btn').forEach(btn => btn.classList.remove('active'));
         const currentBtn = document.querySelector(`.ksmm-floor-btn[data-building="${b}"][data-floor="${f}"]`);
         if (currentBtn) currentBtn.classList.add('active');
 
-        renderFloorBaseLayer(floorKey).then(() => {
+        renderFloorBaseLayer(floorKey, thisSwitchSequence).then(() => {
+            // Check if this is still the most recent floor switch
+            // If user switched floors again, ignore this stale completion
+            if (thisSwitchSequence !== floorSwitchSequence) {
+                return; // Stale operation, ignore
+            }
+            
+            // Use closure-captured values to prevent race conditions
+            // if user switches floors before async operation completes
             renderMapAreas(b, f);
+            // Temporarily set globals to closure values for updateListAndFilters
+            // to ensure consistency even if user switched floors during async operation
+            const savedBuilding = currentBuilding;
+            const savedFloor = currentFloor;
+            currentBuilding = b;
+            currentFloor = f;
             updateListAndFilters();
+            // Restore actual current values (may have changed if user switched floors)
+            currentBuilding = savedBuilding;
+            currentFloor = savedFloor;
             mapState.x = 0;
             mapState.y = 0;
             mapState.scale = 1;
@@ -479,25 +523,6 @@
         }
         // Применяем фильтрацию
         updateView();
-        
-        // #region agent log
-        // Проверяем размеры контейнеров для диагностики проблемы со скроллом
-        setTimeout(() => {
-            const listEl = listContainer;
-            const listContainerEl = listContainer.closest('.ksmm-list-container');
-            const contentEl = document.querySelector('.ksmm-content');
-            const moduleEl = document.getElementById('krok-services-map-module');
-            
-            const listRect = listEl.getBoundingClientRect();
-            const listComputed = window.getComputedStyle(listEl);
-            const listContainerRect = listContainerEl?.getBoundingClientRect();
-            const listContainerComputed = listContainerEl ? window.getComputedStyle(listContainerEl) : null;
-            const contentRect = contentEl?.getBoundingClientRect();
-            const moduleRect = moduleEl?.getBoundingClientRect();
-            
-            fetch('http://127.0.0.1:7242/ingest/18e7525a-b758-45b2-9052-cffaad536804',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app.js:481',message:'Scroll container dimensions check',data:{listScrollHeight:listEl.scrollHeight,listClientHeight:listEl.clientHeight,listOffsetHeight:listEl.offsetHeight,listHeight:listRect.height,listOverflowY:listComputed.overflowY,listFlex:listComputed.flex,listMinHeight:listComputed.minHeight,listContainerHeight:listContainerRect?.height,listContainerComputedHeight:listContainerComputed?.height,contentHeight:contentRect?.height,moduleHeight:moduleRect?.height,itemCount:listEl.children.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        }, 100);
-        // #endregion
     }
     // --- 6. ЛОГИКА ФИЛЬТРОВ ---
     const subfilterDefinitions = {
@@ -646,6 +671,14 @@
         searchInput.addEventListener('input', updateView);
         // Закрытие Pop-up
         popupCloseBtn.addEventListener('click', hidePopup);
+        // Переключение панели
+        const togglePanelBtn = document.getElementById('ksmm-toggle-panel');
+        const listContainerEl = document.getElementById('ksmm-list-container');
+        if (togglePanelBtn && listContainerEl) {
+            togglePanelBtn.addEventListener('click', () => {
+                listContainerEl.classList.toggle('collapsed');
+            });
+        }
     }
     init();
 })();
