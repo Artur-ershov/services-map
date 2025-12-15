@@ -150,6 +150,7 @@ const allServices = [
 ];
 
  const buildingFloorStructure = {
+<<<<<<< Current (Your changes)
     'B1': { label: 'Корпус 1', floors: [3], defaultFloor: 3 }
 };
 =======
