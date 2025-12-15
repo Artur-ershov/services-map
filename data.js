@@ -152,6 +152,12 @@ const allServices = [
  const buildingFloorStructure = {
     'B1': { label: 'Корпус 1', floors: [3], defaultFloor: 3 }
 };
+=======
+     'B1': { label: 'Корпус 1', floors: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], defaultFloor: 3 },
+     'B2': { label: 'Корпус 2', floors: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], defaultFloor: 1 },
+     'B3': { label: 'Корпус 3', floors: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], defaultFloor: 1 }
+ };
+>>>>>>> Incoming (Background Agent changes)
 
 const svgFloorPlans = {
     'B1-F3': {
