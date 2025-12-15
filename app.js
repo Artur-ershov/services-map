@@ -533,43 +533,54 @@
         
         floorDropdownList.innerHTML = '';
         
-        // Создаем плоский список всех этажей всех зданий
-        const allFloors = [];
+        // Создаем контейнер для всех корпусов в виде колонок
+        const buildingsContainer = document.createElement('div');
+        buildingsContainer.className = 'ksmm-floor-dropdown-buildings';
+        
+        // Создаем колонку для каждого корпуса
         for (const buildingKey in buildingFloorStructure) {
             const bData = buildingFloorStructure[buildingKey];
-            bData.floors.forEach(floor => {
-                allFloors.push({
-                    building: buildingKey,
-                    floor: floor,
-                    label: `${bData.label}, ${floor} этаж`
+            
+            // Создаем колонку корпуса
+            const buildingColumn = document.createElement('div');
+            buildingColumn.className = 'ksmm-floor-dropdown-building-column';
+            
+            // Заголовок корпуса
+            const buildingHeader = document.createElement('div');
+            buildingHeader.className = 'ksmm-floor-dropdown-building-header';
+            buildingHeader.textContent = bData.label;
+            buildingColumn.appendChild(buildingHeader);
+            
+            // Контейнер для этажей (вертикальный список)
+            const floorsContainer = document.createElement('div');
+            floorsContainer.className = 'ksmm-floor-dropdown-floors';
+            
+            // Сортируем этажи по возрастанию
+            const sortedFloors = [...bData.floors].sort((a, b) => a - b);
+            
+            // Создаем кнопки этажей
+            sortedFloors.forEach(floor => {
+                const floorBtn = document.createElement('button');
+                floorBtn.className = 'ksmm-floor-dropdown-floor-btn';
+                if (buildingKey === currentBuilding && floor === currentFloor) {
+                    floorBtn.classList.add('active');
+                }
+                floorBtn.textContent = `${floor} этаж`;
+                floorBtn.setAttribute('data-building', buildingKey);
+                floorBtn.setAttribute('data-floor', floor);
+                floorBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    switchFloor(buildingKey, floor);
+                    closeFloorDropdown();
                 });
+                floorsContainer.appendChild(floorBtn);
             });
+            
+            buildingColumn.appendChild(floorsContainer);
+            buildingsContainer.appendChild(buildingColumn);
         }
         
-        // Сортируем: сначала по зданию, потом по этажу (по возрастанию)
-        allFloors.sort((a, b) => {
-            if (a.building !== b.building) {
-                return a.building.localeCompare(b.building);
-            }
-            return a.floor - b.floor;
-        });
-        
-        // Создаем элементы списка
-        allFloors.forEach(item => {
-            const listItem = document.createElement('div');
-            listItem.className = 'ksmm-floor-dropdown-item';
-            if (item.building === currentBuilding && item.floor === currentFloor) {
-                listItem.classList.add('active');
-            }
-            listItem.textContent = item.label;
-            listItem.setAttribute('data-building', item.building);
-            listItem.setAttribute('data-floor', item.floor);
-            listItem.addEventListener('click', () => {
-                switchFloor(item.building, item.floor);
-                closeFloorDropdown();
-            });
-            floorDropdownList.appendChild(listItem);
-        });
+        floorDropdownList.appendChild(buildingsContainer);
     }
     
     function openFloorDropdown() {
@@ -602,11 +613,11 @@
         const thisSwitchSequence = floorSwitchSequence;
         
         // Обновляем активный элемент в дропдауне
-        document.querySelectorAll('.ksmm-floor-dropdown-item').forEach(item => {
-            item.classList.remove('active');
+        document.querySelectorAll('.ksmm-floor-dropdown-floor-btn').forEach(btn => {
+            btn.classList.remove('active');
         });
-        const currentItem = document.querySelector(`.ksmm-floor-dropdown-item[data-building="${b}"][data-floor="${f}"]`);
-        if (currentItem) currentItem.classList.add('active');
+        const currentBtn = document.querySelector(`.ksmm-floor-dropdown-floor-btn[data-building="${b}"][data-floor="${f}"]`);
+        if (currentBtn) currentBtn.classList.add('active');
 
         renderFloorBaseLayer(floorKey, thisSwitchSequence).then(() => {
             // Check if this is still the most recent floor switch

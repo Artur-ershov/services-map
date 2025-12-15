@@ -59,6 +59,8 @@
     justify-content: space-between;
     padding: 0.75em;
     border-bottom: 1px solid var(--bg);
+    position: relative;
+    overflow: visible;
 }
 
 /* Дропдаун выбора этажа */
@@ -110,15 +112,18 @@
     position: absolute;
     top: calc(100% + 4px);
     left: 0;
-    right: 0;
+    min-width: 350px;
+    width: max-content;
+    max-width: calc(100vw - 40px);
     background: white;
     border: 1px solid #ddd;
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
     z-index: 1000;
     animation: dropdownFadeIn 0.2s ease;
+    padding: 12px;
 }
 
 @keyframes dropdownFadeIn {
@@ -132,30 +137,60 @@
     }
 }
 
-.ksmm-floor-dropdown-item {
-    padding: 0.75em 1em;
+/* Контейнер всех корпусов (grid для колонок) */
+.ksmm-floor-dropdown-buildings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+    min-width: 350px;
+}
+
+/* Колонка корпуса */
+.ksmm-floor-dropdown-building-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Заголовок корпуса */
+.ksmm-floor-dropdown-building-header {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 0.5px;
+    padding: 6px 8px 6px 8px;
+    margin-bottom: 6px;
+}
+
+/* Контейнер этажей (вертикальный список) */
+.ksmm-floor-dropdown-floors {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Кнопка этажа */
+.ksmm-floor-dropdown-floor-btn {
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
     cursor: pointer;
-    transition: background-color 0.15s ease;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 0.95em;
+    font-size: 0.9em;
+    transition: all 0.15s ease;
+    color: #666;
+    font-weight: 400;
+    text-align: left;
+    width: 100%;
 }
 
-.ksmm-floor-dropdown-item:last-child {
-    border-bottom: none;
+.ksmm-floor-dropdown-floor-btn:hover {
+    color: var(--krok-blue);
 }
 
-.ksmm-floor-dropdown-item:hover {
-    background-color: var(--hl);
-}
-
-.ksmm-floor-dropdown-item.active {
-    background-color: rgba(var(--krok-blue-rgb), 0.1);
+.ksmm-floor-dropdown-floor-btn.active {
     color: var(--krok-blue);
     font-weight: 600;
-}
-
-.ksmm-floor-dropdown-item.active:hover {
-    background-color: rgba(var(--krok-blue-rgb), 0.15);
 }
 
 .ksmm-toggle-panel {
@@ -252,7 +287,7 @@
     display: flex;
     flex-direction: column;
     background: #fdfdfd;
-    overflow: hidden;
+    overflow: visible;
     transition: max-height 0.3s ease;
 }
 
@@ -739,13 +774,13 @@
     position: absolute;
     top: 20%;
     left: 20px;
-    /*transform: translate(-50%, -50%);*/
-    width: 300px;
+    width: 400px;
+    max-width: calc(100vw - 40px);
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    padding: 20px;
+    padding: 24px;
 }
 
 .ksmm-popup-close {
@@ -817,11 +852,43 @@
     }
 
     .ksmm-floor-dropdown-list {
-        max-height: 250px;
+        max-height: 70vh;
+        padding: 8px;
     }
     
-    .ksmm-floor-dropdown-item {
-        padding: 0.6em 0.8em;
-        font-size: 0.9em;
+    .ksmm-floor-dropdown-buildings {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .ksmm-floor-dropdown-building-header {
+        font-size: 10px;
+        padding: 4px 6px 4px 6px;
+    }
+    
+    .ksmm-floor-dropdown-floors {
+        gap: 3px;
+    }
+    
+    .ksmm-floor-dropdown-floor-btn {
+        padding: 6px 8px;
+        font-size: 0.85em;
+    }
+    
+    .ksmm-popup {
+        width: calc(100% - 40px);
+        max-width: none;
+        min-width: 280px;
+        padding: 20px;
+        left: 20px;
+        right: 20px;
+    }
+    
+    .ksmm-popup-img {
+        height: 160px;
+    }
+    
+    .ksmm-popup h3 {
+        font-size: 1.1em;
     }
 }
