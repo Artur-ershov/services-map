@@ -2,6 +2,7 @@
     // --- 2. ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ и DOM-ЭЛЕМЕНТЫ ---
     const SVG_NS = "http://www.w3.org/2000/svg";
     const mapWrapper = document.getElementById('ksmm-map-wrapper');
+    const mapBaseLayer = document.getElementById('ksmm-map-base');
     const mapAreasContainer = document.getElementById('ksmm-map-areas');
     const mapTitle = document.getElementById('ksmm-map-title');
     const listContainer = document.getElementById('ksmm-services-list');
@@ -10,8 +11,12 @@
     const searchInput = document.getElementById('ksmm-search-input');
     const floorSelect = document.getElementById('ksmm-floor-select');
     const svgMap = document.getElementById('ksmm-map');
+    
+    const floorPlanCatalog = (typeof svgFloorPlans !== 'undefined') ? svgFloorPlans : {};
+    const floorSvgCache = {};
+    let activeAreaId = null;
     let currentBuilding = 'B1';
-    let currentFloor = buildingFloorStructure[currentBuilding].defaultFloor;
+    let currentFloor = (typeof buildingFloorStructure !== 'undefined' && buildingFloorStructure[currentBuilding]) ? buildingFloorStructure[currentBuilding].defaultFloor : 3;
     let mapState = { x: 0, y: 0, scale: 1, dragging: false, startX: 0, startY: 0 };
     let touchState = { 
         touches: [], 
@@ -48,6 +53,27 @@
         return parts.join(' • ');
     }
 
+    function getServicesForFloor(building, floor) {
+        return allServices.filter(s => s.building === building && s.floor === floor);
+    }
+
+    function getZoneElement(areaId) {
+        if (!areaId || !mapBaseLayer) return null;
+        return mapBaseLayer.querySelector(`#${areaId}`);
+    }
+
+    function setActiveArea(areaId) {
+        if (activeAreaId === areaId) return;
+        document.querySelectorAll('.ksmm-map-area.active').forEach(el => el.classList.remove('active'));
+        activeAreaId = null;
+        if (!areaId) return;
+        const targetArea = document.querySelector(`.ksmm-map-area[data-area-id="${areaId}"]`);
+        if (targetArea) {
+            targetArea.classList.add('active');
+            activeAreaId = areaId;
+        }
+    }
+
     function showPopup(service) {
         popupTitle.textContent = service.name;
         popupDesc.textContent = service.desc;
@@ -56,10 +82,14 @@
         popupContacts.textContent = service.contacts;
         popupLink.href = service.link;
         popupLink.style.display = (service.link === '#') ? 'none' : 'inline-block';
+        setActiveArea(service.areaId);
         popup.style.display = 'block';
     }
 
-    function hidePopup() { popup.style.display = 'none'; }
+    function hidePopup() {
+        popup.style.display = 'none';
+        setActiveArea(null);
+    }
 
     function setHighlight(id, state) {
         const service = getServiceById(id);
@@ -71,8 +101,22 @@
         }
     }
     // --- 4. ЛОГИКА КАРТЫ (Pan, Zoom, Center) ---
-    function applyMapTransform() {
+    function applyMapTransform(disableTransition = false) {
+        // Используем transform-origin для зума к курсору
+        // Но для панорамирования нужно использовать translate
+        // Поэтому комбинируем: сначала устанавливаем transform-origin, потом применяем transform
+        if (disableTransition) {
+            mapWrapper.style.transition = 'none';
+        }
         mapWrapper.style.transform = `translate(${mapState.x}px, ${mapState.y}px) scale(${mapState.scale})`;
+        if (disableTransition) {
+            // Восстанавливаем transition после применения transform
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    mapWrapper.style.transition = '';
+                });
+            });
+        }
     }
 
     function initMapInteraction() {
@@ -110,19 +154,74 @@
         // Zoom Logic (Wheel)
         svgMap.addEventListener('wheel', (e) => {
             e.preventDefault();
+            
+            // Временно отключаем transition для мгновенного применения transform
+            // Это нужно для правильной работы зума к курсору
+            const originalTransition = mapWrapper.style.transition;
+            mapWrapper.style.transition = 'none';
+            
+            // Синхронизируем mapState с реальным transform перед вычислениями
+            // Это важно, если предыдущий зум еще не завершился (transition)
+            const currentTransform = window.getComputedStyle(mapWrapper).transform;
+            if (currentTransform !== 'none') {
+                const matrixValues = currentTransform.match(/matrix.*\((.+)\)/)[1].split(', ');
+                mapState.scale = parseFloat(matrixValues[0]);
+                mapState.x = parseFloat(matrixValues[4]);
+                mapState.y = parseFloat(matrixValues[5]);
+            }
+            
             // ПЛАВНЫЙ ЗУМ: Меньший фактор для плавности (1.05)
             const scaleFactor = 1.05;
-            const newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor; // // Ограничиваем зум 
+            const newScale = e.deltaY < 0 ? mapState.scale * scaleFactor : mapState.scale / scaleFactor;
             const prevScale = mapState.scale;
             mapState.scale = Math.max(0.5, Math.min(3, newScale));
-            // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию //
-            if (mapState.scale === prevScale && newScale !== prevScale) return; // // Зум относительно курсора (центр зума) // 
-            const bbox = svgMap.getBoundingClientRect(); //
-            const mouseX = e.clientX - bbox.left; //
-            const mouseY = e.clientY - bbox.top; // // Смещение в зависимости от нового масштаба //
-            mapState.x = mapState.x - (mouseX - mapState.x) * (mapState.scale / prevScale - 1);
-            mapState.y = mapState.y - (mouseY - mapState.y) * (mapState.scale / prevScale - 1);
+            // Если масштаб не изменился (достигли лимита), то не выполняем трансформацию
+            if (mapState.scale === prevScale && newScale !== mapState.scale) {
+                mapWrapper.style.transition = originalTransition;
+                return;
+            }
+            const bbox = svgMap.getBoundingClientRect();
+            const mouseX = e.clientX - bbox.left;
+            const mouseY = e.clientY - bbox.top;
+            
+            // Зум относительно курсора
+            // Transform применяется к wrapper: translate(x, y) scale(s)
+            // Порядок операций: сначала scale, потом translate
+            // Transform-origin по умолчанию для <g> - это (0, 0)
+            //
+            // Чтобы точка под курсором осталась на месте после зума:
+            // 1. Точка под курсором в viewBox координатах (до зума)
+            // 2. После зума эта точка должна остаться на том же месте на экране
+            // 3. Вычисляем новое смещение так, чтобы это было так
+            
+            const viewBox = svgMap.viewBox.baseVal;
+            const viewBoxWidth = viewBox.width || 800;
+            const viewBoxHeight = viewBox.height || 600;
+            const viewBoxToScreenX = bbox.width / viewBoxWidth;
+            const viewBoxToScreenY = bbox.height / viewBoxHeight;
+            
+            // ИСПРАВЛЕННАЯ ФОРМУЛА ЗУМА К КУРСОРУ
+            // Transform: translate(tx, ty) scale(s) применяется в пространстве viewBox
+            // Порядок: сначала scale (относительно 0,0), потом translate
+            // Точка (vx, vy) в пространстве wrapper отображается в viewBox как: (vx * s + tx, vy * s + ty)
+            // И затем viewBox преобразует в экранные координаты: (viewBoxX * viewBoxToScreenX, viewBoxY * viewBoxToScreenY)
+            
+            // 1. Преобразуем координаты мыши из экранных в viewBox
+            const mouseViewBoxX = mouseX / viewBoxToScreenX;
+            const mouseViewBoxY = mouseY / viewBoxToScreenY;
+            
+            // 2. Вычисляем точку в пространстве wrapper (до transform)
+            // viewBoxX = vx * scale + translateX => vx = (viewBoxX - translateX) / scale
+            const vx = (mouseViewBoxX - mapState.x) / prevScale;
+            const vy = (mouseViewBoxY - mapState.y) / prevScale;
+            
+            // 3. После зума, точка должна остаться на том же месте в viewBox
+            // viewBoxX = vx * newScale + newTranslateX => newTranslateX = viewBoxX - vx * newScale
+            mapState.x = mouseViewBoxX - vx * mapState.scale;
+            mapState.y = mouseViewBoxY - vy * mapState.scale;
+            
             applyMapTransform();
+            mapWrapper.style.transition = originalTransition;
         });
         
         // Touch Events для мобильных устройств
