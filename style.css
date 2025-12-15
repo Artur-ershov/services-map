@@ -435,11 +435,99 @@
     border-bottom: 1px solid var(--bg);
     cursor: pointer;
     transition: background-color 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.ksmm-item-content {
+    flex: 1;
+    min-width: 0;
 }
 
 .ksmm-list-item h4 {
     margin: 0 0 8px 0;
     font-variation-settings: 'wdth' 105;
+}
+
+/* Индикатор категории */
+.ksmm-category-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ksmm-category-indicator.filled {
+    border: none;
+}
+
+.ksmm-category-indicator.outlined {
+    background: transparent;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.ksmm-category-indicator[data-category="meeting"].filled {
+    background-color: var(--krok-green);
+}
+
+.ksmm-category-indicator[data-category="meeting"].outlined {
+    border-color: var(--krok-green);
+}
+
+.ksmm-category-indicator[data-category="food"].filled {
+    background-color: var(--krok-orange);
+}
+
+.ksmm-category-indicator[data-category="food"].outlined {
+    border-color: var(--krok-orange);
+}
+
+.ksmm-category-indicator[data-category="sport"].filled {
+    background-color: var(--krok-purple);
+}
+
+.ksmm-category-indicator[data-category="sport"].outlined {
+    border-color: var(--krok-purple);
+}
+
+.ksmm-category-indicator[data-category="relax"].filled {
+    background-color: var(--krok-red);
+}
+
+.ksmm-category-indicator[data-category="relax"].outlined {
+    border-color: var(--krok-red);
+}
+
+.ksmm-category-indicator[data-category="service"].filled {
+    background-color: var(--krok-blue);
+}
+
+.ksmm-category-indicator[data-category="service"].outlined {
+    border-color: var(--krok-blue);
+}
+
+/* Информация о местоположении */
+.ksmm-item-location {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    color: #999;
+    font-weight: 400;
+}
+
+/* Заголовки секций */
+.ksmm-list-section-title {
+    padding: 12px 20px 8px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 0.5px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid var(--bg);
+    margin-top: 8px;
 }
 
 .ksmm-list-item p {

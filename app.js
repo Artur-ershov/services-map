@@ -459,17 +459,27 @@
         });
     }
     // --- 5. ФУНКЦИИ РЕНДЕРИНГА (Обновлены) ---
-    function createListItem(service) {
+    function createListItem(service, isCurrentFloor = false) {
         const item = document.createElement('div');
         item.className = 'ksmm-list-item';
         item.setAttribute('data-id', service.id);
         item.setAttribute('data-category', service.category);
         item.setAttribute('data-area-id', service.areaId);
+        item.setAttribute('data-building', service.building);
+        item.setAttribute('data-floor', service.floor);
+        
         const formattedAttrs = formatAttributes(service);
+        const indicatorClass = isCurrentFloor ? 'filled' : 'outlined';
+        const locationText = isCurrentFloor ? '' : `<p class="ksmm-item-location">${buildingFloorStructure[service.building].label}, ${service.floor} этаж</p>`;
+        
         item.innerHTML = `
-    <h4>${service.name}</h4>
-    <p class="ksmm-item-attrs">${formattedAttrs}</p>
-    `;
+            <span class="ksmm-category-indicator ${indicatorClass}" data-category="${service.category}"></span>
+            <div class="ksmm-item-content">
+                <h4>${service.name}</h4>
+                <p class="ksmm-item-attrs">${formattedAttrs}</p>
+                ${locationText}
+            </div>
+        `;
         listContainer.appendChild(item);
         return item;
     }
@@ -626,24 +636,86 @@
         });
     }
 
+    function createSectionTitle(text) {
+        const sectionTitle = document.createElement('div');
+        sectionTitle.className = 'ksmm-list-section-title';
+        sectionTitle.textContent = text;
+        return sectionTitle;
+    }
+
     function updateListAndFilters() {
         listContainer.innerHTML = '';
-        const servicesOnCurrentFloor = getServicesForFloor(currentBuilding, currentFloor);
-        if (servicesOnCurrentFloor.length === 0) {
-            listContainer.innerHTML = '<div style="padding: 15px; color: #999;">На этом этаже пока нет зарегистрированных сервисов.</div>';
-            return;
-        }
-        // Создаем элементы списка для текущего этажа
-        servicesOnCurrentFloor.forEach(service => {
-            const item = createListItem(service);
-            item.addEventListener('click', () => {
-                showPopup(service);
-                centerOnArea(service.areaId);
-            });
-            item.addEventListener('mouseenter', () => setHighlight(service.id, true));
-            item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+        
+        // Разделяем все сервисы на группы
+        const currentFloorServices = allServices.filter(s => s.building === currentBuilding && s.floor === currentFloor);
+        const otherFloorsServices = allServices.filter(s => s.building === currentBuilding && s.floor !== currentFloor);
+        const otherBuildingsServices = allServices.filter(s => s.building !== currentBuilding);
+        
+        // Сортируем другие этажи от ближнего к дальнему
+        otherFloorsServices.sort((a, b) => {
+            const diffA = Math.abs(a.floor - currentFloor);
+            const diffB = Math.abs(b.floor - currentFloor);
+            if (diffA !== diffB) {
+                return diffA - diffB;
+            }
+            return a.floor - b.floor;
         });
-        // Сбрасываем/рендерим подфильтры для текущей категории/этажа
+        
+        // Текущий этаж
+        if (currentFloorServices.length > 0) {
+            currentFloorServices.forEach(service => {
+                const item = createListItem(service, true);
+                item.addEventListener('click', () => {
+                    showPopup(service);
+                    centerOnArea(service.areaId);
+                });
+                item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+            });
+        } else {
+            const emptyMsg = document.createElement('div');
+            emptyMsg.style.cssText = 'padding: 15px; color: #999;';
+            emptyMsg.textContent = 'На этом этаже пока нет зарегистрированных сервисов.';
+            listContainer.appendChild(emptyMsg);
+        }
+        
+        // Другие этажи
+        if (otherFloorsServices.length > 0) {
+            listContainer.appendChild(createSectionTitle('Другие этажи'));
+            otherFloorsServices.forEach(service => {
+                const item = createListItem(service, false);
+                item.addEventListener('click', () => {
+                    switchFloor(service.building, service.floor);
+                    // После переключения показываем попап и центрируем на области
+                    setTimeout(() => {
+                        showPopup(service);
+                        centerOnArea(service.areaId);
+                    }, 100);
+                });
+                item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+            });
+        }
+        
+        // Другие корпуса
+        if (otherBuildingsServices.length > 0) {
+            listContainer.appendChild(createSectionTitle('Другие корпуса'));
+            otherBuildingsServices.forEach(service => {
+                const item = createListItem(service, false);
+                item.addEventListener('click', () => {
+                    switchFloor(service.building, service.floor);
+                    // После переключения показываем попап и центрируем на области
+                    setTimeout(() => {
+                        showPopup(service);
+                        centerOnArea(service.areaId);
+                    }, 100);
+                });
+                item.addEventListener('mouseenter', () => setHighlight(service.id, true));
+                item.addEventListener('mouseleave', () => setHighlight(service.id, false));
+            });
+        }
+        
+        // Сбрасываем/рендерим подфильтры для текущей категории
         const currentCategory = filterControls.querySelector('.active')?.getAttribute('data-category');
         if (currentCategory) {
             renderSubfilters(currentCategory);
@@ -672,7 +744,7 @@
             const groupEl = document.createElement('div');
             groupEl.className = 'ksmm-subfilter-group';
             const allValues = allServices
-                .filter(s => s.building === currentBuilding && s.floor === currentFloor && s.category === category && s.attributes[attrKey])
+                .filter(s => s.category === category && s.attributes[attrKey])
                 .map(s => s.attributes[attrKey]);
             const uniqueValues = [...new Set(allValues)].sort();
             if (uniqueValues.length === 0) return;
@@ -712,13 +784,15 @@
         const currentCategory = activeFilter.getAttribute('data-category');
         const currentSearch = searchInput.value.toLowerCase();
         const currentSubfilters = getActiveSubfilters();
-        // Фильтруем только сервисы на текущем этаже
-        const currentFloorServices = allServices.filter(s => s.building === currentBuilding && s.floor === currentFloor);
-        currentFloorServices.forEach(service => {
-            const id = service.id;
-            const listItem = document.querySelector(`.ksmm-list-item[data-id="${id}"]`);
-            const mapArea = document.querySelector(`.ksmm-map-area[data-service-id="${id}"]`);
-            if (!listItem) return; // Элемент списка может отсутствовать, если нет сервисов на этаже
+        
+        // Применяем фильтры ко всем сервисам в списке
+        document.querySelectorAll('.ksmm-list-item').forEach(listItem => {
+            const serviceId = parseInt(listItem.getAttribute('data-id'));
+            const service = getServiceById(serviceId);
+            if (!service) return;
+            
+            const mapArea = document.querySelector(`.ksmm-map-area[data-service-id="${serviceId}"]`);
+            
             // 1. Фильтр по Категории
             const isCategoryMatch = (currentCategory === 'all' || service.category === currentCategory);
             // 2. Фильтр по Поиску
@@ -739,7 +813,7 @@
             const isVisible = isCategoryMatch && isSearchMatch && isSubfilterMatch;
             // СПИСОК СКРЫВАЕМ
             listItem.classList.toggle('hidden', !isVisible);
-            // КАРТУ ПРИГЛУШАЕМ (если mapArea существует)
+            // КАРТУ ПРИГЛУШАЕМ (если mapArea существует - только для текущего этажа)
             if (mapArea) {
                 mapArea.classList.toggle('dimmed', !isVisible);
                 // 5. Логика Подсветки Поиска
@@ -753,6 +827,20 @@
                     mapArea.classList.remove('search-match-priority', 'search-match-secondary');
                 }
             }
+        });
+        
+        // Скрываем заголовки секций, если все элементы в секции скрыты
+        document.querySelectorAll('.ksmm-list-section-title').forEach(sectionTitle => {
+            let hasVisibleItems = false;
+            let nextElement = sectionTitle.nextElementSibling;
+            while (nextElement && !nextElement.classList.contains('ksmm-list-section-title')) {
+                if (nextElement.classList.contains('ksmm-list-item') && !nextElement.classList.contains('hidden')) {
+                    hasVisibleItems = true;
+                    break;
+                }
+                nextElement = nextElement.nextElementSibling;
+            }
+            sectionTitle.style.display = hasVisibleItems ? 'block' : 'none';
         });
     }
     // --- 7. ЗАПУСК И ИНИЦИАЛИЗАЦИЯ ---
