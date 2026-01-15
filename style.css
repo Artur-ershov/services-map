@@ -39,7 +39,7 @@
 
 /* Общий контейнер модуля */
 #krok-services-map-module {
-    font-family: "Crocnew", sans-serif;
+    font-family: "Croc", sans-serif;
     max-width: 100%;
     height: 100vh;
     margin: auto;
@@ -59,92 +59,157 @@
     justify-content: space-between;
     padding: 0.75em;
     border-bottom: 1px solid var(--bg);
+    position: relative;
+    overflow: visible;
 }
 
-#ksmm-map-title {
-    padding: 0.25em 0;
-    margin: 0;
+/* Дропдаун выбора этажа */
+.ksmm-floor-dropdown {
+    position: relative;
     flex: 1;
 }
 
-.ksmm-toggle-panel {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5em;
-    margin-left: 0.5em;
+.ksmm-floor-dropdown-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #666;
-    transition: color 0.2s ease, transform 0.2s ease;
-    border-radius: 4px;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5em 0.75em;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.2s ease;
+    text-align: left;
 }
 
-.ksmm-toggle-panel:hover {
+.ksmm-floor-dropdown-btn:hover {
+    border-color: var(--krok-blue);
     background-color: var(--hl);
-    color: var(--krok-blue);
 }
 
-.ksmm-toggle-icon {
-    font-size: 1.5em;
-    line-height: 1;
-    font-weight: bold;
+.ksmm-floor-dropdown-btn:focus {
+    outline: none;
+    border-color: var(--krok-blue);
+    box-shadow: 0 0 0 2px rgba(var(--krok-blue-rgb), 0.2);
+}
+
+.ksmm-floor-dropdown-arrow {
+    margin-left: 0.5em;
+    font-size: 0.75em;
     transition: transform 0.3s ease;
+    color: #666;
 }
 
-.ksmm-list-container.collapsed .ksmm-toggle-icon {
+.ksmm-floor-dropdown.open .ksmm-floor-dropdown-arrow {
     transform: rotate(180deg);
 }
 
-.ksmm-list-container.collapsed {
-    height: auto;
+.ksmm-floor-dropdown-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 350px;
+    width: max-content;
+    max-width: calc(100vw - 40px);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: dropdownFadeIn 0.2s ease;
+    padding: 12px;
 }
 
-.ksmm-list-container.collapsed .ksmm-search-bar {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    opacity: 0;
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.ksmm-list-container.collapsed .ksmm-filter-controls {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    opacity: 0;
+/* Контейнер всех корпусов (grid для колонок) */
+.ksmm-floor-dropdown-buildings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+    min-width: 350px;
 }
 
-.ksmm-list-container.collapsed .ksmm-subfilter-controls {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    opacity: 0;
+/* Колонка корпуса */
+.ksmm-floor-dropdown-building-column {
+    display: flex;
+    flex-direction: column;
 }
 
-.ksmm-list-container.collapsed .ksmm-scroll-list {
-    max-height: 0;
-    opacity: 0;
+/* Заголовок корпуса (кликабельный) */
+.ksmm-floor-dropdown-building-header {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 0.5px;
+    padding: 8px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
 }
 
-.ksmm-list-container.collapsed .ksmm-title-wrapper {
-    border-bottom: none;
-    padding: 1em 0.75em;
-    white-space: nowrap;
+.ksmm-floor-dropdown-building-header:hover {
+    background-color: rgba(var(--krok-blue-rgb), 0.05);
+    color: var(--krok-blue);
 }
 
-.ksmm-list-container.collapsed #ksmm-map-title {
-    flex: 0 0 auto;
-    white-space: nowrap;
+.ksmm-floor-dropdown-building-header.active {
+    background-color: rgba(var(--krok-blue-rgb), 0.1);
+    color: var(--krok-blue);
 }
+
+/* Контейнер этажей (вертикальный список) */
+.ksmm-floor-dropdown-floors {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Кнопка этажа */
+.ksmm-floor-dropdown-floor-btn {
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.15s ease;
+    color: #666;
+    font-weight: 400;
+    text-align: left;
+    width: 100%;
+}
+
+.ksmm-floor-dropdown-floor-btn:hover {
+    color: var(--krok-blue);
+}
+
+.ksmm-floor-dropdown-floor-btn.active {
+    color: var(--krok-blue);
+    font-weight: 600;
+}
+
 
 /* Контент (Увеличена высота до 900px) */
 .ksmm-content {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 2fr 7fr;
     height: 100%;
     position: relative;
 }
@@ -158,7 +223,7 @@
     display: flex;
     flex-direction: column;
     background: #fdfdfd;
-    overflow: hidden;
+    overflow: visible;
     transition: max-height 0.3s ease;
 }
 
@@ -209,6 +274,7 @@
     margin-bottom: 8px;
     font-size: 13px;
     font-weight: bold;
+    font-variation-settings: 'wdth' 112;
     transition: all 0.2s ease;
 }
 
@@ -341,11 +407,99 @@
     border-bottom: 1px solid var(--bg);
     cursor: pointer;
     transition: background-color 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.ksmm-item-content {
+    flex: 1;
+    min-width: 0;
 }
 
 .ksmm-list-item h4 {
     margin: 0 0 8px 0;
     font-variation-settings: 'wdth' 105;
+}
+
+/* Индикатор категории */
+.ksmm-category-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ksmm-category-indicator.filled {
+    border: none;
+}
+
+.ksmm-category-indicator.outlined {
+    background: transparent;
+    border-width: 1.5px;
+    border-style: solid;
+}
+
+.ksmm-category-indicator[data-category="meeting"].filled {
+    background-color: var(--krok-green);
+}
+
+.ksmm-category-indicator[data-category="meeting"].outlined {
+    border-color: var(--krok-green);
+}
+
+.ksmm-category-indicator[data-category="food"].filled {
+    background-color: var(--krok-orange);
+}
+
+.ksmm-category-indicator[data-category="food"].outlined {
+    border-color: var(--krok-orange);
+}
+
+.ksmm-category-indicator[data-category="sport"].filled {
+    background-color: var(--krok-purple);
+}
+
+.ksmm-category-indicator[data-category="sport"].outlined {
+    border-color: var(--krok-purple);
+}
+
+.ksmm-category-indicator[data-category="relax"].filled {
+    background-color: var(--krok-red);
+}
+
+.ksmm-category-indicator[data-category="relax"].outlined {
+    border-color: var(--krok-red);
+}
+
+.ksmm-category-indicator[data-category="service"].filled {
+    background-color: var(--krok-blue);
+}
+
+.ksmm-category-indicator[data-category="service"].outlined {
+    border-color: var(--krok-blue);
+}
+
+/* Информация о местоположении */
+body p.ksmm-item-location {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    color: #999;
+    font-weight: 400;
+}
+
+/* Заголовки секций */
+.ksmm-list-section-title {
+    padding: 12px 20px 8px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 0.5px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid var(--bg);
+    margin-top: 8px;
 }
 
 .ksmm-list-item p {
@@ -398,6 +552,109 @@
     z-index: 1;
 }
 
+/* Кнопки навигации этажей (вертикальные) */
+.ksmm-floor-nav-btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 120px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    color: var(--krok-blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    z-index: 100;
+    transition: all 0.2s ease;
+}
+
+.ksmm-floor-nav-btn:hover {
+    background: var(--krok-blue);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--krok-blue-rgb), 0.4);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.ksmm-floor-nav-btn-prev {
+    top: 20px;
+}
+
+.ksmm-floor-nav-btn-next {
+    bottom: 20px;
+}
+
+.ksmm-floor-nav-btn .ksmm-nav-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.ksmm-floor-nav-btn .ksmm-nav-label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Кнопки навигации корпусов (горизонтальные) */
+.ksmm-building-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 120px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    color: var(--krok-blue);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 100;
+    transition: all 0.2s ease;
+}
+
+.ksmm-building-nav-btn:hover {
+    background: var(--krok-blue);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--krok-blue-rgb), 0.4);
+    transform: translateY(-50%) translateX(-2px);
+}
+
+.ksmm-building-nav-btn-prev:hover {
+    transform: translateY(-50%) translateX(2px);
+}
+
+.ksmm-building-nav-btn-prev {
+    left: 20px;
+}
+
+.ksmm-building-nav-btn-next {
+    right: 20px;
+}
+
+.ksmm-building-nav-btn .ksmm-nav-icon {
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.ksmm-building-nav-btn .ksmm-nav-label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
 .ksmm-floorplan {
     width: 100%;
     height: 100%;
@@ -411,7 +668,9 @@
     pointer-events: none;
 }
 
-
+/* Исправление черных зон: элементы без fill наследуют fill="none" от корневого SVG
+   JS обработка устанавливает fill="none" для всех элементов без fill (включая элементы со stroke)
+   Stroke остается видимым независимо от fill */
 
 #ksmm-map {
     width: 100%;
@@ -451,18 +710,81 @@
     pointer-events: none;
 }
 
-.ksmm-map-area[data-category="meeting"] {
-    fill: var(--zone-meeting);
+/* Стили для режима просмотра корпуса */
+.ksmm-floor-rectangle {
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.ksmm-map-area[data-category="food"] {
-    fill: var(--zone-food);
+.ksmm-floor-rectangle .ksmm-floor-svg {
+    transition: opacity 0.2s ease;
+    pointer-events: all;
 }
 
+.ksmm-floor-rectangle .ksmm-floor-svg path {
+    transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, opacity 0.2s ease;
+}
+
+/* Подсветка при наведении на этаж */
+.ksmm-floor-rectangle:hover,
+.ksmm-floor-rectangle.hovered {
+    transform: translateX(-10px);
+}
+
+.ksmm-floor-rectangle:hover .ksmm-floor-svg,
+.ksmm-floor-rectangle.hovered .ksmm-floor-svg {
+    opacity: 1;
+}
+
+.ksmm-floor-rectangle:hover .ksmm-floor-svg path,
+.ksmm-floor-rectangle.hovered .ksmm-floor-svg path {
+    stroke: var(--krok-blue);
+    stroke-width: 3;
+    opacity: 1;
+}
+
+/* Подсветка при подсветке сервиса */
+.ksmm-floor-rectangle.service-highlighted {
+    transform: translateX(-10px);
+}
+
+.ksmm-floor-rectangle.service-highlighted .ksmm-floor-svg {
+    opacity: 1;
+}
+
+.ksmm-floor-rectangle.service-highlighted .ksmm-floor-svg path {
+    stroke: var(--krok-blue);
+    stroke-width: 3;
+    opacity: 1;
+}
+
+/* Неактивные этажи - приглушенные */
+.ksmm-floor-rectangle:not(:hover):not(.hovered):not(.service-highlighted) .ksmm-floor-svg {
+    opacity: 0.6;
+}
+
+.ksmm-floor-rectangle:not(:hover):not(.hovered):not(.service-highlighted) .ksmm-floor-svg path {
+    opacity: 0.8;
+}
+
+/* Кружочки сервисов в режиме корпуса */
+.ksmm-service-dot {
+    transition: r 0.2s ease, opacity 0.2s ease;
+}
+
+.ksmm-service-dot:hover {
+    opacity: 0.8;
+}
+
+/* Приглушаем кружочки на неактивных этажах */
+.ksmm-floor-rectangle:not(:hover):not(.hovered):not(.service-highlighted) .ksmm-service-dot {
+    opacity: 0.5;
+}
+
+/* Убрали fill для категорий - используем только opacity */
 .ksmm-map-area.highlight,
 .ksmm-map-area.active {
     opacity: var(--zone-opacity-active);
-    stroke-width: 1;
 }
 
 .ksmm-map-area.dimmed {
@@ -555,8 +877,8 @@
     position: absolute;
     top: 20%;
     left: 20px;
-    /*transform: translate(-50%, -50%);*/
     width: 300px;
+    max-width: calc(100vw - 40px);
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -568,19 +890,26 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: none;
+    background: white;
     border: none;
     font-size: 24px;
     cursor: pointer;
     color: #aaa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ksmm-popup-img {
-    width: 100%;
+    width: calc(100% + 40px);
     height: 150px;
     object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 15px;
+    border-radius: 8px 8px 0 0;
+    margin: -20px -20px 15px -20px;
     background: #f0f0f0;
 }
 
@@ -591,6 +920,7 @@
 .ksmm-popup p {
     margin: 5px 0;
     font-size: 14px;
+    white-space: pre-line;
 }
 
 #ksmm-popup-contacts {
@@ -632,9 +962,44 @@
         max-height: 400px;
     }
 
-    .ksmm-floor-switcher {
-        top: 10px;
-        right: 10px;
-        padding: 5px;
+    .ksmm-floor-dropdown-list {
+        max-height: 70vh;
+        padding: 8px;
+    }
+    
+    .ksmm-floor-dropdown-buildings {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .ksmm-floor-dropdown-building-header {
+        font-size: 10px;
+        padding: 4px 6px 4px 6px;
+    }
+    
+    .ksmm-floor-dropdown-floors {
+        gap: 3px;
+    }
+    
+    .ksmm-floor-dropdown-floor-btn {
+        padding: 6px 8px;
+        font-size: 0.85em;
+    }
+    
+    .ksmm-popup {
+        width: calc(100% - 40px);
+        max-width: none;
+        min-width: 280px;
+        padding: 20px;
+        left: 20px;
+        right: 20px;
+    }
+    
+    .ksmm-popup-img {
+        height: 160px;
+    }
+    
+    .ksmm-popup h3 {
+        font-size: 1.1em;
     }
 }

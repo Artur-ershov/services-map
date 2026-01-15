@@ -1,0 +1,1345 @@
+{
+  "generated": "2026-01-15T10:41:58.517188",
+  "services": [
+    {
+      "id": 1000,
+      "name": "Входная группа",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-enter",
+      "recommendedLayerId": "b1f1-enter",
+      "recommendedLayerName": "Входная группа",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1001,
+      "name": "Отдел писем",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-letter",
+      "recommendedLayerId": "b1f1-letter",
+      "recommendedLayerName": "Отдел писем",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1002,
+      "name": "КРОК кофе",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-coffee",
+      "recommendedLayerId": "b1f1-coffee",
+      "recommendedLayerName": "КРОК кофе",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1003,
+      "name": "Банкомат Сбербанка",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-atm",
+      "recommendedLayerId": "b1f1-atm",
+      "recommendedLayerName": "Банкомат Сбербанка",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1004,
+      "name": "Вендинг",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-vending",
+      "recommendedLayerId": "b1f1-vending",
+      "recommendedLayerName": "Вендинг",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1005,
+      "name": "Гардероб",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-garderob",
+      "recommendedLayerId": "b1f1-garderob",
+      "recommendedLayerName": "Гардероб",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1006,
+      "name": "Лифты",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-elevator-1",
+      "recommendedLayerId": "b1f1-elevator-1",
+      "recommendedLayerName": "Лифты",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1007,
+      "name": "Charity Shop",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-charity-shop",
+      "recommendedLayerId": "b1f1-charity-shop",
+      "recommendedLayerName": "Charity Shop",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1008,
+      "name": "EcoPoint",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-eco-point",
+      "recommendedLayerId": "b1f1-eco-point",
+      "recommendedLayerName": "EcoPoint",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1009,
+      "name": "Утилизация батареек",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-batteries",
+      "recommendedLayerId": "b1f1-batteries",
+      "recommendedLayerName": "Утилизация батареек",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1010,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1011,
+      "name": "Станция мониторинга воздуха AirVisual",
+      "building": "B1",
+      "floor": 1,
+      "areaId": "b1f1-air",
+      "recommendedLayerId": "b1f1-air",
+      "recommendedLayerName": "Станция мониторинга воздуха AirVisual",
+      "recommendedPath": "Building_B1/Floor_1/Services"
+    },
+    {
+      "id": 1012,
+      "name": "Конференц-зал + холл перед ним",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-212",
+      "recommendedLayerId": "b1f2-212",
+      "recommendedLayerName": "Конференц-зал + холл перед ним",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1013,
+      "name": "Переговорка",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-212a",
+      "recommendedLayerId": "b1f2-212a",
+      "recommendedLayerName": "Переговорка",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1014,
+      "name": "Конференц-зал",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-214",
+      "recommendedLayerId": "b1f2-214",
+      "recommendedLayerName": "Конференц-зал",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1015,
+      "name": "Переговорная 204",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-204",
+      "recommendedLayerId": "b1f2-204",
+      "recommendedLayerName": "Переговорная 204",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1016,
+      "name": "Переговорная 206",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-206",
+      "recommendedLayerId": "b1f2-206",
+      "recommendedLayerName": "Переговорная 206",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1017,
+      "name": "Переговорная 208",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-208",
+      "recommendedLayerId": "b1f2-208",
+      "recommendedLayerName": "Переговорная 208",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1018,
+      "name": "Переговорная 210",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-210",
+      "recommendedLayerId": "b1f2-210",
+      "recommendedLayerName": "Переговорная 210",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1019,
+      "name": "Учебный класс (аудитория  202)",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-202",
+      "recommendedLayerId": "b1f2-202",
+      "recommendedLayerName": "Учебный класс (аудитория  202)",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1020,
+      "name": "Мультимедийный класс",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "b1f2-2b",
+      "recommendedLayerId": "b1f2-2b",
+      "recommendedLayerName": "Мультимедийный класс",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1021,
+      "name": "Столовая",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "service_Столовая",
+      "recommendedLayerId": "service_Столовая",
+      "recommendedLayerName": "Столовая",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1022,
+      "name": "Утилизация пластиковых крышек",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "service_Утилизация-пластиковых-крышек",
+      "recommendedLayerId": "service_Утилизация-пластиковых-крышек",
+      "recommendedLayerName": "Утилизация пластиковых крышек",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1023,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1024,
+      "name": "Зона для настолок в столовой",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "service_Зона-для-настолок-в-столовой",
+      "recommendedLayerId": "service_Зона-для-настолок-в-столовой",
+      "recommendedLayerName": "Зона для настолок в столовой",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1025,
+      "name": "Буфет",
+      "building": "B1",
+      "floor": 2,
+      "areaId": "area_201",
+      "recommendedLayerId": "area_201",
+      "recommendedLayerName": "Буфет",
+      "recommendedPath": "Building_B1/Floor_2/Services"
+    },
+    {
+      "id": 1026,
+      "name": "Кикер",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_холл-(оранжевый-квадратик-на-карте-)",
+      "recommendedLayerId": "area_холл-(оранжевый-квадратик-на-карте-)",
+      "recommendedLayerName": "Кикер",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1027,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_3Б",
+      "recommendedLayerId": "area_3Б",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1028,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_306",
+      "recommendedLayerId": "area_306",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1029,
+      "name": "Комната отдыха",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_316",
+      "recommendedLayerId": "area_316",
+      "recommendedLayerName": "Комната отдыха",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1030,
+      "name": "Спортзал",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_318",
+      "recommendedLayerId": "area_318",
+      "recommendedLayerName": "Спортзал",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1031,
+      "name": "Раздевалка и душевые (спортзал)",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_318",
+      "recommendedLayerId": "area_318",
+      "recommendedLayerName": "Раздевалка и душевые (спортзал)",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1032,
+      "name": "Стоматологический кабинет",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_308",
+      "recommendedLayerId": "area_308",
+      "recommendedLayerName": "Стоматологический кабинет",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1033,
+      "name": "Кабинет парикмахера и мастера по маникюру",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_314",
+      "recommendedLayerId": "area_314",
+      "recommendedLayerName": "Кабинет парикмахера и мастера по маникюру",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1034,
+      "name": "",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "service_",
+      "recommendedLayerId": "service_",
+      "recommendedLayerName": "",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1035,
+      "name": "Массажный кабинет",
+      "building": "B1",
+      "floor": 3,
+      "areaId": "area_308А",
+      "recommendedLayerId": "area_308А",
+      "recommendedLayerName": "Массажный кабинет",
+      "recommendedPath": "Building_B1/Floor_3/Services"
+    },
+    {
+      "id": 1036,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-Б",
+      "recommendedLayerId": "area_402-Б",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1037,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-Г",
+      "recommendedLayerId": "area_402-Г",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1038,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-Д",
+      "recommendedLayerId": "area_402-Д",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1039,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-Е",
+      "recommendedLayerId": "area_402-Е",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1040,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-З",
+      "recommendedLayerId": "area_402-З",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1041,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-И",
+      "recommendedLayerId": "area_402-И",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1042,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-К",
+      "recommendedLayerId": "area_402-К",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1043,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_402-Л",
+      "recommendedLayerId": "area_402-Л",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1044,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_4Б",
+      "recommendedLayerId": "area_4Б",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1045,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1046,
+      "name": "Ресепшен",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "service_Ресепшен",
+      "recommendedLayerId": "service_Ресепшен",
+      "recommendedLayerName": "Ресепшен",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1047,
+      "name": "Зона ожидания",
+      "building": "B1",
+      "floor": 4,
+      "areaId": "service_Зона-ожидания",
+      "recommendedLayerId": "service_Зона-ожидания",
+      "recommendedLayerName": "Зона ожидания",
+      "recommendedPath": "Building_B1/Floor_4/Services"
+    },
+    {
+      "id": 1048,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 5,
+      "areaId": "area_504",
+      "recommendedLayerId": "area_504",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_5/Services"
+    },
+    {
+      "id": 1049,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 5,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_5/Services"
+    },
+    {
+      "id": 1050,
+      "name": "Ресепшен",
+      "building": "B1",
+      "floor": 5,
+      "areaId": "service_Ресепшен",
+      "recommendedLayerId": "service_Ресепшен",
+      "recommendedLayerName": "Ресепшен",
+      "recommendedPath": "Building_B1/Floor_5/Services"
+    },
+    {
+      "id": 1051,
+      "name": "Акустические кабинки",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "area_Холл-6-этажа",
+      "recommendedLayerId": "area_Холл-6-этажа",
+      "recommendedLayerName": "Акустические кабинки",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1052,
+      "name": "Комната тишины",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "area_603",
+      "recommendedLayerId": "area_603",
+      "recommendedLayerName": "Комната тишины",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1053,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "area_608",
+      "recommendedLayerId": "area_608",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1054,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "area_6-Б",
+      "recommendedLayerId": "area_6-Б",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1055,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "area_606",
+      "recommendedLayerId": "area_606",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1056,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1057,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 6,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_6/Services"
+    },
+    {
+      "id": 1058,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 7,
+      "areaId": "area_712",
+      "recommendedLayerId": "area_712",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_7/Services"
+    },
+    {
+      "id": 1059,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 7,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_7/Services"
+    },
+    {
+      "id": 1060,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 7,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_7/Services"
+    },
+    {
+      "id": 1061,
+      "name": "Конмата тишины",
+      "building": "B1",
+      "floor": 8,
+      "areaId": "area_803",
+      "recommendedLayerId": "area_803",
+      "recommendedLayerName": "Конмата тишины",
+      "recommendedPath": "Building_B1/Floor_8/Services"
+    },
+    {
+      "id": 1062,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 8,
+      "areaId": "area_808",
+      "recommendedLayerId": "area_808",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_8/Services"
+    },
+    {
+      "id": 1063,
+      "name": "Учебный зал",
+      "building": "B1",
+      "floor": 8,
+      "areaId": "area_810",
+      "recommendedLayerId": "area_810",
+      "recommendedLayerName": "Учебный зал",
+      "recommendedPath": "Building_B1/Floor_8/Services"
+    },
+    {
+      "id": 1064,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 7,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_7/Services"
+    },
+    {
+      "id": 1065,
+      "name": "Конмата тишины",
+      "building": "B1",
+      "floor": 9,
+      "areaId": "area_903",
+      "recommendedLayerId": "area_903",
+      "recommendedLayerName": "Конмата тишины",
+      "recommendedPath": "Building_B1/Floor_9/Services"
+    },
+    {
+      "id": 1066,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 9,
+      "areaId": "area_9Б",
+      "recommendedLayerId": "area_9Б",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_9/Services"
+    },
+    {
+      "id": 1067,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 9,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_9/Services"
+    },
+    {
+      "id": 1068,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 9,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_9/Services"
+    },
+    {
+      "id": 1069,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 10,
+      "areaId": "area_1008",
+      "recommendedLayerId": "area_1008",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_10/Services"
+    },
+    {
+      "id": 1070,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 10,
+      "areaId": "area_1010",
+      "recommendedLayerId": "area_1010",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_10/Services"
+    },
+    {
+      "id": 1071,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 10,
+      "areaId": "area_10-Б",
+      "recommendedLayerId": "area_10-Б",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_10/Services"
+    },
+    {
+      "id": 1072,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 10,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_10/Services"
+    },
+    {
+      "id": 1073,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 10,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_10/Services"
+    },
+    {
+      "id": 1074,
+      "name": "Ресепшен",
+      "building": "B1",
+      "floor": 10,
+      "areaId": "service_Ресепшен",
+      "recommendedLayerId": "service_Ресепшен",
+      "recommendedLayerName": "Ресепшен",
+      "recommendedPath": "Building_B1/Floor_10/Services"
+    },
+    {
+      "id": 1075,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 11,
+      "areaId": "area_1102",
+      "recommendedLayerId": "area_1102",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_11/Services"
+    },
+    {
+      "id": 1076,
+      "name": "Переговорная",
+      "building": "B1",
+      "floor": 11,
+      "areaId": "area_1104",
+      "recommendedLayerId": "area_1104",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B1/Floor_11/Services"
+    },
+    {
+      "id": 1077,
+      "name": "Мини-кухня",
+      "building": "B1",
+      "floor": 11,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B1/Floor_11/Services"
+    },
+    {
+      "id": 1078,
+      "name": "Утилизация бумаги",
+      "building": "B1",
+      "floor": 11,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B1/Floor_11/Services"
+    },
+    {
+      "id": 1079,
+      "name": "Ресепшен",
+      "building": "B1",
+      "floor": 11,
+      "areaId": "service_Ресепшен",
+      "recommendedLayerId": "service_Ресепшен",
+      "recommendedLayerName": "Ресепшен",
+      "recommendedPath": "Building_B1/Floor_11/Services"
+    },
+    {
+      "id": 1080,
+      "name": "Парковка",
+      "building": "PARKING",
+      "floor": 1,
+      "areaId": "service_Парковка",
+      "recommendedLayerId": "service_Парковка",
+      "recommendedLayerName": "Парковка",
+      "recommendedPath": "Building_PARKING/Floor_1/Services"
+    },
+    {
+      "id": 1081,
+      "name": "Велопарковка",
+      "building": "PARKING",
+      "floor": 1,
+      "areaId": "service_Велопарковка",
+      "recommendedLayerId": "service_Велопарковка",
+      "recommendedLayerName": "Велопарковка",
+      "recommendedPath": "Building_PARKING/Floor_1/Services"
+    },
+    {
+      "id": 1082,
+      "name": "Точки зарядки электромобилей",
+      "building": "PARKING",
+      "floor": 1,
+      "areaId": "service_Точки-зарядки-электромобилей",
+      "recommendedLayerId": "service_Точки-зарядки-электромобилей",
+      "recommendedLayerName": "Точки зарядки электромобилей",
+      "recommendedPath": "Building_PARKING/Floor_1/Services"
+    },
+    {
+      "id": 1083,
+      "name": "Входная группа",
+      "building": "B2",
+      "floor": 1,
+      "areaId": "service_Входная-группа",
+      "recommendedLayerId": "service_Входная-группа",
+      "recommendedLayerName": "Входная группа",
+      "recommendedPath": "Building_B2/Floor_1/Services"
+    },
+    {
+      "id": 1084,
+      "name": "Турникет с NFC проходом",
+      "building": "B2",
+      "floor": 1,
+      "areaId": "area_Турникет",
+      "recommendedLayerId": "area_Турникет",
+      "recommendedLayerName": "Турникет с NFC проходом",
+      "recommendedPath": "Building_B2/Floor_1/Services"
+    },
+    {
+      "id": 1085,
+      "name": "КРОК кофе (кофе-точка на карте)",
+      "building": "B2",
+      "floor": 1,
+      "areaId": "service_КРОК-кофе-кофе-точка-на-карте",
+      "recommendedLayerId": "service_КРОК-кофе-кофе-точка-на-карте",
+      "recommendedLayerName": "КРОК кофе (кофе-точка на карте)",
+      "recommendedPath": "Building_B2/Floor_1/Services"
+    },
+    {
+      "id": 1086,
+      "name": "Вендинг",
+      "building": "B2",
+      "floor": 1,
+      "areaId": "service_Вендинг",
+      "recommendedLayerId": "service_Вендинг",
+      "recommendedLayerName": "Вендинг",
+      "recommendedPath": "Building_B2/Floor_1/Services"
+    },
+    {
+      "id": 1087,
+      "name": "Гардероб",
+      "building": "B2",
+      "floor": 1,
+      "areaId": "service_Гардероб",
+      "recommendedLayerId": "service_Гардероб",
+      "recommendedLayerName": "Гардероб",
+      "recommendedPath": "Building_B2/Floor_1/Services"
+    },
+    {
+      "id": 1088,
+      "name": "Лифты (подсветить только 1 этаж коопуса 1 и 3 , для информации) \nЕсть большой и малый лифтовой холл 9обратить внимание)",
+      "building": "B2",
+      "floor": 1,
+      "areaId": "service_Лифты-подсветить-только-1-этаж-коопуса-1-и-3--для-информации-Есть-большой-и-малый-лифтовой-холл-9обратить-внимание",
+      "recommendedLayerId": "service_Лифты-подсветить-только-1-этаж-коопуса-1-и-3--для-информации-Есть-большой-и-малый-лифтовой-холл-9обратить-внимание",
+      "recommendedLayerName": "Лифты (подсветить только 1 этаж коопуса 1 и 3 , для информации) \nЕсть большой и малый лифтовой холл 9обратить внимание)",
+      "recommendedPath": "Building_B2/Floor_1/Services"
+    },
+    {
+      "id": 1089,
+      "name": "Конференц-зал",
+      "building": "B2",
+      "floor": 2,
+      "areaId": "area_203",
+      "recommendedLayerId": "area_203",
+      "recommendedLayerName": "Конференц-зал",
+      "recommendedPath": "Building_B2/Floor_2/Services"
+    },
+    {
+      "id": 1090,
+      "name": "Конференц-зал",
+      "building": "B2",
+      "floor": 2,
+      "areaId": "area_201",
+      "recommendedLayerId": "area_201",
+      "recommendedLayerName": "Конференц-зал",
+      "recommendedPath": "Building_B2/Floor_2/Services"
+    },
+    {
+      "id": 1091,
+      "name": "Столовая",
+      "building": "B2",
+      "floor": 2,
+      "areaId": "service_Столовая",
+      "recommendedLayerId": "service_Столовая",
+      "recommendedLayerName": "Столовая",
+      "recommendedPath": "Building_B2/Floor_2/Services"
+    },
+    {
+      "id": 1092,
+      "name": "Банкомат",
+      "building": "B2",
+      "floor": 2,
+      "areaId": "service_Банкомат",
+      "recommendedLayerId": "service_Банкомат",
+      "recommendedLayerName": "Банкомат",
+      "recommendedPath": "Building_B2/Floor_2/Services"
+    },
+    {
+      "id": 1093,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 3,
+      "areaId": "area_311",
+      "recommendedLayerId": "area_311",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_3/Services"
+    },
+    {
+      "id": 1094,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 3,
+      "areaId": "area_315",
+      "recommendedLayerId": "area_315",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_3/Services"
+    },
+    {
+      "id": 1095,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 3,
+      "areaId": "area_317",
+      "recommendedLayerId": "area_317",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_3/Services"
+    },
+    {
+      "id": 1096,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 3,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_3/Services"
+    },
+    {
+      "id": 1097,
+      "name": "Утилизация бумаги",
+      "building": "B2",
+      "floor": 3,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B2/Floor_3/Services"
+    },
+    {
+      "id": 1098,
+      "name": "Кабинет врача",
+      "building": "B2",
+      "floor": 4,
+      "areaId": "area_416",
+      "recommendedLayerId": "area_416",
+      "recommendedLayerName": "Кабинет врача",
+      "recommendedPath": "Building_B2/Floor_4/Services"
+    },
+    {
+      "id": 1099,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 4,
+      "areaId": "area_417",
+      "recommendedLayerId": "area_417",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_4/Services"
+    },
+    {
+      "id": 1100,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 4,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_4/Services"
+    },
+    {
+      "id": 1101,
+      "name": "Утилизация бумаги",
+      "building": "B2",
+      "floor": 4,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B2/Floor_4/Services"
+    },
+    {
+      "id": 1102,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 5,
+      "areaId": "area_512",
+      "recommendedLayerId": "area_512",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_5/Services"
+    },
+    {
+      "id": 1103,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 5,
+      "areaId": "area_511",
+      "recommendedLayerId": "area_511",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_5/Services"
+    },
+    {
+      "id": 1104,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 5,
+      "areaId": "area_513",
+      "recommendedLayerId": "area_513",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_5/Services"
+    },
+    {
+      "id": 1105,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 5,
+      "areaId": "area_517",
+      "recommendedLayerId": "area_517",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_5/Services"
+    },
+    {
+      "id": 1106,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 5,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_5/Services"
+    },
+    {
+      "id": 1107,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 6,
+      "areaId": "area_611",
+      "recommendedLayerId": "area_611",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_6/Services"
+    },
+    {
+      "id": 1108,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 6,
+      "areaId": "area_615",
+      "recommendedLayerId": "area_615",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_6/Services"
+    },
+    {
+      "id": 1109,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 6,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_6/Services"
+    },
+    {
+      "id": 1110,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 7,
+      "areaId": "area_701",
+      "recommendedLayerId": "area_701",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_7/Services"
+    },
+    {
+      "id": 1111,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 7,
+      "areaId": "area_715",
+      "recommendedLayerId": "area_715",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_7/Services"
+    },
+    {
+      "id": 1112,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 7,
+      "areaId": "area_717",
+      "recommendedLayerId": "area_717",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_7/Services"
+    },
+    {
+      "id": 1113,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 7,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_7/Services"
+    },
+    {
+      "id": 1114,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 8,
+      "areaId": "area_803",
+      "recommendedLayerId": "area_803",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_8/Services"
+    },
+    {
+      "id": 1115,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 8,
+      "areaId": "area_808",
+      "recommendedLayerId": "area_808",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_8/Services"
+    },
+    {
+      "id": 1116,
+      "name": "Лекторий",
+      "building": "B2",
+      "floor": 8,
+      "areaId": "area_810",
+      "recommendedLayerId": "area_810",
+      "recommendedLayerName": "Лекторий",
+      "recommendedPath": "Building_B2/Floor_8/Services"
+    },
+    {
+      "id": 1117,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 8,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_8/Services"
+    },
+    {
+      "id": 1118,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 9,
+      "areaId": "area_915",
+      "recommendedLayerId": "area_915",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_9/Services"
+    },
+    {
+      "id": 1119,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 9,
+      "areaId": "area_917",
+      "recommendedLayerId": "area_917",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_9/Services"
+    },
+    {
+      "id": 1120,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 9,
+      "areaId": "area_925",
+      "recommendedLayerId": "area_925",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_9/Services"
+    },
+    {
+      "id": 1121,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 9,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_9/Services"
+    },
+    {
+      "id": 1122,
+      "name": "Утилизация бумаги",
+      "building": "B2",
+      "floor": 9,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B2/Floor_9/Services"
+    },
+    {
+      "id": 1123,
+      "name": "Коворкинг маркетинга",
+      "building": "B2",
+      "floor": 10,
+      "areaId": "area_1007",
+      "recommendedLayerId": "area_1007",
+      "recommendedLayerName": "Коворкинг маркетинга",
+      "recommendedPath": "Building_B2/Floor_10/Services"
+    },
+    {
+      "id": 1124,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 10,
+      "areaId": "area_1013",
+      "recommendedLayerId": "area_1013",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_10/Services"
+    },
+    {
+      "id": 1125,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 10,
+      "areaId": "area_1015",
+      "recommendedLayerId": "area_1015",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_10/Services"
+    },
+    {
+      "id": 1126,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 10,
+      "areaId": "area_1022",
+      "recommendedLayerId": "area_1022",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_10/Services"
+    },
+    {
+      "id": 1127,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 10,
+      "areaId": "area_1024",
+      "recommendedLayerId": "area_1024",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_10/Services"
+    },
+    {
+      "id": 1128,
+      "name": "Ресепшен",
+      "building": "B2",
+      "floor": 11,
+      "areaId": "service_Ресепшен",
+      "recommendedLayerId": "service_Ресепшен",
+      "recommendedLayerName": "Ресепшен",
+      "recommendedPath": "Building_B2/Floor_11/Services"
+    },
+    {
+      "id": 1129,
+      "name": "Мини-кухня",
+      "building": "B2",
+      "floor": 11,
+      "areaId": "area_с-3-11",
+      "recommendedLayerId": "area_с-3-11",
+      "recommendedLayerName": "Мини-кухня",
+      "recommendedPath": "Building_B2/Floor_11/Services"
+    },
+    {
+      "id": 1130,
+      "name": "Утилизация бумаги",
+      "building": "B2",
+      "floor": 11,
+      "areaId": "service_Утилизация-бумаги",
+      "recommendedLayerId": "service_Утилизация-бумаги",
+      "recommendedLayerName": "Утилизация бумаги",
+      "recommendedPath": "Building_B2/Floor_11/Services"
+    },
+    {
+      "id": 1131,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 11,
+      "areaId": "area_1111",
+      "recommendedLayerId": "area_1111",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_11/Services"
+    },
+    {
+      "id": 1132,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 11,
+      "areaId": "area_1113",
+      "recommendedLayerId": "area_1113",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_11/Services"
+    },
+    {
+      "id": 1133,
+      "name": "Переговорная",
+      "building": "B2",
+      "floor": 11,
+      "areaId": "area_1117",
+      "recommendedLayerId": "area_1117",
+      "recommendedLayerName": "Переговорная",
+      "recommendedPath": "Building_B2/Floor_11/Services"
+    }
+  ]
+}

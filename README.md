@@ -47,3 +47,42 @@ srv
 2. Проверить, что шрифты доступны (или использовать `tmp.css`)
 3. Убедиться, что модуль изолирован от стилей Tilda (используется `#krok-services-map-module`)
 
+## Интеграция с Figma
+
+Проект поддерживает синхронизацию планов этажей из Figma через MCP (Model Context Protocol).
+
+### Структура интеграции
+
+- `figma-config.js` - конфигурация для связи этажей с Figma node IDs
+- `scripts/figma-sync-helper.js` - вспомогательные функции для работы с Figma
+- `scripts/export-floor-from-figma.js` - скрипт для экспорта этажей
+
+### Настройка конфигурации
+
+1. Откройте `figma-config.js`
+2. Убедитесь, что `fileKey` соответствует вашему Figma файлу
+3. Добавьте маппинг этажей в `floorMapping`:
+   ```javascript
+   'B1-F3': {
+       nodeId: '72:24', // Node ID из Figma URL
+       building: 'B1',
+       floor: 3,
+       fileName: 'floor-B1-F3.svg'
+   }
+   ```
+
+### Получение Node ID из Figma
+
+1. Откройте нужный этаж в Figma
+2. Скопируйте URL (например: `https://www.figma.com/design/...?node-id=72-24`)
+3. Извлеките node ID (в примере: `72:24` или `72-24` - замените дефис на двоеточие)
+
+### Использование MCP инструментов
+
+Для экспорта SVG из Figma используйте доступные MCP инструменты:
+- `mcp_Figma_get_design_context` - для получения SVG кода
+- `mcp_Figma_get_metadata` - для получения структуры
+- `mcp_Figma_get_screenshot` - для получения скриншота
+
+**Примечание:** MCP инструменты должны быть доступны через соответствующий MCP сервер.
+

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="tmp.css">
+</head>
+<body>
+    <style>
+/* --- СТИЛИ (CSS) --- */
+#menu-app { font-family: 'Croc', sans-serif; max-width: 1200px; margin: 0 auto; padding: 40px; padding-bottom: 100px; color: #333; }
+.menu-header { text-align: center; margin-bottom: 30px; }
+.current-info { color: #888; font-size: 14px; margin-top: 5px; }
+
+/* Табы и Фильтры */
+.menu-controls { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; justify-content: center; align-items: center; }
+.meal-tabs { display: flex; background: #f0f0f0; border-radius: 8px; padding: 4px; }
+.meal-tab { padding: 10px 20px; cursor: pointer; border-radius: 6px; border: none; background: transparent; font-weight: 600; transition: 0.2s; }
+.meal-tab.active { background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.filters-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.filter-label { display: flex; align-items: center; cursor: pointer; font-size: 13px; user-select: none; background: #fff; border: 1px solid #ddd; padding: 6px 12px; border-radius: 20px; transition: 0.2s; }
+.filter-label:hover { background-color: #f5f5f5; border-color: #bbb; }
+.filter-label input { margin-right: 8px; }
+
+/* Карточки */
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.dish-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.dish-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.dish-category { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; }
+.dish-name { font-size: 16px; font-weight: 600; margin-bottom: 10px; flex-grow: 1; line-height: 1.4; }
+.dish-meta { font-size: 13px; color: #666; margin-bottom: 8px; }
+.dish-nutrition { font-size: 12px; color: #555; background: #f9f9f9; padding: 8px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; }
+.dish-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+.tag { font-size: 10px; padding: 3px 8px; border-radius: 4px; background: #eee; color: #555; }
+
+/* Кнопка добавления в дневник */
+.add-btn {
+    margin-top: 15px; width: 100%; padding: 10px; border: none; border-radius: 6px;
+    background-color: #222; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.add-btn:hover { background-color: #444; }
+.add-btn:active { transform: scale(0.98); }
+
+/* --- ДНЕВНИК ПИТАНИЯ (Нижняя панель) --- */
+.nutrition-diary {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #fff; border-top: 1px solid #ddd;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+    padding: 15px 20px; z-index: 9999;
+    display: flex; justify-content: center; align-items: center; gap: 20px;
+}
+.diary-content { max-width: 1000px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+.diary-stats { display: flex; gap: 20px; font-size: 14px; }
+.stat-item { display: flex; flex-direction: column; align-items: center; }
+.stat-val { font-weight: bold; font-size: 18px; color: #222; }
+.stat-label { font-size: 11px; color: #888; text-transform: uppercase; }
+.diary-user { font-size: 13px; color: #666; text-align: right; }
+.reset-btn { font-size: 12px; color: red; cursor: pointer; text-decoration: underline; margin-left: 10px;}
+
+/* Панель отладки */
+.debug-panel { background: #fff9c4; border: 2px dashed #fbc02d; padding: 10px; margin-bottom: 20px; border-radius: 8px; text-align: center; }
+.debug-controls { display: flex; justify-content: center; gap: 10px; margin-top: 5px; }
+
+/* Цвета тегов */
+.tag.vegan { background: #e8f5e9; color: #2e7d32; }
+.tag.gf { background: #fff3e0; color: #ef6c00; }
+.tag.lactose { background: #e3f2fd; color: #1565c0; }
+.tag.protein { background: #fce4ec; color: #c2185b; }
+.tag.allergy { background: #ffebee; color: #c62828; }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+<div id="menu-app">
+    <div class="debug-panel">
+        <strong>???? Тест-режим</strong>
+        <div class="debug-controls">
+            <select id="debug-week" onchange="renderMenu()"><option value="1">Неделя 1</option><option value="2">Неделя 2</option><option value="3">Неделя 3</option><option value="4">Неделя 4</option></select>
+            <select id="debug-day" onchange="renderMenu()"><option value="Понедельник">Понедельник</option><option value="Вторник">Вторник</option><option value="Среда">Среда</option><option value="Четверг">Четверг</option><option value="Пятница">Пятница</option></select>
+            <label><input type="checkbox" id="debug-mode" checked onchange="renderMenu()"> Ручной</label>
+        </div>
+    </div>
+
+    <div class="menu-header">
+        <h2 id="current-date-title">Меню на сегодня</h2>
+        <div class="current-info" id="cycle-info">Загрузка...</div>
+    </div>
+
+    <div class="menu-controls">
+        <div class="meal-tabs">
+            <button class="meal-tab active" onclick="setMealType('Завтрак')">Завтрак</button>
+            <button class="meal-tab" onclick="setMealType('Обед')">Обед</button>
+        </div>
+        <div class="filters-row">
+            <label class="filter-label"><input type="checkbox" onchange="toggleFilter('vegan')"> Вегетарианское</label>
+            <label class="filter-label"><input type="checkbox" onchange="toggleFilter('gf')"> Без глютена</label>
+            <label class="filter-label"><input type="checkbox" onchange="toggleFilter('lactose')"> Без лактозы</label>
+            <label class="filter-label"><input type="checkbox" onchange="toggleFilter('protein')"> Много белка</label>
+        </div>
+    </div>
+
+    <div id="menu-container" class="menu-grid">
+        <div style="text-align:center; padding:40px;">Загрузка...</div>
+    </div>
+</div>
+
+<div class="nutrition-diary" id="diary-panel" style="display:none; font-family:'Croc';">
+    <div class="diary-content">
+        <div class="diary-stats">
+            <div class="stat-item"><span class="stat-val" id="total-kcal">0</span><span class="stat-label">Ккал</span></div>
+            <div class="stat-item"><span class="stat-val" id="total-prot">0</span><span class="stat-label">Белки</span></div>
+            <div class="stat-item"><span class="stat-val" id="total-fat">0</span><span class="stat-label">Жиры</span></div>
+            <div class="stat-item"><span class="stat-val" id="total-carb">0</span><span class="stat-label">Углеводы</span></div>
+        </div>
+        <div class="diary-user">
+            <div id="user-greeting">Гость</div>
+            <span class="reset-btn" onclick="resetDiary()">Сбросить день</span>
+        </div>
+    </div>
+</div>
+
+<script>
+// --- НАСТРОЙКИ ---
+const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnzxGpaq3VFRj6LxXkelyneZ68-CnoHtIJlij1FqT3ux9hyoGd-Li5IcxqebTItPiQISCsZexzwG6S/pub?output=csv"; 
+const CYCLE_START_DATE = new Date("2025-12-01"); 
+
+// --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ---
+let allMenuData = [];
+let currentMealType = "Завтрак";
+let activeFilters = { vegan: false, gf: false, lactose: false, protein: false };
+let userEmail = "guest"; // По умолчанию
+let dailyLog = []; // Массив съеденного
+
+// --- ИНИЦИАЛИЗАЦИЯ ---
+function init() {
+    // 1. Попытка получить Email из Тильды (ИСПРАВЛЕНО под ваш объект)
+    checkTildaAuth();
+
+    // 2. Загрузка данных
+    Papa.parse(GOOGLE_SHEET_URL, {
+        download: true, header: true,
+        complete: function(results) {
+            allMenuData = results.data.map((row, idx) => {
+                const check = (key) => row[key] && (row[key].toUpperCase() === 'TRUE' || row[key] === '1');
+                return {
+                    id: idx, // Уникальный ID для добавления
+                    week: parseInt(row['Неделя']),
+                    day: row['День недели'] ? row['День недели'].trim() : '',
+                    type: row['Прием пищи'] ? row['Прием пищи'].trim() : '',
+                    category: row['Категория'],
+                    name: row['Название блюда'],
+                    weight: row['Вес'],
+                    nutri: {
+                        kcal: parseInt(row['Ккал']) || 0,
+                        prot: parseFloat(row['Белки']) || 0,
+                        fat: parseFloat(row['Жиры']) || 0,
+                        carb: parseFloat(row['Углеводы']) || 0
+                    },
+                    tags: {
+                        protein: check('Белок'),
+                        fiber: check('Клетчатка'),
+                        lactose: check('Без лактозы'),
+                        gf: check('Без глютена'),
+                        vegan: check('Вегетариан')
+                    },
+                    allergies: row['Аллергия'] ? row['Аллергия'].trim() : ''
+                };
+            }).filter(item => item.name);
+            
+            // Сначала загружаем "гостевой" дневник, потом если auth сработает, он перезагрузится
+            loadDiary(); 
+            renderMenu();
+            updateDiaryUI();
+        }
+    });
+}
+
+// --- ЛОГИКА АВТОРИЗАЦИИ ТИЛЬДЫ ---
+function checkTildaAuth() {
+    // Проверяем наличие модуля tildaMembers и функции getUser
+    // Используем интервал, так как Members может грузиться дольше нашего скрипта
+    let attempts = 0;
+    const authInterval = setInterval(function() {
+        attempts++;
+        if (attempts > 20) clearInterval(authInterval); // Перестаем искать через 10 сек
+
+        if (typeof window.tildaMembers !== 'undefined' && typeof window.tildaMembers.getUser === 'function') {
+            clearInterval(authInterval);
+            
+            // Вызываем официальный метод получения пользователя
+            window.tildaMembers.getUser(function(user) {
+                // user — это как раз тот объект {code, email, name ...}, который вы прислали
+                if (user && user.email) {
+                    userEmail = user.email; // yershov.artur@gmail.com
+                    const userName = user.name || "Пользователь"; // akk
+                    
+                    document.getElementById('user-greeting').innerHTML = `Привет, <b>${userName}</b>`;
+                    
+                    // Перезагружаем дневник, так как теперь у нас есть уникальный Email
+                    loadDiary(); 
+                    updateDiaryUI();
+                }
+            });
+        }
+    }, 500);
+}
+
+function getTodayKey() {
+    const today = new Date().toISOString().split('T')[0]; // ГГГГ-ММ-ДД
+    // Ключ будет: diary_yershov.artur@gmail.com_2025-12-17
+    return `diary_${userEmail}_${today}`;
+}
+
+function loadDiary() {
+    const key = getTodayKey();
+    const saved = localStorage.getItem(key);
+    if (saved) {
+        dailyLog = JSON.parse(saved);
+    } else {
+        dailyLog = [];
+    }
+}
+
+function addToDiary(id) {
+    const dish = allMenuData.find(d => d.id === id);
+    if (dish) {
+        dailyLog.push(dish);
+        saveDiary();
+        updateDiaryUI();
+        
+        // Визуальный эффект на кнопке
+        const btn = document.getElementById(`btn-${id}`);
+        const originalText = btn.innerText;
+        btn.innerText = "✓ Добавлено";
+        btn.style.background = "#4CAF50";
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "#222";
+        }, 1000);
+    }
+}
+
+function saveDiary() {
+    const key = getTodayKey();
+    localStorage.setItem(key, JSON.stringify(dailyLog));
+}
+
+function resetDiary() {
+    if(confirm("Сбросить весь рацион за сегодня?")) {
+        dailyLog = [];
+        saveDiary();
+        updateDiaryUI();
+    }
+}
+
+function updateDiaryUI() {
+    const total = dailyLog.reduce((acc, item) => {
+        acc.kcal += item.nutri.kcal;
+        acc.prot += item.nutri.prot;
+        acc.fat += item.nutri.fat;
+        acc.carb += item.nutri.carb;
+        return acc;
+    }, { kcal: 0, prot: 0, fat: 0, carb: 0 });
+
+    document.getElementById('total-kcal').innerText = Math.round(total.kcal);
+    document.getElementById('total-prot').innerText = Math.round(total.prot);
+    document.getElementById('total-fat').innerText = Math.round(total.fat);
+    document.getElementById('total-carb').innerText = Math.round(total.carb);
+
+    // Показываем панель, если есть записи ИЛИ пользователь авторизован
+    const panel = document.getElementById('diary-panel');
+    if (dailyLog.length > 0 || userEmail !== 'guest') {
+        panel.style.display = 'flex';
+    }
+}
+
+// --- ЛОГИКА КАЛЕНДАРЯ И ОТРИСОВКИ ---
+function getRealWeekNumber(d) {
+    let current = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    let start = new Date(Date.UTC(CYCLE_START_DATE.getFullYear(), CYCLE_START_DATE.getMonth(), CYCLE_START_DATE.getDate()));
+    let dayDiff = Math.floor((current - start) / (24 * 60 * 60 * 1000));
+    if (dayDiff < 0) return 1; 
+    return (Math.floor(dayDiff / 7) % 4) + 1;
+}
+
+function getRealDayName() {
+    const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+    return days[new Date().getDay()];
+}
+
+function setMealType(type) {
+    currentMealType = type;
+    document.querySelectorAll('.meal-tab').forEach(btn => btn.classList.toggle('active', btn.innerText === type));
+    renderMenu();
+}
+
+function toggleFilter(key) {
+    activeFilters[key] = !activeFilters[key];
+    renderMenu();
+}
+
+function renderMenu() {
+    const container = document.getElementById('menu-container');
+    const isDebug = document.getElementById('debug-mode').checked;
+    
+    let targetWeek = isDebug ? parseInt(document.getElementById('debug-week').value) : getRealWeekNumber(new Date());
+    let targetDayName = isDebug ? document.getElementById('debug-day').value : getRealDayName();
+
+    document.getElementById('cycle-info').innerText = `Отображается: ${targetDayName} | Неделя цикла: ${targetWeek}`;
+
+    const filtered = allMenuData.filter(item => {
+        if (item.week !== targetWeek) return false;
+        if (item.day.toLowerCase() !== targetDayName.toLowerCase()) return false;
+        if (item.type !== currentMealType) return false;
+        if (activeFilters.vegan && !item.tags.vegan) return false;
+        if (activeFilters.gf && !item.tags.gf) return false;
+        if (activeFilters.lactose && !item.tags.lactose) return false;
+        if (activeFilters.protein && !item.tags.protein) return false;
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#999;">В этот день меню не найдено.</div>';
+        return;
+    }
+
+    let html = '';
+    filtered.forEach(item => {
+        let tagsHtml = '';
+        if (item.tags.vegan) tagsHtml += '<span class="tag vegan">Vegetarian</span>';
+        if (item.tags.gf) tagsHtml += '<span class="tag gf">No Gluten</span>';
+        if (item.tags.lactose) tagsHtml += '<span class="tag lactose">No Lactose</span>';
+        if (item.tags.protein) tagsHtml += '<span class="tag protein">High Protein</span>';
+        if (item.allergies) tagsHtml += `<span class="tag allergy">⚠️ ${item.allergies}</span>`;
+
+        // Блок КБЖУ
+        const nutritionHtml = `
+            <div class="dish-nutrition">
+                <span>${item.nutri.kcal} ккал</span>
+                <span>Б: ${item.nutri.prot}</span>
+                <span>Ж: ${item.nutri.fat}</span>
+                <span>У: ${item.nutri.carb}</span>
+            </div>
+        `;
+
+        html += `
+            <div class="dish-card">
+                <div class="dish-category">${item.category}</div>
+                <div class="dish-name">${item.name}</div>
+                <div class="dish-meta">Вес: ${item.weight}</div>
+                ${nutritionHtml}
+                <div class="dish-tags">${tagsHtml}</div>
+                <button class="add-btn" id="btn-${item.id}" onclick="addToDiary(${item.id})">+ Съел</button>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

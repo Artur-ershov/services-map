@@ -1,0 +1,136 @@
+ID,Название,Корпус,Этаж,areaId,Рекомендуемый ID слоя,Путь в Figma
+1000,Входная группа,B1,1,b1f1-enter,b1f1-enter,Building_B1/Floor_1/Services
+1001,Отдел писем,B1,1,b1f1-letter,b1f1-letter,Building_B1/Floor_1/Services
+1002,КРОК кофе,B1,1,b1f1-coffee,b1f1-coffee,Building_B1/Floor_1/Services
+1003,Банкомат Сбербанка,B1,1,b1f1-atm,b1f1-atm,Building_B1/Floor_1/Services
+1004,Вендинг,B1,1,b1f1-vending,b1f1-vending,Building_B1/Floor_1/Services
+1005,Гардероб,B1,1,b1f1-garderob,b1f1-garderob,Building_B1/Floor_1/Services
+1006,Лифты,B1,1,b1f1-elevator-1,b1f1-elevator-1,Building_B1/Floor_1/Services
+1007,Charity Shop,B1,1,b1f1-charity-shop,b1f1-charity-shop,Building_B1/Floor_1/Services
+1008,EcoPoint,B1,1,b1f1-eco-point,b1f1-eco-point,Building_B1/Floor_1/Services
+1009,Утилизация батареек,B1,1,b1f1-batteries,b1f1-batteries,Building_B1/Floor_1/Services
+1010,Утилизация бумаги,B1,1,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_1/Services
+1011,Станция мониторинга воздуха AirVisual,B1,1,b1f1-air,b1f1-air,Building_B1/Floor_1/Services
+1012,Конференц-зал + холл перед ним,B1,2,b1f2-212,b1f2-212,Building_B1/Floor_2/Services
+1013,Переговорка,B1,2,b1f2-212a,b1f2-212a,Building_B1/Floor_2/Services
+1014,Конференц-зал,B1,2,b1f2-214,b1f2-214,Building_B1/Floor_2/Services
+1015,Переговорная 204,B1,2,b1f2-204,b1f2-204,Building_B1/Floor_2/Services
+1016,Переговорная 206,B1,2,b1f2-206,b1f2-206,Building_B1/Floor_2/Services
+1017,Переговорная 208,B1,2,b1f2-208,b1f2-208,Building_B1/Floor_2/Services
+1018,Переговорная 210,B1,2,b1f2-210,b1f2-210,Building_B1/Floor_2/Services
+1019,Учебный класс (аудитория  202),B1,2,b1f2-202,b1f2-202,Building_B1/Floor_2/Services
+1020,Мультимедийный класс,B1,2,b1f2-2b,b1f2-2b,Building_B1/Floor_2/Services
+1021,Столовая,B1,2,service_Столовая,service_Столовая,Building_B1/Floor_2/Services
+1022,Утилизация пластиковых крышек,B1,2,service_Утилизация-пластиковых-крышек,service_Утилизация-пластиковых-крышек,Building_B1/Floor_2/Services
+1023,Утилизация бумаги,B1,2,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_2/Services
+1024,Зона для настолок в столовой,B1,2,service_Зона-для-настолок-в-столовой,service_Зона-для-настолок-в-столовой,Building_B1/Floor_2/Services
+1025,Буфет,B1,2,area_201,area_201,Building_B1/Floor_2/Services
+1026,Кикер,B1,3,area_холл-(оранжевый-квадратик-на-карте-),area_холл-(оранжевый-квадратик-на-карте-),Building_B1/Floor_3/Services
+1027,Переговорная,B1,3,area_3Б,area_3Б,Building_B1/Floor_3/Services
+1028,Переговорная,B1,3,area_306,area_306,Building_B1/Floor_3/Services
+1029,Комната отдыха,B1,3,area_316,area_316,Building_B1/Floor_3/Services
+1030,Спортзал,B1,3,area_318,area_318,Building_B1/Floor_3/Services
+1031,Раздевалка и душевые (спортзал),B1,3,area_318,area_318,Building_B1/Floor_3/Services
+1032,Стоматологический кабинет,B1,3,area_308,area_308,Building_B1/Floor_3/Services
+1033,Кабинет парикмахера и мастера по маникюру,B1,3,area_314,area_314,Building_B1/Floor_3/Services
+1034,,B1,3,service_,service_,Building_B1/Floor_3/Services
+1035,Массажный кабинет,B1,3,area_308А,area_308А,Building_B1/Floor_3/Services
+1036,Переговорная,B1,4,area_402-Б,area_402-Б,Building_B1/Floor_4/Services
+1037,Переговорная,B1,4,area_402-Г,area_402-Г,Building_B1/Floor_4/Services
+1038,Переговорная,B1,4,area_402-Д,area_402-Д,Building_B1/Floor_4/Services
+1039,Переговорная,B1,4,area_402-Е,area_402-Е,Building_B1/Floor_4/Services
+1040,Переговорная,B1,4,area_402-З,area_402-З,Building_B1/Floor_4/Services
+1041,Переговорная,B1,4,area_402-И,area_402-И,Building_B1/Floor_4/Services
+1042,Переговорная,B1,4,area_402-К,area_402-К,Building_B1/Floor_4/Services
+1043,Переговорная,B1,4,area_402-Л,area_402-Л,Building_B1/Floor_4/Services
+1044,Переговорная,B1,4,area_4Б,area_4Б,Building_B1/Floor_4/Services
+1045,Мини-кухня,B1,4,area_с-3-11,area_с-3-11,Building_B1/Floor_4/Services
+1046,Ресепшен,B1,4,service_Ресепшен,service_Ресепшен,Building_B1/Floor_4/Services
+1047,Зона ожидания,B1,4,service_Зона-ожидания,service_Зона-ожидания,Building_B1/Floor_4/Services
+1048,Переговорная,B1,5,area_504,area_504,Building_B1/Floor_5/Services
+1049,Мини-кухня,B1,5,area_с-3-11,area_с-3-11,Building_B1/Floor_5/Services
+1050,Ресепшен,B1,5,service_Ресепшен,service_Ресепшен,Building_B1/Floor_5/Services
+1051,Акустические кабинки,B1,6,area_Холл-6-этажа,area_Холл-6-этажа,Building_B1/Floor_6/Services
+1052,Комната тишины,B1,6,area_603,area_603,Building_B1/Floor_6/Services
+1053,Переговорная,B1,6,area_608,area_608,Building_B1/Floor_6/Services
+1054,Переговорная,B1,6,area_6-Б,area_6-Б,Building_B1/Floor_6/Services
+1055,Переговорная,B1,6,area_606,area_606,Building_B1/Floor_6/Services
+1056,Мини-кухня,B1,6,area_с-3-11,area_с-3-11,Building_B1/Floor_6/Services
+1057,Утилизация бумаги,B1,6,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_6/Services
+1058,Переговорная,B1,7,area_712,area_712,Building_B1/Floor_7/Services
+1059,Мини-кухня,B1,7,area_с-3-11,area_с-3-11,Building_B1/Floor_7/Services
+1060,Утилизация бумаги,B1,7,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_7/Services
+1061,Конмата тишины,B1,8,area_803,area_803,Building_B1/Floor_8/Services
+1062,Переговорная,B1,8,area_808,area_808,Building_B1/Floor_8/Services
+1063,Учебный зал,B1,8,area_810,area_810,Building_B1/Floor_8/Services
+1064,Мини-кухня,B1,7,area_с-3-11,area_с-3-11,Building_B1/Floor_7/Services
+1065,Конмата тишины,B1,9,area_903,area_903,Building_B1/Floor_9/Services
+1066,Переговорная,B1,9,area_9Б,area_9Б,Building_B1/Floor_9/Services
+1067,Мини-кухня,B1,9,area_с-3-11,area_с-3-11,Building_B1/Floor_9/Services
+1068,Утилизация бумаги,B1,9,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_9/Services
+1069,Переговорная,B1,10,area_1008,area_1008,Building_B1/Floor_10/Services
+1070,Переговорная,B1,10,area_1010,area_1010,Building_B1/Floor_10/Services
+1071,Переговорная,B1,10,area_10-Б,area_10-Б,Building_B1/Floor_10/Services
+1072,Мини-кухня,B1,10,area_с-3-11,area_с-3-11,Building_B1/Floor_10/Services
+1073,Утилизация бумаги,B1,10,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_10/Services
+1074,Ресепшен,B1,10,service_Ресепшен,service_Ресепшен,Building_B1/Floor_10/Services
+1075,Переговорная,B1,11,area_1102,area_1102,Building_B1/Floor_11/Services
+1076,Переговорная,B1,11,area_1104,area_1104,Building_B1/Floor_11/Services
+1077,Мини-кухня,B1,11,area_с-3-11,area_с-3-11,Building_B1/Floor_11/Services
+1078,Утилизация бумаги,B1,11,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B1/Floor_11/Services
+1079,Ресепшен,B1,11,service_Ресепшен,service_Ресепшен,Building_B1/Floor_11/Services
+1080,Парковка,PARKING,1,service_Парковка,service_Парковка,Building_PARKING/Floor_1/Services
+1081,Велопарковка,PARKING,1,service_Велопарковка,service_Велопарковка,Building_PARKING/Floor_1/Services
+1082,Точки зарядки электромобилей,PARKING,1,service_Точки-зарядки-электромобилей,service_Точки-зарядки-электромобилей,Building_PARKING/Floor_1/Services
+1083,Входная группа,B2,1,service_Входная-группа,service_Входная-группа,Building_B2/Floor_1/Services
+1084,Турникет с NFC проходом,B2,1,area_Турникет,area_Турникет,Building_B2/Floor_1/Services
+1085,КРОК кофе (кофе-точка на карте),B2,1,service_КРОК-кофе-кофе-точка-на-карте,service_КРОК-кофе-кофе-точка-на-карте,Building_B2/Floor_1/Services
+1086,Вендинг,B2,1,service_Вендинг,service_Вендинг,Building_B2/Floor_1/Services
+1087,Гардероб,B2,1,service_Гардероб,service_Гардероб,Building_B2/Floor_1/Services
+1088,"Лифты (подсветить только 1 этаж коопуса 1 и 3 , для информации) 
+Есть большой и малый лифтовой холл 9обратить внимание)",B2,1,service_Лифты-подсветить-только-1-этаж-коопуса-1-и-3--для-информации-Есть-большой-и-малый-лифтовой-холл-9обратить-внимание,service_Лифты-подсветить-только-1-этаж-коопуса-1-и-3--для-информации-Есть-большой-и-малый-лифтовой-холл-9обратить-внимание,Building_B2/Floor_1/Services
+1089,Конференц-зал,B2,2,area_203,area_203,Building_B2/Floor_2/Services
+1090,Конференц-зал,B2,2,area_201,area_201,Building_B2/Floor_2/Services
+1091,Столовая,B2,2,service_Столовая,service_Столовая,Building_B2/Floor_2/Services
+1092,Банкомат,B2,2,service_Банкомат,service_Банкомат,Building_B2/Floor_2/Services
+1093,Переговорная,B2,3,area_311,area_311,Building_B2/Floor_3/Services
+1094,Переговорная,B2,3,area_315,area_315,Building_B2/Floor_3/Services
+1095,Переговорная,B2,3,area_317,area_317,Building_B2/Floor_3/Services
+1096,Мини-кухня,B2,3,area_с-3-11,area_с-3-11,Building_B2/Floor_3/Services
+1097,Утилизация бумаги,B2,3,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B2/Floor_3/Services
+1098,Кабинет врача,B2,4,area_416,area_416,Building_B2/Floor_4/Services
+1099,Переговорная,B2,4,area_417,area_417,Building_B2/Floor_4/Services
+1100,Мини-кухня,B2,4,area_с-3-11,area_с-3-11,Building_B2/Floor_4/Services
+1101,Утилизация бумаги,B2,4,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B2/Floor_4/Services
+1102,Переговорная,B2,5,area_512,area_512,Building_B2/Floor_5/Services
+1103,Переговорная,B2,5,area_511,area_511,Building_B2/Floor_5/Services
+1104,Переговорная,B2,5,area_513,area_513,Building_B2/Floor_5/Services
+1105,Переговорная,B2,5,area_517,area_517,Building_B2/Floor_5/Services
+1106,Мини-кухня,B2,5,area_с-3-11,area_с-3-11,Building_B2/Floor_5/Services
+1107,Переговорная,B2,6,area_611,area_611,Building_B2/Floor_6/Services
+1108,Переговорная,B2,6,area_615,area_615,Building_B2/Floor_6/Services
+1109,Мини-кухня,B2,6,area_с-3-11,area_с-3-11,Building_B2/Floor_6/Services
+1110,Переговорная,B2,7,area_701,area_701,Building_B2/Floor_7/Services
+1111,Переговорная,B2,7,area_715,area_715,Building_B2/Floor_7/Services
+1112,Переговорная,B2,7,area_717,area_717,Building_B2/Floor_7/Services
+1113,Мини-кухня,B2,7,area_с-3-11,area_с-3-11,Building_B2/Floor_7/Services
+1114,Переговорная,B2,8,area_803,area_803,Building_B2/Floor_8/Services
+1115,Переговорная,B2,8,area_808,area_808,Building_B2/Floor_8/Services
+1116,Лекторий,B2,8,area_810,area_810,Building_B2/Floor_8/Services
+1117,Мини-кухня,B2,8,area_с-3-11,area_с-3-11,Building_B2/Floor_8/Services
+1118,Переговорная,B2,9,area_915,area_915,Building_B2/Floor_9/Services
+1119,Переговорная,B2,9,area_917,area_917,Building_B2/Floor_9/Services
+1120,Переговорная,B2,9,area_925,area_925,Building_B2/Floor_9/Services
+1121,Мини-кухня,B2,9,area_с-3-11,area_с-3-11,Building_B2/Floor_9/Services
+1122,Утилизация бумаги,B2,9,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B2/Floor_9/Services
+1123,Коворкинг маркетинга,B2,10,area_1007,area_1007,Building_B2/Floor_10/Services
+1124,Переговорная,B2,10,area_1013,area_1013,Building_B2/Floor_10/Services
+1125,Переговорная,B2,10,area_1015,area_1015,Building_B2/Floor_10/Services
+1126,Переговорная,B2,10,area_1022,area_1022,Building_B2/Floor_10/Services
+1127,Переговорная,B2,10,area_1024,area_1024,Building_B2/Floor_10/Services
+1128,Ресепшен,B2,11,service_Ресепшен,service_Ресепшен,Building_B2/Floor_11/Services
+1129,Мини-кухня,B2,11,area_с-3-11,area_с-3-11,Building_B2/Floor_11/Services
+1130,Утилизация бумаги,B2,11,service_Утилизация-бумаги,service_Утилизация-бумаги,Building_B2/Floor_11/Services
+1131,Переговорная,B2,11,area_1111,area_1111,Building_B2/Floor_11/Services
+1132,Переговорная,B2,11,area_1113,area_1113,Building_B2/Floor_11/Services
+1133,Переговорная,B2,11,area_1117,area_1117,Building_B2/Floor_11/Services
