@@ -72,3 +72,4 @@ if __name__ == '__main__':
     js_code = generate_svg_floor_plans()
     print(js_code)
 
+

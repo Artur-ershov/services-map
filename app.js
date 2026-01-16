@@ -491,7 +491,9 @@
         
         const formattedAttrs = formatAttributes(service);
         const indicatorClass = isCurrentFloor ? 'filled' : 'outlined';
-        const locationText = isCurrentFloor ? '' : `<p class="ksmm-item-location">${buildingFloorStructure[service.building].label}, ${service.floor} этаж</p>`;
+        // Safety check for buildingFloorStructure access
+        const buildingLabel = buildingFloorStructure[service.building]?.label || service.building || 'Неизвестно';
+        const locationText = isCurrentFloor ? '' : `<p class="ksmm-item-location">${buildingLabel}, ${service.floor} этаж</p>`;
         
         item.innerHTML = `
             <span class="ksmm-category-indicator ${indicatorClass}" data-category="${service.category}"></span>
