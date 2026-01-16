@@ -1,6 +1,6 @@
 // --- ДАННЫЕ СЕРВИСОВ, ЭТАЖЕЙ И КОМНАТ ---
 // Автоматически сгенерировано из CSV таблицы
-// Дата генерации: 2026-01-15 10:41:58
+// Дата генерации: 2026-01-16 08:00:44
 
 const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
 
@@ -321,7 +321,7 @@ const allServices = [
         category: "food",
         building: "B1",
         floor: 2,
-        areaId: "service_Столовая",
+        areaId: "b1f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК\nОсновной зал\n2 мягкие зоны \nЛетняя веранда",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/kmDWabUzP83Q2\nhttps://andreymashkin.ru/disk/share/G09JoeSx16y3M\nhttps://andreymashkin.ru/disk/share/22gG7MuDggp6G\nhttps://andreymashkin.ru/disk/share/b8AVKqhX9ekd6\nhttps://andreymashkin.ru/disk/share/4KvpGYu59b10O",
@@ -336,7 +336,7 @@ const allServices = [
         category: "eco",
         building: "B1",
         floor: 2,
-        areaId: "service_Утилизация-пластиковых-крышек",
+        areaId: "b1f2-plastic",
         desc: "Точка сбора пластиковых крышек для дальнейшей переработки",
         contacts: "",
         img: "сделать типовую картинку крышки КРОК",
@@ -364,7 +364,7 @@ const allServices = [
         category: "relax",
         building: "B1",
         floor: 2,
-        areaId: "service_Зона-для-настолок-в-столовой",
+        areaId: "b1f2-nastolka",
         desc: "Тот самый уголок в столовой «Альфа» теперь зона релакса и игр! \nЗдесь можно отдохнуть от рабочих задач, поболтать с коллегами или сразиться в настолки. \nТебя ждет множество игр, удобные пуфики и расслабленная атмосфера, в которой хочется остаться.\nБронируй пространство через Outlook для своей компании - имя пространства *Play Zone*",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/02XRVKuegZ6k7\nhttps://andreymashkin.ru/disk/share/AXnVWvs5BW9aV",
@@ -379,7 +379,7 @@ const allServices = [
         category: "food",
         building: "B1",
         floor: 2,
-        areaId: "area_201",
+        areaId: "b1f2-201",
         desc: "Пространство для еды и встреч с выходом на летнюю веранду.\nМожно заказать блюда к определенному времени по телефону #8368\n\nДоступна оплата части стоимости заказа картой-пропуском, а также проверка остатка баланса на карте.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/ngye5OCvyJM07",
@@ -391,11 +391,25 @@ const allServices = [
     },
     {
         id: 1026,
+        name: "Утилизация бумаги",
+        category: "eco",
+        building: "B1",
+        floor: 3,
+        areaId: "b1f3-paper",
+        desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
+        contacts: "WorkCare@croc.ru",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        link: "https://jive.croc.ru/photos/4205",
+        attributes: {
+        }
+    },
+    {
+        id: 1027,
         name: "Кикер",
         category: "relax",
         building: "B1",
         floor: 3,
-        areaId: "area_холл-(оранжевый-квадратик-на-карте-)",
+        areaId: "b1f3-kicker",
         desc: "Зона для игр",
         contacts: "",
         img: "значок кикер",
@@ -405,12 +419,12 @@ const allServices = [
         }
     },
     {
-        id: 1027,
+        id: 1028,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 3,
-        areaId: "area_3Б",
+        areaId: "b1f3-3b",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/JZeVJvuWxJvn0",
@@ -420,12 +434,12 @@ const allServices = [
         }
     },
     {
-        id: 1028,
+        id: 1029,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 3,
-        areaId: "area_306",
+        areaId: "b1f3-306",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.\n\nВКС",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -435,12 +449,27 @@ const allServices = [
         }
     },
     {
-        id: 1029,
+        id: 1030,
+        name: "Переговорная",
+        category: "meeting",
+        building: "B1",
+        floor: 3,
+        areaId: "b1f3-306",
+        desc: "",
+        contacts: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
+        link: "#",
+        attributes: {
+            location: "312"
+        }
+    },
+    {
+        id: 1031,
         name: "Комната отдыха",
         category: "relax",
         building: "B1",
         floor: 3,
-        areaId: "area_316",
+        areaId: "b1f3-rest",
         desc: "Уютное пространство для отдыха, разделённое на несколько зон:\n     ·Игровая — с плазмой и мультимедийным оборудованием;\n     ·Мягкая — с акустической стеной и диваном-трансформером\n     ·Дзен — с массажными креслами и расслабляющей подсветкой под настроение.\nБронируй пространство\n      через календарь в Outlook",
         contacts: "FieldService@croc.ru",
         img: "https://andreymashkin.ru/disk/share/WOMWqau3KqPo9\nhttps://andreymashkin.ru/disk/share/JZeVJvuWxJ70x",
@@ -451,12 +480,12 @@ const allServices = [
         }
     },
     {
-        id: 1030,
+        id: 1032,
         name: "Спортзал",
         category: "sport",
         building: "B1",
         floor: 3,
-        areaId: "area_318",
+        areaId: "b1f3-gym",
         desc: "Площадь 190 м2,\nДоступ 24/7\n5 зон для занятия различными видами спорта\n8 тренажеров\nГрупповые программы",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/WOMWqau3Kq5xn\nhttps://andreymashkin.ru/disk/share/D4WEXGSnYXpQY\nhttps://andreymashkin.ru/disk/share/RrOMAYu0qAe0q\nhttps://andreymashkin.ru/disk/share/8nbGEPsG6VRdv",
@@ -466,12 +495,12 @@ const allServices = [
         }
     },
     {
-        id: 1031,
+        id: 1033,
         name: "Раздевалка и душевые (спортзал)",
         category: "sport",
         building: "B1",
         floor: 3,
-        areaId: "area_318",
+        areaId: "b1f3-razdevalka",
         desc: "Мужская/женская раздевалки \nШкафчики для ождежды \nФен \nДушевые кабинки\nСанузел",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Раздевалка и душевые (спортзал)",
@@ -481,12 +510,12 @@ const allServices = [
         }
     },
     {
-        id: 1032,
+        id: 1034,
         name: "Стоматологический кабинет",
         category: "health",
         building: "B1",
         floor: 3,
-        areaId: "area_308",
+        areaId: "b1f3-308b",
         desc: "Услуги оказываются по ДМС.\nДоктор:  Климчук Мария \nЗапись на прием:\n+7-926-535-52-27\n\nВнутренний телефон стоматологического кабинета: 8321",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/ZRP375srMARBr",
@@ -497,12 +526,12 @@ const allServices = [
         }
     },
     {
-        id: 1033,
+        id: 1035,
         name: "Кабинет парикмахера и мастера по маникюру",
         category: "beauty",
         building: "B1",
         floor: 3,
-        areaId: "area_314",
+        areaId: "b1f3-314",
         desc: "Кабинет можно забронировать для своего мастера",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/KzBrRvuP9RO0x",
@@ -512,26 +541,12 @@ const allServices = [
         }
     },
     {
-        id: 1034,
-        name: "",
-        category: "beauty",
-        building: "B1",
-        floor: 3,
-        areaId: "service_",
-        desc: "",
-        contacts: "",
-        img: "https://andreymashkin.ru/disk/share/P58KZMh9aZ7a3\nhttps://andreymashkin.ru/disk/share/m4dazGS9gv6k6",
-        link: "https://jive.croc.ru/community/knowledge/everyday/social/master-po-manikyuru",
-        attributes: {
-        }
-    },
-    {
-        id: 1035,
+        id: 1036,
         name: "Массажный кабинет",
         category: "relax",
         building: "B1",
         floor: 3,
-        areaId: "area_308А",
+        areaId: "b1f3-308a",
         desc: "Кабинет можно забронировать для своего мастера",
         contacts: "",
         img: "значок можно поставить",
@@ -541,12 +556,12 @@ const allServices = [
         }
     },
     {
-        id: 1036,
+        id: 1037,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-Б",
+        areaId: "b1f4-402b",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "Типовое фото \nhttps://andreymashkin.ru/disk/share/b8AVKqhX9enzq",
@@ -556,12 +571,12 @@ const allServices = [
         }
     },
     {
-        id: 1037,
+        id: 1038,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-Г",
+        areaId: "b1f4-402g",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -571,12 +586,12 @@ const allServices = [
         }
     },
     {
-        id: 1038,
+        id: 1039,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-Д",
+        areaId: "b1f4-402d",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -586,12 +601,12 @@ const allServices = [
         }
     },
     {
-        id: 1039,
+        id: 1040,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-Е",
+        areaId: "b1f4-402e",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -601,12 +616,12 @@ const allServices = [
         }
     },
     {
-        id: 1040,
+        id: 1041,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-З",
+        areaId: "b1f4-402z",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -616,12 +631,12 @@ const allServices = [
         }
     },
     {
-        id: 1041,
+        id: 1042,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-И",
+        areaId: "b1f4-402i",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -631,12 +646,12 @@ const allServices = [
         }
     },
     {
-        id: 1042,
+        id: 1043,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-К",
+        areaId: "b1f4-402k",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -646,12 +661,12 @@ const allServices = [
         }
     },
     {
-        id: 1043,
+        id: 1044,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_402-Л",
+        areaId: "b1f4-402l",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -661,12 +676,12 @@ const allServices = [
         }
     },
     {
-        id: 1044,
+        id: 1045,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 4,
-        areaId: "area_4Б",
+        areaId: "b1f4-4b",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -676,12 +691,12 @@ const allServices = [
         }
     },
     {
-        id: 1045,
+        id: 1046,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 4,
-        areaId: "area_с-3-11",
+        areaId: "b1f4-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -691,12 +706,12 @@ const allServices = [
         }
     },
     {
-        id: 1046,
+        id: 1047,
         name: "Ресепшен",
         category: "service",
         building: "B1",
         floor: 4,
-        areaId: "service_Ресепшен",
+        areaId: "b1f4-r",
         desc: "",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
@@ -705,12 +720,12 @@ const allServices = [
         }
     },
     {
-        id: 1047,
+        id: 1048,
         name: "Зона ожидания",
         category: "relax",
         building: "B1",
         floor: 4,
-        areaId: "service_Зона-ожидания",
+        areaId: "b1f4-w",
         desc: "",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/vxBekbfbp1XdJ\nhttps://andreymashkin.ru/disk/share/zoqVAmHJ71l8O",
@@ -719,12 +734,12 @@ const allServices = [
         }
     },
     {
-        id: 1048,
+        id: 1049,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 5,
-        areaId: "area_504",
+        areaId: "b1f5-504",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -734,12 +749,12 @@ const allServices = [
         }
     },
     {
-        id: 1049,
+        id: 1050,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 5,
-        areaId: "area_с-3-11",
+        areaId: "b1f5-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -749,12 +764,12 @@ const allServices = [
         }
     },
     {
-        id: 1050,
+        id: 1051,
         name: "Ресепшен",
         category: "service",
         building: "B1",
         floor: 5,
-        areaId: "service_Ресепшен",
+        areaId: "b1f5-r",
         desc: "",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
@@ -763,12 +778,12 @@ const allServices = [
         }
     },
     {
-        id: 1051,
+        id: 1052,
         name: "Акустические кабинки",
         category: "service",
         building: "B1",
         floor: 6,
-        areaId: "area_Холл-6-этажа",
+        areaId: "b1f6-ac",
         desc: "Свободный доступ",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/P58KZMh9aZJbb",
@@ -778,12 +793,12 @@ const allServices = [
         }
     },
     {
-        id: 1052,
+        id: 1053,
         name: "Комната тишины",
         category: "meeting",
         building: "B1",
         floor: 6,
-        areaId: "area_603",
+        areaId: "b1f6-603",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "фото приложила",
@@ -793,12 +808,12 @@ const allServices = [
         }
     },
     {
-        id: 1053,
+        id: 1054,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 6,
-        areaId: "area_608",
+        areaId: "b1f6-608",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -808,12 +823,12 @@ const allServices = [
         }
     },
     {
-        id: 1054,
+        id: 1055,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 6,
-        areaId: "area_6-Б",
+        areaId: "b1f6-6b",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -823,12 +838,12 @@ const allServices = [
         }
     },
     {
-        id: 1055,
+        id: 1056,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 6,
-        areaId: "area_606",
+        areaId: "b1f6-606",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -838,12 +853,12 @@ const allServices = [
         }
     },
     {
-        id: 1056,
+        id: 1057,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 6,
-        areaId: "area_с-3-11",
+        areaId: "b1f6-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -853,12 +868,12 @@ const allServices = [
         }
     },
     {
-        id: 1057,
+        id: 1058,
         name: "Утилизация бумаги",
         category: "eco",
         building: "B1",
         floor: 6,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f6-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -867,12 +882,12 @@ const allServices = [
         }
     },
     {
-        id: 1058,
+        id: 1059,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 7,
-        areaId: "area_712",
+        areaId: "b1f7-712",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -882,12 +897,12 @@ const allServices = [
         }
     },
     {
-        id: 1059,
+        id: 1060,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 7,
-        areaId: "area_с-3-11",
+        areaId: "b1f7-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -897,12 +912,12 @@ const allServices = [
         }
     },
     {
-        id: 1060,
+        id: 1061,
         name: "Утилизация бумаги",
         category: "eco",
         building: "B1",
         floor: 7,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f7-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -911,12 +926,12 @@ const allServices = [
         }
     },
     {
-        id: 1061,
+        id: 1062,
         name: "Конмата тишины",
         category: "meeting",
         building: "B1",
         floor: 8,
-        areaId: "area_803",
+        areaId: "b1f8-803",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "фото приложила",
@@ -926,12 +941,12 @@ const allServices = [
         }
     },
     {
-        id: 1062,
+        id: 1063,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 8,
-        areaId: "area_808",
+        areaId: "b1f8-808",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "точка, а фото будет позже",
@@ -941,12 +956,12 @@ const allServices = [
         }
     },
     {
-        id: 1063,
+        id: 1064,
         name: "Учебный зал",
         category: "meeting",
         building: "B1",
         floor: 8,
-        areaId: "area_810",
+        areaId: "b1f8-810",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Учебный зал",
@@ -956,12 +971,12 @@ const allServices = [
         }
     },
     {
-        id: 1064,
+        id: 1065,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
-        floor: 7,
-        areaId: "area_с-3-11",
+        floor: 8,
+        areaId: "b1f8-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -971,12 +986,12 @@ const allServices = [
         }
     },
     {
-        id: 1065,
+        id: 1066,
         name: "Конмата тишины",
         category: "meeting",
         building: "B1",
         floor: 9,
-        areaId: "area_903",
+        areaId: "b1f9-903",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/5nkGOys6QrGxV",
@@ -986,12 +1001,12 @@ const allServices = [
         }
     },
     {
-        id: 1066,
+        id: 1067,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 9,
-        areaId: "area_9Б",
+        areaId: "b1f9-9b",
         desc: "",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1001,12 +1016,12 @@ const allServices = [
         }
     },
     {
-        id: 1067,
+        id: 1068,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 9,
-        areaId: "area_с-3-11",
+        areaId: "b1f9-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1016,12 +1031,12 @@ const allServices = [
         }
     },
     {
-        id: 1068,
+        id: 1069,
         name: "Утилизация бумаги",
         category: "eco",
         building: "B1",
         floor: 9,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f9-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1030,12 +1045,12 @@ const allServices = [
         }
     },
     {
-        id: 1069,
+        id: 1070,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 10,
-        areaId: "area_1008",
+        areaId: "b1f10-1008",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1045,12 +1060,12 @@ const allServices = [
         }
     },
     {
-        id: 1070,
+        id: 1071,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 10,
-        areaId: "area_1010",
+        areaId: "b1f10-1010",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/WOMWqau3KqPam",
@@ -1060,12 +1075,12 @@ const allServices = [
         }
     },
     {
-        id: 1071,
+        id: 1072,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 10,
-        areaId: "area_10-Б",
+        areaId: "b1f10-10b",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1075,12 +1090,12 @@ const allServices = [
         }
     },
     {
-        id: 1072,
+        id: 1073,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 10,
-        areaId: "area_с-3-11",
+        areaId: "b1f10-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1090,12 +1105,12 @@ const allServices = [
         }
     },
     {
-        id: 1073,
+        id: 1074,
         name: "Утилизация бумаги",
         category: "eco",
         building: "B1",
         floor: 10,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f10-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1104,12 +1119,12 @@ const allServices = [
         }
     },
     {
-        id: 1074,
+        id: 1075,
         name: "Ресепшен",
         category: "service",
         building: "B1",
         floor: 10,
-        areaId: "service_Ресепшен",
+        areaId: "b1f10-r",
         desc: "",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
@@ -1118,12 +1133,12 @@ const allServices = [
         }
     },
     {
-        id: 1075,
+        id: 1076,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 11,
-        areaId: "area_1102",
+        areaId: "b1f11-1102",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/JZeVJvuWxJvvY\nhttps://andreymashkin.ru/disk/share/VOK6mPu3ymDz8",
@@ -1133,12 +1148,12 @@ const allServices = [
         }
     },
     {
-        id: 1076,
+        id: 1077,
         name: "Переговорная",
         category: "meeting",
         building: "B1",
         floor: 11,
-        areaId: "area_1104",
+        areaId: "b1f11-1104",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/ppa4glhpXoaPx",
@@ -1148,12 +1163,12 @@ const allServices = [
         }
     },
     {
-        id: 1077,
+        id: 1078,
         name: "Мини-кухня",
         category: "food",
         building: "B1",
         floor: 11,
-        areaId: "area_с-3-11",
+        areaId: "b1f11-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1163,12 +1178,12 @@ const allServices = [
         }
     },
     {
-        id: 1078,
+        id: 1079,
         name: "Утилизация бумаги",
         category: "eco",
         building: "B1",
         floor: 11,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f11-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1177,12 +1192,12 @@ const allServices = [
         }
     },
     {
-        id: 1079,
+        id: 1080,
         name: "Ресепшен",
         category: "service",
         building: "B1",
         floor: 11,
-        areaId: "service_Ресепшен",
+        areaId: "b1f11-r",
         desc: "",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
@@ -1191,10 +1206,10 @@ const allServices = [
         }
     },
     {
-        id: 1080,
+        id: 1081,
         name: "Парковка",
         category: "other",
-        building: "PARKING",
+        building: "B1",
         floor: 1,
         areaId: "service_Парковка",
         desc: "подробнее о парковке https://jive.croc.ru/community/knowledge/everyday/social/parkovka-krok",
@@ -1205,12 +1220,12 @@ const allServices = [
         }
     },
     {
-        id: 1081,
+        id: 1082,
         name: "Велопарковка",
         category: "service",
-        building: "PARKING",
+        building: "B2",
         floor: 1,
-        areaId: "service_Велопарковка",
+        areaId: "b2f1-velo",
         desc: "Точка паркинга и проката велосипедов",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/Era2zvubQz3pX",
@@ -1219,12 +1234,12 @@ const allServices = [
         }
     },
     {
-        id: 1082,
+        id: 1083,
         name: "Точки зарядки электромобилей",
         category: "service",
-        building: "PARKING",
-        floor: 1,
-        areaId: "service_Точки-зарядки-электромобилей",
+        building: "B2",
+        floor: 3,
+        areaId: "b2f3-electro",
         desc: "Точка зарядки электромобиля",
         contacts: "",
         img: "просто точки поставить , карту ранее отправляла",
@@ -1233,12 +1248,26 @@ const allServices = [
         }
     },
     {
-        id: 1083,
-        name: "Входная группа",
+        id: 1084,
+        name: "",
         category: "other",
         building: "B2",
+        floor: 4,
+        areaId: "b2f4-electro",
+        desc: "",
+        contacts: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=",
+        link: "#",
+        attributes: {
+        }
+    },
+    {
+        id: 1085,
+        name: "Входная группа",
+        category: "other",
+        building: "B3",
         floor: 1,
-        areaId: "service_Входная-группа",
+        areaId: "b3f1-enter",
         desc: "ЗАО «КРОК инкорпорейтед»\nhttps://www.croc.ru",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/WOMWqau3Kqr4z",
@@ -1247,10 +1276,10 @@ const allServices = [
         }
     },
     {
-        id: 1084,
+        id: 1086,
         name: "Турникет с NFC проходом",
         category: "service",
-        building: "B2",
+        building: "B1",
         floor: 1,
         areaId: "area_Турникет",
         desc: "Возможность прохода в офис без использования пластиковой карты-пропуска, а через идентификацию с передачей номера карты по NFC/BLE смартфона.",
@@ -1262,12 +1291,12 @@ const allServices = [
         }
     },
     {
-        id: 1085,
-        name: "КРОК кофе (кофе-точка на карте)",
+        id: 1087,
+        name: "КРОК кофе",
         category: "food",
-        building: "B2",
+        building: "B3",
         floor: 1,
-        areaId: "service_КРОК-кофе-кофе-точка-на-карте",
+        areaId: "b3f1-coffee",
         desc: "Точка подзарядки вкусным кофе",
         contacts: "",
         img: "https://andreymashkin.ru/disk/share/eeVndbCkDv3zb",
@@ -1277,12 +1306,12 @@ const allServices = [
         }
     },
     {
-        id: 1086,
+        id: 1088,
         name: "Вендинг",
         category: "food",
-        building: "B2",
+        building: "B3",
         floor: 1,
-        areaId: "service_Вендинг",
+        areaId: "b3f1-vending",
         desc: "Быстрый перекус или полноценный обед в «шаговой» доступности.\n1 этаж",
         contacts: "Для вендинга ОС - foodfeedback@croc.ru",
         img: "https://yandex.ru/images/search?from=tabbar&img_url=https%3A%2F%2Fwww.niasam.ru%2F221783_i_gallerybig.jpg&lr=213&pos=1&rpt=simage&text=%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B0%20%D0%B1%D0%B0%D0%BD%D0%BA%D0%BE%D0%BC%D0%B0%D1%82%D0%B0%20\nhttps://yandex.ru/images/search?from=tabbar&img_url=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Fvending-machine-snack-drink_6427-85.jpg%3Fw%3D2000&lr=213&pos=0&rpt=simage&text=%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B0%20%D0%B2%D0%B5%D0%BD%D0%B4%D0%B8%D0%BD%D0%B3%D0%B0",
@@ -1292,12 +1321,12 @@ const allServices = [
         }
     },
     {
-        id: 1087,
+        id: 1089,
         name: "Гардероб",
         category: "service",
-        building: "B2",
+        building: "B3",
         floor: 1,
-        areaId: "service_Гардероб",
+        areaId: "b3f1-g",
         desc: "Гардероб предназначен для хранения верхней одежды, а также обуви в пакетах",
         contacts: "FieldService@croc.ru",
         img: "https://andreymashkin.ru/disk/share/VOK6mPu3ymbW1",
@@ -1307,12 +1336,12 @@ const allServices = [
         }
     },
     {
-        id: 1088,
-        name: "Лифты (подсветить только 1 этаж коопуса 1 и 3 , для информации) \nЕсть большой и малый лифтовой холл 9обратить внимание)",
+        id: 1090,
+        name: "Лифты",
         category: "service",
-        building: "B2",
+        building: "B3",
         floor: 1,
-        areaId: "service_Лифты-подсветить-только-1-этаж-коопуса-1-и-3--для-информации-Есть-большой-и-малый-лифтовой-холл-9обратить-внимание",
+        areaId: "b3f1-elevator",
         desc: "При застревании в лифте соблюдайте спокойствие и действуйте согласно инструкции, расположенной на панели управления в каждом лифте.\n\nПри неисправности лифта следует:\nнажать колокольчик и описать\nситуацию диспетчеру\nЛИБО\nпозвонить 8 (495) 974-22-74\nдоб 83-02, 83-03, круглосуточно\nЛИБО\nпозвонить дежурному лифтеру\nООО «ЛифтКомплекс» 8 (495) 974-22-74\nдоб 83-01.",
         contacts: "FieldService@croc.ru",
         img: "https://andreymashkin.ru/disk/share/y0rVxlSZKk8Xo",
@@ -1322,12 +1351,12 @@ const allServices = [
         }
     },
     {
-        id: 1089,
+        id: 1091,
         name: "Конференц-зал",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 2,
-        areaId: "area_203",
+        areaId: "b1f2-203",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/zoqVAmHJ711q7",
@@ -1337,12 +1366,12 @@ const allServices = [
         }
     },
     {
-        id: 1090,
+        id: 1092,
         name: "Конференц-зал",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 2,
-        areaId: "area_201",
+        areaId: "b1f2-201",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Конференц-зал",
@@ -1352,12 +1381,12 @@ const allServices = [
         }
     },
     {
-        id: 1091,
+        id: 1093,
         name: "Столовая",
         category: "food",
-        building: "B2",
+        building: "B3",
         floor: 2,
-        areaId: "service_Столовая",
+        areaId: "b3f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК\nОсновной зал\nМягкая зона \nЛетняя веранда",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/WOMWqau3KqrbO\nhttps://andreymashkin.ru/disk/share/02XRVKuegZYPW\nhttps://andreymashkin.ru/disk/share/7KAD3WueOqbX1\nhttps://andreymashkin.ru/disk/share/XRYPVXsKyVvXR",
@@ -1367,12 +1396,12 @@ const allServices = [
         }
     },
     {
-        id: 1092,
+        id: 1094,
         name: "Банкомат",
         category: "service",
-        building: "B2",
+        building: "B3",
         floor: 2,
-        areaId: "service_Банкомат",
+        areaId: "b3f2-atm",
         desc: "Банкомат: Сбербанк, работает на внесение и снятие наличных денежных средств",
         contacts: "",
         img: "https://yandex.ru/images/search?from=tabbar&img_url=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Fvending-machine-snack-drink_6427-85.jpg%3Fw%3D2000&lr=213&pos=0&rpt=simage&text=%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B0%20%D0%B2%D0%B5%D0%BD%D0%B4%D0%B8%D0%BD%D0%B3%D0%B0",
@@ -1381,12 +1410,12 @@ const allServices = [
         }
     },
     {
-        id: 1093,
+        id: 1095,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 3,
-        areaId: "area_311",
+        areaId: "b1f3-311",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1396,12 +1425,12 @@ const allServices = [
         }
     },
     {
-        id: 1094,
+        id: 1096,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 3,
-        areaId: "area_315",
+        areaId: "b1f3-315",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1411,12 +1440,12 @@ const allServices = [
         }
     },
     {
-        id: 1095,
+        id: 1097,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 3,
-        areaId: "area_317",
+        areaId: "b1f3-317",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1426,12 +1455,12 @@ const allServices = [
         }
     },
     {
-        id: 1096,
+        id: 1098,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 3,
-        areaId: "area_с-3-11",
+        areaId: "b1f3-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1441,12 +1470,12 @@ const allServices = [
         }
     },
     {
-        id: 1097,
+        id: 1099,
         name: "Утилизация бумаги",
         category: "eco",
-        building: "B2",
+        building: "B1",
         floor: 3,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f3-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1455,12 +1484,12 @@ const allServices = [
         }
     },
     {
-        id: 1098,
+        id: 1100,
         name: "Кабинет врача",
         category: "health",
-        building: "B2",
+        building: "B1",
         floor: 4,
-        areaId: "area_416",
+        areaId: "b1f4-doctor",
         desc: "Прием проводит врач общей практики Дрюкова Анна Викторовна",
         contacts: "ndemidova@croc.ru",
         img: "https://andreymashkin.ru/disk/share/4KvpGYu59bbgz\nhttps://andreymashkin.ru/disk/share/OZqQBnu56BBgn",
@@ -1471,12 +1500,12 @@ const allServices = [
         }
     },
     {
-        id: 1099,
+        id: 1101,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 4,
-        areaId: "area_417",
+        areaId: "b1f4-417",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1486,12 +1515,12 @@ const allServices = [
         }
     },
     {
-        id: 1100,
+        id: 1102,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 4,
-        areaId: "area_с-3-11",
+        areaId: "b1f4-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1501,12 +1530,12 @@ const allServices = [
         }
     },
     {
-        id: 1101,
+        id: 1103,
         name: "Утилизация бумаги",
         category: "eco",
-        building: "B2",
+        building: "B1",
         floor: 4,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f4-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1515,12 +1544,12 @@ const allServices = [
         }
     },
     {
-        id: 1102,
+        id: 1104,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 5,
-        areaId: "area_512",
+        areaId: "b1f5-512",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1530,12 +1559,12 @@ const allServices = [
         }
     },
     {
-        id: 1103,
+        id: 1105,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 5,
-        areaId: "area_511",
+        areaId: "b1f5-511",
         desc: "",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1545,12 +1574,12 @@ const allServices = [
         }
     },
     {
-        id: 1104,
+        id: 1106,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 5,
-        areaId: "area_513",
+        areaId: "b1f5-513",
         desc: "",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1560,12 +1589,12 @@ const allServices = [
         }
     },
     {
-        id: 1105,
+        id: 1107,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 5,
-        areaId: "area_517",
+        areaId: "b1f5-517",
         desc: "",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1575,12 +1604,12 @@ const allServices = [
         }
     },
     {
-        id: 1106,
+        id: 1108,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 5,
-        areaId: "area_с-3-11",
+        areaId: "b1f5-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1590,12 +1619,12 @@ const allServices = [
         }
     },
     {
-        id: 1107,
+        id: 1109,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 6,
-        areaId: "area_611",
+        areaId: "b1f6-611",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1605,12 +1634,12 @@ const allServices = [
         }
     },
     {
-        id: 1108,
+        id: 1110,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 6,
-        areaId: "area_615",
+        areaId: "b1f6-615",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1620,12 +1649,12 @@ const allServices = [
         }
     },
     {
-        id: 1109,
+        id: 1111,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 6,
-        areaId: "area_с-3-11",
+        areaId: "b1f6-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1635,12 +1664,12 @@ const allServices = [
         }
     },
     {
-        id: 1110,
+        id: 1112,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 7,
-        areaId: "area_701",
+        areaId: "b1f7-701",
         desc: "",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1650,12 +1679,12 @@ const allServices = [
         }
     },
     {
-        id: 1111,
+        id: 1113,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 7,
-        areaId: "area_715",
+        areaId: "b1f7-715",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1665,12 +1694,12 @@ const allServices = [
         }
     },
     {
-        id: 1112,
+        id: 1114,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 7,
-        areaId: "area_717",
+        areaId: "b1f7-775",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1680,12 +1709,12 @@ const allServices = [
         }
     },
     {
-        id: 1113,
+        id: 1115,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 7,
-        areaId: "area_с-3-11",
+        areaId: "b1f7-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1695,12 +1724,12 @@ const allServices = [
         }
     },
     {
-        id: 1114,
+        id: 1116,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 8,
-        areaId: "area_803",
+        areaId: "b1f8-801",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1710,12 +1739,12 @@ const allServices = [
         }
     },
     {
-        id: 1115,
+        id: 1117,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 8,
-        areaId: "area_808",
+        areaId: "b1f8-813",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1725,12 +1754,12 @@ const allServices = [
         }
     },
     {
-        id: 1116,
+        id: 1118,
         name: "Лекторий",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 8,
-        areaId: "area_810",
+        areaId: "b1f8-825",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Лекторий",
@@ -1740,12 +1769,12 @@ const allServices = [
         }
     },
     {
-        id: 1117,
+        id: 1119,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 8,
-        areaId: "area_с-3-11",
+        areaId: "b1f8-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1755,12 +1784,12 @@ const allServices = [
         }
     },
     {
-        id: 1118,
+        id: 1120,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 9,
-        areaId: "area_915",
+        areaId: "b1f9-915",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1770,12 +1799,12 @@ const allServices = [
         }
     },
     {
-        id: 1119,
+        id: 1121,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 9,
-        areaId: "area_917",
+        areaId: "b1f9-917",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1785,12 +1814,12 @@ const allServices = [
         }
     },
     {
-        id: 1120,
+        id: 1122,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 9,
-        areaId: "area_925",
+        areaId: "b1f9-925",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1800,12 +1829,12 @@ const allServices = [
         }
     },
     {
-        id: 1121,
+        id: 1123,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
+        building: "B1",
         floor: 9,
-        areaId: "area_с-3-11",
+        areaId: "b1f9-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1815,12 +1844,12 @@ const allServices = [
         }
     },
     {
-        id: 1122,
+        id: 1124,
         name: "Утилизация бумаги",
         category: "eco",
-        building: "B2",
+        building: "B1",
         floor: 9,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f9-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1829,12 +1858,12 @@ const allServices = [
         }
     },
     {
-        id: 1123,
+        id: 1125,
         name: "Коворкинг маркетинга",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 10,
-        areaId: "area_1007",
+        areaId: "b1f10-1007",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://andreymashkin.ru/disk/share/AXnVWvs5BWW2G\nhttps://andreymashkin.ru/disk/share/rg9eJlCk1ddvE\nhttps://andreymashkin.ru/disk/share/Mnl0eZsX8eeWP\nhttps://andreymashkin.ru/disk/share/KzBrRvuP9RR09\nhttps://andreymashkin.ru/disk/share/D4WEXGSnYXXrW",
@@ -1844,12 +1873,12 @@ const allServices = [
         }
     },
     {
-        id: 1124,
+        id: 1126,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 10,
-        areaId: "area_1013",
+        areaId: "b1f10-1013",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1859,12 +1888,12 @@ const allServices = [
         }
     },
     {
-        id: 1125,
+        id: 1127,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 10,
-        areaId: "area_1015",
+        areaId: "b1f10-1015",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1874,12 +1903,12 @@ const allServices = [
         }
     },
     {
-        id: 1126,
+        id: 1128,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 10,
-        areaId: "area_1022",
+        areaId: "b1f10-1022",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1889,12 +1918,12 @@ const allServices = [
         }
     },
     {
-        id: 1127,
+        id: 1129,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 10,
-        areaId: "area_1024",
+        areaId: "b1f10-1024",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1904,26 +1933,12 @@ const allServices = [
         }
     },
     {
-        id: 1128,
-        name: "Ресепшен",
-        category: "service",
-        building: "B2",
-        floor: 11,
-        areaId: "service_Ресепшен",
-        desc: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
-        contacts: "",
-        img: "https://andreymashkin.ru/disk/share/qvzb04hoVQQzD",
-        link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
-        attributes: {
-        }
-    },
-    {
-        id: 1129,
+        id: 1130,
         name: "Мини-кухня",
         category: "food",
-        building: "B2",
-        floor: 11,
-        areaId: "area_с-3-11",
+        building: "B1",
+        floor: 10,
+        areaId: "b1f10-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
         img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
@@ -1933,12 +1948,41 @@ const allServices = [
         }
     },
     {
-        id: 1130,
+        id: 1131,
+        name: "Ресепшен",
+        category: "service",
+        building: "B1",
+        floor: 11,
+        areaId: "b1f11-r",
+        desc: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
+        contacts: "",
+        img: "https://andreymashkin.ru/disk/share/qvzb04hoVQQzD",
+        link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
+        attributes: {
+        }
+    },
+    {
+        id: 1132,
+        name: "Мини-кухня",
+        category: "food",
+        building: "B1",
+        floor: 11,
+        areaId: "b1f11-k",
+        desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.\n\nКаждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.\n\nСледить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.\n\nТвой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
+        contacts: "foodfeedback@croc.ru",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
+        link: "#",
+        attributes: {
+            location: "с 3-11"
+        }
+    },
+    {
+        id: 1133,
         name: "Утилизация бумаги",
         category: "eco",
-        building: "B2",
+        building: "B1",
         floor: 11,
-        areaId: "service_Утилизация-бумаги",
+        areaId: "b1f11-paper",
         desc: "Точка сбора бумаги\nможно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
@@ -1947,12 +1991,12 @@ const allServices = [
         }
     },
     {
-        id: 1131,
+        id: 1134,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 11,
-        areaId: "area_1111",
+        areaId: "b1f11-1111",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1962,12 +2006,12 @@ const allServices = [
         }
     },
     {
-        id: 1132,
+        id: 1135,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 11,
-        areaId: "area_1113",
+        areaId: "b1f11-1113",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1977,12 +2021,12 @@ const allServices = [
         }
     },
     {
-        id: 1133,
+        id: 1136,
         name: "Переговорная",
         category: "meeting",
-        building: "B2",
+        building: "B1",
         floor: 11,
-        areaId: "area_1117",
+        areaId: "b1f11-1117",
         desc: "Бронируй через календарь в Outlook\nили в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru\n\nПо вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
@@ -1995,7 +2039,7 @@ const allServices = [
 
 const buildingFloorStructure = {
     "B1": {
-        "label": "Корпус 1",
+        "label": "Корпус Альфа",
         "floors": [
             1,
             2,
@@ -2011,15 +2055,25 @@ const buildingFloorStructure = {
         ],
         "defaultFloor": 1
     },
-    "PARKING": {
-        "label": "PARKING",
+    "B2": {
+        "label": "Парковка",
         "floors": [
-            1
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
         ],
         "defaultFloor": 1
     },
-    "B2": {
-        "label": "Корпус 2",
+    "B3": {
+        "label": "Корпус Бета",
         "floors": [
             1,
             2,
@@ -2039,20 +2093,136 @@ const buildingFloorStructure = {
 
 // svgFloorPlans нужно обновить вручную на основе актуальных SVG файлов
 const svgFloorPlans = {
-    'B1-F1': {
-        src: './map/b1f1.svg',
-        viewBox: '0 0 1074 525'
+    "B1-F1": {
+        src: "map/b1f1.svg",
+        viewBox: "0 0 1074 525"
     },
-    'B1-F2': {
-        src: './map/b1f2.svg',
-        viewBox: '0 0 1095 503'
+    "B1-F10": {
+        src: "map/b1f10.svg",
+        viewBox: "0 0 1128 501"
     },
-    'B1-F3': {
-        src: './map/floor-B1-F3.svg',
-        viewBox: '0 0 800 550'
+    "B1-F11": {
+        src: "map/b1f11.svg",
+        viewBox: "0 0 1128 501"
     },
-    'B3-F1': {
-        src: './map/floor-B3-F1.svg',
-        viewBox: '0 0 800 550'
+    "B1-F2": {
+        src: "map/b1f2.svg",
+        viewBox: "0 0 1095 503"
+    },
+    "B1-F3": {
+        src: "map/b1f3.svg",
+        viewBox: "0 0 1125 501"
+    },
+    "B1-F4": {
+        src: "map/b1f4.svg",
+        viewBox: "0 0 1124 480"
+    },
+    "B1-F5": {
+        src: "map/b1f5.svg",
+        viewBox: "0 0 1128 501"
+    },
+    "B1-F6": {
+        src: "map/b1f6.svg",
+        viewBox: "0 0 1128 501"
+    },
+    "B1-F7": {
+        src: "map/b1f7.svg",
+        viewBox: "0 0 1128 501"
+    },
+    "B1-F8": {
+        src: "map/b1f8.svg",
+        viewBox: "0 0 1128 501"
+    },
+    "B1-F9": {
+        src: "map/b1f9.svg",
+        viewBox: "0 0 1128 501"
+    },
+    "B2-F1": {
+        src: "map/b2f1.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F10": {
+        src: "map/b2f10.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F11": {
+        src: "map/b2f11.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F2": {
+        src: "map/b2f2.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F3": {
+        src: "map/b2f3.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F4": {
+        src: "map/b2f4.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F5": {
+        src: "map/b2f5.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F6": {
+        src: "map/b2f6.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F7": {
+        src: "map/b2f7.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F8": {
+        src: "map/b2f8.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B2-F9": {
+        src: "map/b2f9.svg",
+        viewBox: "0 0 872 512"
+    },
+    "B3-F1": {
+        src: "map/b3f1.svg",
+        viewBox: "0 0 1035 317"
+    },
+    "B3-F10": {
+        src: "map/b3f10.svg",
+        viewBox: "0 0 1149 357"
+    },
+    "B3-F11": {
+        src: "map/b3f11.svg",
+        viewBox: "0 0 1135 359"
+    },
+    "B3-F2": {
+        src: "map/b3f2.svg",
+        viewBox: "0 0 1130 320"
+    },
+    "B3-F3": {
+        src: "map/b3f3.svg",
+        viewBox: "0 0 1103 330"
+    },
+    "B3-F4": {
+        src: "map/b3f4.svg",
+        viewBox: "0 0 962 299"
+    },
+    "B3-F5": {
+        src: "map/b3f5.svg",
+        viewBox: "0 0 1150 358"
+    },
+    "B3-F6": {
+        src: "map/b3f6.svg",
+        viewBox: "0 0 1149 358"
+    },
+    "B3-F7": {
+        src: "map/b3f7.svg",
+        viewBox: "0 0 1149 358"
+    },
+    "B3-F8": {
+        src: "map/b3f8.svg",
+        viewBox: "0 0 1149 357"
+    },
+    "B3-F9": {
+        src: "map/b3f9.svg",
+        viewBox: "0 0 1149 358"
     }
 };

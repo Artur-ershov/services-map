@@ -75,3 +75,4 @@ node scripts/sync-csv-to-data.js "путь\к\csv\файлу.csv"
 
 
 
+

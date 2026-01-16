@@ -6,7 +6,7 @@
     --krok-red: #FF645A;
     --krok-orange: #FFA436;
     --bg: #eee;
-    --hl: #f0f8ff;
+    --hl: #f0f1f3;
 
     --krok-green-rgb: 0, 197, 115;
     --krok-blue-rgb: 71, 93, 235;
@@ -16,11 +16,19 @@
 
     --highlight-priority: #fff3b0;
     --highlight-secondary: #fcfade;
-    --zone-meeting: #00C573;
-    --zone-food: #FFA436;
-    --zone-opacity-idle: 0.2;
-    --zone-opacity-active: 0.4;
-    --zone-opacity-dimmed: 0.05;
+    /* Цвета категорий из SVG (взяты из fill/stroke цветов зон) */
+    --zone-meeting: #33D18F;       /* Переговорные - зеленый (из area_8, area_9 в b1f2) */
+    --zone-food: #FFA436;          /* Питание - оранжевый (из вендинга, кофе) */
+    --zone-service: #475DEB;       /* Сервис - синий (из гардероба, лифтов, входа) */
+    --zone-relax: #7027E2;         /* Релакс - фиолетовый */
+    --zone-eco: #73E553;           /* Эко-инициативы - ярко-зеленый (из charity shop, eco point) */
+    --zone-sport: #FF645A;         /* Спорт - красный (из спортзала в b1f3) */
+    --zone-health: #007E76;        /* Здоровье - темно-синий/зеленый (из кабинета врача) */
+    --zone-beauty: #014952;        /* Красота - темно-синий/зеленый (из кабинета парикмахера) */
+    --zone-other: #475DEB;         /* Без категории - синий */
+    --zone-opacity-idle: 1;
+    --zone-opacity-active: 0.75;
+    --zone-opacity-dimmed: 0.2;
 }
 
 @keyframes pulse {
@@ -291,58 +299,91 @@
 }
 
 .ksmm-filter-btn[data-category="food"] {
-    color: var(--krok-orange);
-    border-color: rgba(var(--krok-orange-rgb), 0.2);
+    color: var(--zone-food);
+    border-color: rgba(255, 164, 54, 0.2);
 }
 
 .ksmm-filter-btn[data-category="food"].active {
-    background-color: var(--krok-orange);
+    background-color: var(--zone-food);
     color: white;
-    border-color: var(--krok-orange);
+    border-color: var(--zone-food);
 }
 
 .ksmm-filter-btn[data-category="sport"] {
-    color: var(--krok-purple);
-    border-color: rgba(var(--krok-purple-rgb), 0.2);
+    color: var(--zone-sport);
+    border-color: rgba(255, 100, 90, 0.2);
 }
 
 .ksmm-filter-btn[data-category="sport"].active {
-    background-color: var(--krok-purple);
+    background-color: var(--zone-sport);
     color: white;
-    border-color: var(--krok-purple);
+    border-color: var(--zone-sport);
 }
 
 .ksmm-filter-btn[data-category="meeting"] {
-    color: var(--krok-green);
-    border-color: rgba(var(--krok-green-rgb), 0.2);
+    color: var(--zone-meeting);
+    border-color: rgba(51, 209, 143, 0.2);
 }
 
 .ksmm-filter-btn[data-category="meeting"].active {
-    background-color: var(--krok-green);
+    background-color: var(--zone-meeting);
     color: white;
-    border-color: var(--krok-green);
+    border-color: var(--zone-meeting);
 }
 
 .ksmm-filter-btn[data-category="relax"] {
-    color: var(--krok-red);
-    border-color: rgba(var(--krok-red-rgb), 0.2);
+    color: var(--zone-relax);
+    border-color: rgba(112, 39, 226, 0.2);
 }
 
 .ksmm-filter-btn[data-category="relax"].active {
-    background-color: var(--krok-red);
+    background-color: var(--zone-relax);
     color: white;
-    border-color: var(--krok-red);
+    border-color: var(--zone-relax);
 }
 
 .ksmm-filter-btn[data-category="service"] {
-    color: var(--krok-blue);
-    border-color: rgba(var(--krok-blue-rgb), 0.2);
+    color: var(--zone-service);
+    border-color: rgba(71, 93, 235, 0.2);
 }
 
 .ksmm-filter-btn[data-category="service"].active {
-    background-color: var(--krok-blue);
+    background-color: var(--zone-service);
     color: white;
-    border-color: var(--krok-blue);
+    border-color: var(--zone-service);
+}
+
+.ksmm-filter-btn[data-category="eco"] {
+    color: var(--zone-eco);
+    border-color: rgba(115, 229, 83, 0.2);
+}
+
+.ksmm-filter-btn[data-category="eco"].active {
+    background-color: var(--zone-eco);
+    color: white;
+    border-color: var(--zone-eco);
+}
+
+.ksmm-filter-btn[data-category="health"] {
+    color: var(--zone-health);
+    border-color: rgba(0, 126, 118, 0.2);
+}
+
+.ksmm-filter-btn[data-category="health"].active {
+    background-color: var(--zone-health);
+    color: white;
+    border-color: var(--zone-health);
+}
+
+.ksmm-filter-btn[data-category="beauty"] {
+    color: var(--zone-beauty);
+    border-color: rgba(1, 73, 82, 0.2);
+}
+
+.ksmm-filter-btn[data-category="beauty"].active {
+    background-color: var(--zone-beauty);
+    color: white;
+    border-color: var(--zone-beauty);
 }
 
 /* --- КОНЕЦ ВОССТАНОВЛЕННЫХ СТИЛЕЙ КНОПОК --- */
@@ -403,15 +444,16 @@
 
 /* Элементы списка */
 .ksmm-list-item {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--bg);
+    padding: 12px 12px;
+    /* border-bottom: 1px solid var(--bg); */
     cursor: pointer;
     transition: background-color 0.2s ease;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
+    border-radius: 12px;
+    margin: 0 10px;
 }
-
 .ksmm-item-content {
     flex: 1;
     min-width: 0;
@@ -419,13 +461,14 @@
 
 .ksmm-list-item h4 {
     margin: 0 0 8px 0;
+    font-size: 0.875em;
     font-variation-settings: 'wdth' 105;
 }
 
 /* Индикатор категории */
 .ksmm-category-indicator {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     flex-shrink: 0;
     margin-top: 2px;
@@ -442,11 +485,11 @@
 }
 
 .ksmm-category-indicator[data-category="meeting"].filled {
-    background-color: var(--krok-green);
+    background-color: var(--zone-meeting);
 }
 
 .ksmm-category-indicator[data-category="meeting"].outlined {
-    border-color: var(--krok-green);
+    border-color: var(--zone-meeting);
 }
 
 .ksmm-category-indicator[data-category="food"].filled {
@@ -458,19 +501,19 @@
 }
 
 .ksmm-category-indicator[data-category="sport"].filled {
-    background-color: var(--krok-purple);
+    background-color: var(--zone-sport);
 }
 
 .ksmm-category-indicator[data-category="sport"].outlined {
-    border-color: var(--krok-purple);
+    border-color: var(--zone-sport);
 }
 
 .ksmm-category-indicator[data-category="relax"].filled {
-    background-color: var(--krok-red);
+    background-color: var(--zone-relax);
 }
 
 .ksmm-category-indicator[data-category="relax"].outlined {
-    border-color: var(--krok-red);
+    border-color: var(--zone-relax);
 }
 
 .ksmm-category-indicator[data-category="service"].filled {
@@ -479,6 +522,38 @@
 
 .ksmm-category-indicator[data-category="service"].outlined {
     border-color: var(--krok-blue);
+}
+
+.ksmm-category-indicator[data-category="eco"].filled {
+    background-color: var(--zone-eco);
+}
+
+.ksmm-category-indicator[data-category="eco"].outlined {
+    border-color: var(--zone-eco);
+}
+
+.ksmm-category-indicator[data-category="health"].filled {
+    background-color: var(--zone-health);
+}
+
+.ksmm-category-indicator[data-category="health"].outlined {
+    border-color: var(--zone-health);
+}
+
+.ksmm-category-indicator[data-category="beauty"].filled {
+    background-color: var(--zone-beauty);
+}
+
+.ksmm-category-indicator[data-category="beauty"].outlined {
+    border-color: var(--zone-beauty);
+}
+
+.ksmm-category-indicator[data-category="other"].filled {
+    background-color: var(--zone-other);
+}
+
+.ksmm-category-indicator[data-category="other"].outlined {
+    border-color: var(--zone-other);
 }
 
 /* Информация о местоположении */
@@ -911,6 +986,7 @@ body p.ksmm-item-location {
     border-radius: 8px 8px 0 0;
     margin: -20px -20px 15px -20px;
     background: #f0f0f0;
+    display: none; /* Временно скрыто */
 }
 
 .ksmm-popup h3 {
@@ -929,7 +1005,6 @@ body p.ksmm-item-location {
 }
 
 .ksmm-btn {
-    display: inline-block;
     padding: 10px 15px;
     background: var(--krok-blue);
     color: white;
@@ -938,6 +1013,7 @@ body p.ksmm-item-location {
     margin-top: 15px;
     font-weight: bold;
     text-align: center;
+    display: none; /* Временно скрыто */
 }
 
 /* Адаптивность */

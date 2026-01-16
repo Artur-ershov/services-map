@@ -83,7 +83,7 @@
         popupImg.src = service.img;
         popupContacts.textContent = service.contacts;
         popupLink.href = service.link;
-        popupLink.style.display = (service.link === '#') ? 'none' : 'inline-block';
+        popupLink.style.display = 'none'; // Временно скрыто
         setActiveArea(service.areaId);
         popup.style.display = 'block';
     }
@@ -342,33 +342,31 @@
         clipPathsOutsideDefs.forEach(clipPath => defsFragment.appendChild(clipPath.cloneNode(true)));
         
         // Собираем контент (без defs)
+        // Исправляем элементы без fill - устанавливаем fill="none", чтобы не отображались черными
         const contentFragment = document.createDocumentFragment();
         Array.from(sourceSvg.children).forEach(child => {
             if (child.tagName !== 'defs') {
                 const clonedChild = child.cloneNode(true);
                 
-                // Исправление черных зон: элементы без fill или с fill="white" должны иметь fill="none"
-                // Это предотвратит черные квадраты, но stroke останется видимым
-                const allPaths = clonedChild.querySelectorAll('path');
-                allPaths.forEach(path => {
-                    const fill = path.getAttribute('fill');
-                    const isInMask = path.closest('mask');
-                    
-                    // Если нет fill или fill="white", устанавливаем fill="none" (кроме элементов в mask)
-                    if (!isInMask && (!fill || fill === 'white' || fill === '#ffffff' || fill === '#FFFFFF')) {
-                        path.setAttribute('fill', 'none');
+                // Устанавливаем fill="none" для всех элементов без fill, чтобы не отображались черными
+                // НО НЕ ТРОГАЕМ элементы с fill="white" (фон карты) - они должны остаться белыми
+                // Используем рекурсивный поиск, чтобы найти все элементы, включая вложенные в группы
+                function setFillNoneRecursive(element) {
+                    const tagName = element.tagName?.toLowerCase();
+                    if (tagName && ['path', 'circle', 'ellipse', 'rect', 'polygon', 'polyline'].includes(tagName)) {
+                        const fill = element.getAttribute('fill');
+                        // Если нет fill атрибута, устанавливаем fill="none"
+                        // Элементы с fill="white" оставляем как есть
+                        if (!fill) {
+                            element.setAttribute('fill', 'none');
+                        }
                     }
-                });
-                
-                const allShapes = clonedChild.querySelectorAll('circle, ellipse, rect, polygon, polyline');
-                allShapes.forEach(shape => {
-                    const fill = shape.getAttribute('fill');
-                    const isInMask = shape.closest('mask');
-                    
-                    if (!isInMask && (!fill || fill === 'white' || fill === '#ffffff' || fill === '#FFFFFF')) {
-                        shape.setAttribute('fill', 'none');
-                    }
-                });
+                    // Рекурсивно обрабатываем все дочерние элементы
+                    Array.from(element.children).forEach(child => {
+                        setFillNoneRecursive(child);
+                    });
+                }
+                setFillNoneRecursive(clonedChild);
                 
                 contentFragment.appendChild(clonedChild);
             }
@@ -390,6 +388,10 @@
             svgMap.setAttribute('viewBox', config.viewBox);
             svgMap.setAttribute('preserveAspectRatio', 'xMidYMid meet');
         }
+        
+        // Убираем fill="none" у корневого SVG, чтобы не наследовался на элементы без fill
+        // Это предотвратит черные квадраты
+        svgMap.removeAttribute('fill');
         
         // Очищаем слой
         mapBaseLayer.innerHTML = '';
@@ -676,17 +678,7 @@
             floorDropdownText.textContent = `${buildingFloorStructure[b].label}, ${f} этаж`;
         }
         if (servicesOnFloor.length === 0) {
-            const viewBox = svgMap.viewBox.baseVal;
-            const viewBoxWidth = viewBox.width || 1991;
-            const viewBoxHeight = viewBox.height || 909;
-            const text = document.createElementNS(SVG_NS, 'text');
-            text.setAttribute('x', (viewBoxWidth / 2).toString());
-            text.setAttribute('y', (viewBoxHeight / 2).toString());
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('font-size', '24');
-            text.setAttribute('fill', '#999');
-            text.textContent = `На этаже ${f} пока нет отмеченных зон.`;
-            mapAreasContainer.appendChild(text);
+            // Нет сервисов на этаже - просто возвращаемся без сообщения
             return;
         }
 
@@ -698,26 +690,9 @@
             }
             const zone = originalZone.cloneNode(true);
             originalZone.parentNode.replaceChild(zone, originalZone);
-            zone.removeAttribute('style');
             
-            // Обрабатываем fill для группы и всех дочерних элементов
-            // Убираем fill="white" и устанавливаем fill="none" для элементов без fill
-            const processFill = (element) => {
-                if (element.tagName === 'g') {
-                    // Для групп обрабатываем все дочерние элементы
-                    Array.from(element.children).forEach(child => processFill(child));
-                } else {
-                    // Для path, circle, rect и т.д. обрабатываем fill
-                    const fill = element.getAttribute('fill');
-                    if (!fill || fill === 'white' || fill === '#ffffff' || fill === '#FFFFFF') {
-                        element.setAttribute('fill', 'none');
-                    }
-                }
-            };
-            processFill(zone);
-            
-            // Убираем stroke, opacity - используем только CSS opacity для выделения
-            ['stroke', 'stroke-width', 'opacity', 'fill-opacity'].forEach(attr => zone.removeAttribute(attr));
+            // Не изменяем стили зон - берем как есть из SVG
+            // Не удаляем никакие атрибуты, чтобы сохранить оригинальное отображение
             
             zone.classList.add('ksmm-map-area');
             zone.setAttribute('data-service-id', service.id);

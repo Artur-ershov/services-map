@@ -8,15 +8,19 @@
 
 Скрипт:
 1. Читает CSV таблицу
-2. Нормализует данные (корпуса, категории, локации)
-3. Генерирует обновленный data.js
-4. Создает маппинг для Figma
+2. Использует колонку "id" напрямую как areaId (должна совпадать с id в SVG)
+3. Нормализует данные (корпуса, категории, локации)
+4. Генерирует обновленный data.js
+
+Важно: Колонка "id" в CSV должна содержать правильные areaId, которые совпадают
+с id элементов в SVG файлах (например, b1f1-enter, b1f1-coffee и т.д.)
 """
 
 import csv
 import json
 import sys
 import os
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -66,8 +70,8 @@ def generate_area_id(figma_id, location, name, building, floor):
 
 def csv_row_to_service(row, index):
     """Преобразование CSV строки в объект сервиса"""
-    building_raw = row.get('корпус', '').strip()
-    building = BUILDING_MAP.get(building_raw, building_raw)
+    building_raw = row.get('корпус', '').strip() or row.get(' ', '').strip()
+    building = BUILDING_MAP.get(building_raw, building_raw) or 'B1'
     
     # Обработка этажа (может быть "?", пусто или число)
     floor_str = row.get('этаж', '1').strip() or '1'
@@ -79,8 +83,8 @@ def csv_row_to_service(row, index):
     category_raw = row.get(' Категория', '').strip()
     category = CATEGORY_MAP.get(category_raw, 'other')
     
-    # ID из Figma (колонка "id")
-    figma_id = row.get('id', '').strip()
+    # ID из CSV (колонка "id" или "ID") - это и есть areaId, который совпадает с id в SVG
+    area_id = row.get('id', '').strip() or row.get('ID', '').strip() or row.get('areaId', '').strip()
     
     location = row.get('Локация', '').strip()
     name = row.get('Название', '').strip()
@@ -93,8 +97,36 @@ def csv_row_to_service(row, index):
     # Генерация ID (начинаем с 1000, чтобы не конфликтовать с тестовыми данными)
     service_id = 1000 + index
     
-    # Генерация areaId (используем ID из Figma если есть)
-    area_id = generate_area_id(figma_id, location, name, building, floor)
+    # Если areaId есть, определяем корпус и этаж из него (например, b1f1-enter -> B1, этаж 1)
+    if area_id:
+        if area_id.startswith('b1f') or area_id.startswith('b2f') or area_id.startswith('b3f'):
+            # Определяем корпус из префикса
+            if area_id.startswith('b1f'):
+                building = 'B1'
+            elif area_id.startswith('b2f'):
+                building = 'B2'
+            elif area_id.startswith('b3f'):
+                building = 'B3'
+            
+            # Извлекаем этаж из areaId (например, b1f1-enter -> этаж 1, b2f11-parking -> этаж 11)
+            try:
+                # Ищем цифры после префикса (b1f, b2f, b3f)
+                prefix_len = 3  # "b1f", "b2f", "b3f"
+                if len(area_id) > prefix_len:
+                    # Пробуем извлечь одну или две цифры
+                    floor_str = ''
+                    for i in range(prefix_len, min(prefix_len + 2, len(area_id))):
+                        if area_id[i].isdigit():
+                            floor_str += area_id[i]
+                        else:
+                            break
+                    if floor_str:
+                        floor = int(floor_str)
+            except (ValueError, IndexError):
+                pass
+    else:
+        # Если areaId нет, генерируем его (fallback)
+        area_id = generate_area_id(None, location, name, building, floor)
     
     # Формирование attributes
     attributes = {}
@@ -130,32 +162,96 @@ def escape_js_string(s):
     # Используем json.dumps, который правильно экранирует все специальные символы
     return json.dumps(s, ensure_ascii=False)
 
+def get_svg_floor_plans_from_existing():
+    """Пытается прочитать svgFloorPlans из существующего data.js"""
+    try:
+        if os.path.exists('data.js'):
+            with open('data.js', 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Ищем начало блока svgFloorPlans
+            start = content.find('const svgFloorPlans = {')
+            if start == -1:
+                return None
+            
+            # Проверяем, что это не пустой блок с TODO
+            if 'TODO' in content[start:start+200]:
+                return None
+            
+            # Находим закрывающую скобку, учитывая вложенность
+            brace_count = 0
+            i = start + len('const svgFloorPlans = {')
+            in_string = False
+            string_char = None
+            
+            while i < len(content):
+                char = content[i]
+                
+                # Отслеживаем строки, чтобы игнорировать скобки внутри них
+                if not in_string and (char == '"' or char == "'"):
+                    in_string = True
+                    string_char = char
+                elif in_string and char == string_char:
+                    # Проверяем, не экранированная ли кавычка
+                    if i == 0 or content[i-1] != '\\':
+                        in_string = False
+                        string_char = None
+                
+                if not in_string:
+                    if char == '{':
+                        brace_count += 1
+                    elif char == '}':
+                        if brace_count == 0:
+                            # Нашли закрывающую скобку объекта
+                            end = i + 1
+                            # Ищем точку с запятой после закрывающей скобки
+                            while end < len(content) and content[end] in ' \n\r\t':
+                                end += 1
+                            if end < len(content) and content[end] == ';':
+                                end += 1
+                            return content[start:end] + '\n'
+                        brace_count -= 1
+                i += 1
+    except Exception as e:
+        print(f'[WARN] Не удалось прочитать svgFloorPlans из data.js: {e}')
+    return None
+
+def generate_svg_floor_plans_code():
+    """Генерирует код svgFloorPlans, вызывая скрипт generate-svg-floor-plans.py"""
+    try:
+        import subprocess
+        result = subprocess.run(
+            ['python', 'scripts/generate-svg-floor-plans.py'],
+            capture_output=True,
+            text=True,
+            encoding='utf-8'
+        )
+        if result.returncode == 0:
+            return result.stdout
+    except Exception as e:
+        print(f'[WARN] Не удалось сгенерировать svgFloorPlans: {e}')
+    return None
+
 def generate_data_js(services, output_path):
     """Генерация data.js"""
-    # Группировка по корпусам для buildingFloorStructure
-    building_floors = {}
-    
-    for service in services:
-        building = service['building']
-        floor = service['floor']
-        if building not in building_floors:
-            building_floors[building] = set()
-        building_floors[building].add(floor)
-    
-    building_floor_structure = {}
-    for building, floors_set in building_floors.items():
-        floors = sorted(list(floors_set))
-        label_map = {
-            'B1': 'Корпус 1',
-            'B2': 'Корпус 2',
-            'B3': 'Корпус 3'
+    # Правильная структура этажей для всех корпусов (всегда 11 этажей)
+    building_floor_structure = {
+        'B1': {
+            'label': 'Корпус Альфа',
+            'floors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            'defaultFloor': 1
+        },
+        'B2': {
+            'label': 'Парковка',
+            'floors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            'defaultFloor': 1
+        },
+        'B3': {
+            'label': 'Корпус Бета',
+            'floors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            'defaultFloor': 1
         }
-        label = label_map.get(building, building)
-        building_floor_structure[building] = {
-            'label': label,
-            'floors': floors,
-            'defaultFloor': floors[0] if floors else 1
-        }
+    }
     
     # Формирование кода
     code_lines = [
@@ -197,10 +293,23 @@ def generate_data_js(services, output_path):
     code_lines.append('')
     code_lines.append(f'const buildingFloorStructure = {json.dumps(building_floor_structure, ensure_ascii=False, indent=4)};')
     code_lines.append('')
-    code_lines.append('// svgFloorPlans нужно обновить вручную на основе актуальных SVG файлов')
-    code_lines.append('const svgFloorPlans = {')
-    code_lines.append('    // TODO: Заполнить на основе реальных SVG файлов')
-    code_lines.append('};')
+    
+    # Пытаемся сохранить существующий svgFloorPlans или сгенерировать новый
+    existing_svg_plans = get_svg_floor_plans_from_existing()
+    if existing_svg_plans:
+        code_lines.append('// svgFloorPlans сохранен из существующего data.js')
+        code_lines.append(existing_svg_plans)
+    else:
+        # Пытаемся сгенерировать через скрипт
+        generated_svg_plans = generate_svg_floor_plans_code()
+        if generated_svg_plans:
+            code_lines.append('// svgFloorPlans автоматически сгенерирован из SVG файлов')
+            code_lines.append(generated_svg_plans.rstrip())
+        else:
+            code_lines.append('// svgFloorPlans нужно обновить, запустив: python scripts/generate-svg-floor-plans.py')
+            code_lines.append('const svgFloorPlans = {')
+            code_lines.append('    // TODO: Заполнить на основе реальных SVG файлов')
+            code_lines.append('};')
     code_lines.append('')
     
     code = '\n'.join(code_lines)
@@ -323,19 +432,16 @@ def main():
     script_dir = Path(__file__).parent
     output_dir = script_dir.parent
     data_js_path = output_dir / 'data-generated.js'
-    mapping_path = output_dir / 'figma-mapping.csv'
-    
     print('\n[ГЕНЕРАЦИЯ] Создание файлов...\n')
     
     generate_data_js(all_services, str(data_js_path))
-    generate_figma_mapping(all_services, str(mapping_path))
     
     print('\n[ГОТОВО] Синхронизация завершена!\n')
     print('Следующие шаги:')
     print('  1. Проверьте data-generated.js')
     print('  2. Если всё хорошо, переименуйте в data.js (сделайте бэкап!)')
-    print('  3. Используйте figma-mapping.csv для переименования слоев в Figma')
-    print('  4. Обновите svgFloorPlans вручную на основе реальных SVG файлов\n')
+    print('  3. Убедитесь, что areaId в data.js совпадают с id в SVG файлах')
+    print('\n[ВАЖНО] Не удаляйте tmp.css - он нужен для локального просмотра шрифта!\n')
 
 if __name__ == '__main__':
     main()
