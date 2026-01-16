@@ -14,7 +14,7 @@
 </g>
 <text id="title" transform="translate(1031.1 79.2808) rotate(-90.75)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="12" font-weight="500" letter-spacing="0em"><tspan x="0.304688" y="10.14">&#x41b;&#x438;&#x444;&#x442;&#x43e;&#x432;&#x43e;&#x439; &#10;</tspan><tspan x="12.6504" y="22.14">&#x445;&#x43e;&#x43b;&#x43b; 2</tspan></text>
 <text id="title_2" transform="translate(412.101 297.281) rotate(-90.75)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="12" font-weight="500" letter-spacing="0em"><tspan x="0.304688" y="10.14">&#x41b;&#x438;&#x444;&#x442;&#x43e;&#x432;&#x43e;&#x439; &#10;</tspan><tspan x="14.1152" y="22.14">&#x445;&#x43e;&#x43b;&#x43b; 1</tspan></text>
-<g id="b1f10-1022">
+<g id="b3f10-1022">
 <rect id="Rectangle 9" x="667.25" y="1.25" width="45" height="98" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.5" stroke-linejoin="round"/>
 <text id="title_3" transform="translate(676.25 51.2822)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4" font-weight="500" letter-spacing="0em"><tspan x="0" y="3.38">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
 <g id="Frame 23">
@@ -22,7 +22,7 @@
 <text id="1022" transform="translate(685.666 43.375)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="0.203623" y="4.0525">1022</tspan></text>
 </g>
 </g>
-<g id="b1f10-1013">
+<g id="b3f10-1013">
 <path id="Rectangle 11" d="M692.25 128.972H737.25V133.472H752.25V198.972H692.25V128.972Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.5" stroke-linejoin="round"/>
 <text id="title_4" transform="translate(705.25 166.004)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4" font-weight="500" letter-spacing="0em"><tspan x="0" y="3.38">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
 <g id="Frame 25">
@@ -30,7 +30,7 @@
 <text id="1013" transform="translate(714.666 158.097)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="0.239756" y="4.0525">1013</tspan></text>
 </g>
 </g>
-<g id="b1f10-1015">
+<g id="b3f10-1015">
 <path id="Rectangle 12" d="M812.25 128.972H756.75V133.472H752.25V198.972H812.25V128.972Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.5" stroke-linejoin="round"/>
 <text id="title_5" transform="translate(765.25 166.004)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4" font-weight="500" letter-spacing="0em"><tspan x="0" y="3.38">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
 <g id="Frame 26">
@@ -38,7 +38,7 @@
 <text id="1015" transform="translate(774.666 158.097)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="0.239756" y="4.0525">1015</tspan></text>
 </g>
 </g>
-<g id="b1f10-1024">
+<g id="b3f10-1024">
 <rect id="Rectangle 10" x="712.25" y="1.25" width="44" height="98" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.5" stroke-linejoin="round"/>
 <text id="title_6" transform="translate(720.25 51.2822)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4" font-weight="500" letter-spacing="0em"><tspan x="0" y="3.38">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
 <g id="Frame 24">
@@ -46,7 +46,7 @@
 <text id="1024" transform="translate(729.666 43.375)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="0.172861" y="4.0525">1024</tspan></text>
 </g>
 </g>
-<g id="b1f10-k">
+<g id="b3f10-k">
 <path id="Vector 34" d="M993.75 124.472H998.25V110.972H968.75V94.9722H904.25V136.972H993.75V124.472Z" fill="#FFEDD6" stroke="#FFCF94" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <text id="title_7" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="932.309" y="121.923">&#x41c;&#x438;&#x43d;&#x438;-&#x43a;&#x443;&#x445;&#x43d;&#x44f;</tspan></text>
 <g id="Frame 10">
@@ -55,7 +55,7 @@
 <text id="10c" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4" font-weight="500" letter-spacing="0.02em"><tspan x="944.365" y="113.352">10c</tspan></text>
 </g>
 </g>
-<g id="b1f10-1007">
+<g id="b3f10-1007">
 <path id="Vector 30" d="M66.25 184.25H30.25V198.25H11.75L1.25 354.75H52.75L105.75 353.75V343.25C105.75 337.65 101.75 329.583 99.75 326.25C104.083 324.583 114.65 319.35 122.25 311.75C129.85 304.15 131.75 289.25 131.75 282.75V207.25H123.75V184.25H66.25Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <g id="Frame 20">
 <rect x="59.9785" y="262.25" width="14.375" height="7.25" rx="1.6875" fill="#33D18F" fill-opacity="0.2"/>

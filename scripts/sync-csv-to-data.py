@@ -4,16 +4,23 @@
 Автоматическая синхронизация CSV таблицы с data.js
 
 Использование:
-    python scripts/sync-csv-to-data.py [путь-к-csv]
+    python scripts/sync-csv-to-data.py [путь-к-csv-или-url]
+    
+    Примеры:
+    python scripts/sync-csv-to-data.py
+    python scripts/sync-csv-to-data.py https://docs.google.com/spreadsheets/d/e/.../pub?output=csv
+    python scripts/sync-csv-to-data.py data/table.csv
 
 Скрипт:
-1. Читает CSV таблицу
+1. Читает CSV таблицу (из локального файла или Google Sheets URL)
 2. Использует колонку "id" напрямую как areaId (должна совпадать с id в SVG)
 3. Нормализует данные (корпуса, категории, локации)
 4. Генерирует обновленный data.js
 
 Важно: Колонка "id" в CSV должна содержать правильные areaId, которые совпадают
 с id элементов в SVG файлах (например, b1f1-enter, b1f1-coffee и т.д.)
+
+По умолчанию использует Google Sheets URL из конфигурации.
 """
 
 import csv
@@ -23,13 +30,21 @@ import os
 import re
 from datetime import datetime
 from pathlib import Path
+from urllib.request import urlopen
+from urllib.error import URLError
 
 # Маппинг корпусов
 BUILDING_MAP = {
     'Альфа': 'B1',
-    'Бета': 'B2',
-    'Парковка': 'PARKING'
+    'Бета': 'B3',  # Бета - это B3
+    'Парковка': 'B2',  # Парковка - это B2
+    '1': 'B1',  # Числовые значения из CSV
+    '2': 'B2',
+    '3': 'B3'
 }
+
+# URL Google Sheets по умолчанию
+DEFAULT_GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRAWx-3c21mmCF00XJWhIiMb23w4LgxFiJ-Cx9CgdD-BP1b2yr_Hq6U4usdAIwBHw/pub?gid=799635611&single=true&output=csv'
 
 # Маппинг категорий
 CATEGORY_MAP = {
@@ -70,24 +85,82 @@ def generate_area_id(figma_id, location, name, building, floor):
 
 def csv_row_to_service(row, index):
     """Преобразование CSV строки в объект сервиса"""
-    building_raw = row.get('корпус', '').strip() or row.get(' ', '').strip()
-    building = BUILDING_MAP.get(building_raw, building_raw) or 'B1'
+    # Приоритет: использовать значения из CSV колонок "корпус" и "этаж"
+    # areaId используется только как fallback если CSV значения отсутствуют
     
-    # Обработка этажа (может быть "?", пусто или число)
-    floor_str = row.get('этаж', '1').strip() or '1'
-    try:
-        floor = int(floor_str)
-    except (ValueError, TypeError):
-        floor = 1  # По умолчанию
+    # Читаем корпус из CSV
+    building_raw = (row.get('корпус', '').strip() or 
+                    row.get('Корпус', '').strip() or 
+                    row.get('корпус', '').strip() or '').strip()
+    
+    # Читаем этаж из CSV
+    floor_str = (row.get('этаж', '').strip() or 
+                 row.get('Этаж', '').strip() or 
+                 row.get('этаж', '').strip() or '1').strip()
+    
+    # Преобразуем корпус через маппинг
+    building = BUILDING_MAP.get(building_raw) if building_raw else None
+    
+    # Если корпус не определен из CSV, пробуем извлечь из areaId
+    area_id = row.get('id', '').strip() or row.get('ID', '').strip() or row.get('areaId', '').strip()
+    
+    if not building and area_id:
+        # Fallback: извлекаем корпус из areaId
+        if area_id.startswith('b1f'):
+            building = 'B1'
+        elif area_id.startswith('b2f'):
+            building = 'B2'
+        elif area_id.startswith('b3f'):
+            building = 'B3'
+    
+    # Если все еще не определен, используем значение по умолчанию
+    if not building:
+        building = 'B1'
+    
+    # Преобразуем этаж в число
+    floor_from_csv = None
+    if floor_str:
+        try:
+            floor_from_csv = int(floor_str)
+        except (ValueError, TypeError):
+            pass
+    
+    # Если этаж не определен из CSV, пробуем извлечь из areaId
+    if floor_from_csv is None and area_id:
+        try:
+            prefix_len = 3  # "b1f", "b2f", "b3f"
+            if len(area_id) > prefix_len:
+                floor_str_from_id = ''
+                for i in range(prefix_len, min(prefix_len + 2, len(area_id))):
+                    if area_id[i].isdigit():
+                        floor_str_from_id += area_id[i]
+                    else:
+                        break
+                if floor_str_from_id:
+                    floor_from_csv = int(floor_str_from_id)
+        except (ValueError, IndexError):
+            pass
+    
+    # Если все еще не определен, используем значение по умолчанию
+    floor = floor_from_csv if floor_from_csv is not None else 1
     
     category_raw = row.get(' Категория', '').strip()
     category = CATEGORY_MAP.get(category_raw, 'other')
     
-    # ID из CSV (колонка "id" или "ID") - это и есть areaId, который совпадает с id в SVG
-    area_id = row.get('id', '').strip() or row.get('ID', '').strip() or row.get('areaId', '').strip()
-    
-    location = row.get('Локация', '').strip()
+    # Try multiple possible column names for location (handling encoding/spacing issues)
+    location = (row.get('Локация', '') or 
+                row.get('локация', '') or 
+                row.get('Location', '') or 
+                row.get('location', '') or
+                row.get('Комната', '') or
+                row.get('комната', '') or
+                row.get('Room', '') or
+                row.get('room', '')).strip()
     name = row.get('Название', '').strip()
+    
+    # Если areaId отсутствует, генерируем его
+    if not area_id:
+        area_id = generate_area_id(None, location, name, building, floor)
     description = row.get('Описание', '').strip()
     contacts = row.get('Контакты', '').strip()
     link = row.get('Ссылка', '').strip() or '#'
@@ -96,37 +169,6 @@ def csv_row_to_service(row, index):
     
     # Генерация ID (начинаем с 1000, чтобы не конфликтовать с тестовыми данными)
     service_id = 1000 + index
-    
-    # Если areaId есть, определяем корпус и этаж из него (например, b1f1-enter -> B1, этаж 1)
-    if area_id:
-        if area_id.startswith('b1f') or area_id.startswith('b2f') or area_id.startswith('b3f'):
-            # Определяем корпус из префикса
-            if area_id.startswith('b1f'):
-                building = 'B1'
-            elif area_id.startswith('b2f'):
-                building = 'B2'
-            elif area_id.startswith('b3f'):
-                building = 'B3'
-            
-            # Извлекаем этаж из areaId (например, b1f1-enter -> этаж 1, b2f11-parking -> этаж 11)
-            try:
-                # Ищем цифры после префикса (b1f, b2f, b3f)
-                prefix_len = 3  # "b1f", "b2f", "b3f"
-                if len(area_id) > prefix_len:
-                    # Пробуем извлечь одну или две цифры
-                    floor_str = ''
-                    for i in range(prefix_len, min(prefix_len + 2, len(area_id))):
-                        if area_id[i].isdigit():
-                            floor_str += area_id[i]
-                        else:
-                            break
-                    if floor_str:
-                        floor = int(floor_str)
-            except (ValueError, IndexError):
-                pass
-    else:
-        # Если areaId нет, генерируем его (fallback)
-        area_id = generate_area_id(None, location, name, building, floor)
     
     # Формирование attributes
     attributes = {}
@@ -362,64 +404,130 @@ def generate_figma_mapping(services, output_path):
     print(f'[OK] Маппинг для Figma создан: {csv_path}')
     print(f'     JSON версия: {json_path}')
 
+def load_csv_from_url(url):
+    """Загружает CSV из URL (например, Google Sheets)"""
+    try:
+        print(f'[ЗАГРУЗКА] Загружаю CSV из URL: {url[:80]}...')
+        with urlopen(url, timeout=30) as response:
+            content = response.read()
+            # Пробуем определить кодировку
+            try:
+                text = content.decode('utf-8')
+            except UnicodeDecodeError:
+                text = content.decode('cp1251')
+            return text
+    except URLError as e:
+        print(f'[ОШИБКА] Не удалось загрузить CSV из URL: {e}')
+        raise
+    except Exception as e:
+        print(f'[ОШИБКА] Ошибка при загрузке: {e}')
+        raise
+
+def load_csv_from_file(file_path):
+    """Загружает CSV из локального файла"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except UnicodeDecodeError:
+        with open(file_path, 'r', encoding='cp1251') as f:
+            return f.read()
+
+def is_url(path):
+    """Проверяет, является ли путь URL"""
+    return path.startswith('http://') or path.startswith('https://')
+
 def main():
     """Главная функция"""
+    csv_source = None
+    csv_content = None
+    
+    # Определяем источник данных
     if len(sys.argv) > 1:
-        csv_path = sys.argv[1]
+        csv_source = sys.argv[1]
     else:
-        csv_path = 'service-table.csv'
+        # По умолчанию используем Google Sheets URL
+        csv_source = DEFAULT_GOOGLE_SHEETS_URL
+        print(f'[ИНФО] Используется Google Sheets URL по умолчанию')
     
-    # Используем Path для лучшей обработки путей
-    csv_file = Path(csv_path)
-    
-    # Пробуем открыть файл напрямую
-    try:
-        test_file = open(csv_path, 'r', encoding='utf-8')
-        test_file.close()
-    except (FileNotFoundError, UnicodeDecodeError):
-        # Если не получилось, пробуем найти файл через список
+    # Загружаем CSV
+    if is_url(csv_source):
+        # Загружаем из URL
         try:
-            csv_files = [f for f in os.listdir('.') if f.endswith('.csv')]
-            # Ищем файл с "карта сервисов" или "Sheet1" в названии, исключая figma-mapping
-            service_csv = [f for f in csv_files if 'карта сервисов' in f.lower() or 'sheet1' in f.lower()]
-            if service_csv:
-                # Берем самый новый файл (с (1) или последний по времени)
-                csv_path = sorted(service_csv, key=lambda x: os.path.getmtime(x), reverse=True)[0]
-                print(f'[ИНФО] Использован файл: {csv_path}')
-            elif csv_files:
-                csv_path = csv_files[0]
-                print(f'[ИНФО] Использован файл: {csv_path}')
-            else:
-                print(f'[ОШИБКА] Файл не найден: {csv_path}')
+            csv_content = load_csv_from_url(csv_source)
+            print(f'[ОК] CSV загружен из URL')
+        except Exception as e:
+            print(f'[ОШИБКА] Не удалось загрузить CSV из URL')
+            print(f'         Попробуйте указать локальный файл или проверьте интернет-соединение')
+            sys.exit(1)
+    else:
+        # Локальный файл
+        csv_path = csv_source
+        
+        # Если файл не найден, ищем в текущей директории и data/
+        if not os.path.exists(csv_path):
+            search_dirs = ['.', 'data']
+            csv_path = None
+            
+            for search_dir in search_dirs:
+                if not os.path.exists(search_dir):
+                    continue
+                try:
+                    csv_files = [f for f in os.listdir(search_dir) if f.endswith('.csv')]
+                    # Ищем файл с "карта сервисов" или "Sheet1" в названии
+                    service_csv = [f for f in csv_files if 'карта сервисов' in f.lower() or 'sheet1' in f.lower()]
+                    if service_csv:
+                        # Берем самый новый файл
+                        full_paths = [os.path.join(search_dir, f) for f in service_csv]
+                        csv_path = sorted(full_paths, key=lambda x: os.path.getmtime(x), reverse=True)[0]
+                        print(f'[ИНФО] Использован файл: {csv_path}')
+                        break
+                    elif csv_files:
+                        csv_path = os.path.join(search_dir, csv_files[0])
+                        print(f'[ИНФО] Использован файл: {csv_path}')
+                        break
+                except:
+                    continue
+            
+            if not csv_path:
+                print(f'[ОШИБКА] CSV файл не найден')
+                print(f'         Искали в: {", ".join(search_dirs)}')
                 print(f'         Текущая директория: {os.getcwd()}')
                 print('\nИспользование:')
-                print('  python scripts/sync-csv-to-data.py [путь-к-csv]')
+                print('  python scripts/sync-csv-to-data.py [путь-к-csv-или-url]')
+                print(f'  python scripts/sync-csv-to-data.py {DEFAULT_GOOGLE_SHEETS_URL[:60]}...')
                 sys.exit(1)
-        except:
+        
+        try:
+            csv_content = load_csv_from_file(csv_path)
+            print(f'[ОК] CSV загружен из файла: {csv_path}')
+        except FileNotFoundError:
             print(f'[ОШИБКА] Файл не найден: {csv_path}')
             sys.exit(1)
+        except Exception as e:
+            print(f'[ОШИБКА] Не удалось прочитать файл: {e}')
+            sys.exit(1)
     
-    print(f'\n[ЧТЕНИЕ] CSV: {csv_path}\n')
+    print(f'\n[ОБРАБОТКА] Парсинг CSV...\n')
     
-    # Читаем CSV с правильной кодировкой
+    # Парсим CSV
     try:
-        with open(csv_path, 'r', encoding='utf-8') as f:
-            # Используем csv.Sniffer для определения разделителя
-            sample = f.read(1024)
-            f.seek(0)
-            sniffer = csv.Sniffer()
-            delimiter = sniffer.sniff(sample).delimiter
-            
-            reader = csv.DictReader(f, delimiter=delimiter)
-            rows = list(reader)
-    except UnicodeDecodeError:
-        # Пробуем другие кодировки
-        with open(csv_path, 'r', encoding='cp1251') as f:
-            reader = csv.DictReader(f)
-            rows = list(reader)
+        # Используем csv.Sniffer для определения разделителя
+        sample = csv_content[:1024]
+        sniffer = csv.Sniffer()
+        delimiter = sniffer.sniff(sample).delimiter
+        
+        reader = csv.DictReader(csv_content.splitlines(), delimiter=delimiter)
+        rows = list(reader)
+    except Exception as e:
+        print(f'[ОШИБКА] Не удалось распарсить CSV: {e}')
+        sys.exit(1)
+    
+    if not rows:
+        print(f'[ОШИБКА] CSV файл пуст или не содержит данных')
+        sys.exit(1)
     
     print(f'[ИНФО] Загружено строк: {len(rows)}')
-    print(f'[ИНФО] Колонки: {len(rows[0]) if rows else 0}')
+    print(f'[ИНФО] Колонки: {", ".join(rows[0].keys())[:100]}...')
     
     # Фильтруем только те, что есть в макетах (опционально)
     services_in_maps = [r for r in rows if r.get('Есть в макетах?', '').strip() == 'Да']

@@ -1,1 +1,14 @@
 backup-before-reset/changes.patch
+
+# Внутренний процесс работы с AI (не коммитить в репозиторий)
+.cursor/
+
+# Временные файлы генерации
+data-generated.js
+
+# Личные настройки IDE
+*.sublime-project
+*.sublime-workspace
+
+# Бэкапы (оставляем, но не коммитим)
+backups/
