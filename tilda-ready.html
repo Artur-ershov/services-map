@@ -1,0 +1,96 @@
+<!-- ============================================ -->
+<!-- ГОТОВЫЙ КОД ДЛЯ ВСТАВКИ В TILDA -->
+<!-- ============================================ -->
+<!-- Просто скопируйте весь код ниже и вставьте в блок "HTML" в Tilda -->
+
+<div id="krok-services-map-module" style="padding: 40px; border:none!important">
+    <div class="ksmm-content">
+        <div class="ksmm-list-container" id="ksmm-list-container">
+            <div class="ksmm-title-wrapper">
+                <div class="ksmm-floor-dropdown" id="ksmm-floor-dropdown">
+                    <button class="ksmm-floor-dropdown-btn" id="ksmm-floor-dropdown-btn" aria-label="Выбрать этаж">
+                        <span id="ksmm-floor-dropdown-text">Корпус 1, 3 этаж</span>
+                        <span class="ksmm-floor-dropdown-arrow">▼</span>
+                    </button>
+                    <div class="ksmm-floor-dropdown-list" id="ksmm-floor-dropdown-list" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <div class="ksmm-search-bar">
+                <input type="search" id="ksmm-search-input" placeholder="Поиск по названию или описанию...">
+            </div>
+            <div class="ksmm-filter-controls">
+                <button class="ksmm-filter-btn active" data-category="all">Все</button>
+                <button class="ksmm-filter-btn" data-category="meeting">Переговорные</button>
+                <button class="ksmm-filter-btn" data-category="food">Питание</button>
+                <button class="ksmm-filter-btn" data-category="service">Сервис</button>
+                <button class="ksmm-filter-btn" data-category="eco">Эко-инициативы</button>
+                <button class="ksmm-filter-btn" data-category="relax">Релакс</button>
+                <button class="ksmm-filter-btn" data-category="sport">Спорт</button>
+                <button class="ksmm-filter-btn" data-category="health">Здоровье</button>
+                <button class="ksmm-filter-btn" data-category="beauty">Красота</button>
+            </div>
+            <div id="ksmm-subfilter-controls" class="ksmm-subfilter-controls">
+            </div>
+            <div id="ksmm-services-list" class="ksmm-scroll-list">
+            </div>
+        </div>
+        <div class="ksmm-map-container">
+            <div id="ksmm-floor-switcher" class="ksmm-floor-switcher"></div>
+            <button id="ksmm-floor-next" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-next" style="display: none;" aria-label="Этаж выше">
+                <span class="ksmm-nav-icon">▲</span>
+                <span class="ksmm-nav-label"></span>
+            </button>
+            <button id="ksmm-floor-prev" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-prev" style="display: none;" aria-label="Этаж ниже">
+                <span class="ksmm-nav-icon">▼</span>
+                <span class="ksmm-nav-label"></span>
+            </button>
+            <button id="ksmm-building-prev" class="ksmm-building-nav-btn ksmm-building-nav-btn-prev" style="display: none;" aria-label="Предыдущий корпус">
+                <span class="ksmm-nav-icon">◀</span>
+                <span class="ksmm-nav-label"></span>
+            </button>
+            <button id="ksmm-building-next" class="ksmm-building-nav-btn ksmm-building-nav-btn-next" style="display: none;" aria-label="Следующий корпус">
+                <span class="ksmm-nav-icon">▶</span>
+                <span class="ksmm-nav-label"></span>
+            </button>
+            <svg id="ksmm-map" viewBox="0 0 800 550" preserveAspectRatio="xMidYMid meet">
+                <g id="ksmm-map-wrapper">
+                    <g id="ksmm-map-base" class="ksmm-map-base"></g>
+                    <g id="ksmm-map-areas"></g>
+                </g>
+            </svg>
+            <div id="ksmm-popup" class="ksmm-popup" style="display: none;">
+                <button id="ksmm-popup-close" class="ksmm-popup-close">&times;</button>
+                <div id="ksmm-popup-gallery" class="ksmm-popup-gallery" style="display: none;">
+                    <div class="ksmm-gallery-container">
+                        <img id="ksmm-gallery-img" class="ksmm-gallery-img" alt="Фото сервиса">
+                        <button id="ksmm-gallery-prev" class="ksmm-gallery-nav ksmm-gallery-prev" aria-label="Предыдущее фото">‹</button>
+                        <button id="ksmm-gallery-next" class="ksmm-gallery-nav ksmm-gallery-next" aria-label="Следующее фото">›</button>
+                    </div>
+                    <div id="ksmm-gallery-indicators" class="ksmm-gallery-indicators"></div>
+                </div>
+                <div class="ksmm-popup-header">
+                    <span id="ksmm-popup-category-indicator" class="ksmm-category-indicator filled"></span>
+                    <h3 id="ksmm-popup-title"></h3>
+                </div>
+                <div class="ksmm-popup-body">
+                    <p id="ksmm-popup-desc"></p>
+                    <p id="ksmm-popup-contacts"></p>
+                    <a id="ksmm-popup-link" href="#" target="_blank" class="ksmm-popup-link">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Подключение стилей -->
+<link rel="stylesheet" href="https://artur-ershov.github.io/services-map/style.css">
+
+<!-- Подключение данных и скрипта -->
+<script>
+    // Настройка базового URL для ресурсов
+    window.KSMM_BASE_URL = 'https://artur-ershov.github.io/services-map';
+</script>
+<script src="https://artur-ershov.github.io/services-map/data.js"></script>
+<script src="https://artur-ershov.github.io/services-map/app.js"></script>
+

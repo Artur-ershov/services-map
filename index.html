@@ -45,11 +45,11 @@
             <div class="ksmm-map-container">
                 <div id="ksmm-floor-switcher" class="ksmm-floor-switcher"></div>
                 <!-- Переключатели этажей (вертикальные, сверху/снизу) -->
-                <button id="ksmm-floor-prev" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-prev" style="display: none;" aria-label="Предыдущий этаж">
+                <button id="ksmm-floor-next" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-next" style="display: none;" aria-label="Этаж выше">
                     <span class="ksmm-nav-icon">▲</span>
                     <span class="ksmm-nav-label"></span>
                 </button>
-                <button id="ksmm-floor-next" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-next" style="display: none;" aria-label="Следующий этаж">
+                <button id="ksmm-floor-prev" class="ksmm-floor-nav-btn ksmm-floor-nav-btn-prev" style="display: none;" aria-label="Этаж ниже">
                     <span class="ksmm-nav-icon">▼</span>
                     <span class="ksmm-nav-label"></span>
                 </button>
@@ -70,8 +70,18 @@
                 </svg>
                 <div id="ksmm-popup" class="ksmm-popup" style="display: none;">
                     <button id="ksmm-popup-close" class="ksmm-popup-close">&times;</button>
-                    <img id="ksmm-popup-img" alt="Фото сервиса" class="ksmm-popup-img">
-                    <h3 id="ksmm-popup-title"></h3>
+                    <div id="ksmm-popup-gallery" class="ksmm-popup-gallery" style="display: none;">
+                        <div class="ksmm-gallery-container">
+                            <img id="ksmm-gallery-img" class="ksmm-gallery-img" alt="Фото сервиса">
+                            <button id="ksmm-gallery-prev" class="ksmm-gallery-nav ksmm-gallery-prev" aria-label="Предыдущее фото">‹</button>
+                            <button id="ksmm-gallery-next" class="ksmm-gallery-nav ksmm-gallery-next" aria-label="Следующее фото">›</button>
+                        </div>
+                        <div id="ksmm-gallery-indicators" class="ksmm-gallery-indicators"></div>
+                    </div>
+                    <div class="ksmm-popup-header">
+                        <span id="ksmm-popup-category-indicator" class="ksmm-category-indicator filled"></span>
+                        <h3 id="ksmm-popup-title"></h3>
+                    </div>
                     <p id="ksmm-popup-desc"></p>
                     <p id="ksmm-popup-contacts"></p>
                     <a id="ksmm-popup-link" href="#" target="_blank" class="ksmm-btn">Бронировать</a>
@@ -79,7 +89,7 @@
             </div>
         </div>
     </div>
-    <script src="data.js"></script>
+    <script src="data.js?v=5"></script>
     <script src="app.js"></script>
 </body>
 

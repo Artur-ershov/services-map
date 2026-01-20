@@ -28,6 +28,7 @@ import json
 import sys
 import os
 import re
+import io
 from datetime import datetime
 from pathlib import Path
 from urllib.request import urlopen
@@ -68,6 +69,55 @@ def normalize_name(name):
     # Убираем спецсимволы, оставляем только буквы, цифры, дефисы
     name = ''.join(c if c.isalnum() or c == '-' else '' for c in name)
     return name.strip()
+
+def parse_capacity_and_equipment(comment):
+    """Извлекает вместимость и оборудование из комментария"""
+    if not comment:
+        return None, None
+    
+    capacity = None
+    equipment = []
+    
+    # Ищем вместимость (различные форматы)
+    capacity_patterns = [
+        r'Вместимость\s+до\s+(\d+)\s+чел',
+        r'Вместимость\s+(\d+)\s+чел',
+        r'вместимость\s+(\d+)\s+чел',
+        r'Вместимость\s*:\s*(\d+)',
+        r'(\d+)\s+чел',
+    ]
+    
+    for pattern in capacity_patterns:
+        match = re.search(pattern, comment, re.IGNORECASE)
+        if match:
+            try:
+                capacity = int(match.group(1))
+                break
+            except (ValueError, IndexError):
+                continue
+    
+    # Ищем оборудование (ключевые слова)
+    equipment_keywords = {
+        'ВКС': 'ВКС',
+        'ВСК': 'ВКС',  # опечатка в данных
+        'флипчарт': 'Флипчарт',
+        'Флипчарт': 'Флипчарт',
+        'ЖК-панель': 'ЖК-панель',
+        'телефон': 'Телефон',
+        'магнитная доска': 'Магнитная доска',
+        'магнитная': 'Магнитная доска',
+    }
+    
+    comment_lower = comment.lower()
+    for keyword, normalized in equipment_keywords.items():
+        if keyword.lower() in comment_lower:
+            if normalized not in equipment:
+                equipment.append(normalized)
+    
+    # Если оборудование найдено, объединяем в строку
+    equipment_str = ', '.join(equipment) if equipment else None
+    
+    return capacity, equipment_str
 
 def generate_area_id(figma_id, location, name, building, floor):
     """Генерация areaId на основе ID из Figma, локации или названия"""
@@ -163,9 +213,21 @@ def csv_row_to_service(row, index):
         area_id = generate_area_id(None, location, name, building, floor)
     description = row.get('Описание', '').strip()
     contacts = row.get('Контакты', '').strip()
+    
+    # Обработка переносов строк: заменяем все варианты (\r\n, \r, \n) на <br>
+    # Это делается на этапе генерации, а не в рантайме
+    if description:
+        description = description.replace('\r\n', '<br>').replace('\r', '<br>').replace('\n', '<br>')
+    if contacts:
+        contacts = contacts.replace('\r\n', '<br>').replace('\r', '<br>').replace('\n', '<br>')
     link = row.get('Ссылка', '').strip() or '#'
     hours = row.get('Время работы (где нужно)', '').strip()
     photo = row.get('Фото', '').strip()
+    
+    # Читаем дополнительный комментарий для извлечения вместимости и оборудования
+    comment = (row.get('Дополнительный комментарий ', '') or 
+               row.get('Дополнительный комментарий', '') or 
+               row.get(' Дополнительный комментарий ', '')).strip()
     
     # Генерация ID (начинаем с 1000, чтобы не конфликтовать с тестовыми данными)
     service_id = 1000 + index
@@ -176,6 +238,17 @@ def csv_row_to_service(row, index):
         attributes['location'] = location
     if hours:
         attributes['hours'] = hours
+    
+    # Извлекаем вместимость и оборудование из комментария (только для переговорок)
+    if category == 'meeting' and comment:
+        capacity, equipment = parse_capacity_and_equipment(comment)
+        if capacity is not None:
+            attributes['capacity'] = capacity
+        if equipment:
+            # Оборудование храним как массив отдельных элементов
+            # Разбиваем строку "ВКС, Флипчарт" на массив ["ВКС", "Флипчарт"]
+            equipment_list = [e.strip() for e in equipment.split(',') if e.strip()]
+            attributes['equipment'] = equipment_list
     
     # Формирование изображения
     if photo:
@@ -324,7 +397,15 @@ def generate_data_js(services, output_path):
         attrs = service['attributes']
         for j, (key, value) in enumerate(attrs.items()):
             comma = ',' if j < len(attrs) - 1 else ''
-            service_lines.append(f'{indent}        {key}: {escape_js_string(value)}{comma}')
+            # Для capacity записываем как число
+            if key == 'capacity' and isinstance(value, (int, float)):
+                service_lines.append(f'{indent}        {key}: {value}{comma}')
+            # Для equipment записываем как массив
+            elif key == 'equipment' and isinstance(value, list):
+                items_str = ', '.join([escape_js_string(item) for item in value])
+                service_lines.append(f'{indent}        {key}: [{items_str}]{comma}')
+            else:
+                service_lines.append(f'{indent}        {key}: {escape_js_string(value)}{comma}')
         
         service_lines.append(f'{indent}    }}')
         service_lines.append(f'{indent}}}{"," if i < len(services) - 1 else ""}')
@@ -516,7 +597,10 @@ def main():
         sniffer = csv.Sniffer()
         delimiter = sniffer.sniff(sample).delimiter
         
-        reader = csv.DictReader(csv_content.splitlines(), delimiter=delimiter)
+        # Используем StringIO для правильной обработки переносов строк внутри ячеек
+        # csv.DictReader сам обработает экранированные переносы строк в кавычках
+        csv_file = io.StringIO(csv_content)
+        reader = csv.DictReader(csv_file, delimiter=delimiter)
         rows = list(reader)
     except Exception as e:
         print(f'[ОШИБКА] Не удалось распарсить CSV: {e}')

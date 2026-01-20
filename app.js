@@ -1,4 +1,17 @@
 (function() {
+    // --- 1. БАЗОВЫЙ URL ДЛЯ РЕСУРСОВ (для GitHub Pages) ---
+    const BASE_URL = (typeof window !== 'undefined' && window.KSMM_BASE_URL) 
+        ? window.KSMM_BASE_URL 
+        : '';
+    
+    // Функция для получения полного пути к ресурсу
+    function getResourcePath(relativePath) {
+        if (!BASE_URL) return relativePath;
+        // Убираем начальный слеш, если есть
+        const cleanPath = relativePath.startsWith('/') ? relativePath.substring(1) : relativePath;
+        return `${BASE_URL}/${cleanPath}`;
+    }
+    
     // --- 2. ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ и DOM-ЭЛЕМЕНТЫ ---
     const SVG_NS = "http://www.w3.org/2000/svg";
     const mapWrapper = document.getElementById('ksmm-map-wrapper');
@@ -39,8 +52,18 @@
     const popupTitle = document.getElementById('ksmm-popup-title');
     const popupDesc = document.getElementById('ksmm-popup-desc');
     const popupContacts = document.getElementById('ksmm-popup-contacts');
-    const popupImg = document.getElementById('ksmm-popup-img');
+    const popupCategoryIndicator = document.getElementById('ksmm-popup-category-indicator');
+    const popupGallery = document.getElementById('ksmm-popup-gallery');
+    const galleryImg = document.getElementById('ksmm-gallery-img');
+    const galleryPrevBtn = document.getElementById('ksmm-gallery-prev');
+    const galleryNextBtn = document.getElementById('ksmm-gallery-next');
+    const galleryIndicators = document.getElementById('ksmm-gallery-indicators');
     const popupLink = document.getElementById('ksmm-popup-link');
+    
+    let currentGalleryImages = [];
+    let currentGalleryIndex = 0;
+    let galleryTouchStartX = 0;
+    let galleryTouchEndX = 0;
 
     function formatAttributes(service) {
         const attrs = service.attributes;
@@ -52,6 +75,109 @@
             }
         }
         return parts.join(' • ');
+    }
+
+    // Генерация дамми изображений для тестирования
+    // Парсинг изображений из строки (упрощенный - данные уже обработаны в билдтайме)
+    function parseImages(imgString) {
+        if (!imgString || imgString.trim() === '') return [];
+        
+        // Разделяем по пробелам - поддерживаем как HTTP URL, так и локальные пути
+        const urls = imgString.trim().split(/\s+/).filter(url => {
+            const trimmed = url.trim();
+            // Принимаем HTTP/HTTPS URL или локальные пути к изображениям
+            // Исключаем dummy изображения и другие невалидные значения
+            const isAbsolute = trimmed.startsWith('http');
+            const isRelative = trimmed.startsWith('images/');
+            
+            if (isAbsolute) {
+                return !trimmed.includes('dummyimage.com');
+            }
+            
+            if (isRelative) {
+                return !trimmed.includes('приложила')
+                    && !trimmed.includes('прикрепила')
+                    && !trimmed.includes('фото')
+                    && trimmed.length > 5;
+            }
+            
+            return false;
+        });
+        
+        return urls;
+    }
+
+    // Инициализация галереи
+    function initGallery(images) {
+        currentGalleryImages = images;
+        currentGalleryIndex = 0;
+        
+        if (images.length === 0) {
+            popupGallery.style.display = 'none';
+            return;
+        }
+        
+        popupGallery.style.display = 'block';
+        updateGalleryImage();
+        updateGalleryIndicators();
+        updateGalleryButtons();
+    }
+
+    // Обновление текущего изображения в галерее
+    function updateGalleryImage() {
+        if (currentGalleryImages.length === 0) return;
+        const imgSrc = currentGalleryImages[currentGalleryIndex];
+        // Если абсолютный URL - используем как есть, иначе добавляем базовый URL если он есть
+        const fullSrc = imgSrc.startsWith('http') ? imgSrc : getResourcePath(imgSrc);
+        galleryImg.src = fullSrc;
+    }
+
+    // Обновление индикаторов галереи
+    function updateGalleryIndicators() {
+        galleryIndicators.innerHTML = '';
+        if (currentGalleryImages.length <= 1) return;
+        
+        for (let i = 0; i < currentGalleryImages.length; i++) {
+            const indicator = document.createElement('span');
+            indicator.className = 'ksmm-gallery-indicator';
+            if (i === currentGalleryIndex) {
+                indicator.classList.add('active');
+            }
+            indicator.addEventListener('click', () => {
+                currentGalleryIndex = i;
+                updateGalleryImage();
+                updateGalleryIndicators();
+                updateGalleryButtons();
+            });
+            galleryIndicators.appendChild(indicator);
+        }
+    }
+
+    // Обновление состояния кнопок навигации
+    function updateGalleryButtons() {
+        if (currentGalleryImages.length <= 1) {
+            galleryPrevBtn.style.display = 'none';
+            galleryNextBtn.style.display = 'none';
+        } else {
+            galleryPrevBtn.style.display = 'flex';
+            galleryNextBtn.style.display = 'flex';
+        }
+    }
+
+    // Переход к предыдущему изображению
+    function galleryPrev() {
+        if (currentGalleryImages.length === 0) return;
+        currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+        updateGalleryImage();
+        updateGalleryIndicators();
+    }
+
+    // Переход к следующему изображению
+    function galleryNext() {
+        if (currentGalleryImages.length === 0) return;
+        currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+        updateGalleryImage();
+        updateGalleryIndicators();
     }
 
     function getServicesForFloor(building, floor) {
@@ -78,19 +204,67 @@
 
     function showPopup(service) {
         popupTitle.textContent = service.name;
-        popupDesc.textContent = service.desc;
-        // ИЗМЕНЕНИЕ: Исправление источника картинки
-        popupImg.src = service.img;
-        popupContacts.textContent = service.contacts;
-        popupLink.href = service.link;
-        popupLink.style.display = 'none'; // Временно скрыто
+        // Описания и контакты уже обработаны на этапе генерации (переносы строк заменены на <br>)
+        if (service.desc) {
+            popupDesc.innerHTML = service.desc;
+        } else {
+            popupDesc.textContent = '';
+        }
+        if (service.contacts) {
+            popupContacts.innerHTML = service.contacts;
+        } else {
+            popupContacts.textContent = '';
+        }
+        
+        // Установка индикатора категории
+        if (popupCategoryIndicator) {
+            popupCategoryIndicator.setAttribute('data-category', service.category);
+        }
+        
+        // Обработка изображений через галерею
+        const images = parseImages(service.img);
+        initGallery(images);
+        
+        // Обработка ссылки
+        const linkData = parseLink(service.link);
+        if (linkData.url) {
+            popupLink.href = linkData.url;
+            popupLink.textContent = linkData.text;
+            popupLink.style.display = 'block';
+        } else {
+            popupLink.style.display = 'none';
+        }
+        
+        // Выделение активной локации в списке
+        document.querySelectorAll('.ksmm-list-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        const listItem = document.querySelector(`.ksmm-list-item[data-id="${service.id}"]`);
+        if (listItem) {
+            listItem.classList.add('active');
+            // Автоскролл к активному элементу
+            listItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
         setActiveArea(service.areaId);
         popup.style.display = 'block';
+    }
+
+    // Упрощенный парсинг ссылки
+    function parseLink(linkString) {
+        if (!linkString || linkString === '#' || !linkString.startsWith('http')) {
+            return { url: null, text: 'Подробнее' };
+        }
+        return { url: linkString.trim(), text: 'Подробнее' };
     }
 
     function hidePopup() {
         popup.style.display = 'none';
         setActiveArea(null);
+        // Убираем выделение активной локации из списка
+        document.querySelectorAll('.ksmm-list-item').forEach(item => {
+            item.classList.remove('active');
+        });
     }
 
     function setHighlight(id, state) {
@@ -130,7 +304,7 @@
     }
 
     function initMapInteraction() {
-        // Drag (Pan) Logic
+        // Drag (Pan) Logic - Mouse
         svgMap.addEventListener('mousedown', (e) => {
             // Игнорируем клики по областям и дропдауну этажей
             if (e.target.closest('.ksmm-map-area') || e.target.closest('.ksmm-floor-dropdown')) return;
@@ -158,6 +332,87 @@
         document.addEventListener('mouseup', () => {
             mapState.dragging = false;
             svgMap.classList.remove('dragging');
+        });
+        
+        // Touch events для мобильных устройств
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchStartDistance = 0;
+        let isPinching = false;
+        
+        svgMap.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.ksmm-map-area') || e.target.closest('.ksmm-floor-dropdown')) return;
+            
+            if (e.touches.length === 1) {
+                // Одиночное касание - панорамирование
+                const touch = e.touches[0];
+                mapState.dragging = true;
+                svgMap.classList.add('dragging');
+                const transformMatrix = window.getComputedStyle(mapWrapper).transform;
+                if (transformMatrix !== 'none') {
+                    const matrixValues = transformMatrix.match(/matrix.*\((.+)\)/)[1].split(', ');
+                    mapState.x = parseFloat(matrixValues[4]);
+                    mapState.y = parseFloat(matrixValues[5]);
+                } else {
+                    mapState.x = 0;
+                    mapState.y = 0;
+                }
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                mapState.startX = touch.clientX - mapState.x;
+                mapState.startY = touch.clientY - mapState.y;
+            } else if (e.touches.length === 2) {
+                // Двойное касание - зум
+                isPinching = true;
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                touchStartDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+                const transformMatrix = window.getComputedStyle(mapWrapper).transform;
+                if (transformMatrix !== 'none') {
+                    const matrixValues = transformMatrix.match(/matrix.*\((.+)\)/)[1].split(', ');
+                    mapState.scale = parseFloat(matrixValues[0]);
+                    mapState.x = parseFloat(matrixValues[4]);
+                    mapState.y = parseFloat(matrixValues[5]);
+                }
+            }
+            e.preventDefault();
+        });
+        
+        document.addEventListener('touchmove', (e) => {
+            if (!mapState.dragging && !isPinching) return;
+            
+            if (e.touches.length === 1 && mapState.dragging) {
+                // Панорамирование
+                const touch = e.touches[0];
+                mapState.x = touch.clientX - mapState.startX;
+                mapState.y = touch.clientY - mapState.startY;
+                applyMapTransform();
+            } else if (e.touches.length === 2 && isPinching) {
+                // Зум
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+                const scaleChange = currentDistance / touchStartDistance;
+                const newScale = mapState.scale * scaleChange;
+                mapState.scale = Math.max(0.5, Math.min(3, newScale));
+                applyMapTransform();
+                touchStartDistance = currentDistance;
+            }
+            e.preventDefault();
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            if (e.touches.length === 0) {
+                mapState.dragging = false;
+                isPinching = false;
+                svgMap.classList.remove('dragging');
+            }
         });
         // Zoom Logic (Wheel)
         svgMap.addEventListener('wheel', (e) => {
@@ -445,7 +700,9 @@
             }
 
             // Загружаем и парсим SVG (только первый раз)
-            fetch(config.src)
+            const src = config.src;
+            const fullSrc = src.startsWith('http') ? src : getResourcePath(src);
+            fetch(fullSrc)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}`);
@@ -470,7 +727,9 @@
     function preloadAllFloors() {
         Object.keys(floorPlanCatalog).forEach(floorKey => {
             if (!floorDomCache[floorKey]) {
-                fetch(floorPlanCatalog[floorKey].src)
+                const src = floorPlanCatalog[floorKey].src;
+                const fullSrc = src.startsWith('http') ? src : getResourcePath(src);
+                fetch(fullSrc)
                     .then(r => r.ok ? r.text() : Promise.reject())
                     .then(text => {
                         floorDomCache[floorKey] = parseSvgAndPrepareCache(text);
@@ -546,7 +805,7 @@
         };
         
         // Загружаем SVG с этажами
-        fetch('map/floors.svg')
+        fetch(getResourcePath('map/floors.svg'))
             .then(response => response.text())
             .then(svgText => {
                 const parser = new DOMParser();
@@ -879,16 +1138,7 @@
             const nextFloor = getNextFloor(currentBuilding, currentFloor);
             const prevFloor = getPrevFloor(currentBuilding, currentFloor);
             
-            if (prevFloor) {
-                floorPrevBtn.style.display = 'flex';
-                const prevLabel = floorPrevBtn.querySelector('.ksmm-nav-label');
-                if (prevLabel) {
-                    prevLabel.textContent = `${prevFloor} этаж`;
-                }
-            } else {
-                floorPrevBtn.style.display = 'none';
-            }
-            
+            // Кнопка вверху (next) показывает этаж выше (nextFloor - больший номер)
             if (nextFloor) {
                 floorNextBtn.style.display = 'flex';
                 const nextLabel = floorNextBtn.querySelector('.ksmm-nav-label');
@@ -897,6 +1147,17 @@
                 }
             } else {
                 floorNextBtn.style.display = 'none';
+            }
+            
+            // Кнопка внизу (prev) показывает этаж ниже (prevFloor - меньший номер)
+            if (prevFloor) {
+                floorPrevBtn.style.display = 'flex';
+                const prevLabel = floorPrevBtn.querySelector('.ksmm-nav-label');
+                if (prevLabel) {
+                    prevLabel.textContent = `${prevFloor} этаж`;
+                }
+            } else {
+                floorPrevBtn.style.display = 'none';
             }
         }
     }
@@ -1173,10 +1434,31 @@
     const subfilterDefinitions = {
         'food': ['hours'],
         'sport': ['access'],
-        'meeting': ['capacity', 'equipment'],
+        'meeting': ['capacity', 'equipment'], // вместимость и оборудование
         'relax': ['type'],
         'service': ['hours']
     };
+
+    // Названия подфильтров на русском
+    const subfilterLabels = {
+        'hours': 'Часы работы',
+        'access': 'Доступ',
+        'capacity': 'Вместимость',
+        'equipment': 'Оборудование',
+        'type': 'Тип',
+        'location': 'Номер помещения'
+    };
+
+    // Функция для группировки capacity в диапазоны
+    function getCapacityRange(capacity) {
+        if (typeof capacity !== 'number') return capacity;
+        if (capacity <= 4) return 'до 4';
+        if (capacity <= 8) return '5-8';
+        if (capacity <= 12) return '9-12';
+        if (capacity <= 20) return '13-20';
+        if (capacity <= 30) return '21-30';
+        return '31+';
+    }
 
     function renderSubfilters(category) {
         subfilterControls.innerHTML = '';
@@ -1190,11 +1472,44 @@
             const groupEl = document.createElement('div');
             groupEl.className = 'ksmm-subfilter-group';
             const allValues = allServices
-                .filter(s => s.category === category && s.attributes[attrKey])
-                .map(s => s.attributes[attrKey]);
-            const uniqueValues = [...new Set(allValues)].sort();
-            if (uniqueValues.length === 0) return;
-            groupEl.innerHTML = `<div class="ksmm-subfilter-group-title">${attrKey}</div>`;
+                .filter(s => s.category === category && s.attributes && s.attributes[attrKey])
+                .flatMap(s => {
+                    const value = s.attributes[attrKey];
+                    // Для capacity - группируем в диапазоны
+                    if (attrKey === 'capacity' && typeof value === 'number') {
+                        return [getCapacityRange(value)];
+                    }
+                    // Для equipment - разбиваем массив на отдельные элементы
+                    if (attrKey === 'equipment' && Array.isArray(value)) {
+                        return value;
+                    }
+                    // Для equipment - если строка, разбиваем по запятым (для обратной совместимости)
+                    if (attrKey === 'equipment' && typeof value === 'string') {
+                        return value.split(',').map(e => e.trim()).filter(e => e);
+                    }
+                    return [value];
+                });
+            const uniqueValues = [...new Set(allValues)].sort((a, b) => {
+                // Специальная сортировка для capacity (диапазоны)
+                if (attrKey === 'capacity') {
+                    const order = ['до 4', '5-8', '9-12', '13-20', '21-30', '31+'];
+                    const aIndex = order.indexOf(a);
+                    const bIndex = order.indexOf(b);
+                    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+                    if (aIndex !== -1) return -1;
+                    if (bIndex !== -1) return 1;
+                }
+                // Для чисел - числовая сортировка
+                if (typeof a === 'number' && typeof b === 'number') return a - b;
+                // Для строк - строковая сортировка
+                return String(a).localeCompare(String(b));
+            });
+            if (uniqueValues.length === 0) {
+                // Если нет данных для этого подфильтра, пропускаем (например, capacity и equipment для meeting)
+                return;
+            }
+            const label = subfilterLabels[attrKey] || attrKey;
+            groupEl.innerHTML = `<div class="ksmm-subfilter-group-title">${label}</div>`;
             const allEl = document.createElement('span');
             allEl.className = 'ksmm-subfilter active';
             allEl.textContent = 'Все';
@@ -1248,11 +1563,39 @@
             // 3. Фильтр по Подфильтрам
             let isSubfilterMatch = true;
             for (const key in currentSubfilters) {
-                const serviceValue = service.attributes[key];
+                const serviceValue = service.attributes && service.attributes[key];
                 const allowedValues = currentSubfilters[key];
-                if (allowedValues.length > 0 && !allowedValues.includes(serviceValue)) {
-                    isSubfilterMatch = false;
-                    break;
+                if (allowedValues.length > 0) {
+                    // Для capacity - сравниваем диапазоны
+                    if (key === 'capacity' && typeof serviceValue === 'number') {
+                        const serviceRange = getCapacityRange(serviceValue);
+                        if (!allowedValues.includes(serviceRange)) {
+                            isSubfilterMatch = false;
+                            break;
+                        }
+                    } 
+                    // Для equipment - работаем с массивом
+                    else if (key === 'equipment') {
+                        let serviceEquipment = [];
+                        if (Array.isArray(serviceValue)) {
+                            serviceEquipment = serviceValue;
+                        } else if (typeof serviceValue === 'string') {
+                            // Обратная совместимость: разбиваем строку по запятым
+                            serviceEquipment = serviceValue.split(',').map(e => e.trim()).filter(e => e);
+                        }
+                        // Проверяем, есть ли хотя бы одно выбранное оборудование в списке оборудования переговорки
+                        const hasMatchingEquipment = allowedValues.some(selected => 
+                            serviceEquipment.some(eq => eq === selected)
+                        );
+                        if (!hasMatchingEquipment) {
+                            isSubfilterMatch = false;
+                            break;
+                        }
+                    }
+                    else if (!allowedValues.includes(serviceValue)) {
+                        isSubfilterMatch = false;
+                        break;
+                    }
                 }
             }
             // 4. Решение о видимости
@@ -1302,19 +1645,21 @@
         switchFloor(currentBuilding, currentFloor);
         
         // Обработчики для навигации этажей
-        if (floorPrevBtn) {
-            floorPrevBtn.addEventListener('click', () => {
-                const prevFloor = getPrevFloor(currentBuilding, currentFloor);
-                if (prevFloor !== null) {
-                    switchFloor(currentBuilding, prevFloor);
-                }
-            });
-        }
+        // Кнопка вверху (next) переключает на этаж выше (nextFloor - больший номер)
         if (floorNextBtn) {
             floorNextBtn.addEventListener('click', () => {
                 const nextFloor = getNextFloor(currentBuilding, currentFloor);
                 if (nextFloor !== null) {
                     switchFloor(currentBuilding, nextFloor);
+                }
+            });
+        }
+        // Кнопка внизу (prev) переключает на этаж ниже (prevFloor - меньший номер)
+        if (floorPrevBtn) {
+            floorPrevBtn.addEventListener('click', () => {
+                const prevFloor = getPrevFloor(currentBuilding, currentFloor);
+                if (prevFloor !== null) {
+                    switchFloor(currentBuilding, prevFloor);
                 }
             });
         }
@@ -1390,6 +1735,64 @@
         searchInput.addEventListener('input', updateView);
         // Закрытие Pop-up
         popupCloseBtn.addEventListener('click', hidePopup);
+        
+        // Навигация по галерее
+        if (galleryPrevBtn) {
+            galleryPrevBtn.addEventListener('click', galleryPrev);
+        }
+        if (galleryNextBtn) {
+            galleryNextBtn.addEventListener('click', galleryNext);
+        }
+        
+        // Swipe жесты для галереи на мобильных
+        if (popupGallery) {
+            popupGallery.addEventListener('touchstart', (e) => {
+                galleryTouchStartX = e.touches[0].clientX;
+            }, { passive: true });
+            
+            popupGallery.addEventListener('touchend', (e) => {
+                if (!galleryTouchStartX) return;
+                galleryTouchEndX = e.changedTouches[0].clientX;
+                const swipeDistance = galleryTouchStartX - galleryTouchEndX;
+                const minSwipeDistance = 50;
+                
+                if (Math.abs(swipeDistance) > minSwipeDistance) {
+                    if (swipeDistance > 0) {
+                        // Swipe влево - следующее изображение
+                        galleryNext();
+                    } else {
+                        // Swipe вправо - предыдущее изображение
+                        galleryPrev();
+                    }
+                }
+                galleryTouchStartX = 0;
+                galleryTouchEndX = 0;
+            }, { passive: true });
+        }
     }
+    // Хелпер для мобильной версии - применяет стили если медиа-запрос не сработал
+    function applyMobileStyles() {
+        if (window.innerWidth <= 768) {
+            const content = document.querySelector('.ksmm-content');
+            const module = document.querySelector('#krok-services-map-module');
+            
+            if (content && window.getComputedStyle(content).display === 'grid') {
+                content.style.display = 'flex';
+                content.style.flexDirection = 'column';
+                content.style.height = '100vh';
+                content.style.overflow = 'hidden';
+            }
+            
+            if (module) {
+                module.style.height = '100vh';
+                module.style.overflow = 'hidden';
+            }
+        }
+    }
+    
+    // Применяем стили при загрузке и изменении размера окна
+    applyMobileStyles();
+    window.addEventListener('resize', applyMobileStyles);
+    
     init();
 })();

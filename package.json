@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "puppeteer": "^21.11.0",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "axios": "^1.13.2",
+    "https-proxy-agent": "^7.0.6"
+  }
+}

@@ -14,7 +14,7 @@ const allServices = [
         areaId: "b1f1-enter",
         desc: "для удобства ваших гостей организована зона ожидания https://andreymashkin.ru/disk/share/Y76a8zsnZ8qv6",
         contacts: "",
-        img: "images/andreymashkin_7KAD3WueOqq86.jpg",
+        img: "https://andreymashkin.ru/disk/share/7KAD3WueOqq86",
         link: "#",
         attributes: {
         }
@@ -44,7 +44,7 @@ const allServices = [
         areaId: "b1f1-coffee",
         desc: "Точка подзарядки вкусным кофе",
         contacts: "",
-        img: "images/andreymashkin_eeVndbCkDv3zb.jpg",
+        img: "https://andreymashkin.ru/disk/share/eeVndbCkDv3zb",
         link: "#",
         attributes: {
             hours: "График работы: понедельник пятница с 9:00 до 20:00"
@@ -89,7 +89,7 @@ const allServices = [
         areaId: "b1f1-garderob",
         desc: "Гардероб предназначен для хранения верхней одежды, а также обуви в пакетах.<br>В гардеробе альфа расположены Локеры, которые предназначены для хранения пакетов, зонтов и других личных вещей небольшого размера.<br><br>Для удобства все ячейки пронумерованы.<br><br>Информационно: <br>Для поддержания чистоты и комфортности использования просим не оставлять в ячейках еду и напитки.<br><br>Хранение личных вещей предполагается только в течение одного рабочего дня, запирать локер на более длительный период и уносить ключ домой запрещено.",
         contacts: "Альфа - VOnufreichik@croc.ru<br>Бета - AntKalinin@croc.ru",
-        img: "images/andreymashkin_XRYPVXsx76v3P.jpg",
+        img: "https://andreymashkin.ru/disk/share/XRYPVXsx76v3P",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -104,7 +104,7 @@ const allServices = [
         areaId: "b1f1-elevator-1",
         desc: "При застревании в лифте соблюдайте спокойствие и действуйте согласно инструкции, расположенной на панели управления в каждом лифте.<br><br>При неисправности лифта следует:<br>нажать колокольчик и описать<br>ситуацию диспетчеру<br>ЛИБО<br>позвонить 8 (495) 974-22-74<br>доб 83-02, 83-03, круглосуточно<br>ЛИБО<br>позвонить дежурному лифтеру<br>ООО «ЛифтКомплекс» 8 (495) 974-22-74<br>доб 83-01.",
         contacts: "FieldService@croc.ru",
-        img: "images/andreymashkin_y0rVxlSZKk8Xo.jpg",
+        img: "https://andreymashkin.ru/disk/share/y0rVxlSZKk8Xo",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -175,7 +175,7 @@ const allServices = [
         areaId: "b1f2-212",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_ozWe94uAZMd9k.jpg\nimages/andreymashkin_6MZG26hp9mPvX.jpg\nimages/andreymashkin_zoqVAmHJ71gkb.jpg\nприкрепила дополнительно фото",
+        img: "https://andreymashkin.ru/disk/share/ozWe94uAZMd9k\nhttps://andreymashkin.ru/disk/share/6MZG26hp9mPvX\nhttps://andreymashkin.ru/disk/share/zoqVAmHJ71gkb\nприкрепила дополнительно фото",
         link: "#",
         attributes: {
             location: "212",
@@ -191,7 +191,7 @@ const allServices = [
         areaId: "b1f2-214",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_gWGdybS0yPd3q.jpg",
+        img: "https://andreymashkin.ru/disk/share/gWGdybS0yPd3q",
         link: "#",
         attributes: {
             location: "214",
@@ -303,7 +303,7 @@ const allServices = [
         areaId: "b1f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>2 мягкие зоны",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_kmDWabUzP83Q2.jpg\nimages/andreymashkin_G09JoeSx16y3M.jpg\nimages/andreymashkin_22gG7MuDggp6G.jpg\nimages/andreymashkin_b8AVKqhX9ekd6.jpg\nimages/andreymashkin_4KvpGYu59b10O.jpg",
+        img: "https://andreymashkin.ru/disk/share/kmDWabUzP83Q2\nhttps://andreymashkin.ru/disk/share/G09JoeSx16y3M\nhttps://andreymashkin.ru/disk/share/22gG7MuDggp6G\nhttps://andreymashkin.ru/disk/share/b8AVKqhX9ekd6\nhttps://andreymashkin.ru/disk/share/4KvpGYu59b10O",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/lunch",
         attributes: {
             hours: "с 8:30 до 21:30"
@@ -347,7 +347,7 @@ const allServices = [
         areaId: "b1f2-nastolka",
         desc: "Тот самый уголок в столовой «Альфа» теперь зона релакса и игр! <br>Здесь можно отдохнуть от рабочих задач, поболтать с коллегами или сразиться в настолки. <br>Тебя ждет множество игр, удобные пуфики и расслабленная атмосфера, в которой хочется остаться.<br>Бронируй пространство через Outlook для своей компании - имя пространства *Play Zone*",
         contacts: "",
-        img: "images/andreymashkin_02XRVKuegZ6k7.jpg\nimages/andreymashkin_AXnVWvs5BW9aV.jpg",
+        img: "https://andreymashkin.ru/disk/share/02XRVKuegZ6k7\nhttps://andreymashkin.ru/disk/share/AXnVWvs5BW9aV",
         link: "#",
         attributes: {
             hours: "с 8:30 до 21:30"
@@ -362,7 +362,7 @@ const allServices = [
         areaId: "b1f2-201",
         desc: "Пространство для еды и встреч с выходом на летнюю веранду.<br>Можно заказать блюда к определенному времени по телефону #8368<br><br>Доступна оплата части стоимости заказа картой-пропуском, а также проверка остатка баланса на карте.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_ngye5OCvyJM07.jpg",
+        img: "https://andreymashkin.ru/disk/share/ngye5OCvyJM07",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/lunch",
         attributes: {
             location: "201",
@@ -407,7 +407,7 @@ const allServices = [
         areaId: "b1f3-3b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_JZeVJvuWxJvn0.jpg",
+        img: "https://andreymashkin.ru/disk/share/JZeVJvuWxJvn0",
         link: "#",
         attributes: {
             location: "3Б",
@@ -439,7 +439,7 @@ const allServices = [
         areaId: "b1f3-rest",
         desc: "Уютное пространство для отдыха, разделённое на несколько зон:<br>     ·Игровая — с плазмой и мультимедийным оборудованием;<br>     ·Мягкая — с акустической стеной и диваном-трансформером<br>     ·Дзен — с массажными креслами и расслабляющей подсветкой под настроение.<br>Бронируй пространство<br>      через календарь в Outlook",
         contacts: "FieldService@croc.ru",
-        img: "images/andreymashkin_WOMWqau3KqPo9.jpg\nimages/andreymashkin_JZeVJvuWxJ70x.jpg",
+        img: "https://andreymashkin.ru/disk/share/WOMWqau3KqPo9\nhttps://andreymashkin.ru/disk/share/JZeVJvuWxJ70x",
         link: "#",
         attributes: {
             location: "316",
@@ -455,7 +455,7 @@ const allServices = [
         areaId: "b1f3-gym",
         desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы",
         contacts: "",
-        img: "images/andreymashkin_WOMWqau3Kq5xn.jpg\nimages/andreymashkin_D4WEXGSnYXpQY.jpg\nimages/andreymashkin_RrOMAYu0qAe0q.jpg\nimages/andreymashkin_8nbGEPsG6VRdv.jpg",
+        img: "https://andreymashkin.ru/disk/share/WOMWqau3Kq5xn\nhttps://andreymashkin.ru/disk/share/D4WEXGSnYXpQY\nhttps://andreymashkin.ru/disk/share/RrOMAYu0qAe0q\nhttps://andreymashkin.ru/disk/share/8nbGEPsG6VRdv",
         link: "Подробнее о спортзале: https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym\nСпортивная жизнь компании  : https://corplifecroc.ru/sport",
         attributes: {
             location: "318"
@@ -485,7 +485,7 @@ const allServices = [
         areaId: "b1f3-308b",
         desc: "Услуги оказываются по ДМС.<br>Доктор:  Климчук Мария <br>Запись на прием:<br>+7-926-535-52-27<br><br>Внутренний телефон стоматологического кабинета: 8321",
         contacts: "",
-        img: "images/andreymashkin_ZRP375srMARBr.jpg",
+        img: "https://andreymashkin.ru/disk/share/ZRP375srMARBr",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/stomatology",
         attributes: {
             location: "308",
@@ -501,7 +501,7 @@ const allServices = [
         areaId: "b1f3-314",
         desc: "Кабинет можно забронировать для своего мастера",
         contacts: "",
-        img: "images/andreymashkin_KzBrRvuP9RO0x.jpg",
+        img: "https://andreymashkin.ru/disk/share/KzBrRvuP9RO0x",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/parikmaxer",
         attributes: {
             location: "314"
@@ -531,7 +531,7 @@ const allServices = [
         areaId: "b1f4-402b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "Типовое фото \nimages/andreymashkin_b8AVKqhX9enzq.jpg",
+        img: "Типовое фото \nhttps://andreymashkin.ru/disk/share/b8AVKqhX9enzq",
         link: "#",
         attributes: {
             location: "402 Б",
@@ -675,7 +675,7 @@ const allServices = [
         areaId: "b1f4-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -690,7 +690,7 @@ const allServices = [
         areaId: "b1f4-r",
         desc: "",
         contacts: "",
-        img: "images/andreymashkin_xAl7ZoFDnz1O8.jpg",
+        img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
         attributes: {
             hours: "с 9:00-23:00"
@@ -705,7 +705,7 @@ const allServices = [
         areaId: "b1f4-w",
         desc: "",
         contacts: "",
-        img: "images/andreymashkin_vxBekbfbp1XdJ.jpg\nimages/andreymashkin_zoqVAmHJ71l8O.jpg",
+        img: "https://andreymashkin.ru/disk/share/vxBekbfbp1XdJ\nhttps://andreymashkin.ru/disk/share/zoqVAmHJ71l8O",
         link: "#",
         attributes: {
         }
@@ -736,7 +736,7 @@ const allServices = [
         areaId: "b1f5-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -751,7 +751,7 @@ const allServices = [
         areaId: "b1f5-r",
         desc: "",
         contacts: "",
-        img: "images/andreymashkin_xAl7ZoFDnz1O8.jpg",
+        img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
         attributes: {
             hours: "с 9:00-23:00"
@@ -766,7 +766,7 @@ const allServices = [
         areaId: "b1f6-ac",
         desc: "Свободный доступ",
         contacts: "",
-        img: "images/andreymashkin_P58KZMh9aZJbb.jpg",
+        img: "https://andreymashkin.ru/disk/share/P58KZMh9aZJbb",
         link: "#",
         attributes: {
             location: "Холл 6 этажа"
@@ -847,7 +847,7 @@ const allServices = [
         areaId: "b1f6-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -893,7 +893,7 @@ const allServices = [
         areaId: "b1f7-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -970,7 +970,7 @@ const allServices = [
         areaId: "b1f8-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -985,7 +985,7 @@ const allServices = [
         areaId: "b1f9-903",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_5nkGOys6QrGxV.jpg",
+        img: "https://andreymashkin.ru/disk/share/5nkGOys6QrGxV",
         link: "#",
         attributes: {
             location: "903",
@@ -1017,7 +1017,7 @@ const allServices = [
         areaId: "b1f9-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1063,7 +1063,7 @@ const allServices = [
         areaId: "b1f10-1010",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_WOMWqau3KqPam.jpg",
+        img: "https://andreymashkin.ru/disk/share/WOMWqau3KqPam",
         link: "#",
         attributes: {
             location: "1010",
@@ -1097,7 +1097,7 @@ const allServices = [
         areaId: "b1f10-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1140,7 +1140,7 @@ const allServices = [
         areaId: "b1f10-r",
         desc: "",
         contacts: "",
-        img: "images/andreymashkin_xAl7ZoFDnz1O8.jpg",
+        img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
         attributes: {
             hours: "с 9:00-23:00"
@@ -1155,7 +1155,7 @@ const allServices = [
         areaId: "b1f11-1102",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_JZeVJvuWxJvvY.jpg\nimages/andreymashkin_VOK6mPu3ymDz8.jpg",
+        img: "https://andreymashkin.ru/disk/share/JZeVJvuWxJvvY\nhttps://andreymashkin.ru/disk/share/VOK6mPu3ymDz8",
         link: "#",
         attributes: {
             location: "1102",
@@ -1172,7 +1172,7 @@ const allServices = [
         areaId: "b1f11-1104",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_ppa4glhpXoaPx.jpg",
+        img: "https://andreymashkin.ru/disk/share/ppa4glhpXoaPx",
         link: "#",
         attributes: {
             location: "1104",
@@ -1189,7 +1189,7 @@ const allServices = [
         areaId: "b1f11-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1218,7 +1218,7 @@ const allServices = [
         areaId: "b1f11-r",
         desc: "",
         contacts: "",
-        img: "images/andreymashkin_xAl7ZoFDnz1O8.jpg",
+        img: "https://andreymashkin.ru/disk/share/xAl7ZoFDnz1O8",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
         attributes: {
             hours: "с 9:00-23:00"
@@ -1247,7 +1247,7 @@ const allServices = [
         areaId: "b2f1-velo",
         desc: "Точка паркинга и проката велосипедов",
         contacts: "",
-        img: "images/andreymashkin_Era2zvubQz3pX.jpg",
+        img: "https://andreymashkin.ru/disk/share/Era2zvubQz3pX",
         link: "Подробнее о прокате велосипедов https://jive.croc.ru/community/knowledge/everyday/corporate/sport/zelyonye-velosipedy-krok",
         attributes: {
         }
@@ -1289,7 +1289,7 @@ const allServices = [
         areaId: "b3f1-enter",
         desc: "ЗАО «КРОК инкорпорейтед»<br>https://www.croc.ru<br>для удобства ваших гостей оргнаизована зона ожидания <br><br>Возможность прохода в офис без использования пластиковой карты-пропуска, а через идентификацию с передачей номера карты по NFC/BLE смартфона.<br>https://jive.croc.ru/community/knowledge/everyday/social/proxod-v-ofis-s-pomoshhyu-telefona",
         contacts: "",
-        img: "images/andreymashkin_WOMWqau3Kqr4z.jpg",
+        img: "https://andreymashkin.ru/disk/share/WOMWqau3Kqr4z",
         link: "#",
         attributes: {
         }
@@ -1303,7 +1303,7 @@ const allServices = [
         areaId: "b3f1-coffee",
         desc: "Точка подзарядки вкусным кофе",
         contacts: "",
-        img: "images/andreymashkin_eeVndbCkDv3zb.jpg",
+        img: "https://andreymashkin.ru/disk/share/eeVndbCkDv3zb",
         link: "#",
         attributes: {
             hours: "График работы: понедельник пятница с 8:00 до 19:00"
@@ -1333,7 +1333,7 @@ const allServices = [
         areaId: "b3f1-g",
         desc: "Гардероб предназначен для хранения верхней одежды, а также обуви в пакетах",
         contacts: "FieldService@croc.ru",
-        img: "images/andreymashkin_VOK6mPu3ymbW1.jpg",
+        img: "https://andreymashkin.ru/disk/share/VOK6mPu3ymbW1",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -1348,7 +1348,7 @@ const allServices = [
         areaId: "b3f1-elevator",
         desc: "При застревании в лифте соблюдайте спокойствие и действуйте согласно инструкции, расположенной на панели управления в каждом лифте.<br><br>При неисправности лифта следует:<br>нажать колокольчик и описать<br>ситуацию диспетчеру<br>ЛИБО<br>позвонить 8 (495) 974-22-74<br>доб 83-02, 83-03, круглосуточно<br>ЛИБО<br>позвонить дежурному лифтеру<br>ООО «ЛифтКомплекс» 8 (495) 974-22-74<br>доб 83-01.",
         contacts: "FieldService@croc.ru",
-        img: "images/andreymashkin_y0rVxlSZKk8Xo.jpg",
+        img: "https://andreymashkin.ru/disk/share/y0rVxlSZKk8Xo",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -1363,7 +1363,7 @@ const allServices = [
         areaId: "b3f2-203",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_zoqVAmHJ711q7.jpg",
+        img: "https://andreymashkin.ru/disk/share/zoqVAmHJ711q7",
         link: "#",
         attributes: {
             location: "203",
@@ -1395,7 +1395,7 @@ const allServices = [
         areaId: "b3f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>Мягкая зона <br>Летняя веранда",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_WOMWqau3KqrbO.jpg\nimages/andreymashkin_02XRVKuegZYPW.jpg\nimages/andreymashkin_7KAD3WueOqbX1.jpg\nimages/andreymashkin_XRYPVXsKyVvXR.jpg",
+        img: "https://andreymashkin.ru/disk/share/WOMWqau3KqrbO\nhttps://andreymashkin.ru/disk/share/02XRVKuegZYPW\nhttps://andreymashkin.ru/disk/share/7KAD3WueOqbX1\nhttps://andreymashkin.ru/disk/share/XRYPVXsKyVvXR",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/lunch",
         attributes: {
             hours: "с 8:30 до 17:00"
@@ -1490,7 +1490,7 @@ const allServices = [
         areaId: "b3f3-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1519,7 +1519,7 @@ const allServices = [
         areaId: "b3f4-doctor",
         desc: "Прием проводит врач общей практики Дрюкова Анна Викторовна",
         contacts: "ndemidova@croc.ru",
-        img: "images/andreymashkin_4KvpGYu59bbgz.jpg\nimages/andreymashkin_OZqQBnu56BBgn.jpg",
+        img: "https://andreymashkin.ru/disk/share/4KvpGYu59bbgz\nhttps://andreymashkin.ru/disk/share/OZqQBnu56BBgn",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C-%D0%BD%D0%B0-%D0%BF%D1%80%D0%B8%D0%B5%D0%BC-%D0%BA-%D0%B2%D1%80%D0%B0%D1%87%D1%83",
         attributes: {
             location: "416",
@@ -1552,7 +1552,7 @@ const allServices = [
         areaId: "b3f4-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1614,7 +1614,7 @@ const allServices = [
         areaId: "b3f5-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1661,7 +1661,7 @@ const allServices = [
         areaId: "b3f6-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1724,7 +1724,7 @@ const allServices = [
         areaId: "b3f7-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1739,7 +1739,7 @@ const allServices = [
         areaId: "b3f8-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1803,7 +1803,7 @@ const allServices = [
         areaId: "b3f9-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1832,7 +1832,7 @@ const allServices = [
         areaId: "b3f10-1007",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_AXnVWvs5BWW2G.jpg\nimages/andreymashkin_rg9eJlCk1ddvE.jpg\nimages/andreymashkin_Mnl0eZsX8eeWP.jpg\nimages/andreymashkin_KzBrRvuP9RR09.jpg\nimages/andreymashkin_D4WEXGSnYXXrW.jpg",
+        img: "https://andreymashkin.ru/disk/share/AXnVWvs5BWW2G\nhttps://andreymashkin.ru/disk/share/rg9eJlCk1ddvE\nhttps://andreymashkin.ru/disk/share/Mnl0eZsX8eeWP\nhttps://andreymashkin.ru/disk/share/KzBrRvuP9RR09\nhttps://andreymashkin.ru/disk/share/D4WEXGSnYXXrW",
         link: "#",
         attributes: {
             location: "1007",
@@ -1912,7 +1912,7 @@ const allServices = [
         areaId: "b3f10-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"
@@ -1927,7 +1927,7 @@ const allServices = [
         areaId: "b3f11-r",
         desc: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
         contacts: "",
-        img: "images/andreymashkin_qvzb04hoVQQzD.jpg",
+        img: "https://andreymashkin.ru/disk/share/qvzb04hoVQQzD",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
         attributes: {
             hours: "с 9:00-23:00"
@@ -1942,7 +1942,7 @@ const allServices = [
         areaId: "b3f11-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
         contacts: "foodfeedback@croc.ru",
-        img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
+        img: "https://andreymashkin.ru/disk/share/RrOMAYu0qAMGx\nhttps://andreymashkin.ru/disk/share/y0rVxlSZKk8o6",
         link: "#",
         attributes: {
             location: "с 3-11"

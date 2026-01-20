@@ -1,14 +1,31 @@
-backup-before-reset/changes.patch
+# Dependencies
+node_modules/
+package-lock.json
 
-# Внутренний процесс работы с AI (не коммитить в репозиторий)
-.cursor/
+# Build outputs
+*.log
+*.tmp
 
-# Временные файлы генерации
-data-generated.js
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# Личные настройки IDE
-*.sublime-project
-*.sublime-workspace
+# OS
+.DS_Store
+Thumbs.db
 
-# Бэкапы (оставляем, но не коммитим)
-backups/
+# Temporary files
+tmp.css
+download_*.js
+analyze_*.js
+*_backup*.js
+*.backup
+*.backup2
+
+# Documentation (опционально, если не нужны в репозитории)
+# *.md
+# !README.md
+# !README_GITHUB_PAGES.md
+# !TILDA_SETUP.md

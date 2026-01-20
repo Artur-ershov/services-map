@@ -1,0 +1,162 @@
+﻿diff --git a/AUTOMATION_GUIDE.md b/AUTOMATION_GUIDE.md
+index d35fb8f..66b5398 100644
+--- a/AUTOMATION_GUIDE.md
++++ b/AUTOMATION_GUIDE.md
+@@ -205,3 +205,4 @@ A: ╨н╤В╨╛ ╨╛╨┤╨╜╨╛╤Б╤В╨╛╤А╨╛╨╜╨╜╤П╤П ╤Б╨╕╨╜╤Е╤А╨╛╨╜╨╕╨╖╨░╤Ж╨╕╤П (CSV тЖТ data.js
+ 
+ 
+ 
++
+diff --git a/CSV_SYNC_ANALYSIS.md b/CSV_SYNC_ANALYSIS.md
+index 60ab5c3..3edade5 100644
+--- a/CSV_SYNC_ANALYSIS.md
++++ b/CSV_SYNC_ANALYSIS.md
+@@ -174,3 +174,4 @@
+ 
+ 
+ 
++
+diff --git a/FIGMA_EXPORT_GUIDE.md b/FIGMA_EXPORT_GUIDE.md
+index 98f6de9..82ca87b 100644
+--- a/FIGMA_EXPORT_GUIDE.md
++++ b/FIGMA_EXPORT_GUIDE.md
+@@ -94,3 +94,4 @@ const svgFloorPlans = {
+ 
+ 
+ 
++
+diff --git a/FIGMA_INTEGRATION.md b/FIGMA_INTEGRATION.md
+index 6fcdfee..05e94b1 100644
+--- a/FIGMA_INTEGRATION.md
++++ b/FIGMA_INTEGRATION.md
+@@ -109,3 +109,4 @@ const svgFloorPlans = {
+ 
+ 
+ 
++
+diff --git a/FIGMA_ORGANIZATION_PLAN.md b/FIGMA_ORGANIZATION_PLAN.md
+index f5f513a..765f6e7 100644
+--- a/FIGMA_ORGANIZATION_PLAN.md
++++ b/FIGMA_ORGANIZATION_PLAN.md
+@@ -183,3 +183,4 @@
+ 
+ 
+ 
++
+diff --git a/QUICK_START.md b/QUICK_START.md
+index 06429a2..fa86b9a 100644
+--- a/QUICK_START.md
++++ b/QUICK_START.md
+@@ -75,3 +75,4 @@ node scripts/sync-csv-to-data.js "╨┐╤Г╤В╤М\╨║\csv\╤Д╨░╨╣╨╗╤Г.csv"
+ 
+ 
+ 
++
+diff --git a/SYNC_REPORT.md b/SYNC_REPORT.md
+index ad66185..de371a5 100644
+--- a/SYNC_REPORT.md
++++ b/SYNC_REPORT.md
+@@ -119,3 +119,4 @@ copy backups\data_20260114_072323.js data.js
+ 
+ 
+ 
++
+diff --git a/TEST_RESULTS.md b/TEST_RESULTS.md
+index 4ba3de3..ae20dcb 100644
+--- a/TEST_RESULTS.md
++++ b/TEST_RESULTS.md
+@@ -85,3 +85,4 @@
+ 
+ 
+ 
++
+diff --git a/figma-config.js b/figma-config.js
+index 3ef4eab..cc18f58 100644
+--- a/figma-config.js
++++ b/figma-config.js
+@@ -39,3 +39,4 @@ module.exports = figmaConfig;
+ 
+ 
+ 
++
+diff --git a/scripts/analyze-csv-mapping.js b/scripts/analyze-csv-mapping.js
+index 5e49a8e..58cf011 100644
+--- a/scripts/analyze-csv-mapping.js
++++ b/scripts/analyze-csv-mapping.js
+@@ -232,3 +232,4 @@ module.exports = { analyzeCSVMapping, parseCSV, normalizeBuilding };
+ 
+ 
+ 
++
+diff --git a/scripts/analyze-figma-structure.js b/scripts/analyze-figma-structure.js
+index da822b6..9d2aca8 100644
+--- a/scripts/analyze-figma-structure.js
++++ b/scripts/analyze-figma-structure.js
+@@ -161,3 +161,4 @@ module.exports = {
+ 
+ 
+ 
++
+diff --git a/scripts/apply-generated-data.py b/scripts/apply-generated-data.py
+index 5380705..8434d75 100644
+--- a/scripts/apply-generated-data.py
++++ b/scripts/apply-generated-data.py
+@@ -91,3 +91,4 @@ if __name__ == '__main__':
+ 
+ 
+ 
++
+diff --git a/scripts/create-naming-guide.js b/scripts/create-naming-guide.js
+index 80bbd0c..d694627 100644
+--- a/scripts/create-naming-guide.js
++++ b/scripts/create-naming-guide.js
+@@ -185,3 +185,4 @@ module.exports = { createNamingGuide };
+ 
+ 
+ 
++
+diff --git a/scripts/create-service-mapping.js b/scripts/create-service-mapping.js
+index 9108e59..e84bf97 100644
+--- a/scripts/create-service-mapping.js
++++ b/scripts/create-service-mapping.js
+@@ -220,3 +220,4 @@ module.exports = {
+ 
+ 
+ 
++
+diff --git a/scripts/export-figma-svg.py b/scripts/export-figma-svg.py
+index f36bd71..8e7dab1 100644
+--- a/scripts/export-figma-svg.py
++++ b/scripts/export-figma-svg.py
+@@ -34,3 +34,4 @@ print("""
+ 
+ 
+ 
++
+diff --git a/scripts/export-floor-from-figma.js b/scripts/export-floor-from-figma.js
+index 4c04903..156acf3 100644
+--- a/scripts/export-floor-from-figma.js
++++ b/scripts/export-floor-from-figma.js
+@@ -91,3 +91,4 @@ module.exports = { exportFloorFromFigma };
+ 
+ 
+ 
++
+diff --git a/scripts/figma-sync-helper.js b/scripts/figma-sync-helper.js
+index 122f057..447a4b8 100644
+--- a/scripts/figma-sync-helper.js
++++ b/scripts/figma-sync-helper.js
+@@ -117,3 +117,4 @@ module.exports = {
+ 
+ 
+ 
++
+diff --git a/scripts/sync-csv-to-data.js b/scripts/sync-csv-to-data.js
+index ca17094..06d3a14 100644
+--- a/scripts/sync-csv-to-data.js
++++ b/scripts/sync-csv-to-data.js
+@@ -311,3 +311,4 @@ module.exports = { parseCSV, csvRowToService, generateDataJS, generateFigmaMappi
+ 
+ 
+ 
++

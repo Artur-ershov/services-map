@@ -61,15 +61,16 @@
     box-sizing: border-box;
 }
 
-.ksmm-title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75em;
-    border-bottom: 1px solid var(--bg);
-    position: relative;
-    overflow: visible;
-}
+    .ksmm-title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75em;
+        border-bottom: 1px solid var(--bg);
+        position: relative;
+        overflow: visible;
+        flex-shrink: 0;
+    }
 
 /* Дропдаун выбора этажа */
 .ksmm-floor-dropdown {
@@ -222,6 +223,16 @@
     position: relative;
 }
 
+/* Мобильная версия - применяется через JS если медиа-запрос не сработал */
+@media (max-width: 768px) {
+    .ksmm-content {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+    }
+}
+
 
 
 /* --- Стили Левого Блока (Список) --- */
@@ -243,6 +254,7 @@
     transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
     overflow: hidden;
     max-height: 100px;
+    flex-shrink: 0;
 }
 
 #ksmm-search-input {
@@ -270,6 +282,33 @@
     transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
     overflow: hidden;
     max-height: 200px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .ksmm-filter-controls {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+    }
+    
+    .ksmm-filter-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    
+    .ksmm-subfilter-controls {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .ksmm-subfilter {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
 }
 
 .ksmm-filter-btn {
@@ -391,46 +430,68 @@
 
 /* Стили Подфильтров */
 .ksmm-subfilter-controls {
-    padding: 0 15px 15px 15px;
+    padding: 0 15px 12px 15px;
     border-bottom: 1px solid var(--bg);
     display: none;
     transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
-    overflow: hidden;
-    max-height: 200px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    max-height: 150px;
+    flex-shrink: 0;
 }
 
 .ksmm-subfilter-controls:not([style*="display: none"]) {
     display: block;
 }
 
+.ksmm-subfilter-group {
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: flex-start;
+}
+
 .ksmm-subfilter-group-title {
     font-size: 10px;
-    font-weight: bold;
-    color: #999;
-    text-transform: uppercase;
+    font-weight: 600;
+    color: #666;
+    text-transform: none;
     margin-bottom: 5px;
+    letter-spacing: 0.2px;
+    width: 100%;
+    flex-basis: 100%;
 }
 
 .ksmm-subfilter {
-    font-size: 13px;
+    font-size: 11px;
     color: #333;
     cursor: pointer;
-    margin-right: 8px;
+    margin-right: 5px;
     margin-bottom: 5px;
     display: inline-block;
-    padding: 2px 4px;
-    border-radius: 4px;
+    padding: 4px 9px;
+    border-radius: 12px;
     font-weight: 400;
     font-variation-settings: 'wdth' 95;
+    background-color: #f5f5f5;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.3;
 }
 
 .ksmm-subfilter:hover {
-    background-color: #f0f0f0;
+    background-color: #e8e8e8;
+    border-color: #ddd;
 }
 
 .ksmm-subfilter.active {
     font-weight: 500;
-    background-color: #e0e0e0;
+    background-color: rgba(var(--krok-blue-rgb), 0.1);
+    border-color: var(--krok-blue);
+    color: var(--krok-blue);
 }
 
 /* Контейнер для скролла списка */
@@ -589,6 +650,17 @@ body p.ksmm-item-location {
     background-color: var(--hl);
 }
 
+.ksmm-list-item.active {
+    background-color: rgba(var(--krok-blue-rgb), 0.1);
+    border-left: 3px solid var(--krok-blue);
+    padding-left: 9px; /* Компенсируем уменьшение padding из-за border */
+}
+
+.ksmm-list-item.active .ksmm-category-indicator {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px rgba(var(--krok-blue-rgb), 0.3);
+}
+
 /* Логика .hidden для Списка */
 .ksmm-list-item.hidden {
     display: none;
@@ -656,11 +728,11 @@ body p.ksmm-item-location {
     transform: translateX(-50%) translateY(-2px);
 }
 
-.ksmm-floor-nav-btn-prev {
+.ksmm-floor-nav-btn-next {
     top: 20px;
 }
 
-.ksmm-floor-nav-btn-next {
+.ksmm-floor-nav-btn-prev {
     bottom: 20px;
 }
 
@@ -754,6 +826,7 @@ body p.ksmm-item-location {
     cursor: grab;
     /* Принудительно заполняем контейнер */
     min-height: 100%;
+    touch-action: none; /* Отключаем стандартные жесты браузера для кастомных touch событий */
 }
 
 /* Transition для wrapper, который получает transform при панорамировании и зуме */
@@ -952,51 +1025,149 @@ body p.ksmm-item-location {
     position: absolute;
     top: 20%;
     left: 20px;
-    width: 300px;
+    width: 375px;
     max-width: calc(100vw - 40px);
+    min-width: 375px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    padding: 20px;
+    padding: 25px;
 }
 
 .ksmm-popup-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     background: white;
     border: none;
-    font-size: 24px;
+    font-size: 28px;
     cursor: pointer;
     color: #aaa;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.ksmm-popup-img {
-    width: calc(100% + 40px);
-    height: 150px;
-    object-fit: cover;
+/* Галерея фотографий в попапе */
+.ksmm-popup-gallery {
+    width: calc(100% + 50px);
+    margin: -25px -25px 15px -25px;
+    position: relative;
     border-radius: 8px 8px 0 0;
-    margin: -20px -20px 15px -20px;
+    overflow: hidden;
     background: #f0f0f0;
-    display: none; /* Временно скрыто */
+}
+
+.ksmm-gallery-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.ksmm-gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.ksmm-gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--krok-blue);
+    z-index: 10;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ksmm-gallery-nav:hover {
+    background: var(--krok-blue);
+    color: white;
+    box-shadow: 0 4px 12px rgba(var(--krok-blue-rgb), 0.4);
+}
+
+.ksmm-gallery-prev {
+    left: 10px;
+}
+
+.ksmm-gallery-next {
+    right: 10px;
+}
+
+.ksmm-gallery-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.ksmm-gallery-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    padding: 0;
+}
+
+.ksmm-gallery-indicator:hover {
+    background: #999;
+    transform: scale(1.2);
+}
+
+.ksmm-gallery-indicator.active {
+    background: var(--krok-blue);
+    width: 24px;
+    border-radius: 4px;
+}
+
+.ksmm-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.ksmm-popup-header .ksmm-category-indicator {
+    flex-shrink: 0;
+    margin-top: 0;
 }
 
 .ksmm-popup h3 {
-    margin: 0 0 10px 0;
+    margin: 0;
+    flex: 1;
 }
 
 .ksmm-popup p {
     margin: 5px 0;
     font-size: 14px;
-    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    line-height: 1.5;
 }
 
 #ksmm-popup-contacts {
@@ -1013,29 +1184,124 @@ body p.ksmm-item-location {
     margin-top: 15px;
     font-weight: bold;
     text-align: center;
-    display: none; /* Временно скрыто */
+    display: inline-block;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.ksmm-btn:hover {
+    background: rgba(var(--krok-blue-rgb), 0.9);
 }
 
 /* Адаптивность */
 @media (max-width: 768px) {
+    #krok-services-map-module {
+        height: 100vh;
+        overflow: hidden;
+    }
+    
     .ksmm-content {
-        grid-template-columns: 1fr;
-        height: auto;
+        grid-template-columns: 1fr !important;
+        height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
     }
 
     .ksmm-map-container {
-        height: 400px;
+        height: 40vh;
+        min-height: 250px;
+        max-height: 40vh;
         order: -1;
+        flex-shrink: 0;
+        overflow: hidden;
     }
 
     .ksmm-list-container {
         border-right: none;
         border-top: 1px solid #ddd;
-        height: auto;
+        height: 60vh;
+        min-height: 0;
+        display: flex !important;
+        flex-direction: column;
+        visibility: visible !important;
+        overflow: hidden;
+        flex: 1 1 0;
     }
 
     .ksmm-scroll-list {
-        max-height: 400px;
+        max-height: none;
+        min-height: 0;
+        overflow-y: auto;
+        display: block !important;
+        visibility: visible !important;
+        -webkit-overflow-scrolling: touch;
+        flex: 1 1 0;
+    }
+    
+    #ksmm-services-list {
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .ksmm-title-wrapper {
+        flex-shrink: 0;
+        padding: 0.5em;
+    }
+    
+    .ksmm-search-bar {
+        display: block !important;
+        visibility: visible !important;
+        flex-shrink: 0;
+        padding: 10px 15px;
+    }
+    
+    .ksmm-filter-controls {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap !important;
+        padding-bottom: 10px;
+        max-width: 100vw;
+        flex-shrink: 0;
+    }
+    
+    .ksmm-filter-btn {
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+        min-width: fit-content;
+    }
+    
+    .ksmm-subfilter-controls {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100vw;
+        width: 100%;
+        display: block !important;
+        flex-shrink: 0;
+    }
+    
+    .ksmm-subfilter-group {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        min-width: max-content;
+        max-width: 100%;
+    }
+    
+    .ksmm-subfilter {
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+        min-width: fit-content;
+    }
+    
+    .ksmm-subfilter-controls {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
     }
 
     .ksmm-floor-dropdown-list {
@@ -1063,19 +1329,79 @@ body p.ksmm-item-location {
     }
     
     .ksmm-popup {
-        width: calc(100% - 40px);
-        max-width: none;
-        min-width: 280px;
-        padding: 20px;
-        left: 20px;
-        right: 20px;
+        width: calc(100% - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+        min-width: auto !important;
+        padding: 15px;
+        left: 10px !important;
+        right: 10px !important;
+        top: 5% !important;
+        max-height: 90vh !important;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
     }
     
-    .ksmm-popup-img {
-        height: 160px;
+    .ksmm-popup-gallery {
+        touch-action: pan-y;
+    }
+    
+    .ksmm-gallery-container {
+        touch-action: pan-x;
+    }
+    
+    .ksmm-popup-gallery {
+        width: calc(100% + 50px);
+        margin: -25px -25px 15px -25px;
+    }
+    
+    .ksmm-gallery-container {
+        height: 250px;
+    }
+    
+    .ksmm-gallery-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+    
+    .ksmm-gallery-prev {
+        left: 5px;
+    }
+    
+    .ksmm-gallery-next {
+        right: 5px;
     }
     
     .ksmm-popup h3 {
         font-size: 1.1em;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    .ksmm-popup-desc {
+        font-size: 0.9em;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+    
+    .ksmm-popup-contacts {
+        font-size: 0.85em;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+    
+    .ksmm-popup-link {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+        display: inline-block;
     }
 }
