@@ -1172,16 +1172,16 @@ body p.ksmm-item-location {
 }
 
 .ksmm-popup p a {
-    color: var(--krok-blue);
-    text-decoration: underline;
+    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    text-decoration: none;
     word-break: break-all;
     overflow-wrap: break-word;
-    border-bottom: 1px;
+    border-bottom: 1px solid var(--uc-color-color-qByAH1I, #b9edd7);
 }
 
 .ksmm-popup p a:hover {
-    color: rgba(var(--krok-blue-rgb), 0.8);
-    text-decoration: underline;
+    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    border-bottom-color: var(--uc-color-color-bju9b5pZVH, #00c573);
 }
 
 #ksmm-popup-contacts {
@@ -1190,16 +1190,16 @@ body p.ksmm-item-location {
 }
 
 #ksmm-popup-contacts a {
-    color: var(--krok-blue);
-    text-decoration: underline;
+    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    text-decoration: none;
     word-break: break-all;
     overflow-wrap: break-word;
-    border-bottom: 1px;
+    border-bottom: 1px solid var(--uc-color-color-qByAH1I, #b9edd7);
 }
 
 #ksmm-popup-contacts a:hover {
-    color: rgba(var(--krok-blue-rgb), 0.8);
-    text-decoration: underline;
+    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    border-bottom-color: var(--uc-color-color-bju9b5pZVH, #00c573);
 }
 
 .ksmm-btn {
