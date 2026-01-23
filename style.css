@@ -1176,11 +1176,15 @@ body p.ksmm-item-location {
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
+    border: 1px solid var(--krok-blue);
+    padding: 2px 4px;
+    border-radius: 3px;
 }
 
 .ksmm-popup p a:hover {
     color: rgba(var(--krok-blue-rgb), 0.8);
     text-decoration: underline;
+    border-color: rgba(var(--krok-blue-rgb), 0.8);
 }
 
 #ksmm-popup-contacts {
@@ -1193,16 +1197,20 @@ body p.ksmm-item-location {
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
+    border: 1px solid var(--krok-blue);
+    padding: 2px 4px;
+    border-radius: 3px;
 }
 
 #ksmm-popup-contacts a:hover {
     color: rgba(var(--krok-blue-rgb), 0.8);
     text-decoration: underline;
+    border-color: rgba(var(--krok-blue-rgb), 0.8);
 }
 
 .ksmm-btn {
     padding: 10px 15px;
-    background: var(--krok-blue);
+    background: #172736;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -1215,7 +1223,7 @@ body p.ksmm-item-location {
 }
 
 .ksmm-btn:hover {
-    background: rgba(var(--krok-blue-rgb), 0.9);
+    background: #1a2f42;
 }
 
 /* Адаптивность */
