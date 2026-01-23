@@ -304,7 +304,7 @@ const allServices = [
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>2 мягкие зоны",
         contacts: "foodfeedback@croc.ru",
         img: "images/andreymashkin_kmDWabUzP83Q2.jpg\nimages/andreymashkin_G09JoeSx16y3M.jpg\nimages/andreymashkin_22gG7MuDggp6G.jpg\nimages/andreymashkin_b8AVKqhX9ekd6.jpg\nimages/andreymashkin_4KvpGYu59b10O.jpg",
-        link: "https://jive.croc.ru/community/knowledge/everyday/social/lunch",
+        link: "https://zabota.croc.ru/stolovaya",
         attributes: {
             hours: "с 8:30 до 21:30"
         }
@@ -456,7 +456,7 @@ const allServices = [
         desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы",
         contacts: "",
         img: "images/andreymashkin_WOMWqau3Kq5xn.jpg\nimages/andreymashkin_D4WEXGSnYXpQY.jpg\nimages/andreymashkin_RrOMAYu0qAe0q.jpg\nimages/andreymashkin_8nbGEPsG6VRdv.jpg",
-        link: "Подробнее о спортзале: https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym\nСпортивная жизнь компании  : https://corplifecroc.ru/sport",
+        link: "https://zabota.croc.ru/sportzal",
         attributes: {
             location: "318"
         }
@@ -1396,7 +1396,7 @@ const allServices = [
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>Мягкая зона <br>Летняя веранда",
         contacts: "foodfeedback@croc.ru",
         img: "images/andreymashkin_WOMWqau3KqrbO.jpg\nimages/andreymashkin_02XRVKuegZYPW.jpg\nimages/andreymashkin_7KAD3WueOqbX1.jpg\nimages/andreymashkin_XRYPVXsKyVvXR.jpg",
-        link: "https://jive.croc.ru/community/knowledge/everyday/social/lunch",
+        link: "https://zabota.croc.ru/stolovaya",
         attributes: {
             hours: "с 8:30 до 17:00"
         }

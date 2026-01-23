@@ -205,13 +205,14 @@
     function showPopup(service) {
         popupTitle.textContent = service.name;
         // Описания и контакты уже обработаны на этапе генерации (переносы строк заменены на <br>)
+        // Преобразуем URL в тексте в кликабельные ссылки
         if (service.desc) {
-            popupDesc.innerHTML = service.desc;
+            popupDesc.innerHTML = convertUrlsToLinks(service.desc);
         } else {
             popupDesc.textContent = '';
         }
         if (service.contacts) {
-            popupContacts.innerHTML = service.contacts;
+            popupContacts.innerHTML = convertUrlsToLinks(service.contacts);
         } else {
             popupContacts.textContent = '';
         }
@@ -251,11 +252,29 @@
     }
 
     // Упрощенный парсинг ссылки
+    // Функция для преобразования URL в тексте в кликабельные ссылки
+    function convertUrlsToLinks(text) {
+        if (!text) return text;
+        // Регулярное выражение для поиска URL (http/https)
+        // Исключаем символы, которые не могут быть в URL, но сохраняем точку, слэш и другие валидные символы
+        const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`\[\]]+)/gi;
+        return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+    }
+
     function parseLink(linkString) {
-        if (!linkString || linkString === '#' || !linkString.startsWith('http')) {
+        if (!linkString || linkString === '#') {
             return { url: null, text: 'Подробнее' };
         }
-        return { url: linkString.trim(), text: 'Подробнее' };
+        // Если это просто URL, начинающийся с http
+        if (linkString.trim().startsWith('http')) {
+            return { url: linkString.trim(), text: 'Подробнее' };
+        }
+        // Если это текст с несколькими ссылками (как в спортзале), берем первую ссылку
+        const urlMatch = linkString.match(/(https?:\/\/[^\s\n]+)/);
+        if (urlMatch) {
+            return { url: urlMatch[0], text: 'Подробнее' };
+        }
+        return { url: null, text: 'Подробнее' };
     }
 
     function hidePopup() {

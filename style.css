@@ -1051,6 +1051,7 @@ body p.ksmm-item-location {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1001;
 }
 
 /* Галерея фотографий в попапе */
@@ -1170,9 +1171,33 @@ body p.ksmm-item-location {
     line-height: 1.5;
 }
 
+.ksmm-popup p a {
+    color: var(--krok-blue);
+    text-decoration: underline;
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+.ksmm-popup p a:hover {
+    color: rgba(var(--krok-blue-rgb), 0.8);
+    text-decoration: underline;
+}
+
 #ksmm-popup-contacts {
     font-weight: bold;
     color: #333;
+}
+
+#ksmm-popup-contacts a {
+    color: var(--krok-blue);
+    text-decoration: underline;
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+#ksmm-popup-contacts a:hover {
+    color: rgba(var(--krok-blue-rgb), 0.8);
+    text-decoration: underline;
 }
 
 .ksmm-btn {
