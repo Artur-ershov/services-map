@@ -202,36 +202,17 @@
         }
     }
 
-    // Функция для преобразования <br><br> в параграфы
-    function convertBrToParagraphs(text) {
-        if (!text) return text;
-        // Разбиваем по двойным <br> или <br><br> на параграфы
-        const paragraphs = text.split(/<br\s*\/?>\s*<br\s*\/?>/i);
-        if (paragraphs.length > 1) {
-            // Если есть двойные <br>, создаем параграфы
-            return paragraphs
-                .map(p => p.trim())
-                .filter(p => p)
-                .map(p => `<p>${p.replace(/<br\s*\/?>/gi, ' ')}</p>`)
-                .join('');
-        }
-        // Если двойных <br> нет, возвращаем как есть (с одиночными <br>)
-        return text;
-    }
-
     function showPopup(service) {
         popupTitle.textContent = service.name;
         // Описания и контакты уже обработаны на этапе генерации (переносы строк заменены на <br>)
         // Преобразуем URL в тексте в кликабельные ссылки
         if (service.desc) {
-            const descWithLinks = convertUrlsToLinks(service.desc);
-            popupDesc.innerHTML = convertBrToParagraphs(descWithLinks);
+            popupDesc.innerHTML = convertUrlsToLinks(service.desc);
         } else {
             popupDesc.textContent = '';
         }
         if (service.contacts) {
-            const contactsWithLinks = convertUrlsToLinks(service.contacts);
-            popupContacts.innerHTML = convertBrToParagraphs(contactsWithLinks);
+            popupContacts.innerHTML = convertUrlsToLinks(service.contacts);
         } else {
             popupContacts.textContent = '';
         }

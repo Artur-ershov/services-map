@@ -1159,25 +1159,16 @@ body p.ksmm-item-location {
 .ksmm-popup h3 {
     margin: 0;
     flex: 1;
-    padding-right: 50px;
 }
 
 .ksmm-popup p {
-    margin: 8px 0;
+    margin: 5px 0;
     font-size: 14px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
     max-width: 100%;
     line-height: 1.5;
-}
-
-.ksmm-popup p:first-child {
-    margin-top: 0;
-}
-
-.ksmm-popup p:last-child {
-    margin-bottom: 0;
 }
 
 .ksmm-popup p a,
