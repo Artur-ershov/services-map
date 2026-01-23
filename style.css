@@ -1176,7 +1176,7 @@ body p.ksmm-item-location {
 #krok-services-map-module #ksmm-popup-desc a {
     word-break: break-all;
     overflow-wrap: break-word;
-    border-bottom: 1px;
+    border-bottom: 1px solid var(--uc-color-color-qByAH1I);
 }
 
 #ksmm-popup-contacts {
@@ -1188,7 +1188,7 @@ body p.ksmm-item-location {
 #krok-services-map-module #ksmm-popup-contacts a {
     word-break: break-all;
     overflow-wrap: break-word;
-    border-bottom: 1px;
+    border-bottom: 1px solid var(--uc-color-color-qByAH1I);
 }
 
 .ksmm-btn,
