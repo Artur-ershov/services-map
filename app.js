@@ -255,10 +255,74 @@
     // Функция для преобразования URL в тексте в кликабельные ссылки
     function convertUrlsToLinks(text) {
         if (!text) return text;
-        // Регулярное выражение для поиска URL (http/https)
-        // Исключаем символы, которые не могут быть в URL, но сохраняем точку, слэш и другие валидные символы
-        const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`\[\]]+)/gi;
-        return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+        
+        // Временные маркеры для защиты уже обработанных ссылок
+        const placeholders = new Map();
+        let placeholderIndex = 0;
+        
+        // 1. Сначала обрабатываем markdown-подобный синтаксис [текст](url)
+        text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
+            const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
+            placeholders.set(placeholder, `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`);
+            placeholderIndex++;
+            return placeholder;
+        });
+        
+        // 2. Обрабатываем URL с контекстом (текст перед URL)
+        // Ищем паттерны типа "текст: url" или "текст (url)" или "текст: (url)"
+        text = text.replace(/([А-Яа-яЁёA-Za-z0-9\s\-]+?)[:\s]+\(?(https?:\/\/[^\s<>"{}|\\^`\[\]()]+)\)?/gi, (match, prefix, url) => {
+            // Пропускаем, если это уже обработанная ссылка
+            if (match.includes('__LINK_PLACEHOLDER')) return match;
+            
+            // Очищаем префикс от лишних пробелов и знаков препинания
+            const cleanPrefix = prefix.trim().replace(/[:\s]+$/, '').trim();
+            // Если префикс слишком длинный или пустой, используем короткий текст
+            let linkText = cleanPrefix;
+            if (cleanPrefix.length > 50 || !cleanPrefix) {
+                try {
+                    const urlObj = new URL(url);
+                    linkText = urlObj.hostname.replace('www.', '');
+                    if (linkText.length > 30) linkText = 'Подробнее';
+                } catch (e) {
+                    linkText = 'Подробнее';
+                }
+            }
+            
+            const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
+            placeholders.set(placeholder, `${cleanPrefix}: <a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`);
+            placeholderIndex++;
+            return placeholder;
+        });
+        
+        // 3. Обрабатываем оставшиеся обычные URL (без контекста)
+        const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`\[\]()]+)/gi;
+        text = text.replace(urlRegex, (url) => {
+            // Пропускаем, если это уже обработанная ссылка
+            if (url.includes('__LINK_PLACEHOLDER')) return url;
+            
+            // Создаем короткий текст из домена
+            try {
+                const urlObj = new URL(url);
+                const domain = urlObj.hostname.replace('www.', '');
+                const shortText = domain.length > 30 ? 'Ссылка' : domain;
+                const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
+                placeholders.set(placeholder, `<a href="${url}" target="_blank" rel="noopener noreferrer">${shortText}</a>`);
+                placeholderIndex++;
+                return placeholder;
+            } catch (e) {
+                const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
+                placeholders.set(placeholder, `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+                placeholderIndex++;
+                return placeholder;
+            }
+        });
+        
+        // 4. Заменяем все плейсхолдеры обратно на ссылки
+        placeholders.forEach((link, placeholder) => {
+            text = text.replace(placeholder, link);
+        });
+        
+        return text;
     }
 
     function parseLink(linkString) {
