@@ -1174,18 +1174,9 @@ body p.ksmm-item-location {
 .ksmm-popup p a,
 #krok-services-map-module .ksmm-popup p a,
 #krok-services-map-module #ksmm-popup-desc a {
-    color: var(--krok-blue) !important;
-    text-decoration: underline !important;
     word-break: break-all;
     overflow-wrap: break-word;
     border-bottom: 1px;
-}
-
-.ksmm-popup p a:hover,
-#krok-services-map-module .ksmm-popup p a:hover,
-#krok-services-map-module #ksmm-popup-desc a:hover {
-    color: rgba(var(--krok-blue-rgb), 0.8) !important;
-    text-decoration: underline !important;
 }
 
 #ksmm-popup-contacts {
@@ -1195,17 +1186,9 @@ body p.ksmm-item-location {
 
 #ksmm-popup-contacts a,
 #krok-services-map-module #ksmm-popup-contacts a {
-    color: var(--krok-blue) !important;
-    text-decoration: underline !important;
     word-break: break-all;
     overflow-wrap: break-word;
     border-bottom: 1px;
-}
-
-#ksmm-popup-contacts a:hover,
-#krok-services-map-module #ksmm-popup-contacts a:hover {
-    color: rgba(var(--krok-blue-rgb), 0.8) !important;
-    text-decoration: underline !important;
 }
 
 .ksmm-btn,
