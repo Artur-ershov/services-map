@@ -1176,15 +1176,12 @@ body p.ksmm-item-location {
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
-    border: 1px solid var(--krok-blue);
-    padding: 2px 4px;
-    border-radius: 3px;
+    border-bottom: 1px;
 }
 
 .ksmm-popup p a:hover {
     color: rgba(var(--krok-blue-rgb), 0.8);
     text-decoration: underline;
-    border-color: rgba(var(--krok-blue-rgb), 0.8);
 }
 
 #ksmm-popup-contacts {
@@ -1197,15 +1194,12 @@ body p.ksmm-item-location {
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
-    border: 1px solid var(--krok-blue);
-    padding: 2px 4px;
-    border-radius: 3px;
+    border-bottom: 1px;
 }
 
 #ksmm-popup-contacts a:hover {
     color: rgba(var(--krok-blue-rgb), 0.8);
     text-decoration: underline;
-    border-color: rgba(var(--krok-blue-rgb), 0.8);
 }
 
 .ksmm-btn {
