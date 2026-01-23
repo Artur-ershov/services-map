@@ -1173,7 +1173,7 @@ body p.ksmm-item-location {
 
 .ksmm-popup p a {
     color: var(--uc-color-color-bju9b5pZVH, #00c573);
-    text-decoration: none;
+    text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
     border-bottom: 1px solid var(--uc-color-color-qByAH1I, #b9edd7);
@@ -1181,7 +1181,8 @@ body p.ksmm-item-location {
 
 .ksmm-popup p a:hover {
     color: var(--uc-color-color-bju9b5pZVH, #00c573);
-    border-bottom-color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    text-decoration: underline;
+    border-bottom-color: var(--uc-color-color-qByAH1I, #b9edd7);
 }
 
 #ksmm-popup-contacts {
@@ -1191,7 +1192,7 @@ body p.ksmm-item-location {
 
 #ksmm-popup-contacts a {
     color: var(--uc-color-color-bju9b5pZVH, #00c573);
-    text-decoration: none;
+    text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
     border-bottom: 1px solid var(--uc-color-color-qByAH1I, #b9edd7);
@@ -1199,13 +1200,14 @@ body p.ksmm-item-location {
 
 #ksmm-popup-contacts a:hover {
     color: var(--uc-color-color-bju9b5pZVH, #00c573);
-    border-bottom-color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    text-decoration: underline;
+    border-bottom-color: var(--uc-color-color-qByAH1I, #b9edd7);
 }
 
 .ksmm-btn {
     padding: 10px 15px;
-    background: #172736;
-    color: white;
+    background: #172736 !important;
+    color: white !important;
     text-decoration: none;
     border-radius: 5px;
     margin-top: 15px;
@@ -1217,7 +1219,8 @@ body p.ksmm-item-location {
 }
 
 .ksmm-btn:hover {
-    background: #1a2f42;
+    background: #1a2f42 !important;
+    color: white !important;
 }
 
 /* Адаптивность */
