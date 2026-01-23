@@ -260,7 +260,21 @@
         const placeholders = new Map();
         let placeholderIndex = 0;
         
-        // 1. Сначала обрабатываем markdown-подобный синтаксис [текст](url)
+        // 0. Сначала обрабатываем email адреса (mailto: ссылки)
+        // Ищем паттерны типа email@domain.com
+        const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,})/g;
+        text = text.replace(emailRegex, (email) => {
+            // Пропускаем, если это уже обработанная ссылка
+            if (email.includes('__LINK_PLACEHOLDER') || email.includes('<a ') || email.includes('</a>')) {
+                return email;
+            }
+            const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
+            placeholders.set(placeholder, `<a href="mailto:${email}">${email}</a>`);
+            placeholderIndex++;
+            return placeholder;
+        });
+        
+        // 1. Обрабатываем markdown-подобный синтаксис [текст](url)
         text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
             const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
             placeholders.set(placeholder, `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`);
