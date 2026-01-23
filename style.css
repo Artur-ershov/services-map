@@ -1172,17 +1172,16 @@ body p.ksmm-item-location {
 }
 
 .ksmm-popup p a {
-    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    color: var(--krok-blue);
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
-    border-bottom: 1px solid var(--uc-color-color-qByAH1I, #b9edd7);
+    border-bottom: 1px;
 }
 
 .ksmm-popup p a:hover {
-    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    color: rgba(var(--krok-blue-rgb), 0.8);
     text-decoration: underline;
-    border-bottom-color: var(--uc-color-color-qByAH1I, #b9edd7);
 }
 
 #ksmm-popup-contacts {
@@ -1191,24 +1190,25 @@ body p.ksmm-item-location {
 }
 
 #ksmm-popup-contacts a {
-    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    color: var(--krok-blue);
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: break-word;
-    border-bottom: 1px solid var(--uc-color-color-qByAH1I, #b9edd7);
+    border-bottom: 1px;
 }
 
 #ksmm-popup-contacts a:hover {
-    color: var(--uc-color-color-bju9b5pZVH, #00c573);
+    color: rgba(var(--krok-blue-rgb), 0.8);
     text-decoration: underline;
-    border-bottom-color: var(--uc-color-color-qByAH1I, #b9edd7);
 }
 
-.ksmm-btn {
+.ksmm-btn,
+#krok-services-map-module .ksmm-btn,
+#krok-services-map-module a.ksmm-btn {
     padding: 10px 15px;
     background: #172736 !important;
     color: white !important;
-    text-decoration: none;
+    text-decoration: none !important;
     border-radius: 5px;
     margin-top: 15px;
     font-weight: bold;
@@ -1218,7 +1218,9 @@ body p.ksmm-item-location {
     transition: background-color 0.2s ease;
 }
 
-.ksmm-btn:hover {
+.ksmm-btn:hover,
+#krok-services-map-module .ksmm-btn:hover,
+#krok-services-map-module a.ksmm-btn:hover {
     background: #1a2f42 !important;
     color: white !important;
 }
