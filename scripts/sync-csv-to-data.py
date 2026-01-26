@@ -144,8 +144,13 @@ def convert_urls_to_links(text):
             # Используем префикс как текст ссылки
             link_text = clean_prefix
         
-        placeholder = get_placeholder()
-        placeholders[placeholder] = f'{clean_prefix}: <a href="{url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
+        # Если префикс совпадает с текстом ссылки, убираем префикс (чтобы не было дублирования)
+        if clean_prefix == link_text:
+            placeholder = get_placeholder()
+            placeholders[placeholder] = f'<a href="{url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
+        else:
+            placeholder = get_placeholder()
+            placeholders[placeholder] = f'{clean_prefix}: <a href="{url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
         return placeholder
     
     text = context_url_pattern.sub(replace_context_url, text)

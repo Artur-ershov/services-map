@@ -1,6 +1,6 @@
 // --- ДАННЫЕ СЕРВИСОВ, ЭТАЖЕЙ И КОМНАТ ---
 // Автоматически сгенерировано из CSV таблицы
-// Дата генерации: 2026-01-26 13:24:18
+// Дата генерации: 2026-01-26 13:24:54
 
 const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
 
@@ -131,7 +131,7 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-eco-point",
-        desc: "Точка сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br>Больше информации: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
+        desc: "Точка сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=EcoPoint",
         link: "#",
@@ -145,7 +145,7 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-batteries",
-        desc: "Точка утилизации батареек<br><br>Больше информации: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
+        desc: "Точка утилизации батареек<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "images/battery.jpg",
         link: "#",
@@ -159,7 +159,7 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-air",
-        desc: "В нашем офисе установлены приборы по анализу качества воздуха в офисе. Они позволяют нам контролировать состояние воздуха в помещениях, сравнивать его с параметрами воздуха на улице и оперативно принимать меры при наличии отклонений, чтобы сделать ваше пребывание в офисе еще более комфортным<br><br>Больше информации про ЭКО-офис: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации про ЭКО-офис</a>",
+        desc: "В нашем офисе установлены приборы по анализу качества воздуха в офисе. Они позволяют нам контролировать состояние воздуха в помещениях, сравнивать его с параметрами воздуха на улице и оперативно принимать меры при наличии отклонений, чтобы сделать ваше пребывание в офисе еще более комфортным<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации про ЭКО-офис</a>",
         contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Станция мониторинга воздуха AirVisual",
         link: "https://jive.croc.ru/docs/DOC-287102",
@@ -453,7 +453,7 @@ const allServices = [
         building: "B1",
         floor: 3,
         areaId: "b1f3-gym",
-        desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы <br><br>Подробнее о спортзале: <a href=\"https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym\" target=\"_blank\" rel=\"noopener noreferrer\">Подробнее о спортзале</a>",
+        desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы <br><br><a href=\"https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym\" target=\"_blank\" rel=\"noopener noreferrer\">Подробнее о спортзале</a>",
         contacts: "",
         img: "images/andreymashkin_WOMWqau3Kq5xn.jpg\nimages/andreymashkin_D4WEXGSnYXpQY.jpg\nimages/andreymashkin_RrOMAYu0qAe0q.jpg\nimages/andreymashkin_8nbGEPsG6VRdv.jpg",
         link: "https://zabota.croc.ru/sportzal",
@@ -1124,7 +1124,7 @@ const allServices = [
         building: "B1",
         floor: 10,
         areaId: "service_Утилизация-батареек",
-        desc: "Точка утилизации батареек<br><br>Больше информации: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
+        desc: "Точка утилизации батареек<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "images/battery.jpg",
         link: "#",
@@ -1231,7 +1231,7 @@ const allServices = [
         building: "B2",
         floor: 1,
         areaId: "b2f1-intro",
-        desc: "подробнее о парковке: <a href=\"https://jive.croc.ru/community/knowledge/everyday/social/parkovka-krok\" target=\"_blank\" rel=\"noopener noreferrer\">подробнее о парковке</a>",
+        desc: "<a href=\"https://jive.croc.ru/community/knowledge/everyday/social/parkovka-krok\" target=\"_blank\" rel=\"noopener noreferrer\">подробнее о парковке</a>",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Парковка",
         link: "#",
@@ -1925,7 +1925,7 @@ const allServices = [
         building: "B3",
         floor: 11,
         areaId: "b3f11-r",
-        desc: "Подробнее: <a href=\"https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview\" target=\"_blank\" rel=\"noopener noreferrer\">Подробнее</a>",
+        desc: "<a href=\"https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview\" target=\"_blank\" rel=\"noopener noreferrer\">Подробнее</a>",
         contacts: "",
         img: "images/andreymashkin_qvzb04hoVQQzD.jpg",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
