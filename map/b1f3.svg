@@ -37,37 +37,29 @@
 <text id="318" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="8" font-weight="500" letter-spacing="0.02em"><tspan x="400.832" y="345.608">318</tspan></text>
 </g>
 </g>
-<g id="b1f3-312">
-<path id="area_3" d="M251.349 213.772C255.795 213.836 260.24 215.551 264.483 218.004C268.731 220.461 272.853 223.704 276.662 226.916C280.504 230.158 283.97 233.315 287.044 235.74L287.354 235.973C290.559 238.317 293.881 238.327 296.857 237.254C299.976 236.13 302.682 233.815 304.284 231.77C304.548 231.412 305.05 231.332 305.412 231.59L305.662 231.769C306.064 232.056 306.163 232.614 305.859 233.003C305.856 233.006 305.853 233.009 305.851 233.012L272.254 278.565C271.577 279.483 270.271 279.65 269.385 278.931L218.507 237.65C218.079 237.302 218.013 236.672 218.361 236.244C218.709 235.815 219.338 235.749 219.767 236.097L221.285 237.328C221.702 237.667 222.312 237.616 222.667 237.212C225.395 234.1 228.947 230.061 231.98 226.618C233.745 224.614 235.333 222.81 236.481 221.508C237.055 220.858 237.518 220.332 237.838 219.969C237.998 219.788 238.122 219.647 238.207 219.551C238.249 219.504 238.281 219.467 238.302 219.443C238.313 219.431 238.321 219.422 238.327 219.416C238.329 219.413 238.331 219.411 238.333 219.409C238.333 219.409 238.334 219.408 238.334 219.408C238.334 219.407 238.335 219.406 238.335 219.406L238.358 219.38L238.383 219.356C242.467 215.329 246.86 213.708 251.349 213.772Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_4" transform="translate(238.418 230.061) rotate(37.3351)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="0.450836" y="6.58751">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_2">
-<rect x="259.345" y="230.973" width="14.5" height="9" rx="2.25" transform="rotate(37.3351 259.345 230.973)" fill="#33D18F" fill-opacity="0.2"/>
-<text id="312" transform="translate(260.224 233.53) rotate(37.3351)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="6" font-weight="500" letter-spacing="0.02em"><tspan x="0.0108595" y="5.07">312</tspan></text>
-</g>
-</g>
 <g id="b1f3-314">
 <g id="Vector_2">
 <path d="M304.933 302.369L273.399 280.59L271.677 279.401C271.213 279.08 271.106 278.438 271.441 277.984L305.565 231.718L320.039 212.093L351.597 234.292L306.333 302.101C306.023 302.565 305.393 302.686 304.933 302.369Z" fill="#014952" fill-opacity="0.2"/>
 <path d="M351.597 234.292L306.333 302.101C306.023 302.565 305.393 302.686 304.933 302.369L273.399 280.59L271.677 279.401C271.213 279.08 271.106 278.438 271.441 277.984L305.565 231.718L320.039 212.093M351.597 234.292C340.925 227.118 330.393 219.718 320.039 212.093M351.597 234.292L320.039 212.093" stroke="#014952" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
 </g>
-<text id="title_5" transform="translate(286.976 285.964) rotate(-54.8299)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="6" font-weight="500" letter-spacing="0em"><tspan x="23.6814" y="5.07">&#x41a;&#x430;&#x431;&#x438;&#x43d;&#x435;&#x442; &#10;</tspan><tspan x="3.24681" y="11.07">&#x43f;&#x430;&#x440;&#x438;&#x43a;&#x43c;&#x430;&#x445;&#x435;&#x440;&#x430;/&#x43c;&#x430;&#x441;&#x442;&#x435;&#x440;&#x430; </tspan><tspan x="17.1716" y="17.07">&#x43f;&#x43e; &#x43c;&#x430;&#x43d;&#x438;&#x43a;&#x44e;&#x440;&#x443;</tspan></text>
-<g id="n_3">
+<text id="title_4" transform="translate(286.976 285.964) rotate(-54.8299)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="6" font-weight="500" letter-spacing="0em"><tspan x="23.6814" y="5.07">&#x41a;&#x430;&#x431;&#x438;&#x43d;&#x435;&#x442; &#10;</tspan><tspan x="3.24681" y="11.07">&#x43f;&#x430;&#x440;&#x438;&#x43a;&#x43c;&#x430;&#x445;&#x435;&#x440;&#x430;/&#x43c;&#x430;&#x441;&#x442;&#x435;&#x440;&#x430; </tspan><tspan x="17.1716" y="17.07">&#x43f;&#x43e; &#x43c;&#x430;&#x43d;&#x438;&#x43a;&#x44e;&#x440;&#x443;</tspan></text>
+<g id="n_2">
 <rect x="293.976" y="255.533" width="14.375" height="8.25" rx="1.6875" transform="rotate(-52.908 293.976 255.533)" fill="#014952" fill-opacity="0.2"/>
 <text id="314" transform="translate(295.891 254.866) rotate(-52.908)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="6" font-weight="500" letter-spacing="0.02em"><tspan x="0.469844" y="5.07">314</tspan></text>
 </g>
 </g>
 <g id="b1f3-rest">
-<path id="area_4" d="M350.208 234.571C350.823 233.65 352.068 233.405 352.987 234.021C353.702 234.5 354.419 234.979 355.136 235.457L362.998 240.641C369.824 245.092 376.743 249.475 383.725 253.767C384.658 254.34 384.957 255.558 384.394 256.499L342.801 326.006C342.217 326.982 340.937 327.275 339.987 326.65L306.061 304.334C305.134 303.724 304.88 302.476 305.496 301.553L350.208 234.571Z" fill="#E2D4F9" stroke="#B8B6CA" stroke-width="2.00001" stroke-miterlimit="16" stroke-linejoin="round"/>
-<text id="title_6" transform="translate(333.65 292.013) rotate(-57.491)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="0.139343" y="6.58751">&#x41a;&#x43e;&#x43c;&#x43d;&#x430;&#x442;&#x430;&#10;</tspan><tspan x="2.58564" y="14.5875">&#x43e;&#x442;&#x434;&#x44b;&#x445;&#x430;</tspan></text>
-<g id="n_4">
+<path id="area_3" d="M350.208 234.571C350.823 233.65 352.068 233.405 352.987 234.021C353.702 234.5 354.419 234.979 355.136 235.457L362.998 240.641C369.824 245.092 376.743 249.475 383.725 253.767C384.658 254.34 384.957 255.558 384.394 256.499L342.801 326.006C342.217 326.982 340.937 327.275 339.987 326.65L306.061 304.334C305.134 303.724 304.88 302.476 305.496 301.553L350.208 234.571Z" fill="#E2D4F9" stroke="#B8B6CA" stroke-width="2.00001" stroke-miterlimit="16" stroke-linejoin="round"/>
+<text id="title_5" transform="translate(333.65 292.013) rotate(-57.491)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="0.139343" y="6.58751">&#x41a;&#x43e;&#x43c;&#x43d;&#x430;&#x442;&#x430;&#10;</tspan><tspan x="2.58564" y="14.5875">&#x43e;&#x442;&#x434;&#x44b;&#x445;&#x430;</tspan></text>
+<g id="n_3">
 <rect x="328.603" y="280.257" width="15.5" height="9" rx="2.25" transform="rotate(-55.5691 328.603 280.257)" fill="#CBB2F4"/>
 <text id="316" transform="translate(331.112 279.249) rotate(-55.5691)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="6" font-weight="500" letter-spacing="0.02em"><tspan x="0.469844" y="5.07">316</tspan></text>
 </g>
 </g>
 <g id="b1f3-306">
-<path id="area_5" d="M183.807 127.672C184.593 126.952 185.807 126.975 186.565 127.726L221.536 162.357C222.314 163.127 222.329 164.379 221.569 165.166L183.92 204.185C183.152 204.981 181.884 205.001 181.089 204.232L143.315 167.629C142.488 166.828 142.507 165.496 143.356 164.718L183.807 127.672Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_7" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="158.427" y="169.365">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_5">
+<path id="area_4" d="M183.807 127.672C184.593 126.952 185.807 126.975 186.565 127.726L221.536 162.357C222.314 163.127 222.329 164.379 221.569 165.166L183.92 204.185C183.152 204.981 181.884 205.001 181.089 204.232L143.315 167.629C142.488 166.828 142.507 165.496 143.356 164.718L183.807 127.672Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_6" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="158.427" y="169.365">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_4">
 <rect x="174.226" y="150.848" width="16.5" height="9" rx="2.25" fill="#33D18F" fill-opacity="0.2"/>
 <text id="306" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="6" font-weight="500" letter-spacing="0.02em"><tspan x="176.511" y="157.418">306</tspan></text>
 </g>
@@ -77,32 +69,32 @@
 <path d="M148.051 1.19639H179.903L157.503 18.5797L146.95 27.29L142.397 30.7136C141.949 31.0507 141.311 30.9531 140.984 30.4975L138.836 27.5055L135.768 23.2158C132.681 18.8421 129.636 14.4374 126.632 10.0023C124.652 7.08015 122.691 4.1448 120.748 1.19639H148.051Z" fill="#33D18F" fill-opacity="0.2"/>
 <path d="M188.128 1.19639H179.903M179.903 1.19639H148.051H120.748M179.903 1.19639L157.503 18.5797L146.95 27.29L142.397 30.7136C141.949 31.0507 141.311 30.9531 140.984 30.4975L138.836 27.5055L135.768 23.2158C132.681 18.8421 129.636 14.4374 126.632 10.0023C124.652 7.08015 122.691 4.1448 120.748 1.19639M120.748 1.19639C120.705 1.13097 120.662 1.06555 120.619 1.00011" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
 </g>
-<text id="title_8" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5" font-weight="500" letter-spacing="0em"><tspan x="131.443" y="14.292">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_6">
+<text id="title_7" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5" font-weight="500" letter-spacing="0em"><tspan x="131.443" y="14.292">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_5">
 <rect x="142.976" y="3.06701" width="9.375" height="7.25" rx="1.6875" fill="#33D18F" fill-opacity="0.2"/>
 <text id="3&#208;&#177;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="144.83" y="8.2445">3&#x431;</tspan></text>
 </g>
 </g>
 <g id="b1f3-308b">
-<path id="area_6" d="M112.744 192.416C113.518 191.718 114.697 191.731 115.455 192.446L147.694 222.844C148.507 223.61 148.534 224.893 147.756 225.694L100.128 274.667C99.4458 275.369 98.3562 275.474 97.5527 274.915C83.9159 265.424 70.4755 255.671 57.2383 245.663C56.2363 244.905 56.1736 243.424 57.1055 242.583L112.744 192.416Z" fill="#007E76" fill-opacity="0.2" stroke="#007E76" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_9" transform="translate(82.3904 254.275) rotate(-45)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="0.287123" y="4.94063">&#x421;&#x442;&#x43e;&#x43c;&#x430;&#x442;&#x43e;&#x43b;&#x43e;&#x433;&#x438;&#x447;&#x435;&#x441;&#x43a;&#x438;&#x439; &#10;</tspan><tspan x="17.6428" y="10.9406">&#x43a;&#x430;&#x431;&#x438;&#x43d;&#x435;&#x442;</tspan></text>
-<g id="n_7">
+<path id="area_5" d="M112.744 192.416C113.518 191.718 114.697 191.731 115.455 192.446L147.694 222.844C148.507 223.61 148.534 224.893 147.756 225.694L100.128 274.667C99.4458 275.369 98.3562 275.474 97.5527 274.915C83.9159 265.424 70.4755 255.671 57.2383 245.663C56.2363 244.905 56.1736 243.424 57.1055 242.583L112.744 192.416Z" fill="#007E76" fill-opacity="0.2" stroke="#007E76" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_8" transform="translate(82.3904 254.275) rotate(-45)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="0.287123" y="4.94063">&#x421;&#x442;&#x43e;&#x43c;&#x430;&#x442;&#x43e;&#x43b;&#x43e;&#x433;&#x438;&#x447;&#x435;&#x441;&#x43a;&#x438;&#x439; &#10;</tspan><tspan x="17.6428" y="10.9406">&#x43a;&#x430;&#x431;&#x438;&#x43d;&#x435;&#x442;</tspan></text>
+<g id="n_6">
 <rect x="92.9858" y="233.147" width="15.375" height="7.25" rx="1.6875" transform="rotate(-45 92.9858 233.147)" fill="#007E76" fill-opacity="0.2"/>
 <text id="308&#208;&#177;" transform="translate(94.9746 232.75) rotate(-45)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="0.0752048" y="4.0525">308&#x431;</tspan></text>
 </g>
 </g>
 <g id="b1f3-308a">
-<g id="area_7">
+<g id="area_6">
 <path d="M134.826 236.12C135.596 235.328 136.864 235.311 137.656 236.082L166.826 264.512C167.59 265.257 167.635 266.47 166.928 267.269L138.257 299.713L136.769 301.136L136.195 300.767C123.717 292.747 111.39 284.514 99.2182 276.073C98.2028 275.368 98.0645 273.921 98.9253 273.036L134.826 236.12Z" fill="#E2D4F9"/>
 <path d="M136.195 300.767C123.717 292.747 111.39 284.514 99.2182 276.073C98.2028 275.368 98.0645 273.921 98.9253 273.036L134.826 236.12C135.596 235.328 136.864 235.311 137.656 236.082L166.826 264.512C167.59 265.257 167.635 266.47 166.928 267.269L138.257 299.713L136.769 301.136M136.195 300.767C136.386 300.89 136.578 301.013 136.769 301.136M136.195 300.767L136.769 301.136" stroke="#B8B6CA" stroke-width="2.00001" stroke-miterlimit="16" stroke-linejoin="round"/>
 </g>
-<text id="title_10" transform="translate(119.875 278.79) rotate(-45)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="0.259518" y="4.94063">&#x41c;&#x430;&#x441;&#x441;&#x430;&#x436;&#x43d;&#x44b;&#x439;&#10;</tspan><tspan x="5.64284" y="10.9406">&#x43a;&#x430;&#x431;&#x438;&#x43d;&#x435;&#x442;</tspan></text>
-<g id="n_8">
+<text id="title_9" transform="translate(119.875 278.79) rotate(-45)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="0.259518" y="4.94063">&#x41c;&#x430;&#x441;&#x441;&#x430;&#x436;&#x43d;&#x44b;&#x439;&#10;</tspan><tspan x="5.64284" y="10.9406">&#x43a;&#x430;&#x431;&#x438;&#x43d;&#x435;&#x442;</tspan></text>
+<g id="n_7">
 <rect x="121.986" y="266.147" width="15.375" height="7.25" rx="1.6875" transform="rotate(-45 121.986 266.147)" fill="#CBB2F4"/>
 <text id="308&#208;&#176;" transform="translate(123.975 265.75) rotate(-45)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="4.5" font-weight="500" letter-spacing="0.02em"><tspan x="0.189463" y="4.0525">308&#x430;</tspan></text>
 </g>
 </g>
-<text id="title_11" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="10" font-weight="500" letter-spacing="0em"><tspan x="301.398" y="119.517">&#x41b;&#x438;&#x444;&#x442;&#x43e;&#x432;&#x43e;&#x439;&#10;</tspan><tspan x="311.989" y="129.517">&#x445;&#x43e;&#x43b;&#x43b; 1</tspan></text>
+<text id="title_10" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="10" font-weight="500" letter-spacing="0em"><tspan x="301.398" y="119.517">&#x41b;&#x438;&#x444;&#x442;&#x43e;&#x432;&#x43e;&#x439;&#10;</tspan><tspan x="311.989" y="129.517">&#x445;&#x43e;&#x43b;&#x43b; 1</tspan></text>
 <g id="b1f3-kicker">
 <rect id="Rectangle 2988" x="279.814" y="193.652" width="31" height="19" rx="1" transform="rotate(36.999 279.814 193.652)" fill="#E2D4F9" stroke="#B8B6CA" stroke-width="2.00001" stroke-miterlimit="16" stroke-linejoin="round"/>
 <text id="&#208;&#154;&#208;&#184;&#208;&#186;&#208;&#181;&#209;&#128;" transform="translate(280.055 200.067) rotate(35.6385)" fill="black" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.02448" font-weight="500" letter-spacing="0em"><tspan x="0.459844" y="5.92345">&#x41a;&#x438;&#x43a;&#x435;&#x440;</tspan></text>
