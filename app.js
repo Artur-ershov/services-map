@@ -114,6 +114,11 @@
         
         if (images.length === 0) {
             popupGallery.style.display = 'none';
+            // Очищаем src изображения, чтобы избежать попыток загрузки старых URL
+            if (galleryImg) {
+                galleryImg.src = '';
+                galleryImg.removeAttribute('src');
+            }
             return;
         }
         
