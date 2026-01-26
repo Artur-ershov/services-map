@@ -147,7 +147,7 @@ const allServices = [
         areaId: "b1f1-batteries",
         desc: "Точка утилизации батареек<br><br>Больше информации: https://jive.croc.ru/docs/DOC-239136",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "images/battery.jpg",
         link: "#",
         attributes: {
         }
@@ -1125,7 +1125,7 @@ const allServices = [
         areaId: "service_Утилизация-батареек",
         desc: "Точка утилизации батареек<br><br>Больше информации: https://jive.croc.ru/docs/DOC-239136",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "images/battery.jpg",
         link: "#",
         attributes: {
         }
