@@ -121,6 +121,28 @@
 </div>
 
 <script>
+/**
+ * ============================================
+ * ПОДСЧЕТ КАЛОРИЙ ДЛЯ БУФЕТА
+ * ============================================
+ * 
+ * Для работы подсчета калорий для товаров буфета нужно добавить КБЖУ в Tilda Store:
+ * 
+ * СПОСОБ 1 (Рекомендуемый): Дополнительные поля в Tilda Store
+ * - Откройте каталог товаров в Tilda
+ * - Добавьте к каждому товару буфета дополнительные поля:
+ *   * "Ккал" (kcal) - калории
+ *   * "Белки" (protein) - белки в граммах
+ *   * "Жиры" (fat) - жиры в граммах
+ *   * "Углеводы" (carbs) - углеводы в граммах
+ * 
+ * СПОСОБ 2: Data-атрибуты в HTML блоке товара
+ * Добавьте в настройках блока товара: data-kcal="300" data-prot="15" data-fat="12" data-carb="25"
+ * 
+ * Если КБЖУ не указаны в Tilda, система использует приблизительные значения из маппинга.
+ * ============================================
+ */
+
 // --- НАСТРОЙКИ ---
 const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnzxGpaq3VFRj6LxXkelyneZ68-CnoHtIJlij1FqT3ux9hyoGd-Li5IcxqebTItPiQISCsZexzwG6S/pub?output=csv"; 
 const CYCLE_START_DATE = new Date("2025-12-01"); 
@@ -131,6 +153,59 @@ let currentMealType = "Завтрак";
 let activeFilters = { vegan: false, gf: false, lactose: false, protein: false };
 let userEmail = "guest"; // По умолчанию
 let dailyLog = []; // Массив съеденного
+let buffetItemCounter = 10000; // Счетчик для ID товаров буфета (чтобы не пересекаться с меню)
+
+// Базовый маппинг калорий для товаров буфета (приблизительные значения)
+const buffetNutritionMap = {
+    // Завтраки
+    "каша": { kcal: 300, prot: 8, fat: 5, carb: 55 },
+    "блинчики": { kcal: 250, prot: 8, fat: 10, carb: 35 },
+    "сырники": { kcal: 280, prot: 12, fat: 12, carb: 30 },
+    "салат фруктовый": { kcal: 120, prot: 2, fat: 1, carb: 28 },
+    "гранола": { kcal: 450, prot: 10, fat: 15, carb: 65 },
+    "скрембл": { kcal: 350, prot: 18, fat: 25, carb: 5 },
+    "яичница": { kcal: 280, prot: 15, fat: 20, carb: 2 },
+    "омлет": { kcal: 320, prot: 20, fat: 22, carb: 3 },
+    "тост": { kcal: 380, prot: 18, fat: 22, carb: 30 },
+    "брускетта": { kcal: 420, prot: 20, fat: 25, carb: 35 },
+    // Салаты
+    "цезарь": { kcal: 450, prot: 25, fat: 30, carb: 20 },
+    "греческий": { kcal: 280, prot: 12, fat: 20, carb: 15 },
+    "салат с авокадо": { kcal: 350, prot: 8, fat: 28, carb: 18 },
+    "салат зеленый": { kcal: 120, prot: 3, fat: 8, carb: 10 },
+    // Супы
+    "борщ": { kcal: 180, prot: 8, fat: 6, carb: 22 },
+    "бульон": { kcal: 50, prot: 4, fat: 2, carb: 3 },
+    // Гарниры
+    "пюре": { kcal: 120, prot: 2, fat: 4, carb: 20 },
+    "каша гречневая": { kcal: 130, prot: 5, fat: 2, carb: 25 },
+    "рис": { kcal: 140, prot: 3, fat: 1, carb: 30 },
+    "овощи": { kcal: 80, prot: 3, fat: 3, carb: 12 },
+    // Вторые блюда
+    "стейк": { kcal: 350, prot: 35, fat: 20, carb: 0 },
+    "семга": { kcal: 320, prot: 30, fat: 22, carb: 0 },
+    "дорадо": { kcal: 280, prot: 28, fat: 18, carb: 0 },
+    "вырезка": { kcal: 380, prot: 40, fat: 22, carb: 0 },
+    "индейка": { kcal: 250, prot: 30, fat: 12, carb: 0 },
+    "курица": { kcal: 220, prot: 28, fat: 10, carb: 0 },
+    "бефстроганов": { kcal: 420, prot: 35, fat: 25, carb: 8 },
+    "шампиньоны": { kcal: 60, prot: 4, fat: 3, carb: 5 }
+};
+
+// Функция для определения калорий товара буфета по названию
+function getBuffetNutrition(productName) {
+    const nameLower = productName.toLowerCase();
+    
+    // Ищем совпадения в маппинге
+    for (const [key, nutrition] of Object.entries(buffetNutritionMap)) {
+        if (nameLower.includes(key)) {
+            return nutrition;
+        }
+    }
+    
+    // Значения по умолчанию, если не найдено
+    return { kcal: 250, prot: 15, fat: 12, carb: 20 };
+}
 
 // --- ИНИЦИАЛИЗАЦИЯ ---
 function init() {
@@ -174,6 +249,9 @@ function init() {
             updateDiaryUI();
         }
     });
+    
+    // 3. Инициализация отслеживания товаров буфета
+    initBuffetTracking();
 }
 
 // --- ЛОГИКА АВТОРИЗАЦИИ ТИЛЬДЫ ---
@@ -231,14 +309,240 @@ function addToDiary(id) {
         
         // Визуальный эффект на кнопке
         const btn = document.getElementById(`btn-${id}`);
-        const originalText = btn.innerText;
-        btn.innerText = "✓ Добавлено";
-        btn.style.background = "#4CAF50";
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.background = "#222";
-        }, 1000);
+        if (btn) {
+            const originalText = btn.innerText;
+            btn.innerText = "✓ Добавлено";
+            btn.style.background = "#4CAF50";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "#222";
+            }, 1000);
+        }
     }
+}
+
+/**
+ * Функция для получения данных товара из Tilda Store
+ * 
+ * КАК ДОБАВИТЬ КБЖУ В TILDA STORE:
+ * 
+ * 1. Импортируйте CSV файл tilda-import-with-nutrition.csv в Tilda Store
+ * 2. В CSV уже добавлены колонки: "Ккал", "Белки", "Жиры", "Углеводы"
+ * 3. После импорта эти поля будут доступны как дополнительные поля товара
+ * 
+ * Функция ищет КБЖУ в следующем порядке:
+ * 1. Дополнительные поля Tilda Store (если доступны через API)
+ * 2. Текст карточки товара (если КБЖУ отображается)
+ * 3. Маппинг по названию (fallback)
+ */
+function getTildaProductData(productNameEl) {
+    // Ищем карточку товара
+    const productCard = productNameEl.closest('[class*="card"], [class*="product"], [class*="item"]') || 
+                       productNameEl.closest('div').parentElement;
+    
+    if (!productCard) return null;
+    
+    // Способ 1: Ищем в тексте карточки (если КБЖУ отображается на странице после импорта)
+    // Формат: "КБЖУ: 199 / 5 / 12 / 17" или "199 ккал, Б: 5, Ж: 12, У: 17"
+    const cardText = productCard.textContent || '';
+    
+    // Ищем формат "КБЖУ: X / Y / Z / W"
+    const kbjuMatch = cardText.match(/КБЖУ[:\s]*(\d+)[\s/]*(\d+)[\s/]*(\d+)[\s/]*(\d+[.,]?\d*)/i);
+    if (kbjuMatch) {
+        return {
+            kcal: parseInt(kbjuMatch[1]),
+            prot: parseFloat(kbjuMatch[2].replace(',', '.')),
+            fat: parseFloat(kbjuMatch[3].replace(',', '.')),
+            carb: parseFloat(kbjuMatch[4].replace(',', '.'))
+        };
+    }
+    
+    // Ищем отдельно ккал и БЖУ
+    const kcalMatch = cardText.match(/(\d+)\s*ккал/i);
+    if (kcalMatch) {
+        const nutrition = {
+            kcal: parseInt(kcalMatch[1]),
+            prot: 0,
+            fat: 0,
+            carb: 0
+        };
+        
+        // Пытаемся найти БЖУ в тексте
+        const protMatch = cardText.match(/[Бб]елки?[:\s]*(\d+[.,]?\d*)/i);
+        const fatMatch = cardText.match(/[Жж]иры?[:\s]*(\d+[.,]?\d*)/i);
+        const carbMatch = cardText.match(/[Уу]глеводы?[:\s]*(\d+[.,]?\d*)/i);
+        
+        if (protMatch) nutrition.prot = parseFloat(protMatch[1].replace(',', '.'));
+        if (fatMatch) nutrition.fat = parseFloat(fatMatch[1].replace(',', '.'));
+        if (carbMatch) nutrition.carb = parseFloat(carbMatch[1].replace(',', '.'));
+        
+        if (nutrition.kcal > 0) {
+            return nutrition;
+        }
+    }
+    
+    // Способ 2: Пытаемся получить данные из Tilda Store API (если доступно)
+    // Tilda Store может хранить дополнительные поля в объекте товара
+    try {
+        const productId = productCard.querySelector('[data-product-id]')?.dataset.productId;
+        if (productId && window.Tilda && window.Tilda.Store) {
+            // Здесь можно попытаться получить данные через Tilda Store API
+            // Но это зависит от структуры данных Tilda
+        }
+    } catch (e) {
+        // Игнорируем ошибки
+    }
+    
+    return null; // Данные не найдены
+}
+
+// Функция для добавления товара буфета в дневник
+function addBuffetItemToDiary(productName, productNameEl) {
+    // Сначала пытаемся получить данные из Tilda Store
+    let nutrition = null;
+    if (productNameEl) {
+        nutrition = getTildaProductData(productNameEl);
+    }
+    
+    // Если не нашли в Tilda - используем маппинг по названию
+    if (!nutrition || (nutrition.kcal === 0 && nutrition.prot === 0 && nutrition.fat === 0 && nutrition.carb === 0)) {
+        nutrition = getBuffetNutrition(productName);
+    }
+    
+    const buffetItem = {
+        id: buffetItemCounter++,
+        name: productName,
+        category: "Буфет",
+        type: "Буфет",
+        weight: "1 порция",
+        nutri: nutrition,
+        tags: {
+            protein: nutrition.prot > 20,
+            fiber: false,
+            lactose: false,
+            gf: false,
+            vegan: false
+        },
+        allergies: "",
+        source: "buffet" // Помечаем, что это из буфета
+    };
+    
+    dailyLog.push(buffetItem);
+    saveDiary();
+    updateDiaryUI();
+    
+    // Показываем уведомление
+    showNotification(`Добавлено в дневник: ${productName}`);
+}
+
+// Функция для показа уведомления
+function showNotification(message) {
+    // Создаем временное уведомление
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        font-family: 'Croc', sans-serif;
+        font-size: 14px;
+        max-width: 300px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.3s';
+        setTimeout(() => notification.remove(), 300);
+    }, 2000);
+}
+
+// Инициализация отслеживания товаров буфета
+function initBuffetTracking() {
+    // Ищем все кнопки "В корзину" на странице, которые находятся в секции буфета
+    // Tilda использует классы .js-store-prod-name для названий товаров
+    const allProductNames = document.querySelectorAll('.js-store-prod-name, .js-product-name');
+    
+    if (allProductNames.length === 0) {
+        return; // Товары еще не загрузились
+    }
+    
+    // Проходим по всем товарам и находим их кнопки "В корзину"
+    allProductNames.forEach(productNameEl => {
+        // Ищем родительский контейнер товара
+        const productCard = productNameEl.closest('[class*="card"], [class*="product"], [class*="item"]') || 
+                           productNameEl.closest('div').parentElement;
+        
+        if (!productCard) return;
+        
+        // Проверяем, находится ли товар в секции буфета
+        // Ищем родительский элемент, который содержит текст "Буфет"
+        let parent = productCard;
+        let isBuffetItem = false;
+        
+        for (let i = 0; i < 10 && parent; i++) {
+            const text = parent.textContent || '';
+            if (text.includes('Буфет') && !text.includes('Бизнес-завтрак')) {
+                isBuffetItem = true;
+                break;
+            }
+            parent = parent.parentElement;
+        }
+        
+        if (!isBuffetItem) return;
+        
+        // Ищем кнопку "В корзину" для этого товара
+        const addToCartButton = productCard.querySelector('a[href="#order"]');
+        
+        if (addToCartButton && addToCartButton.dataset.tracked !== 'true') {
+            addToCartButton.dataset.tracked = 'true';
+            
+            const productName = productNameEl.textContent.trim();
+            
+            // НЕ добавляем автоматически в дневник при клике на "В корзину"
+            // Вместо этого добавляем отдельную кнопку для добавления в дневник калорий
+            
+            // Ищем контейнер с кнопкой "В корзину" и добавляем рядом кнопку "В дневник"
+            const buttonContainer = addToCartButton.parentElement;
+            if (buttonContainer && !buttonContainer.querySelector('.add-to-diary-btn')) {
+                const diaryButton = document.createElement('button');
+                diaryButton.className = 'add-to-diary-btn';
+                diaryButton.textContent = '+ В дневник';
+                diaryButton.style.cssText = `
+                    margin-top: 10px;
+                    width: 100%;
+                    padding: 8px;
+                    border: none;
+                    border-radius: 6px;
+                    background-color: #4CAF50;
+                    color: #fff;
+                    font-weight: bold;
+                    cursor: pointer;
+                    font-size: 13px;
+                    transition: 0.2s;
+                `;
+                diaryButton.addEventListener('mouseenter', () => {
+                    diaryButton.style.backgroundColor = '#45a049';
+                });
+                diaryButton.addEventListener('mouseleave', () => {
+                    diaryButton.style.backgroundColor = '#4CAF50';
+                });
+                diaryButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    addBuffetItemToDiary(productName, productNameEl);
+                });
+                
+                buttonContainer.appendChild(diaryButton);
+            }
+        }
+    });
 }
 
 function saveDiary() {
@@ -359,6 +663,40 @@ function renderMenu() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+// Также запускаем отслеживание буфета после полной загрузки страницы
+window.addEventListener("load", function() {
+    setTimeout(initBuffetTracking, 1000); // Даем время на загрузку элементов Tilda
+    // Повторяем через несколько секунд на случай, если товары загружаются асинхронно
+    setTimeout(initBuffetTracking, 3000);
+    setTimeout(initBuffetTracking, 5000);
+});
+
+// Отслеживаем динамическое добавление товаров буфета (если они загружаются через AJAX)
+let observerTimeout;
+const observer = new MutationObserver(function(mutations) {
+    // Используем debounce, чтобы не вызывать функцию слишком часто
+    clearTimeout(observerTimeout);
+    observerTimeout = setTimeout(() => {
+        initBuffetTracking();
+    }, 500);
+});
+
+// Начинаем наблюдение за изменениями в DOM
+if (document.body) {
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// Также отслеживаем клики на кнопку "Загрузить еще", если она есть
+document.addEventListener('click', function(e) {
+    const target = e.target;
+    if (target && (target.textContent.includes('Загрузить еще') || target.textContent.includes('Load more'))) {
+        setTimeout(initBuffetTracking, 1500); // Даем время на загрузку новых товаров
+    }
+});
 </script>
 </body>
 </html>

@@ -7,10 +7,12 @@
 - [`PROCESS.md`](PROCESS.md) - процесс работы с проектом и чеклист
 - [`SVG_PROCESSING.md`](SVG_PROCESSING.md) - правила обработки SVG и решение проблемы "черных квадратов"
 - [`FILE_STRUCTURE.md`](FILE_STRUCTURE.md) - структура файлов и система документации
+- [`TILDA_DOWNLOAD.md`](TILDA_DOWNLOAD.md) - получение файлов Tilda через API и автоматическая синхронизация
 
 ## Основная документация
 
 Главная документация находится в корне проекта: [`../README.md`](../README.md)
+
 
 
 

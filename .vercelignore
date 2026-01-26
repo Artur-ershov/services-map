@@ -1,0 +1,24 @@
+# Исключаем тяжелые зависимости и ненужные файлы
+package-lock.json
+package.json
+node_modules
+tilda-files
+.git
+images
+map
+backups
+data
+scripts
+docs
+*.md
+*.html
+*.css
+*.svg
+*.py
+*.ps1
+*.bat
+app.js
+data.js
+style.css
+tmp.css
+server.ps1

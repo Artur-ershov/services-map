@@ -1,0 +1,220 @@
+<!--
+  МОДУЛЬ: КБЖУ + "Съел" для Буфета и Бизнес-завтраков
+  Страница: https://zabota.croc.ru/eda
+
+  КАК ДОБАВИТЬ В TILDA:
+  1. Добавьте блок T123 (HTML-код) на странице /eda.
+  2. Разместите блок ПОСЛЕ блока с каталогом Tilda Store (Буфет / Бизнес-завтрак).
+  3. Вставьте весь этот код в блок.
+  4. На странице должна быть панель дневника калорий (#diary-panel с total-kcal и т.д.).
+
+  Модуль:
+  - загружает данные из API Tilda Store;
+  - находит карточки товаров Буфета и Бизнес-завтрака;
+  - выводит КБЖУ под каждым товаром;
+  - добавляет кнопку "+ Съел";
+  - использует глобальные функции из eda.html для добавления в дневник.
+-->
+<div id="eda-buffet-calories-root" style="display:none;"></div>
+<style>
+  .eda-buffet-kbju { font-size: 12px; color: #555; background: #f9f9f9; padding: 8px 10px; border-radius: 6px; margin-top: 8px; }
+  .eda-buffet-kbju span { display: block; margin-bottom: 6px; }
+  .eda-buffet-syel { width: 100%; margin-top: 8px; padding: 10px; border: none; border-radius: 6px; background: #222; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; }
+  .eda-buffet-syel:hover { background: #444; }
+  .eda-buffet-syel:active { transform: scale(0.98); }
+  .eda-buffet-syel.done { background: #4CAF50; }
+</style>
+<script>
+(function() {
+  'use strict';
+
+  function normalize(s) {
+    if (!s) return '';
+    return s.trim().toLowerCase().replace(/\s+/g,' ').replace(/[^\w\sа-яё]/gi,'');
+  }
+
+  var cache = null;
+  var loading = false;
+
+  function loadAPI() {
+    if (cache || loading) return Promise.resolve(cache);
+    
+    loading = true;
+    return fetch('https://store.tildaapi.com/api/getproductslist/?storepartuid=444717808081&recid=1738672781&getparts=true&getoptions=true&slice=1&size=100')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.products && Array.isArray(data.products)) {
+          cache = { byTitle: {}, byUid: {}, byExternalId: {} };
+          
+          data.products.forEach(function(p) {
+            if (!p.title || !p.characteristics) return;
+            
+            var n = [0, 0, 0, 0];
+            p.characteristics.forEach(function(c) {
+              if (c.title === 'Ккал') n[0] = parseInt(c.value) || 0;
+              else if (c.title === 'Белки') n[1] = parseFloat(c.value) || 0;
+              else if (c.title === 'Жиры') n[2] = parseFloat(c.value) || 0;
+              else if (c.title === 'Углеводы') n[3] = parseFloat(c.value) || 0;
+            });
+            
+            cache.byTitle[p.title] = n;
+            cache.byTitle[normalize(p.title)] = n;
+            if (p.uid) {
+              cache.byUid[p.uid] = n;
+              cache.byUid[p.uid.toString()] = n;
+            }
+            if (p.externalid) cache.byExternalId[p.externalid] = n;
+          });
+        }
+        loading = false;
+        window.tildaProductsCache = cache;
+        return cache;
+      })
+      .catch(function(err) {
+        console.warn('Не удалось загрузить данные из Tilda API:', err);
+        loading = false;
+        return null;
+      });
+  }
+
+  function getNutrition(el) {
+    if (!el || !cache) return null;
+    
+    var card = el.closest('[class*="card"], [class*="product"], [class*="item"]') || el.closest('div').parentElement;
+    if (!card) return null;
+    
+    var name = (el.textContent || '').trim();
+    var normName = normalize(name);
+    
+    if (cache.byTitle[name]) return cache.byTitle[name];
+    if (cache.byTitle[normName]) return cache.byTitle[normName];
+    
+    var uid = card.getAttribute('data-product-uid') || card.getAttribute('data-uid') || 
+              card.querySelector('[data-product-uid]')?.getAttribute('data-product-uid');
+    if (uid && cache.byUid[uid]) return cache.byUid[uid];
+    
+    var extId = card.getAttribute('data-external-id') || card.getAttribute('data-externalid');
+    if (extId && cache.byExternalId[extId]) return cache.byExternalId[extId];
+    
+    return null;
+  }
+
+  function addToDiary(name, nutrition, el) {
+    if (typeof window.addBuffetItemToDiary === 'function') {
+      window.addBuffetItemToDiary(name, el);
+      return;
+    }
+    
+    if (!window.dailyLog) window.dailyLog = [];
+    if (!window.buffetItemCounter) window.buffetItemCounter = 10000;
+    
+    window.dailyLog.push({
+      id: window.buffetItemCounter++,
+      name: name,
+      category: 'Буфет',
+      type: 'Буфет',
+      weight: '1 порция',
+      nutri: { kcal: nutrition[0], prot: nutrition[1], fat: nutrition[2], carb: nutrition[3] },
+      tags: { protein: nutrition[1] > 20, fiber: false, lactose: false, gf: false, vegan: false },
+      allergies: '',
+      source: 'buffet'
+    });
+    
+    if (typeof window.saveDiary === 'function') window.saveDiary();
+    if (typeof window.updateDiaryUI === 'function') window.updateDiaryUI();
+    
+    var pan = document.getElementById('diary-panel');
+    if (pan) pan.style.display = 'flex';
+  }
+
+  function inject() {
+    document.querySelectorAll('.js-store-prod-name, .js-product-name').forEach(function(titleEl) {
+      var card = titleEl.closest('[class*="t-store__card"],[class*="t-store__prod"]') ||
+                 titleEl.closest('[class*="card"],[class*="product"],[class*="item"]') ||
+                 titleEl.closest('.t-store__card__textwrapper') ||
+                 (titleEl.closest('div') && titleEl.closest('div').parentElement);
+      if (!card) return;
+      
+      var p = card;
+      var isBuffet = false;
+      for (var i = 0; i < 12 && p; i++) {
+        if ((p.textContent || '').indexOf('Буфет') !== -1 || (p.textContent || '').indexOf('Бизнес-завтрак') !== -1) {
+          isBuffet = true;
+          break;
+        }
+        p = p.parentElement;
+      }
+      if (!isBuffet) return;
+      if (card.getAttribute('data-eda-buffet-done')) return;
+      if (card.querySelector('.eda-buffet-kbju')) return;
+      
+      card.setAttribute('data-eda-buffet-done', '1');
+      
+      var name = (titleEl.textContent || '').trim();
+      var nutrition = getNutrition(titleEl);
+      if (!nutrition || !nutrition[0]) return;
+      
+      var wrap = document.createElement('div');
+      wrap.className = 'eda-buffet-kbju';
+      wrap.innerHTML = '<span>' + nutrition[0] + ' ккал · Б ' + nutrition[1] + ' · Ж ' + nutrition[2] + ' · У ' + nutrition[3] + '</span>';
+      
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'eda-buffet-syel';
+      btn.textContent = '+ Съел';
+      btn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        
+        addToDiary(name, nutrition, titleEl);
+        
+        var orig = btn.textContent;
+        btn.textContent = '✓ Добавлено';
+        btn.classList.add('done');
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('done');
+        }, 1000);
+        
+        return false;
+      };
+      
+      wrap.appendChild(btn);
+      card.appendChild(wrap);
+    });
+  }
+
+  function init() {
+    loadAPI().then(function() {
+      inject();
+      setTimeout(inject, 300);
+    });
+    
+    inject();
+    setTimeout(inject, 800);
+    setTimeout(inject, 2000);
+    
+    var lastInject = 0;
+    var mo = typeof MutationObserver !== 'undefined' ? new MutationObserver(function() {
+      var now = Date.now();
+      if (now - lastInject < 400) return;
+      lastInject = now;
+      setTimeout(inject, 300);
+    }) : null;
+    if (mo && document.body) mo.observe(document.body, { childList: true, subtree: true });
+    
+    document.addEventListener('click', function(e) {
+      if ((e.target.textContent || '').indexOf('Загрузить еще') !== -1) {
+        setTimeout(inject, 1500);
+      }
+    });
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

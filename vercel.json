@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "installCommand": "cp package-vercel.json package.json && rm -f package-lock.json && npm install --production --no-package-lock --no-audit",
+  "functions": {
+    "api/tilda-webhook.js": {
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/tilda-webhook",
+      "dest": "/api/tilda-webhook.js"
+    }
+  ]
+}

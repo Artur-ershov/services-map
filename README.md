@@ -78,9 +78,7 @@ srv
 
 ```bash
 python scripts/sync-csv-to-data.py
-```
-
-Или укажите URL Google Sheets напрямую:
+```Или укажите URL Google Sheets напрямую:
 
 ```bash
 python scripts/sync-csv-to-data.py https://docs.google.com/spreadsheets/d/e/.../pub?output=csv
@@ -96,3 +94,34 @@ python scripts/sync-csv-to-data.py data/table.csv
 
 **Важно:** Колонка `id` в CSV должна совпадать с `id` групп в SVG файлах (`map/*.svg`).
 
+## Синхронизация файлов Tilda
+
+Для получения файлов Tilda локально и автоматической синхронизации при изменениях:
+
+1. **Настройте API ключи:**
+   ```bash
+   cp .env.example .env
+   # Отредактируйте .env и добавьте ваши TILDA_PUBLIC_KEY и TILDA_SECRET_KEY
+   ```
+
+2. **Установите зависимости:**
+   ```bash
+   npm install
+   ```
+
+3. **Запустите первоначальную синхронизацию:**
+   ```bash
+   node scripts/download-tilda-files.js
+   ```
+
+4. **Настройте автоматическую синхронизацию через webhook:**
+   ```bash
+   # Запустите webhook сервер
+   node scripts/tilda-webhook-server.js
+   
+   # Для локальной разработки используйте ngrok:
+   ngrok http 3000
+   # Укажите полученный URL в Tilda: Настройки сайта → Экспорт → API → Webhook URL
+   ```
+
+Подробнее: [`docs/TILDA_DOWNLOAD.md`](docs/TILDA_DOWNLOAD.md)

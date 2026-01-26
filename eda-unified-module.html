@@ -1,0 +1,1007 @@
+<!--
+  ЕДИНЫЙ МОДУЛЬ: Столовая + Буфет
+  Страница: https://zabota.croc.ru/eda
+
+  КАК ДОБАВИТЬ В TILDA:
+  1. Добавьте блок T123 (HTML-код) на странице /eda.
+  2. Вставьте весь этот код в блок.
+  3. Модуль автоматически создаст структуру столовой и добавит функционал буфета.
+
+  Модуль включает:
+  - Столовая: меню из Google Sheets, фильтры, карточки блюд, список блюд
+  - Буфет: КБЖУ из API Tilda Store, кнопка "+ Съел"
+  - Общий дневник питания с панелью внизу
+-->
+<div id="eda-unified-module" style="display:none;"></div>
+<style>
+  /* Стили для столовой */
+  #menu-app { font-family: 'Croc', sans-serif; max-width: 1200px; margin: 0 auto; padding: 40px; padding-bottom: 100px; color: #333; }
+  .menu-header { text-align: center; margin-bottom: 30px; }
+  #current-date-title {font-size: var(--uc-typo-fontsize-t95jYC4tS2qc, 54px); padding-bottom: 10px; font-weight: var(--uc-typo-fontweight-t95jYC4tS2qc, 800); font-variation-settings: 'wdth' 120;}
+  .current-info { color: #888; font-size: 14px; margin-top: 5px; }
+  .menu-controls { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; justify-content: center; align-items: center; }
+  .meal-tabs { display: flex; background: #f0f0f0; border-radius: 8px; padding: 4px; }
+  .meal-tab { padding: 10px 20px; cursor: pointer; border-radius: 6px; border: none; background: transparent; font-weight: 600; transition: 0.2s; }
+  .meal-tab.active { background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .filters-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .filter-label { display: flex; align-items: center; cursor: pointer; font-size: 13px; user-select: none; background: #fff; border: 1px solid #ddd; padding: 6px 12px; border-radius: 20px; transition: 0.2s; }
+  .filter-label:hover { background-color: #f5f5f5; border-color: #bbb; }
+  .filter-label input { margin-right: 8px; }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .dish-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+  .dish-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+  .dish-category { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; }
+  .dish-name { font-size: 16px; font-weight: 600; margin-bottom: 10px; flex-grow: 1; line-height: 1.4; }
+  .dish-meta { font-size: 13px; color: #666; margin-bottom: 8px; }
+  .dish-price { font-size: 18px; font-weight: 700; color: #222; margin-bottom: 8px; }
+  .dish-composition { font-size: 12px; color: #666; margin-bottom: 8px; line-height: 1.4; font-style: italic; }
+  .dish-nutrition { font-size: 12px; color: #555; background: #EBEFF3; padding: 8px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; }
+  .dish-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+  .tag { font-size: 10px; padding: 3px 8px; border-radius: 4px; background: #eee; color: #555; }
+  .tag.vegan { background: #e8f5e9; color: #2e7d32; }
+  .tag.gf { background: #fff3e0; color: #ef6c00; }
+  .tag.lactose { background: #e3f2fd; color: #1565c0; }
+  .tag.protein { background: #fce4ec; color: #c2185b; }
+  .tag.fiber { background: #f1f8e9; color: #558b2f; }
+  .tag.ot-shefa { background: #fff9c4; color: #f57f17; font-weight: 600; }
+  .tag.stantsiya { background: #e8eaf6; color: #3949ab; font-weight: 600; }
+  .tag.harvard { background: #f3e5f5; color: #7b1fa2; font-weight: 600; }
+  .tag.allergy { background: #ffebee; color: #c62828; }
+  .add-btn { margin-top: 15px; padding: 10px; border: none; border-radius: 6px; background-color: #222; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
+  .add-btn:hover { background-color: #444; }
+  .add-btn:active { transform: scale(0.98); }
+  
+  /* Стили для буфета */
+  .eda-buffet-kbju { display: inline-block; font-size: 14px; color: #555; background: #EBEFF3; padding: 8px 10px; border-radius: 6px; margin-top: 16px; }
+  .eda-buffet-kbju span { display: block; margin-bottom: 6px; }
+  .eda-buffet-syel {margin-right: 5px; margin-top: 8px; padding: 10px; border: none; border-radius: 6px; background: #222; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; }
+  .eda-buffet-syel:hover { background: #444; }
+  .eda-buffet-syel:active { transform: scale(0.98); }
+  .eda-buffet-syel.done { background: #4CAF50; }
+  
+  /* Дневник питания */
+  .nutrition-diary { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #ddd; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); padding: 15px 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; font-family: 'Croc', sans-serif; }
+  .diary-content { max-width: 1000px; width: 100%; display: flex; justify-content: space-between; align-items: center; font-family: 'Croc', sans-serif; }
+  .diary-stats { display: flex; gap: 20px; font-size: 14px; font-family: 'Croc', sans-serif; }
+  .stat-item { display: flex; flex-direction: column; align-items: center; font-family: 'Croc', sans-serif; }
+  .stat-val { font-weight: bold; font-size: 18px; color: #222; font-family: 'Croc', sans-serif; }
+  .stat-label { font-size: 11px; color: #888; text-transform: uppercase; font-family: 'Croc', sans-serif; }
+  .diary-user { font-size: 13px; color: #666; text-align: right; font-family: 'Croc', sans-serif; display: flex; gap: 10px; align-items: center; }
+  .reset-btn { font-size: 13px; color: #fff; background: #dc3545; cursor: pointer; padding: 8px 16px; border-radius: 6px; border: none; font-family: 'Croc', sans-serif; font-weight: 600; transition: 0.2s; }
+  .reset-btn:hover { background: #c82333; }
+  .diary-list-btn { font-size: 13px; color: #fff; background: #222; cursor: pointer; padding: 8px 16px; border-radius: 6px; border: none; font-family: 'Croc', sans-serif; font-weight: 600; transition: 0.2s; text-decoration: none; }
+  .diary-list-btn:hover { background: #444; }
+  
+  /* Модальное окно списка блюд */
+  .diary-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .diary-modal.active { display: flex; }
+  .diary-modal-content { background: #fff; border-radius: 12px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+  .diary-modal-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; z-index: 1; font-family: 'Croc', sans-serif; }
+  .diary-modal-title { font-size: 20px; font-weight: 600; margin: 0; font-family: 'Croc', sans-serif; }
+  .diary-modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: #999; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.2s; }
+  .diary-modal-close:hover { background: #f5f5f5; color: #222; }
+  .diary-modal-body { padding: 20px; font-family: 'Croc', sans-serif; }
+  .diary-list-empty { text-align: center; padding: 40px; color: #999; font-family: 'Croc', sans-serif; }
+  .diary-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f0f0f0; transition: background 0.2s; font-family: 'Croc', sans-serif; }
+  .diary-list-item:hover { background: #EBEFF3; }
+  .diary-list-item:last-child { border-bottom: none; }
+  .diary-list-item-info { flex: 1; min-width: 0; font-family: 'Croc', sans-serif; }
+  .diary-list-item-name { font-size: 16px; font-weight: 600; margin-bottom: 5px; color: #222; font-family: 'Croc', sans-serif; }
+  .diary-list-item-details { font-size: 13px; color: #666; display: flex; gap: 15px; flex-wrap: wrap; font-family: 'Croc', sans-serif; }
+  .diary-list-item-nutrition { font-size: 12px; color: #888; font-family: 'Croc', sans-serif; }
+  .diary-list-item-actions { display: flex; align-items: center; gap: 10px; }
+  .diary-list-item-kcal { font-size: 16px; font-weight: 600; color: #222; min-width: 60px; text-align: right; font-family: 'Croc', sans-serif; }
+  .diary-list-item-remove { background: none; border: none; cursor: pointer; color: #999; font-size: 18px; padding: 5px; border-radius: 4px; transition: 0.2s; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; }
+  .diary-list-item-remove:hover { background: #ffebee; color: #c62828; }
+  .diary-list-total { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-top: 2px solid #222; margin-top: 10px; font-weight: 600; font-size: 18px; background: #f9f9f9; font-family: 'Croc', sans-serif; }
+  .diary-list-total-label { color: #222; }
+  .diary-list-total-value { color: #222; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // === НАСТРОЙКИ ===
+  var GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnzxGpaq3VFRj6LxXkelyneZ68-CnoHtIJlij1FqT3ux9hyoGd-Li5IcxqebTItPiQISCsZexzwG6S/pub?output=csv";
+  var CYCLE_START_DATE = new Date("2025-11-24");
+  var TILDA_API_URL = 'https://store.tildaapi.com/api/getproductslist/?storepartuid=444717808081&recid=1738672781&getparts=true&getoptions=true&slice=1&size=100';
+
+  // === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ===
+  var allMenuData = [];
+  var currentMealType = "Завтрак";
+  var activeFilters = { vegan: false, gf: false, lactose: false, protein: false, fiber: false };
+  var activeCategories = [];
+  var showHarvard = false;
+  var userEmail = "guest";
+  var dailyLog = [];
+  var buffetItemCounter = 10000;
+  var tildaCache = null;
+  var tildaLoading = false;
+
+  // === УТИЛИТЫ ===
+  function normalize(s) {
+    if (!s) return '';
+    return s.trim().toLowerCase().replace(/\s+/g,' ').replace(/[^\w\sа-яё]/gi,'');
+  }
+
+  function getTodayKey() {
+    var today = new Date().toISOString().split('T')[0];
+    return 'diary_' + userEmail + '_' + today;
+  }
+
+  function getRealWeekNumber(d) {
+    var current = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    var start = new Date(Date.UTC(CYCLE_START_DATE.getFullYear(), CYCLE_START_DATE.getMonth(), CYCLE_START_DATE.getDate()));
+    var dayDiff = Math.floor((current - start) / (24 * 60 * 60 * 1000));
+    if (dayDiff < 0) return 1;
+    return (Math.floor(dayDiff / 7) % 4) + 1;
+  }
+
+  function getRealDayName() {
+    var days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+    return days[new Date().getDay()];
+  }
+
+  // === ЗАГРУЗКА ДАННЫХ ===
+  function loadTildaAPI() {
+    if (tildaCache || tildaLoading) return Promise.resolve(tildaCache);
+    
+    tildaLoading = true;
+    return fetch(TILDA_API_URL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.products && Array.isArray(data.products)) {
+          tildaCache = { byTitle: {}, byUid: {}, byExternalId: {} };
+          
+          data.products.forEach(function(p) {
+            if (!p.title || !p.characteristics) return;
+            
+            var n = [0, 0, 0, 0];
+            p.characteristics.forEach(function(c) {
+              if (c.title === 'Ккал') n[0] = parseInt(c.value) || 0;
+              else if (c.title === 'Белки') n[1] = parseFloat(c.value) || 0;
+              else if (c.title === 'Жиры') n[2] = parseFloat(c.value) || 0;
+              else if (c.title === 'Углеводы') n[3] = parseFloat(c.value) || 0;
+            });
+            
+            tildaCache.byTitle[p.title] = n;
+            tildaCache.byTitle[normalize(p.title)] = n;
+            if (p.uid) {
+              tildaCache.byUid[p.uid] = n;
+              tildaCache.byUid[p.uid.toString()] = n;
+            }
+            if (p.externalid) tildaCache.byExternalId[p.externalid] = n;
+          });
+        }
+        tildaLoading = false;
+        window.tildaProductsCache = tildaCache;
+        return tildaCache;
+      })
+      .catch(function(err) {
+        console.warn('Не удалось загрузить данные из Tilda API:', err);
+        tildaLoading = false;
+        return null;
+      });
+  }
+
+  function getBuffetNutrition(el) {
+    if (!el || !tildaCache) return null;
+    
+    var card = el.closest('[class*="card"], [class*="product"], [class*="item"]') || el.closest('div').parentElement;
+    if (!card) return null;
+    
+    var name = (el.textContent || '').trim();
+    var normName = normalize(name);
+    
+    if (tildaCache.byTitle[name]) return tildaCache.byTitle[name];
+    if (tildaCache.byTitle[normName]) return tildaCache.byTitle[normName];
+    
+    var uid = card.getAttribute('data-product-uid') || card.getAttribute('data-uid') || 
+              (card.querySelector('[data-product-uid]') ? card.querySelector('[data-product-uid]').getAttribute('data-product-uid') : null);
+    if (uid && tildaCache.byUid[uid]) return tildaCache.byUid[uid];
+    
+    var extId = card.getAttribute('data-external-id') || card.getAttribute('data-externalid');
+    if (extId && tildaCache.byExternalId[extId]) return tildaCache.byExternalId[extId];
+    
+    return null;
+  }
+
+  // === ДНЕВНИК ===
+  function loadDiary() {
+    var key = getTodayKey();
+    var saved = localStorage.getItem(key);
+    dailyLog = saved ? JSON.parse(saved) : [];
+  }
+
+  function saveDiary() {
+    var key = getTodayKey();
+    try {
+      localStorage.setItem(key, JSON.stringify(dailyLog));
+    } catch(e) {}
+  }
+
+  function updateDiaryUI() {
+    var tot = { kcal: 0, prot: 0, fat: 0, carb: 0 };
+    for (var i = 0; i < dailyLog.length; i++) {
+      var x = dailyLog[i].nutri || {};
+      tot.kcal += (x.kcal || 0);
+      tot.prot += (x.prot || 0);
+      tot.fat += (x.fat || 0);
+      tot.carb += (x.carb || 0);
+    }
+
+    var k = document.getElementById('total-kcal');
+    var p = document.getElementById('total-prot');
+    var f = document.getElementById('total-fat');
+    var c = document.getElementById('total-carb');
+    
+    if (k) k.textContent = Math.round(tot.kcal);
+    if (p) p.textContent = tot.prot.toFixed(1);
+    if (f) f.textContent = tot.fat.toFixed(1);
+    if (c) c.textContent = tot.carb.toFixed(1);
+
+    var panel = document.getElementById('diary-panel');
+    if (panel) {
+      panel.style.display = dailyLog.length > 0 ? 'flex' : 'none';
+    }
+    
+    if (document.getElementById('diary-modal') && document.getElementById('diary-modal').classList.contains('active')) {
+      renderDiaryList();
+    }
+  }
+
+  function resetDiary() {
+    if (confirm("Сбросить весь рацион за сегодня?")) {
+      dailyLog = [];
+      saveDiary();
+      updateDiaryUI();
+    }
+  }
+
+  // === СПИСОК БЛЮД ===
+  function openDiaryList() {
+    var modal = document.getElementById('diary-modal');
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      renderDiaryList();
+    }
+  }
+
+  function closeDiaryList() {
+    var modal = document.getElementById('diary-modal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function renderDiaryList() {
+    var container = document.getElementById('diary-list-body');
+    if (!container) return;
+    
+    if (dailyLog.length === 0) {
+      container.innerHTML = '<div class="diary-list-empty">Список блюд пуст</div>';
+      return;
+    }
+    
+    var html = '';
+    var total = { kcal: 0, prot: 0, fat: 0, carb: 0 };
+    
+    for (var i = 0; i < dailyLog.length; i++) {
+      var item = dailyLog[i];
+      total.kcal += (item.nutri.kcal || 0);
+      total.prot += (item.nutri.prot || 0);
+      total.fat += (item.nutri.fat || 0);
+      total.carb += (item.nutri.carb || 0);
+      
+      var nutritionParts = [];
+      if (item.nutri.kcal > 0) nutritionParts.push(Math.round(item.nutri.kcal) + ' ккал');
+      if (item.nutri.prot > 0) nutritionParts.push('Б: ' + item.nutri.prot.toFixed(1));
+      if (item.nutri.fat > 0) nutritionParts.push('Ж: ' + item.nutri.fat.toFixed(1));
+      if (item.nutri.carb > 0) nutritionParts.push('У: ' + item.nutri.carb.toFixed(1));
+      
+      html += '<div class="diary-list-item">' +
+        '<div class="diary-list-item-info">' +
+          '<div class="diary-list-item-name">' + item.name + '</div>' +
+          '<div class="diary-list-item-details">' +
+            (item.category ? '<span>' + item.category + '</span>' : '') +
+            (item.weight ? '<span>Вес: ' + item.weight + '</span>' : '') +
+            (nutritionParts.length > 0 ? '<span class="diary-list-item-nutrition">' + nutritionParts.join(' • ') + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="diary-list-item-actions">' +
+          '<div class="diary-list-item-kcal">' + (item.nutri.kcal > 0 ? Math.round(item.nutri.kcal) : '—') + '</div>' +
+          '<button class="diary-list-item-remove" onclick="window.edaRemoveFromDiary(' + i + ')" aria-label="Удалить">×</button>' +
+        '</div>' +
+      '</div>';
+    }
+    
+    // Добавляем строку "Итого"
+    html += '<div class="diary-list-total">' +
+      '<div class="diary-list-total-label">Итого</div>' +
+      '<div class="diary-list-total-value">' +
+        Math.round(total.kcal) + ' ккал • ' +
+        'Б: ' + total.prot.toFixed(1) + ' • ' +
+        'Ж: ' + total.fat.toFixed(1) + ' • ' +
+        'У: ' + total.carb.toFixed(1) +
+      '</div>' +
+    '</div>';
+    
+    container.innerHTML = html;
+  }
+
+  function removeFromDiary(index) {
+    if (index >= 0 && index < dailyLog.length) {
+      dailyLog.splice(index, 1);
+      saveDiary();
+      updateDiaryUI();
+    }
+  }
+
+  // === СТОЛОВАЯ ===
+  function addToDiary(id) {
+    var dish = allMenuData.find(function(d) { return d.id === id; });
+    if (dish) {
+      dailyLog.push(dish);
+      saveDiary();
+      updateDiaryUI();
+      
+      var btn = document.getElementById('btn-' + id);
+      if (btn) {
+        var orig = btn.textContent;
+        btn.textContent = '✓ Добавлено';
+        btn.style.background = '#4CAF50';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.style.background = '#222';
+        }, 1000);
+      }
+    }
+  }
+
+  function getCategoriesForMeal(meal) {
+    if (meal === 'Завтрак') {
+      return ['Холодные закуски', 'Горячие блюда'];
+    } else if (meal === 'Обед') {
+      return ['Салаты', 'Супы', 'Гарниры', 'Основные блюда', 'Напитки'];
+    }
+    return [];
+  }
+
+  function updateCategoryFilters() {
+    var container = document.getElementById('category-filters');
+    if (!container) return;
+    
+    var categories = getCategoriesForMeal(currentMealType);
+    activeCategories = activeCategories.filter(function(cat) { return categories.indexOf(cat) !== -1; });
+    
+    var html = '';
+    for (var i = 0; i < categories.length; i++) {
+      var cat = categories[i];
+      var isActive = activeCategories.indexOf(cat) !== -1;
+      var escapedCat = cat.replace(/'/g, "\\'");
+      html += '<label class="filter-label" style="background: ' + (isActive ? '#e3f2fd' : '#fff') + ';">' +
+        '<input type="checkbox" ' + (isActive ? 'checked' : '') + ' onchange="window.edaToggleCategory(\'' + escapedCat + '\')"> ' + cat +
+      '</label>';
+    }
+    container.innerHTML = html;
+  }
+
+  function toggleCategory(category) {
+    var validCategories = ['Салаты', 'Супы', 'Гарниры', 'Основные блюда', 'Напитки', 'Холодные закуски', 'Горячие блюда'];
+    var normalizedCategory = category.trim();
+    
+    if (validCategories.indexOf(normalizedCategory) === -1) return;
+    
+    var index = activeCategories.indexOf(normalizedCategory);
+    if (index > -1) {
+      activeCategories.splice(index, 1);
+    } else {
+      activeCategories.push(normalizedCategory);
+    }
+    updateCategoryFilters();
+    renderMenu();
+  }
+
+  function toggleHarvard() {
+    showHarvard = !showHarvard;
+    renderMenu();
+  }
+
+  function setMealType(type) {
+    if (type === 'Завтрак' || type === 'Обед') {
+      currentMealType = type;
+    } else {
+      currentMealType = 'Завтрак';
+    }
+    var tabs = document.querySelectorAll('.meal-tab');
+    for (var i = 0; i < tabs.length; i++) {
+      var tabText = (tabs[i].textContent || '').trim();
+      tabs[i].classList.toggle('active', tabText === type);
+    }
+    updateCategoryFilters();
+    renderMenu();
+  }
+
+  function toggleFilter(key) {
+    activeFilters[key] = !activeFilters[key];
+    renderMenu();
+  }
+
+  function renderMenu() {
+    var container = document.getElementById('menu-container');
+    if (!container) return;
+    
+    var isDebug = document.getElementById('debug-mode');
+    isDebug = isDebug ? isDebug.checked : false;
+    
+    var targetWeek = isDebug ? parseInt(document.getElementById('debug-week').value) : getRealWeekNumber(new Date());
+    var targetDayName = isDebug ? document.getElementById('debug-day').value : getRealDayName();
+    
+    var validDays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+    targetDayName = targetDayName.trim();
+    if (validDays.indexOf(targetDayName) === -1) {
+      targetDayName = getRealDayName();
+    }
+    
+    var normalizedMealType = (currentMealType === 'Завтрак' || currentMealType === 'Обед') ? currentMealType : 'Завтрак';
+    
+    var cycleInfo = document.getElementById('cycle-info');
+    if (cycleInfo) cycleInfo.textContent = 'Отображается: ' + targetDayName + ' | Неделя цикла: ' + targetWeek;
+
+    var filtered = allMenuData.filter(function(item) {
+      if (item.week !== targetWeek) return false;
+      if (item.day.toLowerCase() !== targetDayName.toLowerCase()) return false;
+      if (item.type !== normalizedMealType) return false;
+      
+      if (activeCategories.length > 0 && activeCategories.indexOf(item.category) === -1) {
+        return false;
+      }
+      
+      if (showHarvard) {
+        if (!item.harvardPlate || item.harvardPlate.toUpperCase() !== 'TRUE') {
+          return false;
+        }
+      }
+      
+      if (activeFilters.vegan && !item.tags.vegan) return false;
+      if (activeFilters.gf && !item.tags.gf) return false;
+      if (activeFilters.lactose && !item.tags.lactose) return false;
+      if (activeFilters.protein && !item.tags.protein) return false;
+      if (activeFilters.fiber && !item.tags.fiber) return false;
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#999;">В этот день меню не найдено.</div>';
+      return;
+    }
+
+    var html = '';
+    for (var i = 0; i < filtered.length; i++) {
+      var item = filtered[i];
+      var tagsHtml = '';
+      if (item.tags.vegan) tagsHtml += '<span class="tag vegan">Вегетарианское</span>';
+      if (item.tags.gf) tagsHtml += '<span class="tag gf">Без глютена</span>';
+      if (item.tags.lactose) tagsHtml += '<span class="tag lactose">Без лактозы</span>';
+      if (item.tags.protein) tagsHtml += '<span class="tag protein">Много белка</span>';
+      if (item.tags.fiber) tagsHtml += '<span class="tag fiber">Много клетчатки</span>';
+      if (item.otShefa) tagsHtml += '<span class="tag ot-shefa">От Шефа</span>';
+      if (item.stantsiya) tagsHtml += '<span class="tag stantsiya">Станция</span>';
+      if (item.allergies) tagsHtml += '<span class="tag allergy">⚠️ ' + item.allergies + '</span>';
+      if (item.harvardPlate && item.harvardPlate.toUpperCase() === 'TRUE') tagsHtml += '<span class="tag harvard">🍽️ Гарвардская тарелка</span>';
+
+      var hasNutrition = item.nutri.kcal > 0 || item.nutri.prot > 0 || item.nutri.fat > 0 || item.nutri.carb > 0;
+      var nutritionHtml = hasNutrition ? 
+        '<div class="dish-nutrition">' +
+          '<span>' + (item.nutri.kcal > 0 ? Math.round(item.nutri.kcal) : 0) + ' ккал</span>' +
+          '<span>Б: ' + (item.nutri.prot > 0 ? item.nutri.prot.toFixed(1) : 0) + '</span>' +
+          '<span>Ж: ' + (item.nutri.fat > 0 ? item.nutri.fat.toFixed(1) : 0) + '</span>' +
+          '<span>У: ' + (item.nutri.carb > 0 ? item.nutri.carb.toFixed(1) : 0) + '</span>' +
+        '</div>' : '';
+
+      html += '<div class="dish-card">' +
+        '<div class="dish-category">' + item.category + '</div>' +
+        '<div class="dish-name">' + item.name + '</div>' +
+        (item.price ? '<div class="dish-price">' + item.price + ' ₽</div>' : '') +
+        (item.weight ? '<div class="dish-meta">Вес: ' + item.weight + '</div>' : '') +
+        (item.composition ? '<div class="dish-composition">' + item.composition + '</div>' : '') +
+        nutritionHtml +
+        '<div class="dish-tags">' + tagsHtml + '</div>' +
+        '<button class="add-btn" id="btn-' + item.id + '" onclick="window.edaAddToDiary(' + item.id + ')">+ Съел</button>' +
+      '</div>';
+    }
+    container.innerHTML = html;
+  }
+
+  // === БУФЕТ ===
+  function addBuffetToDiary(name, nutrition, el) {
+    var item = {
+      id: buffetItemCounter++,
+      name: name,
+      category: 'Буфет',
+      type: 'Буфет',
+      weight: '1 порция',
+      nutri: { kcal: nutrition[0], prot: nutrition[1], fat: nutrition[2], carb: nutrition[3] },
+      tags: { protein: nutrition[1] > 20, fiber: false, lactose: false, gf: false, vegan: false },
+      allergies: '',
+      source: 'buffet'
+    };
+    
+    dailyLog.push(item);
+    saveDiary();
+    updateDiaryUI();
+    
+    var pan = document.getElementById('diary-panel');
+    if (pan) pan.style.display = 'flex';
+  }
+
+  // Вспомогательные функции для injectBuffet
+  function findProductCard(element) {
+    return element.closest('.t-store__card');
+  }
+  
+  function isBuffetProduct(card) {
+    // Проверяем по активному табу
+    var activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
+    if (activeTab && (activeTab.textContent || '').toLowerCase().indexOf('буфет') !== -1) {
+      return true;
+    }
+    
+    // Проверяем по тексту в карточке или родителях
+    var element = card;
+    for (var i = 0; i < 10 && element; i++) {
+      var text = (element.textContent || '').toLowerCase();
+      if (text.indexOf('буфет') !== -1 || text.indexOf('бизнес-завтрак') !== -1) {
+        return true;
+      }
+      element = element.parentElement;
+    }
+    return false;
+  }
+  
+  function findProductNameElement(titleEl, card) {
+    if (titleEl.classList && titleEl.classList.contains('t-store__card__title')) {
+      return titleEl;
+    }
+    return card.querySelector('.t-store__card__title');
+  }
+  
+  function insertAfterElement(element, newElement) {
+    if (element && element.parentElement) {
+      try {
+        element.insertAdjacentElement('afterend', newElement);
+      } catch(e) {
+        var parent = element.parentElement;
+        var nextSibling = element.nextSibling;
+        if (nextSibling) {
+          parent.insertBefore(newElement, nextSibling);
+        } else {
+          parent.appendChild(newElement);
+        }
+      }
+    }
+  }
+  
+  function findButtonsContainer(card) {
+    return card.querySelector('.t-store__card__btns-wrapper');
+  }
+  
+  function setupCartNameFix(productNameEl, originalName, originalHTML) {
+    if (!productNameEl || !originalName) return;
+    
+    var cartButtons = productNameEl.closest('.t-store__card')?.querySelectorAll('.t-store__card__btn');
+    if (!cartButtons || cartButtons.length === 0) return;
+    
+    cartButtons.forEach(function(cartBtn) {
+      cartBtn.addEventListener('click', function(e) {
+        var currentContent = productNameEl.innerHTML;
+        productNameEl.textContent = originalName;
+        setTimeout(function() {
+          productNameEl.innerHTML = originalHTML || currentContent;
+        }, 150);
+      }, true);
+    });
+  }
+
+  function injectBuffet() {
+    var titleElements = document.querySelectorAll('.t-store__card__title');
+    
+    titleElements.forEach(function(titleEl) {
+      var card = findProductCard(titleEl);
+      if (!card) return;
+      
+      // Пропускаем, если уже обработали или не буфет
+      if (card.getAttribute('data-eda-buffet-done') || card.querySelector('.eda-buffet-kbju')) return;
+      if (!isBuffetProduct(card)) return;
+      
+      card.setAttribute('data-eda-buffet-done', '1');
+      
+      var name = (titleEl.textContent || '').trim();
+      if (!name || name.length < 2) return;
+      
+      var nutrition = getBuffetNutrition(titleEl);
+      if (!nutrition || !nutrition[0]) return;
+      
+      // Находим элемент с названием для корзины
+      var productNameEl = findProductNameElement(titleEl, card);
+      var originalName = null;
+      var originalHTML = null;
+      
+      if (productNameEl) {
+        originalName = productNameEl.textContent.trim();
+        originalHTML = productNameEl.innerHTML;
+        productNameEl.setAttribute('data-original-name', originalName);
+        productNameEl.setAttribute('data-original-html', originalHTML);
+      }
+      
+      // Создаем блок с КБЖУ
+      var kbjuBlock = document.createElement('div');
+      kbjuBlock.className = 'eda-buffet-kbju';
+      kbjuBlock.setAttribute('data-eda-kbju-block', 'true');
+      kbjuBlock.innerHTML = '<span>' + nutrition[0] + ' ккал · Б ' + nutrition[1] + ' · Ж ' + nutrition[2] + ' · У ' + nutrition[3] + '</span>';
+      
+      // Создаем кнопку "+ Съел"
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'eda-buffet-syel';
+      btn.setAttribute('data-eda-kbju-block', 'true');
+      btn.textContent = '+ Съел';
+      btn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        addBuffetToDiary(name, nutrition, titleEl);
+        var orig = btn.textContent;
+        btn.textContent = '✓ Добавлено';
+        btn.classList.add('done');
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('done');
+        }, 1000);
+        return false;
+      };
+      
+      // Вставляем блок КБЖУ после названия
+      if (productNameEl) {
+        insertAfterElement(productNameEl, kbjuBlock);
+      } else {
+        var textWrapper = card.querySelector('.t-store__card__textwrapper');
+        (textWrapper || card).appendChild(kbjuBlock);
+      }
+      
+      // Вставляем кнопку в контейнер кнопок
+      var buttonsWrapper = findButtonsContainer(card);
+      
+      if (buttonsWrapper) {
+        buttonsWrapper.appendChild(btn);
+      } else {
+        // Если контейнер не найден, ищем кнопку "В корзину" и вставляем в ее родителя
+        var cartButton = card.querySelector('.t-store__card__btn');
+        if (cartButton && cartButton.parentElement) {
+          cartButton.parentElement.appendChild(btn);
+        } else {
+          kbjuBlock.appendChild(btn);
+        }
+      }
+      
+      // Настраиваем исправление названия для корзины
+      setupCartNameFix(productNameEl, originalName, originalHTML);
+    });
+  }
+
+  // === СОЗДАНИЕ СТРУКТУРЫ ===
+  function createStructure() {
+    if (document.getElementById('menu-app')) return;
+    
+    // Ищем tabpanel "Столовая" для вставки контента
+    var targetPanel = null;
+    var tabpanels = document.querySelectorAll('[role="tabpanel"]');
+    
+    // Сначала ищем по aria-labelledby - это самый надежный способ
+    var tabs = document.querySelectorAll('[role="tablist"] [role="tab"]');
+    for (var i = 0; i < tabs.length; i++) {
+      var tabText = (tabs[i].textContent || '').trim();
+      if (tabText.indexOf('Столовая') !== -1) {
+        var tabId = tabs[i].id;
+        if (tabId) {
+          // Ищем tabpanel с aria-labelledby, указывающим на этот таб
+          for (var j = 0; j < tabpanels.length; j++) {
+            if (tabpanels[j].getAttribute('aria-labelledby') === tabId) {
+              targetPanel = tabpanels[j];
+              break;
+            }
+          }
+        }
+        // Если не нашли по aria-labelledby, используем порядок (первый таб = первый tabpanel)
+        if (!targetPanel && i < tabpanels.length) {
+          targetPanel = tabpanels[i];
+        }
+        break;
+      }
+    }
+    
+    var body = document.body;
+    if (!body) return;
+    
+    var menuApp = document.createElement('div');
+    menuApp.id = 'menu-app';
+    menuApp.innerHTML = 
+      '<div class="menu-header">' +
+        '<h2 id="current-date-title">Меню на сегодня</h2>' +
+        '<div class="current-info" id="cycle-info">Загрузка...</div>' +
+      '</div>' +
+      '<div class="menu-controls">' +
+        '<div class="meal-tabs">' +
+          '<button class="meal-tab active" onclick="window.edaSetMealType(\'Завтрак\')">Завтрак</button>' +
+          '<button class="meal-tab" onclick="window.edaSetMealType(\'Обед\')">Обед</button>' +
+        '</div>' +
+        '<div class="filters-row" id="category-filters"></div>' +
+        '<div class="filters-row">' +
+          '<label class="filter-label"><input type="checkbox" onchange="window.edaToggleFilter(\'vegan\')"> Вегетарианское</label>' +
+          '<label class="filter-label"><input type="checkbox" onchange="window.edaToggleFilter(\'gf\')"> Без глютена</label>' +
+          '<label class="filter-label"><input type="checkbox" onchange="window.edaToggleFilter(\'lactose\')"> Без лактозы</label>' +
+          '<label class="filter-label"><input type="checkbox" onchange="window.edaToggleFilter(\'protein\')"> Много белка</label>' +
+          '<label class="filter-label"><input type="checkbox" onchange="window.edaToggleFilter(\'fiber\')"> Много клетчатки</label>' +
+          '<label class="filter-label"><input type="checkbox" onchange="window.edaToggleHarvard()"> Гарвардская тарелка</label>' +
+        '</div>' +
+      '</div>' +
+      '<div id="menu-container" class="menu-grid">' +
+        '<div style="text-align:center; padding:40px;">Загрузка...</div>' +
+      '</div>';
+    
+    // Вставляем в tabpanel если нашли, иначе в body
+    if (targetPanel) {
+      targetPanel.appendChild(menuApp);
+    } else {
+      body.insertBefore(menuApp, body.firstChild);
+    }
+    
+    if (!document.getElementById('diary-panel')) {
+      var diary = document.createElement('div');
+      diary.id = 'diary-panel';
+      diary.className = 'nutrition-diary';
+      diary.style.display = 'none';
+      diary.style.fontFamily = "'Croc', sans-serif";
+      diary.innerHTML = 
+        '<div class="diary-content">' +
+          '<div class="diary-stats">' +
+            '<div class="stat-item"><span class="stat-val" id="total-kcal">0</span><span class="stat-label">Ккал</span></div>' +
+            '<div class="stat-item"><span class="stat-val" id="total-prot">0</span><span class="stat-label">Белки</span></div>' +
+            '<div class="stat-item"><span class="stat-val" id="total-fat">0</span><span class="stat-label">Жиры</span></div>' +
+            '<div class="stat-item"><span class="stat-val" id="total-carb">0</span><span class="stat-label">Углеводы</span></div>' +
+          '</div>' +
+          '<div class="diary-user">' +
+            '<button class="diary-list-btn" onclick="window.edaOpenDiaryList()">Список блюд</button>' +
+            '<button class="reset-btn" onclick="window.edaResetDiary()">Сбросить день</button>' +
+          '</div>' +
+        '</div>';
+      body.appendChild(diary);
+    }
+    
+    if (!document.getElementById('diary-modal')) {
+      var modal = document.createElement('div');
+      modal.id = 'diary-modal';
+      modal.className = 'diary-modal';
+      modal.innerHTML = 
+        '<div class="diary-modal-content">' +
+          '<div class="diary-modal-header">' +
+            '<h3 class="diary-modal-title">Список блюд</h3>' +
+            '<button class="diary-modal-close" onclick="window.edaCloseDiaryList()" aria-label="Закрыть">×</button>' +
+          '</div>' +
+          '<div class="diary-modal-body" id="diary-list-body"></div>' +
+        '</div>';
+      body.appendChild(modal);
+    }
+  }
+
+  // Экспортируем функции глобально ДО инициализации
+  window.edaAddToDiary = addToDiary;
+  window.edaSetMealType = setMealType;
+  window.edaToggleFilter = toggleFilter;
+  window.edaToggleCategory = toggleCategory;
+  window.edaToggleHarvard = toggleHarvard;
+  window.edaResetDiary = resetDiary;
+  window.edaOpenDiaryList = openDiaryList;
+  window.edaCloseDiaryList = closeDiaryList;
+  window.edaRemoveFromDiary = removeFromDiary;
+
+  // === ИНИЦИАЛИЗАЦИЯ ===
+  function init() {
+    // Ждем, пока Tilda загрузится и табы будут готовы
+    var attempts = 0;
+    var maxAttempts = 50; // 5 секунд максимум
+    
+    function tryInit() {
+      attempts++;
+      
+      // Проверяем наличие табов Tilda
+      var hasTildaTabs = document.querySelectorAll('[role="tablist"]').length > 0;
+      
+      if (hasTildaTabs || attempts >= maxAttempts) {
+        createStructure();
+        startDataLoading();
+      } else {
+        setTimeout(tryInit, 100);
+      }
+    }
+    
+    function startDataLoading() {
+      if (typeof Papa !== 'undefined') {
+      Papa.parse(GOOGLE_SHEET_URL, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          allMenuData = results.data
+            .filter(function(row) { return row['Название блюда'] && row['Название блюда'].trim(); })
+            .map(function(row, idx) {
+              var check = function(key) {
+                return row[key] && (row[key].toUpperCase() === 'TRUE' || row[key] === '1');
+              };
+              return {
+                id: idx,
+                week: parseInt(row['Неделя']) || 0,
+                day: row['День недели'] ? row['День недели'].trim() : '',
+                type: row['Прием пищи'] ? row['Прием пищи'].trim() : '',
+                category: row['Категория'] || '',
+                name: row['Название блюда'] ? row['Название блюда'].trim() : '',
+                weight: row['Вес'] || '',
+                price: row['Цена'] ? row['Цена'].trim() : '',
+                composition: row['Состав'] ? row['Состав'].trim() : '',
+                nutri: {
+                  kcal: parseFloat((row['Ккал'] || '0').replace(',', '.')) || 0,
+                  prot: parseFloat((row['Белки'] || '0').replace(',', '.')) || 0,
+                  fat: parseFloat((row['Жиры'] || '0').replace(',', '.')) || 0,
+                  carb: parseFloat((row['Углеводы'] || '0').replace(',', '.')) || 0
+                },
+                tags: {
+                  protein: check('Белок'),
+                  fiber: check('Клетчатка'),
+                  lactose: check('Без лактозы'),
+                  gf: check('Без глютена'),
+                  vegan: check('Вегетарианское')
+                },
+                allergies: row['Аллерген'] ? row['Аллерген'].trim() : '',
+                otShefa: check('От Шефа'),
+                stantsiya: check('Станция'),
+                harvardPlate: row['Гарвардская тарелка'] ? row['Гарвардская тарелка'].trim() : ''
+              };
+            });
+          
+          if (currentMealType !== 'Завтрак' && currentMealType !== 'Обед') {
+            currentMealType = 'Завтрак';
+          }
+          
+          loadDiary();
+          updateCategoryFilters();
+          renderMenu();
+          updateDiaryUI();
+        }
+      });
+    }
+    
+      loadTildaAPI().then(function() {
+        injectBuffet();
+        setTimeout(injectBuffet, 300);
+      });
+      
+      injectBuffet();
+      setTimeout(injectBuffet, 800);
+      setTimeout(injectBuffet, 2000);
+      
+      var lastInject = 0;
+      var mo = typeof MutationObserver !== 'undefined' ? new MutationObserver(function() {
+        var now = Date.now();
+        if (now - lastInject < 400) return;
+        lastInject = now;
+        setTimeout(injectBuffet, 300);
+      }) : null;
+      if (mo && document.body) mo.observe(document.body, { childList: true, subtree: true });
+      
+      document.addEventListener('click', function(e) {
+        if ((e.target.textContent || '').indexOf('Загрузить еще') !== -1) {
+          setTimeout(injectBuffet, 1500);
+        }
+        var modal = document.getElementById('diary-modal');
+        if (e.target === modal) {
+          closeDiaryList();
+        }
+      });
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          var modal = document.getElementById('diary-modal');
+          if (modal && modal.classList.contains('active')) {
+            closeDiaryList();
+          }
+        }
+      });
+      
+      // Отслеживаем переключение табов Tilda через MutationObserver
+      var tablist = document.querySelector('[role="tablist"]');
+      if (tablist) {
+        // Наблюдаем за изменениями aria-selected в табах
+        var tabObserver = new MutationObserver(function(mutations) {
+          var menuApp = document.getElementById('menu-app');
+          var activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
+          
+          if (!activeTab) return;
+          
+          var activeTabText = (activeTab.textContent || '').trim();
+          
+          // Если переключились на таб "Буфет", вызываем injectBuffet
+          if (activeTabText.indexOf('Буфет') !== -1) {
+            setTimeout(function() {
+              injectBuffet();
+              setTimeout(injectBuffet, 300);
+              setTimeout(injectBuffet, 800);
+            }, 100);
+          }
+          
+          // Если переключились на таб "Столовая", проверяем tabpanel
+          if (activeTabText.indexOf('Столовая') !== -1 && menuApp) {
+            var tabId = activeTab.id;
+            var correctPanel = null;
+            
+            if (tabId) {
+              var panels = document.querySelectorAll('[role="tabpanel"]');
+              for (var p = 0; p < panels.length; p++) {
+                if (panels[p].getAttribute('aria-labelledby') === tabId) {
+                  correctPanel = panels[p];
+                  break;
+                }
+              }
+            }
+            
+            // Если не нашли по aria-labelledby, используем порядок
+            if (!correctPanel) {
+              var tabs = tablist.querySelectorAll('[role="tab"]');
+              var tabIndex = Array.prototype.indexOf.call(tabs, activeTab);
+              var panels = document.querySelectorAll('[role="tabpanel"]');
+              if (tabIndex >= 0 && tabIndex < panels.length) {
+                correctPanel = panels[tabIndex];
+              }
+            }
+            
+            // Перемещаем контент в правильный tabpanel, если он не там
+            if (correctPanel && !correctPanel.contains(menuApp)) {
+              correctPanel.appendChild(menuApp);
+            }
+          }
+        });
+        
+        // Наблюдаем за изменениями в табах
+        var tabs = tablist.querySelectorAll('[role="tab"]');
+        for (var k = 0; k < tabs.length; k++) {
+          tabObserver.observe(tabs[k], { attributes: true, attributeFilter: ['aria-selected'] });
+        }
+        
+        // Также добавляем обработчики кликов на табы для немедленного вызова injectBuffet
+        for (var m = 0; m < tabs.length; m++) {
+          tabs[m].addEventListener('click', function() {
+            var clickedTab = this;
+            setTimeout(function() {
+              var tabText = (clickedTab.textContent || '').trim();
+              if (tabText.indexOf('Буфет') !== -1) {
+                injectBuffet();
+                setTimeout(injectBuffet, 500);
+                setTimeout(injectBuffet, 1500);
+              }
+            }, 200);
+          });
+        }
+      }
+    }
+    
+    tryInit();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    setTimeout(init, 100); // Небольшая задержка для Tilda
+  }
+})();
+</script>
