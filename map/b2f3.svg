@@ -26,10 +26,19 @@
 <path id="Vector_17" d="M222.275 313.804L222.275 195.355M201.209 195.355V313.805M285.472 195.355V313.805M243.34 313.805V195.355M264.406 313.804L264.406 195.355" stroke="#BFC4C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path id="Vector_18" d="M715.655 313.804L715.655 195.355M736.721 195.355V313.805M652.458 195.355V313.805M694.589 313.805V195.355M673.524 313.804L673.524 195.355" stroke="#BFC4C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <g id="b2f3-electro">
-<rect id="Rectangle 2983" x="614.506" y="54.5625" width="18.2676" height="18.4683" fill="#475DEB" fill-opacity="0.2" stroke="#475DEB" stroke-opacity="0.2" stroke-width="2.5"/>
-<rect id="Rectangle 2985" x="298.893" y="181.21" width="18.2676" height="18.4683" fill="#475DEB" fill-opacity="0.2" stroke="#475DEB" stroke-opacity="0.2" stroke-width="2.5"/>
-<rect id="Rectangle 2984" x="638.193" y="54.5625" width="18.2676" height="18.4683" fill="#475DEB" fill-opacity="0.2" stroke="#475DEB" stroke-opacity="0.2" stroke-width="2.5"/>
-<text id="title" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="322.588" y="188.754">&#x417;&#x430;&#x440;&#x44f;&#x434;&#x43d;&#x43e;&#x435; &#x443;&#x441;&#x442;&#x440;&#x43e;&#x439;&#x441;&#x442;&#x432;&#x43e; &#x2028;</tspan><tspan x="322.588" y="196.754">&#x434;&#x43b;&#x44f; &#x44d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43c;&#x43e;&#x431;&#x438;&#x43b;&#x44f;</tspan></text>
+<g id="Rectangle 2983">
+<rect x="614.506" y="54.5625" width="18.2676" height="18.4683" fill="#475DEB" fill-opacity="0.2"/>
+<rect x="613.256" y="53.3125" width="20.7676" height="20.9683" stroke="#475DEB" stroke-opacity="0.2" stroke-width="2.5"/>
+</g>
+<g id="Rectangle 2985">
+<rect x="302" y="182.067" width="18.2676" height="18.4683" fill="#475DEB" fill-opacity="0.2"/>
+<rect x="300.75" y="180.817" width="20.7676" height="20.9683" stroke="#475DEB" stroke-opacity="0.2" stroke-width="2.5"/>
+</g>
+<g id="Rectangle 2984">
+<rect x="638.193" y="54.5625" width="18.2676" height="18.4683" fill="#475DEB" fill-opacity="0.2"/>
+<rect x="636.943" y="53.3125" width="20.7676" height="20.9683" stroke="#475DEB" stroke-opacity="0.2" stroke-width="2.5"/>
+</g>
+<text id="title" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="325.695" y="189.611">&#x417;&#x430;&#x440;&#x44f;&#x434;&#x43d;&#x43e;&#x435; &#x443;&#x441;&#x442;&#x440;&#x43e;&#x439;&#x441;&#x442;&#x432;&#x43e; &#x2028;</tspan><tspan x="325.695" y="197.611">&#x434;&#x43b;&#x44f; &#x44d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43c;&#x43e;&#x431;&#x438;&#x43b;&#x44f;</tspan></text>
 <text id="title_2" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="7.50003" font-weight="500" letter-spacing="0em"><tspan x="596.755" y="38.7359">&#x417;&#x430;&#x440;&#x44f;&#x434;&#x43d;&#x43e;&#x435; &#x443;&#x441;&#x442;&#x440;&#x43e;&#x439;&#x441;&#x442;&#x432;&#x43e; &#x2028;</tspan><tspan x="600.794" y="46.7359">&#x434;&#x43b;&#x44f; &#x44d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43c;&#x43e;&#x431;&#x438;&#x43b;&#x44f;</tspan></text>
 </g>
 </g>
