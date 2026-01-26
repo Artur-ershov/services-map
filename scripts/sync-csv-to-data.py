@@ -129,15 +129,9 @@ def convert_urls_to_links(text):
         # Очищаем префикс
         clean_prefix = prefix.strip().rstrip(':').strip()
         
-        # Для текста ссылки всегда используем короткий вариант, чтобы не дублировать префикс
-        # Общие фразы, которые не должны дублироваться
-        common_phrases = ['больше информации', 'подробнее', 'ссылка']
-        
-        # Проверяем, является ли префикс общей фразой (начинается с общей фразы)
-        clean_lower = clean_prefix.lower()
-        is_common_phrase = any(clean_lower.startswith(phrase) or phrase in clean_lower for phrase in common_phrases)
-        
-        if is_common_phrase or len(clean_prefix) > 30 or not clean_prefix:
+        # Для текста ссылки используем префикс, если он короткий и информативный
+        # Если префикс слишком длинный, используем домен или "Подробнее"
+        if len(clean_prefix) > 50 or not clean_prefix:
             # Используем домен или "Подробнее"
             try:
                 parsed = urlparse(url)
@@ -147,7 +141,7 @@ def convert_urls_to_links(text):
             except:
                 link_text = 'Подробнее'
         else:
-            # Используем префикс, если он короткий и информативный
+            # Используем префикс как текст ссылки
             link_text = clean_prefix
         
         placeholder = get_placeholder()
