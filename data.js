@@ -1,6 +1,6 @@
 // --- ДАННЫЕ СЕРВИСОВ, ЭТАЖЕЙ И КОМНАТ ---
 // Автоматически сгенерировано из CSV таблицы
-// Дата генерации: 2026-01-26 10:48:12
+// Дата генерации: 2026-01-26 11:46:55
 
 const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
 
@@ -28,7 +28,7 @@ const allServices = [
         areaId: "b1f1-letter",
         desc: "Приём и выдача корреспонденции<br><br>Дополнителньо смотри информацию про Почтовые отправления и курьерскую доставку (https://jive.croc.ru/community/knowledge/everyday/social/pochtovye-otpravleniya-i-kurerskaya-dostavka)",
         contacts: "тел. #4940<br>Otdel_pisem@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Отдел писем",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/sekretariat#post",
         attributes: {
             location: "108",
@@ -59,7 +59,7 @@ const allServices = [
         areaId: "b1f1-atm",
         desc: "Банкомат: Сбербанк, работает на внесение и снятие наличных денежных средств",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Банкомат Сбербанка",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -74,7 +74,7 @@ const allServices = [
         areaId: "b1f1-vending",
         desc: "Быстрый перекус или полноценный обед в «шаговой» доступности.<br>1 этаж Альфа и Бета - микромаркет ВкусВилл;<br> 5, 6, 7, 8, 9, 10 этажи Альфа – вэндинг со снэками.",
         contacts: "Для вендинга ОС - foodfeedback@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Вендинг",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -119,7 +119,7 @@ const allServices = [
         areaId: "b1f1-charity-shop",
         desc: "Пункт сбора ненужной одежды для переработки и вторичного использования",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Charity Shop",
         link: "https://jive.croc.ru/photos/4216",
         attributes: {
         }
@@ -133,7 +133,7 @@ const allServices = [
         areaId: "b1f1-eco-point",
         desc: "Точка сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br>Больше информации: https://jive.croc.ru/docs/DOC-239136",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=EcoPoint",
         link: "#",
         attributes: {
         }
@@ -161,7 +161,7 @@ const allServices = [
         areaId: "b1f1-air",
         desc: "В нашем офисе установлены приборы по анализу качества воздуха в офисе. Они позволяют нам контролировать состояние воздуха в помещениях, сравнивать его с параметрами воздуха на улице и оперативно принимать меры при наличии отклонений, чтобы сделать ваше пребывание в офисе еще более комфортным<br><br>Больше информации про ЭКО-офис: https://jive.croc.ru/docs/DOC-239136",
         contacts: "FieldService@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Станция мониторинга воздуха AirVisual",
         link: "https://jive.croc.ru/docs/DOC-287102",
         attributes: {
         }
@@ -176,6 +176,7 @@ const allServices = [
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
         img: "images/andreymashkin_ozWe94uAZMd9k.jpg\nimages/andreymashkin_6MZG26hp9mPvX.jpg\nimages/andreymashkin_zoqVAmHJ71gkb.jpg",
+        link: "#",
         attributes: {
             location: "212",
             capacity: 100
@@ -206,7 +207,7 @@ const allServices = [
         areaId: "b1f2-204",
         desc: "ВКС<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная 204",
         link: "#",
         attributes: {
             location: "204",
@@ -222,7 +223,7 @@ const allServices = [
         areaId: "b1f2-206",
         desc: "ВКС<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная 206",
         link: "#",
         attributes: {
             location: "206",
@@ -254,7 +255,7 @@ const allServices = [
         areaId: "b1f2-210",
         desc: "ВКС<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная 210",
         link: "#",
         attributes: {
             location: "210",
@@ -314,10 +315,10 @@ const allServices = [
         category: "relax",
         building: "B1",
         floor: 2,
-        areaId: "service_Летняя-веранда",
+        areaId: "b1f2-veranda",
         desc: "для встреч с коллегами или гостями в летний период работает открытая летня веранда",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Летняя веранда",
         link: "#",
         attributes: {
             hours: "с 8:30 до 21:30"
@@ -377,7 +378,7 @@ const allServices = [
         areaId: "b1f3-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -391,7 +392,7 @@ const allServices = [
         areaId: "b1f3-kicker",
         desc: "Зона для игр",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Кикер",
         link: "#",
         attributes: {
             location: "холл (оранжевый квадратик на карте )"
@@ -422,7 +423,7 @@ const allServices = [
         areaId: "b1f3-306",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.<br><br>ВКС",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "306",
@@ -469,7 +470,7 @@ const allServices = [
         areaId: "b1f3-razdevalka",
         desc: "Мужская/женская раздевалки <br>Шкафчики для ождежды <br>Фен <br>Душевые кабинки<br>Санузел",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Раздевалка и душевые (спортзал)",
         link: "#",
         attributes: {
             location: "318"
@@ -530,7 +531,7 @@ const allServices = [
         areaId: "b1f4-402b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 Б",
@@ -546,7 +547,7 @@ const allServices = [
         areaId: "b1f4-402g",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 Г",
@@ -562,7 +563,7 @@ const allServices = [
         areaId: "b1f4-402d",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 Д",
@@ -578,7 +579,7 @@ const allServices = [
         areaId: "b1f4-402e",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 Е",
@@ -594,7 +595,7 @@ const allServices = [
         areaId: "b1f4-402z",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 З",
@@ -610,7 +611,7 @@ const allServices = [
         areaId: "b1f4-402i",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 И",
@@ -626,7 +627,7 @@ const allServices = [
         areaId: "b1f4-402k",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 К",
@@ -642,7 +643,7 @@ const allServices = [
         areaId: "b1f4-402l",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
             location: "402 Л",
@@ -658,7 +659,7 @@ const allServices = [
         areaId: "b1f4-4b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "4Б",
@@ -718,7 +719,7 @@ const allServices = [
         areaId: "b1f5-504",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "504",
@@ -796,7 +797,7 @@ const allServices = [
         areaId: "b1f6-608",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "608",
@@ -813,7 +814,7 @@ const allServices = [
         areaId: "b1f6-6b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "6 Б",
@@ -829,7 +830,7 @@ const allServices = [
         areaId: "b1f6-606",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "606",
@@ -861,7 +862,7 @@ const allServices = [
         areaId: "b1f6-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -875,7 +876,7 @@ const allServices = [
         areaId: "b1f7-712",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "712",
@@ -907,7 +908,7 @@ const allServices = [
         areaId: "b1f7-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -953,7 +954,7 @@ const allServices = [
         areaId: "b1f8-810",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Учебный зал",
         link: "#",
         attributes: {
             location: "810",
@@ -1000,7 +1001,7 @@ const allServices = [
         areaId: "b1f9-9b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "9Б",
@@ -1031,7 +1032,7 @@ const allServices = [
         areaId: "b1f9-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1045,7 +1046,7 @@ const allServices = [
         areaId: "b1f10-1008",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1008",
@@ -1079,7 +1080,7 @@ const allServices = [
         areaId: "b1f10-10b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "10 Б",
@@ -1111,7 +1112,7 @@ const allServices = [
         areaId: "b1f10-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1203,7 +1204,7 @@ const allServices = [
         areaId: "b1f11-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1232,7 +1233,7 @@ const allServices = [
         areaId: "b2f1-intro",
         desc: "подробнее о парковке https://jive.croc.ru/community/knowledge/everyday/social/parkovka-krok",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Парковка",
         link: "#",
         attributes: {
         }
@@ -1267,15 +1268,15 @@ const allServices = [
     },
     {
         id: 1082,
-        name: "",
+        name: "Точки зарядки электромобилей",
         category: "service",
         building: "B2",
-        floor: 1,
+        floor: 4,
         areaId: "b2f4-electro",
-        desc: "",
+        desc: "Точка зарядки электромобиля",
         contacts: "",
-        img: "",
-        link: "#",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Точки зарядки электромобилей",
+        link: "Для того чтобы воспользоваться зарядным устройством, пожалуйста, заранее согласуйте время зарядки автомобиля в Telegram-чате. \nЭто поможет эффективнее распределить время использования зарядок между всеми заинтересованными.\n\nНадеемся, что поездки на работу станут более удобными и экологичными 🌱",
         attributes: {
         }
     },
@@ -1317,7 +1318,7 @@ const allServices = [
         areaId: "b3f1-vending",
         desc: "Быстрый перекус или полноценный обед в «шаговой» доступности.<br>1 этаж",
         contacts: "Для вендинга ОС - foodfeedback@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Вендинг",
         link: "#",
         attributes: {
             hours: "Круглосуточно"
@@ -1378,7 +1379,7 @@ const allServices = [
         areaId: "b3f2-201",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Конференц-зал",
         link: "#",
         attributes: {
             location: "201",
@@ -1409,7 +1410,7 @@ const allServices = [
         areaId: "service_Летняя-веранда",
         desc: "для встреч с коллегами или гостями в летний период работает открытая летня веранда",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Летняя веранда",
         link: "#",
         attributes: {
             hours: "с 8:30 до 21:30"
@@ -1424,7 +1425,7 @@ const allServices = [
         areaId: "b3f2-atm",
         desc: "Банкомат: Сбербанк, работает на внесение и снятие наличных денежных средств",
         contacts: "",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Банкомат",
         link: "#",
         attributes: {
         }
@@ -1438,7 +1439,7 @@ const allServices = [
         areaId: "b3f3-311",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "311",
@@ -1455,7 +1456,7 @@ const allServices = [
         areaId: "b3f3-315",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "315",
@@ -1472,7 +1473,7 @@ const allServices = [
         areaId: "b3f3-317",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "317",
@@ -1504,7 +1505,7 @@ const allServices = [
         areaId: "b3f3-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1534,7 +1535,7 @@ const allServices = [
         areaId: "b3f4-417",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "417",
@@ -1566,7 +1567,7 @@ const allServices = [
         areaId: "b3f4-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1580,7 +1581,7 @@ const allServices = [
         areaId: "b3f5-512",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "512",
@@ -1597,7 +1598,7 @@ const allServices = [
         areaId: "b3f5-511",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "нет номера",
@@ -1628,7 +1629,7 @@ const allServices = [
         areaId: "b3f6-611",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "611",
@@ -1644,7 +1645,7 @@ const allServices = [
         areaId: "b3f6-615",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "615",
@@ -1675,7 +1676,7 @@ const allServices = [
         areaId: "b3f7-701",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "701",
@@ -1691,7 +1692,7 @@ const allServices = [
         areaId: "b3f7-715",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "715",
@@ -1704,10 +1705,10 @@ const allServices = [
         category: "meeting",
         building: "B3",
         floor: 7,
-        areaId: "b3f7-775",
+        areaId: "b3f7-717",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "717",
@@ -1753,7 +1754,7 @@ const allServices = [
         areaId: "b3f9-915",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "915",
@@ -1769,7 +1770,7 @@ const allServices = [
         areaId: "b3f9-917",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "917",
@@ -1786,7 +1787,7 @@ const allServices = [
         areaId: "b3f9-925",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "925",
@@ -1817,7 +1818,7 @@ const allServices = [
         areaId: "b3f9-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1847,7 +1848,7 @@ const allServices = [
         areaId: "b3f10-1013",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1013",
@@ -1863,7 +1864,7 @@ const allServices = [
         areaId: "b3f10-1015",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1015",
@@ -1879,7 +1880,7 @@ const allServices = [
         areaId: "b3f10-1022",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1022",
@@ -1895,7 +1896,7 @@ const allServices = [
         areaId: "b3f10-1024",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1024",
@@ -1956,7 +1957,7 @@ const allServices = [
         areaId: "b3f11-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "WorkCare@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1970,7 +1971,7 @@ const allServices = [
         areaId: "b3f11-1111",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1111",
@@ -1987,7 +1988,7 @@ const allServices = [
         areaId: "b3f11-1113",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1113",
@@ -2003,7 +2004,7 @@ const allServices = [
         areaId: "b3f11-1117",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
             location: "1117",
