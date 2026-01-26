@@ -33,6 +33,7 @@ from datetime import datetime
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
+from urllib.parse import urlparse
 
 # Маппинг корпусов
 BUILDING_MAP = {
@@ -69,6 +70,125 @@ def normalize_name(name):
     # Убираем спецсимволы, оставляем только буквы, цифры, дефисы
     name = ''.join(c if c.isalnum() or c == '-' else '' for c in name)
     return name.strip()
+
+def convert_urls_to_links(text):
+    """Преобразование URL и email в HTML ссылки (build-time обработка)"""
+    if not text:
+        return text
+    
+    # Временные маркеры для защиты уже обработанных ссылок
+    placeholders = {}
+    placeholder_index = [0]  # Используем список для изменения в замыкании
+    
+    def get_placeholder():
+        idx = placeholder_index[0]
+        placeholder_index[0] += 1
+        return f'__LINK_PLACEHOLDER_{idx}__'
+    
+    # 0. Обрабатываем email адреса (mailto: ссылки)
+    email_pattern = re.compile(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,})')
+    def replace_email(match):
+        email = match.group(0)
+        if '<a ' in text[:match.start()] or '</a>' in text[:match.start()]:
+            return email
+        placeholder = get_placeholder()
+        placeholders[placeholder] = f'<a href="mailto:{email}">{email}</a>'
+        return placeholder
+    
+    text = email_pattern.sub(replace_email, text)
+    
+    # 1. Обрабатываем markdown-подобный синтаксис [текст](url)
+    markdown_pattern = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+    def replace_markdown(match):
+        link_text = match.group(1)
+        url = match.group(2)
+        placeholder = get_placeholder()
+        placeholders[placeholder] = f'<a href="{url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
+        return placeholder
+    
+    text = markdown_pattern.sub(replace_markdown, text)
+    
+    # 2. Обрабатываем URL с контекстом (текст перед URL)
+    # Ищем паттерны типа "текст: url" или "текст (url)"
+    context_url_pattern = re.compile(
+        r'([А-Яа-яЁёA-Za-z0-9\s\-]+?)[:\s]+\(?(https?://[^\s<>"{}|\\^`\[\]()]+)\)?',
+        re.IGNORECASE
+    )
+    processed_urls = set()
+    
+    def replace_context_url(match):
+        prefix = match.group(1)
+        url = match.group(2)
+        
+        # Пропускаем, если это уже обработанная ссылка
+        if '<a ' in text[:match.start()] or '</a>' in text[:match.start()]:
+            return match.group(0)
+        
+        processed_urls.add(url)
+        
+        # Очищаем префикс
+        clean_prefix = prefix.strip().rstrip(':').strip()
+        
+        # Для текста ссылки всегда используем короткий вариант, чтобы не дублировать префикс
+        # Общие фразы, которые не должны дублироваться
+        common_phrases = ['больше информации', 'подробнее', 'ссылка']
+        
+        # Проверяем, является ли префикс общей фразой (начинается с общей фразы)
+        clean_lower = clean_prefix.lower()
+        is_common_phrase = any(clean_lower.startswith(phrase) or phrase in clean_lower for phrase in common_phrases)
+        
+        if is_common_phrase or len(clean_prefix) > 30 or not clean_prefix:
+            # Используем домен или "Подробнее"
+            try:
+                parsed = urlparse(url)
+                link_text = parsed.netloc.replace('www.', '')
+                if len(link_text) > 30:
+                    link_text = 'Подробнее'
+            except:
+                link_text = 'Подробнее'
+        else:
+            # Используем префикс, если он короткий и информативный
+            link_text = clean_prefix
+        
+        placeholder = get_placeholder()
+        placeholders[placeholder] = f'{clean_prefix}: <a href="{url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
+        return placeholder
+    
+    text = context_url_pattern.sub(replace_context_url, text)
+    
+    # 3. Обрабатываем оставшиеся обычные URL (без контекста)
+    url_pattern = re.compile(r'(https?://[^\s<>"{}|\\^`\[\]()]+)', re.IGNORECASE)
+    
+    def replace_url(match):
+        url = match.group(0)
+        
+        # Пропускаем, если это уже обработанная ссылка
+        if '<a ' in text[:match.start()] or '</a>' in text[:match.start()]:
+            return url
+        
+        # Пропускаем URL, которые уже были обработаны на шаге 2
+        if url in processed_urls:
+            return url
+        
+        # Создаем короткий текст из домена
+        try:
+            parsed = urlparse(url)
+            domain = parsed.netloc.replace('www.', '')
+            short_text = domain if len(domain) <= 30 else 'Ссылка'
+        except:
+            short_text = 'Ссылка'
+        
+        placeholder = get_placeholder()
+        placeholders[placeholder] = f'<a href="{url}" target="_blank" rel="noopener noreferrer">{short_text}</a>'
+        return placeholder
+    
+    text = url_pattern.sub(replace_url, text)
+    
+    # 4. Заменяем все плейсхолдеры обратно на ссылки
+    for placeholder, link in placeholders.items():
+        text = text.replace(placeholder, link)
+    
+    return text
 
 def parse_capacity_and_equipment(comment):
     """Извлекает вместимость и оборудование из комментария"""
@@ -218,8 +338,12 @@ def csv_row_to_service(row, index):
     # Это делается на этапе генерации, а не в рантайме
     if description:
         description = description.replace('\r\n', '<br>').replace('\r', '<br>').replace('\n', '<br>')
+        # Обработка ссылок и email в build-time
+        description = convert_urls_to_links(description)
     if contacts:
         contacts = contacts.replace('\r\n', '<br>').replace('\r', '<br>').replace('\n', '<br>')
+        # Обработка ссылок и email в build-time
+        contacts = convert_urls_to_links(contacts)
     link = row.get('Ссылка', '').strip() or '#'
     hours = row.get('Время работы (где нужно)', '').strip()
     photo = row.get('Фото', '').strip()

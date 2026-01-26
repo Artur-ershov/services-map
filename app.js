@@ -209,15 +209,15 @@
 
     function showPopup(service) {
         popupTitle.textContent = service.name;
-        // Описания и контакты уже обработаны на этапе генерации (переносы строк заменены на <br>)
-        // Преобразуем URL в тексте в кликабельные ссылки
+        // Описания и контакты уже обработаны на этапе генерации (переносы строк заменены на <br>, ссылки преобразованы)
+        // В build-time уже обработаны ссылки, поэтому просто вставляем HTML
         if (service.desc) {
-            popupDesc.innerHTML = convertUrlsToLinks(service.desc);
+            popupDesc.innerHTML = service.desc;
         } else {
             popupDesc.textContent = '';
         }
         if (service.contacts) {
-            popupContacts.innerHTML = convertUrlsToLinks(service.contacts);
+            popupContacts.innerHTML = service.contacts;
         } else {
             popupContacts.textContent = '';
         }
@@ -289,9 +289,14 @@
         
         // 2. Обрабатываем URL с контекстом (текст перед URL)
         // Ищем паттерны типа "текст: url" или "текст (url)" или "текст: (url)"
+        // ВАЖНО: заменяем весь паттерн на placeholder, чтобы URL не обрабатывался снова на шаге 3
+        const processedUrls = new Set(); // Отслеживаем обработанные URL, чтобы не обрабатывать их дважды
         text = text.replace(/([А-Яа-яЁёA-Za-z0-9\s\-]+?)[:\s]+\(?(https?:\/\/[^\s<>"{}|\\^`\[\]()]+)\)?/gi, (match, prefix, url) => {
             // Пропускаем, если это уже обработанная ссылка
-            if (match.includes('__LINK_PLACEHOLDER')) return match;
+            if (match.includes('__LINK_PLACEHOLDER') || match.includes('<a ') || match.includes('</a>')) return match;
+            
+            // Помечаем URL как обработанный
+            processedUrls.add(url);
             
             // Очищаем префикс от лишних пробелов и знаков препинания
             const cleanPrefix = prefix.trim().replace(/[:\s]+$/, '').trim();
@@ -307,6 +312,7 @@
                 }
             }
             
+            // Создаем placeholder для всего паттерна (префикс + URL)
             const placeholder = `__LINK_PLACEHOLDER_${placeholderIndex}__`;
             placeholders.set(placeholder, `${cleanPrefix}: <a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`);
             placeholderIndex++;
@@ -314,10 +320,16 @@
         });
         
         // 3. Обрабатываем оставшиеся обычные URL (без контекста)
+        // ВАЖНО: обрабатываем только те URL, которые еще не были обработаны на предыдущих этапах
+        // На этом этапе text уже содержит плейсхолдеры вместо обработанных URL с контекстом,
+        // поэтому обычные URL можно безопасно обработать
         const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`\[\]()]+)/gi;
         text = text.replace(urlRegex, (url) => {
-            // Пропускаем, если это уже обработанная ссылка
+            // Пропускаем, если это уже обработанная ссылка (в плейсхолдере)
             if (url.includes('__LINK_PLACEHOLDER')) return url;
+            
+            // Пропускаем URL, которые уже были обработаны на шаге 2 (с контекстом)
+            if (processedUrls.has(url)) return url;
             
             // Создаем короткий текст из домена
             try {

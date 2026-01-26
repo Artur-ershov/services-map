@@ -1,6 +1,6 @@
 // --- ДАННЫЕ СЕРВИСОВ, ЭТАЖЕЙ И КОМНАТ ---
 // Автоматически сгенерировано из CSV таблицы
-// Дата генерации: 2026-01-26 12:41:55
+// Дата генерации: 2026-01-26 13:21:55
 
 const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
 
@@ -12,7 +12,7 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-enter",
-        desc: "для удобства ваших гостей организована зона ожидания https://andreymashkin.ru/disk/share/Y76a8zsnZ8qv6",
+        desc: "для удобства ваших гостей организована зона ожидания: <a href=\"https://andreymashkin.ru/disk/share/Y76a8zsnZ8qv6\" target=\"_blank\" rel=\"noopener noreferrer\">andreymashkin.ru</a>",
         contacts: "",
         img: "images/andreymashkin_7KAD3WueOqq86.jpg",
         link: "#",
@@ -26,8 +26,8 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-letter",
-        desc: "Приём и выдача корреспонденции<br><br>Дополнителньо смотри информацию про Почтовые отправления и курьерскую доставку (https://jive.croc.ru/community/knowledge/everyday/social/pochtovye-otpravleniya-i-kurerskaya-dostavka)",
-        contacts: "тел. #4940<br>Otdel_pisem@croc.ru",
+        desc: "Приём и выдача корреспонденции<br><br>Дополнителньо смотри информацию про Почтовые отправления и курьерскую доставку: <a href=\"https://jive.croc.ru/community/knowledge/everyday/social/pochtovye-otpravleniya-i-kurerskaya-dostavka\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
+        contacts: "тел. #4940<br><a href=\"mailto:Otdel_pisem@croc.ru\">Otdel_pisem@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Отдел писем",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/sekretariat#post",
         attributes: {
@@ -73,7 +73,7 @@ const allServices = [
         floor: 1,
         areaId: "b1f1-vending",
         desc: "Быстрый перекус или полноценный обед в «шаговой» доступности.<br>1 этаж Альфа и Бета - микромаркет ВкусВилл;<br> 5, 6, 7, 8, 9, 10 этажи Альфа – вэндинг со снэками.",
-        contacts: "Для вендинга ОС - foodfeedback@croc.ru",
+        contacts: "Для вендинга ОС - <a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Вендинг",
         link: "#",
         attributes: {
@@ -88,7 +88,7 @@ const allServices = [
         floor: 1,
         areaId: "b1f1-garderob",
         desc: "Гардероб предназначен для хранения верхней одежды, а также обуви в пакетах.<br>В гардеробе альфа расположены Локеры, которые предназначены для хранения пакетов, зонтов и других личных вещей небольшого размера.<br><br>Для удобства все ячейки пронумерованы.<br><br>Информационно: <br>Для поддержания чистоты и комфортности использования просим не оставлять в ячейках еду и напитки.<br><br>Хранение личных вещей предполагается только в течение одного рабочего дня, запирать локер на более длительный период и уносить ключ домой запрещено.",
-        contacts: "Альфа - VOnufreichik@croc.ru<br>Бета - AntKalinin@croc.ru",
+        contacts: "Альфа - <a href=\"mailto:VOnufreichik@croc.ru\">VOnufreichik@croc.ru</a><br>Бета - <a href=\"mailto:AntKalinin@croc.ru\">AntKalinin@croc.ru</a>",
         img: "images/andreymashkin_XRYPVXsx76v3P.jpg",
         link: "#",
         attributes: {
@@ -103,7 +103,7 @@ const allServices = [
         floor: 1,
         areaId: "b1f1-elevator-1",
         desc: "При застревании в лифте соблюдайте спокойствие и действуйте согласно инструкции, расположенной на панели управления в каждом лифте.<br><br>При неисправности лифта следует:<br>нажать колокольчик и описать<br>ситуацию диспетчеру<br>ЛИБО<br>позвонить 8 (495) 974-22-74<br>доб 83-02, 83-03, круглосуточно<br>ЛИБО<br>позвонить дежурному лифтеру<br>ООО «ЛифтКомплекс» 8 (495) 974-22-74<br>доб 83-01.",
-        contacts: "FieldService@croc.ru",
+        contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "images/andreymashkin_y0rVxlSZKk8Xo.jpg",
         link: "#",
         attributes: {
@@ -118,7 +118,7 @@ const allServices = [
         floor: 1,
         areaId: "b1f1-charity-shop",
         desc: "Пункт сбора ненужной одежды для переработки и вторичного использования",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Charity Shop",
         link: "https://jive.croc.ru/photos/4216",
         attributes: {
@@ -131,8 +131,8 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-eco-point",
-        desc: "Точка сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br>Больше информации: https://jive.croc.ru/docs/DOC-239136",
-        contacts: "WorkCare@croc.ru",
+        desc: "Точка сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br>Больше информации: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=EcoPoint",
         link: "#",
         attributes: {
@@ -145,8 +145,8 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-batteries",
-        desc: "Точка утилизации батареек<br><br>Больше информации: https://jive.croc.ru/docs/DOC-239136",
-        contacts: "WorkCare@croc.ru",
+        desc: "Точка утилизации батареек<br><br>Больше информации: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "images/battery.jpg",
         link: "#",
         attributes: {
@@ -159,8 +159,8 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-air",
-        desc: "В нашем офисе установлены приборы по анализу качества воздуха в офисе. Они позволяют нам контролировать состояние воздуха в помещениях, сравнивать его с параметрами воздуха на улице и оперативно принимать меры при наличии отклонений, чтобы сделать ваше пребывание в офисе еще более комфортным<br><br>Больше информации про ЭКО-офис: https://jive.croc.ru/docs/DOC-239136",
-        contacts: "FieldService@croc.ru",
+        desc: "В нашем офисе установлены приборы по анализу качества воздуха в офисе. Они позволяют нам контролировать состояние воздуха в помещениях, сравнивать его с параметрами воздуха на улице и оперативно принимать меры при наличии отклонений, чтобы сделать ваше пребывание в офисе еще более комфортным<br><br>Больше информации про ЭКО-офис: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
+        contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Станция мониторинга воздуха AirVisual",
         link: "https://jive.croc.ru/docs/DOC-287102",
         attributes: {
@@ -174,7 +174,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-212",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_ozWe94uAZMd9k.jpg\nimages/andreymashkin_6MZG26hp9mPvX.jpg\nimages/andreymashkin_zoqVAmHJ71gkb.jpg",
         link: "#",
         attributes: {
@@ -190,7 +190,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-214",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_gWGdybS0yPd3q.jpg",
         link: "#",
         attributes: {
@@ -206,7 +206,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-204",
         desc: "ВКС<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная 204",
         link: "#",
         attributes: {
@@ -222,7 +222,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-206",
         desc: "ВКС<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная 206",
         link: "#",
         attributes: {
@@ -238,7 +238,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-208",
         desc: "ВСК, флипчарт<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "",
         link: "#",
         attributes: {
@@ -254,7 +254,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-210",
         desc: "ВКС<br>Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная 210",
         link: "#",
         attributes: {
@@ -270,7 +270,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-202",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "",
         link: "#",
         attributes: {
@@ -286,7 +286,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-2b",
         desc: "ВКС<br>Бронируй через календарь в Outlook",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "",
         link: "#",
         attributes: {
@@ -302,7 +302,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>2 мягкие зоны",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_kmDWabUzP83Q2.jpg\nimages/andreymashkin_G09JoeSx16y3M.jpg\nimages/andreymashkin_22gG7MuDggp6G.jpg\nimages/andreymashkin_b8AVKqhX9ekd6.jpg\nimages/andreymashkin_4KvpGYu59b10O.jpg",
         link: "https://zabota.croc.ru/stolovaya",
         attributes: {
@@ -361,7 +361,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-201",
         desc: "Пространство для еды и встреч с выходом на летнюю веранду.<br>Можно заказать блюда к определенному времени по телефону #8368<br><br>Доступна оплата части стоимости заказа картой-пропуском, а также проверка остатка баланса на карте.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_ngye5OCvyJM07.jpg",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/lunch",
         attributes: {
@@ -377,7 +377,7 @@ const allServices = [
         floor: 3,
         areaId: "b1f3-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -406,7 +406,7 @@ const allServices = [
         floor: 3,
         areaId: "b1f3-3b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_JZeVJvuWxJvn0.jpg",
         link: "#",
         attributes: {
@@ -422,7 +422,7 @@ const allServices = [
         floor: 3,
         areaId: "b1f3-306",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.<br><br>ВКС",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -438,7 +438,7 @@ const allServices = [
         floor: 3,
         areaId: "b1f3-rest",
         desc: "Уютное пространство для отдыха, разделённое на несколько зон:<br>     ·Игровая — с плазмой и мультимедийным оборудованием;<br>     ·Мягкая — с акустической стеной и диваном-трансформером<br>     ·Дзен — с массажными креслами и расслабляющей подсветкой под настроение.<br>Бронируй пространство<br>      через календарь в Outlook",
-        contacts: "FieldService@croc.ru",
+        contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "images/andreymashkin_WOMWqau3KqPo9.jpg\nimages/andreymashkin_JZeVJvuWxJ70x.jpg",
         link: "#",
         attributes: {
@@ -453,7 +453,7 @@ const allServices = [
         building: "B1",
         floor: 3,
         areaId: "b1f3-gym",
-        desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы <br><br>Подробнее о спортзале: https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym",
+        desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы <br><br>Подробнее о спортзале: <a href=\"https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
         contacts: "",
         img: "images/andreymashkin_WOMWqau3Kq5xn.jpg\nimages/andreymashkin_D4WEXGSnYXpQY.jpg\nimages/andreymashkin_RrOMAYu0qAe0q.jpg\nimages/andreymashkin_8nbGEPsG6VRdv.jpg",
         link: "https://zabota.croc.ru/sportzal",
@@ -530,7 +530,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -546,7 +546,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402g",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -562,7 +562,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402d",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -578,7 +578,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402e",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -594,7 +594,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402z",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -610,7 +610,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402i",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -626,7 +626,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402k",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -642,7 +642,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-402l",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_b8AVKqhX9enzq.jpg",
         link: "#",
         attributes: {
@@ -658,7 +658,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-4b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -674,7 +674,7 @@ const allServices = [
         floor: 4,
         areaId: "b1f4-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -718,7 +718,7 @@ const allServices = [
         floor: 5,
         areaId: "b1f5-504",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -735,7 +735,7 @@ const allServices = [
         floor: 5,
         areaId: "b1f5-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -780,7 +780,7 @@ const allServices = [
         floor: 6,
         areaId: "b1f6-603",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "",
         link: "#",
         attributes: {
@@ -796,7 +796,7 @@ const allServices = [
         floor: 6,
         areaId: "b1f6-608",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -813,7 +813,7 @@ const allServices = [
         floor: 6,
         areaId: "b1f6-6b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -829,7 +829,7 @@ const allServices = [
         floor: 6,
         areaId: "b1f6-606",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -846,7 +846,7 @@ const allServices = [
         floor: 6,
         areaId: "b1f6-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -861,7 +861,7 @@ const allServices = [
         floor: 6,
         areaId: "b1f6-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -875,7 +875,7 @@ const allServices = [
         floor: 7,
         areaId: "b1f7-712",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -892,7 +892,7 @@ const allServices = [
         floor: 7,
         areaId: "b1f7-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -907,7 +907,7 @@ const allServices = [
         floor: 7,
         areaId: "b1f7-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -921,7 +921,7 @@ const allServices = [
         floor: 8,
         areaId: "b1f8-803",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "",
         link: "#",
         attributes: {
@@ -937,7 +937,7 @@ const allServices = [
         floor: 8,
         areaId: "b1f8-808",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "",
         link: "#",
         attributes: {
@@ -969,7 +969,7 @@ const allServices = [
         floor: 8,
         areaId: "b1f8-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -984,7 +984,7 @@ const allServices = [
         floor: 9,
         areaId: "b1f9-903",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_5nkGOys6QrGxV.jpg",
         link: "#",
         attributes: {
@@ -1000,7 +1000,7 @@ const allServices = [
         floor: 9,
         areaId: "b1f9-9b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1016,7 +1016,7 @@ const allServices = [
         floor: 9,
         areaId: "b1f9-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1031,7 +1031,7 @@ const allServices = [
         floor: 9,
         areaId: "b1f9-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1045,7 +1045,7 @@ const allServices = [
         floor: 10,
         areaId: "b1f10-1008",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1062,7 +1062,7 @@ const allServices = [
         floor: 10,
         areaId: "b1f10-1010",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_WOMWqau3KqPam.jpg",
         link: "#",
         attributes: {
@@ -1079,7 +1079,7 @@ const allServices = [
         floor: 10,
         areaId: "b1f10-10b",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1096,7 +1096,7 @@ const allServices = [
         floor: 10,
         areaId: "b1f10-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1111,7 +1111,7 @@ const allServices = [
         floor: 10,
         areaId: "b1f10-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1124,8 +1124,8 @@ const allServices = [
         building: "B1",
         floor: 10,
         areaId: "service_Утилизация-батареек",
-        desc: "Точка утилизации батареек<br><br>Больше информации: https://jive.croc.ru/docs/DOC-239136",
-        contacts: "WorkCare@croc.ru",
+        desc: "Точка утилизации батареек<br><br>Больше информации: <a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "images/battery.jpg",
         link: "#",
         attributes: {
@@ -1154,7 +1154,7 @@ const allServices = [
         floor: 11,
         areaId: "b1f11-1102",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_JZeVJvuWxJvvY.jpg\nimages/andreymashkin_VOK6mPu3ymDz8.jpg",
         link: "#",
         attributes: {
@@ -1171,7 +1171,7 @@ const allServices = [
         floor: 11,
         areaId: "b1f11-1104",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_ppa4glhpXoaPx.jpg",
         link: "#",
         attributes: {
@@ -1188,7 +1188,7 @@ const allServices = [
         floor: 11,
         areaId: "b1f11-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1203,7 +1203,7 @@ const allServices = [
         floor: 11,
         areaId: "b1f11-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1231,7 +1231,7 @@ const allServices = [
         building: "B2",
         floor: 1,
         areaId: "b2f1-intro",
-        desc: "подробнее о парковке https://jive.croc.ru/community/knowledge/everyday/social/parkovka-krok",
+        desc: "подробнее о парковке: <a href=\"https://jive.croc.ru/community/knowledge/everyday/social/parkovka-krok\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
         contacts: "",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Парковка",
         link: "#",
@@ -1287,7 +1287,7 @@ const allServices = [
         building: "B3",
         floor: 1,
         areaId: "b3f1-enter",
-        desc: "ЗАО «КРОК инкорпорейтед»<br>https://www.croc.ru<br>для удобства ваших гостей оргнаизована зона ожидания <br><br>Возможность прохода в офис без использования пластиковой карты-пропуска, а через идентификацию с передачей номера карты по NFC/BLE смартфона.<br>https://jive.croc.ru/community/knowledge/everyday/social/proxod-v-ofis-s-pomoshhyu-telefona",
+        desc: "ЗАО «КРОК инкорпорейтед»<br><a href=\"https://www.croc.ru\" target=\"_blank\" rel=\"noopener noreferrer\">croc.ru</a><br>для удобства ваших гостей оргнаизована зона ожидания <br><br>Возможность прохода в офис без использования пластиковой карты-пропуска, а через идентификацию с передачей номера карты по NFC/BLE смартфона.<br><a href=\"https://jive.croc.ru/community/knowledge/everyday/social/proxod-v-ofis-s-pomoshhyu-telefona\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
         contacts: "",
         img: "images/andreymashkin_WOMWqau3Kqr4z.jpg",
         link: "#",
@@ -1317,7 +1317,7 @@ const allServices = [
         floor: 1,
         areaId: "b3f1-vending",
         desc: "Быстрый перекус или полноценный обед в «шаговой» доступности.<br>1 этаж",
-        contacts: "Для вендинга ОС - foodfeedback@croc.ru",
+        contacts: "Для вендинга ОС - <a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Вендинг",
         link: "#",
         attributes: {
@@ -1332,7 +1332,7 @@ const allServices = [
         floor: 1,
         areaId: "b3f1-g",
         desc: "Гардероб предназначен для хранения верхней одежды, а также обуви в пакетах",
-        contacts: "FieldService@croc.ru",
+        contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "images/andreymashkin_VOK6mPu3ymbW1.jpg",
         link: "#",
         attributes: {
@@ -1347,7 +1347,7 @@ const allServices = [
         floor: 1,
         areaId: "b3f1-elevator",
         desc: "При застревании в лифте соблюдайте спокойствие и действуйте согласно инструкции, расположенной на панели управления в каждом лифте.<br><br>При неисправности лифта следует:<br>нажать колокольчик и описать<br>ситуацию диспетчеру<br>ЛИБО<br>позвонить 8 (495) 974-22-74<br>доб 83-02, 83-03, круглосуточно<br>ЛИБО<br>позвонить дежурному лифтеру<br>ООО «ЛифтКомплекс» 8 (495) 974-22-74<br>доб 83-01.",
-        contacts: "FieldService@croc.ru",
+        contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "images/andreymashkin_y0rVxlSZKk8Xo.jpg",
         link: "#",
         attributes: {
@@ -1362,7 +1362,7 @@ const allServices = [
         floor: 2,
         areaId: "b3f2-203",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_zoqVAmHJ711q7.jpg",
         link: "#",
         attributes: {
@@ -1378,7 +1378,7 @@ const allServices = [
         floor: 2,
         areaId: "b3f2-201",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Конференц-зал",
         link: "#",
         attributes: {
@@ -1394,7 +1394,7 @@ const allServices = [
         floor: 2,
         areaId: "b3f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>Мягкая зона <br>Летняя веранда",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_WOMWqau3KqrbO.jpg\nimages/andreymashkin_02XRVKuegZYPW.jpg\nimages/andreymashkin_7KAD3WueOqbX1.jpg\nimages/andreymashkin_XRYPVXsKyVvXR.jpg",
         link: "https://zabota.croc.ru/stolovaya",
         attributes: {
@@ -1438,7 +1438,7 @@ const allServices = [
         floor: 3,
         areaId: "b3f3-311",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1455,7 +1455,7 @@ const allServices = [
         floor: 3,
         areaId: "b3f3-315",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1472,7 +1472,7 @@ const allServices = [
         floor: 3,
         areaId: "b3f3-317",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1489,7 +1489,7 @@ const allServices = [
         floor: 3,
         areaId: "b3f3-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1504,7 +1504,7 @@ const allServices = [
         floor: 3,
         areaId: "b3f3-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1518,7 +1518,7 @@ const allServices = [
         floor: 4,
         areaId: "b3f4-doctor",
         desc: "Прием проводит врач общей практики Дрюкова Анна Викторовна",
-        contacts: "ndemidova@croc.ru",
+        contacts: "<a href=\"mailto:ndemidova@croc.ru\">ndemidova@croc.ru</a>",
         img: "images/andreymashkin_4KvpGYu59bbgz.jpg\nimages/andreymashkin_OZqQBnu56BBgn.jpg",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C-%D0%BD%D0%B0-%D0%BF%D1%80%D0%B8%D0%B5%D0%BC-%D0%BA-%D0%B2%D1%80%D0%B0%D1%87%D1%83",
         attributes: {
@@ -1534,7 +1534,7 @@ const allServices = [
         floor: 4,
         areaId: "b3f4-417",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1551,7 +1551,7 @@ const allServices = [
         floor: 4,
         areaId: "b3f4-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1566,7 +1566,7 @@ const allServices = [
         floor: 4,
         areaId: "b3f4-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1580,7 +1580,7 @@ const allServices = [
         floor: 5,
         areaId: "b3f5-512",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1597,7 +1597,7 @@ const allServices = [
         floor: 5,
         areaId: "b3f5-511",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1613,7 +1613,7 @@ const allServices = [
         floor: 5,
         areaId: "b3f5-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1628,7 +1628,7 @@ const allServices = [
         floor: 6,
         areaId: "b3f6-611",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1644,7 +1644,7 @@ const allServices = [
         floor: 6,
         areaId: "b3f6-615",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1660,7 +1660,7 @@ const allServices = [
         floor: 6,
         areaId: "b3f6-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1675,7 +1675,7 @@ const allServices = [
         floor: 7,
         areaId: "b3f7-701",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1691,7 +1691,7 @@ const allServices = [
         floor: 7,
         areaId: "b3f7-715",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1707,7 +1707,7 @@ const allServices = [
         floor: 7,
         areaId: "b3f7-717",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1723,7 +1723,7 @@ const allServices = [
         floor: 7,
         areaId: "b3f7-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1738,7 +1738,7 @@ const allServices = [
         floor: 8,
         areaId: "b3f8-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1753,7 +1753,7 @@ const allServices = [
         floor: 9,
         areaId: "b3f9-915",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1769,7 +1769,7 @@ const allServices = [
         floor: 9,
         areaId: "b3f9-917",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1786,7 +1786,7 @@ const allServices = [
         floor: 9,
         areaId: "b3f9-925",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1802,7 +1802,7 @@ const allServices = [
         floor: 9,
         areaId: "b3f9-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1817,7 +1817,7 @@ const allServices = [
         floor: 9,
         areaId: "b3f9-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1831,7 +1831,7 @@ const allServices = [
         floor: 10,
         areaId: "b3f10-1007",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "images/andreymashkin_AXnVWvs5BWW2G.jpg\nimages/andreymashkin_rg9eJlCk1ddvE.jpg\nimages/andreymashkin_Mnl0eZsX8eeWP.jpg\nimages/andreymashkin_KzBrRvuP9RR09.jpg\nimages/andreymashkin_D4WEXGSnYXXrW.jpg",
         link: "#",
         attributes: {
@@ -1847,7 +1847,7 @@ const allServices = [
         floor: 10,
         areaId: "b3f10-1013",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1863,7 +1863,7 @@ const allServices = [
         floor: 10,
         areaId: "b3f10-1015",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1879,7 +1879,7 @@ const allServices = [
         floor: 10,
         areaId: "b3f10-1022",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1895,7 +1895,7 @@ const allServices = [
         floor: 10,
         areaId: "b3f10-1024",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1911,7 +1911,7 @@ const allServices = [
         floor: 10,
         areaId: "b3f10-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1925,7 +1925,7 @@ const allServices = [
         building: "B3",
         floor: 11,
         areaId: "b3f11-r",
-        desc: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
+        desc: "Подробнее: <a href=\"https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview\" target=\"_blank\" rel=\"noopener noreferrer\">jive.croc.ru</a>",
         contacts: "",
         img: "images/andreymashkin_qvzb04hoVQQzD.jpg",
         link: "Подробнее https://jive.croc.ru/community/knowledge/everyday/social/sekretariat/overview",
@@ -1941,7 +1941,7 @@ const allServices = [
         floor: 11,
         areaId: "b3f11-k",
         desc: "Уютные локации для быстрых встреч и перекусов на всех этажах корпусов Альфа и Бета.<br><br>Каждая мини-кухня оборудована кофемашиной, системой фильтрации питьевой воды и холодильником для хранения еды.<br><br>Следить за порядком на мини-кухнях помогают кофе-леди. Если неожиданно закончилось молоко, чай/кофе или нужна помощь с бытовой техникой – напиши об этом или позвони по номеру +7(926)041-47-51.<br><br>Твой запрос передадут ответственному за данную локацию и решат в кратчайшие сроки.",
-        contacts: "foodfeedback@croc.ru",
+        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
         img: "images/andreymashkin_RrOMAYu0qAMGx.jpg\nimages/andreymashkin_y0rVxlSZKk8o6.jpg",
         link: "#",
         attributes: {
@@ -1956,7 +1956,7 @@ const allServices = [
         floor: 11,
         areaId: "b3f11-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
-        contacts: "WorkCare@croc.ru",
+        contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
@@ -1970,7 +1970,7 @@ const allServices = [
         floor: 11,
         areaId: "b3f11-1111",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -1987,7 +1987,7 @@ const allServices = [
         floor: 11,
         areaId: "b3f11-1113",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
@@ -2003,7 +2003,7 @@ const allServices = [
         floor: 11,
         areaId: "b3f11-1117",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot.",
-        contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
+        contacts: "Во вопросам оборудования: <a href=\"mailto:HelpDesk@croc.ru\">HelpDesk@croc.ru</a><br><br>По вопросам организации встреч и канцелярии : <a href=\"mailto:Receptions_Group@croc.ru\">Receptions_Group@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Переговорная",
         link: "#",
         attributes: {
