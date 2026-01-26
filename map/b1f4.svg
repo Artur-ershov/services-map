@@ -23,87 +23,76 @@
 <text id="402&#208;&#177;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="133.007" y="90.6556">402&#x431;</tspan></text>
 </g>
 </g>
-<g id="b1f4-402v">
-<g id="map-otl_3">
-<path d="M136.491 71.8877L114.427 89.6639L112.565 87.3372L107.129 80.548L92.2521 61.9677C91.8981 61.5256 91.9816 60.878 92.4361 60.5401L112.184 45.8605C112.635 45.5251 113.274 45.6275 113.598 46.0871L118.288 52.7441C118.612 53.2036 119.25 53.3061 119.702 52.9708L145.228 34.0088L160.623 52.4449L136.491 71.8877Z" fill="#33D18F" fill-opacity="0.2"/>
-<path d="M145.395 33.8843L145.228 34.0088M114.427 89.6639C114.427 89.6639 124.52 81.5329 136.491 71.8877M114.427 89.6639L136.491 71.8877M114.427 89.6639L112.565 87.3372L107.129 80.548L92.2521 61.9677C91.8981 61.5256 91.9816 60.878 92.4361 60.5401L112.184 45.8605C112.635 45.5251 113.274 45.6275 113.598 46.0871L118.288 52.7441C118.612 53.2036 119.25 53.3061 119.702 52.9708L145.228 34.0088M160.623 52.4449C153.383 58.2777 144.515 65.4228 136.491 71.8877M160.623 52.4449L136.491 71.8877M160.623 52.4449L145.228 34.0088" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-</g>
-<text id="title_4" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="110.506" y="70.262">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_2">
-<rect x="116.906" y="60.0034" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
-<text id="402&#208;&#178;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="118.197" y="63.7884">402&#x432;</tspan></text>
-</g>
-</g>
 <g id="b1f4-402g">
-<path id="map-otl_4" d="M144.614 34.4645L119.689 52.9799C119.243 53.3115 118.612 53.2152 118.284 52.7656L104.601 33.9652C104.279 33.5224 104.372 32.9027 104.811 32.5752L130.019 13.7689C130.47 13.4318 131.111 13.5345 131.435 13.9959L144.836 33.0872C145.147 33.5307 145.049 34.1414 144.614 34.4645Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_5" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="113.516" y="36.0027">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_3">
+<path id="map-otl_3" d="M144.614 34.4645L119.689 52.9799C119.243 53.3115 118.612 53.2152 118.284 52.7656L104.601 33.9652C104.279 33.5224 104.372 32.9027 104.811 32.5752L130.019 13.7689C130.47 13.4318 131.111 13.5345 131.435 13.9959L144.836 33.0872C145.147 33.5307 145.049 34.1414 144.614 34.4645Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_4" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="113.516" y="36.0027">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_2">
 <rect x="119.916" y="25.7441" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="402&#208;&#179;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="121.396" y="29.5291">402&#x433;</tspan></text>
 </g>
 </g>
 <g id="b1f4-402d">
-<path id="map-otl_5" d="M122.61 1.42548L130.285 12.3584C130.596 12.8012 130.498 13.4109 130.064 13.7344L104.285 32.9679C104.112 33.0967 103.902 33.1664 103.687 33.1664H88.5056C87.9533 33.1664 87.5056 32.7187 87.5056 32.1664V2.00001C87.5056 1.44772 87.9533 1.00001 88.5056 1.00001H121.792C122.118 1.00001 122.423 1.15877 122.61 1.42548Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_6" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="92.3814" y="18.7571">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_4">
+<path id="map-otl_4" d="M122.61 1.42548L130.285 12.3584C130.596 12.8012 130.498 13.4109 130.064 13.7344L104.285 32.9679C104.112 33.0967 103.902 33.1664 103.687 33.1664H88.5056C87.9533 33.1664 87.5056 32.7187 87.5056 32.1664V2.00001C87.5056 1.44772 87.9533 1.00001 88.5056 1.00001H121.792C122.118 1.00001 122.423 1.15877 122.61 1.42548Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_5" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="92.3814" y="18.7571">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_3">
 <rect x="98.781" y="8.49854" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="402&#208;&#180;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="99.9503" y="12.2835">402&#x434;</tspan></text>
 </g>
 </g>
 <g id="b1f4-402e">
-<path id="map-otl_6" d="M52.8675 9.59681L68.1342 32.535C68.3176 32.8106 68.6256 32.9775 68.9567 32.9808L86.4961 33.1563C87.0523 33.1618 87.5061 32.7125 87.5061 32.1563V2.00001C87.5061 1.44772 87.0584 1.00001 86.5061 1.00001H53.7C53.1477 1.00001 52.7 1.44773 52.7 2.00001V9.04275C52.7 9.23991 52.7582 9.43268 52.8675 9.59681Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_7" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="60.3219" y="16.0247">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<path id="map-otl_5" d="M52.8675 9.59681L68.1342 32.535C68.3176 32.8106 68.6256 32.9775 68.9567 32.9808L86.4961 33.1563C87.0523 33.1618 87.5061 32.7125 87.5061 32.1563V2.00001C87.5061 1.44772 87.0584 1.00001 86.5061 1.00001H53.7C53.1477 1.00001 52.7 1.44773 52.7 2.00001V9.04275C52.7 9.23991 52.7582 9.43268 52.8675 9.59681Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_6" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="60.3219" y="16.0247">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
 <text id="402&#208;&#181;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="68.0006" y="9.55112">402&#x435;</tspan></text>
 </g>
 <g id="b1f4-402z">
-<path id="map-otl_7" d="M41.5778 36.1045L27.7505 44.7135C27.2777 45.0079 27.1364 45.6319 27.4369 46.1008C34.6349 57.3333 42.0658 68.4021 49.7228 79.3006C50.0299 79.7375 50.6262 79.8555 51.0768 79.5689L74.797 64.479C75.2762 64.1742 75.4056 63.532 75.082 63.0654L59.0397 39.9311C58.896 39.7238 58.6793 39.5785 58.433 39.5243L42.3214 35.9768C42.0664 35.9206 41.7995 35.9664 41.5778 36.1045Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_8" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="40.8775" y="61.2796">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_5">
+<path id="map-otl_6" d="M41.5778 36.1045L27.7505 44.7135C27.2777 45.0079 27.1364 45.6319 27.4369 46.1008C34.6349 57.3333 42.0658 68.4021 49.7228 79.3006C50.0299 79.7375 50.6262 79.8555 51.0768 79.5689L74.797 64.479C75.2762 64.1742 75.4056 63.532 75.082 63.0654L59.0397 39.9311C58.896 39.7238 58.6793 39.5785 58.433 39.5243L42.3214 35.9768C42.0664 35.9206 41.7995 35.9664 41.5778 36.1045Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_7" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="40.8775" y="61.2796">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_4">
 <rect x="47.2771" y="51.021" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="402&#208;&#183;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="48.6207" y="54.806">402&#x437;</tspan></text>
 </g>
 </g>
 <g id="b1f4-402i">
-<path id="map-otl_8" d="M51.1555 79.5184L74.8804 64.4256C75.3265 64.1418 75.9165 64.2543 76.2268 64.6825L100.155 97.6946C100.482 98.1462 100.377 98.7783 99.9207 99.0993L77.3019 115.016C76.8652 115.323 76.2642 115.233 75.937 114.811C67.3369 103.716 58.9802 92.4217 50.8751 80.9376C50.546 80.4713 50.674 79.8248 51.1555 79.5184Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_9" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="64.8775" y="93.1292">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_6">
+<path id="map-otl_7" d="M51.1555 79.5184L74.8804 64.4256C75.3265 64.1418 75.9165 64.2543 76.2268 64.6825L100.155 97.6946C100.482 98.1462 100.377 98.7783 99.9207 99.0993L77.3019 115.016C76.8652 115.323 76.2642 115.233 75.937 114.811C67.3369 103.716 58.9802 92.4217 50.8751 80.9376C50.546 80.4713 50.674 79.8248 51.1555 79.5184Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_8" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="64.8775" y="93.1292">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_5">
 <rect x="71.2771" y="82.8706" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="402&#208;&#184;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="72.5079" y="86.6556">402&#x438;</tspan></text>
 </g>
 </g>
 <g id="b1f4-402k">
-<path id="map-otl_9" d="M104.205 148.029L126.258 129.869C126.69 129.514 126.746 128.872 126.382 128.447L101.342 99.2063C101.007 98.8147 100.428 98.7422 100.007 99.0389L77.3796 114.962C76.9127 115.29 76.8151 115.942 77.1657 116.392C85.4891 127.084 94.0391 137.591 102.808 147.905C103.162 148.321 103.783 148.376 104.205 148.029Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_10" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="90.8778" y="126.618">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_7">
+<path id="map-otl_8" d="M104.205 148.029L126.258 129.869C126.69 129.514 126.746 128.872 126.382 128.447L101.342 99.2063C101.007 98.8147 100.428 98.7422 100.007 99.0389L77.3796 114.962C76.9127 115.29 76.8151 115.942 77.1657 116.392C85.4891 127.084 94.0391 137.591 102.808 147.905C103.162 148.321 103.783 148.376 104.205 148.029Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_9" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="90.8778" y="126.618">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_6">
 <rect x="97.2773" y="116.359" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="402&#208;&#186;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="98.5697" y="120.144">402&#x43a;</tspan></text>
 </g>
 </g>
 <g id="b1f4-402l">
-<path id="map-otl_10" d="M129.266 177.724C120.693 168.463 112.304 159.029 104.105 149.427C103.742 149.002 103.799 148.362 104.23 148.007L126.304 129.831C126.718 129.49 127.327 129.536 127.684 129.935L151.982 157.027C152.348 157.435 152.317 158.062 151.913 158.432L139.519 169.783L130.67 177.786C130.264 178.153 129.638 178.126 129.266 177.724Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_11" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="116.379" y="154.894">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_8">
+<path id="map-otl_9" d="M129.266 177.724C120.693 168.463 112.304 159.029 104.105 149.427C103.742 149.002 103.799 148.362 104.23 148.007L126.304 129.831C126.718 129.49 127.327 129.536 127.684 129.935L151.982 157.027C152.348 157.435 152.317 158.062 151.913 158.432L139.519 169.783L130.67 177.786C130.264 178.153 129.638 178.126 129.266 177.724Z" fill="#33D18F" fill-opacity="0.2" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_10" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="116.379" y="154.894">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_7">
 <rect x="122.779" y="144.636" width="10.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="402&#208;&#187;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="124.007" y="148.421">402&#x43b;</tspan></text>
 </g>
 </g>
 <g id="b1f4-4b">
-<g id="map-otl_11">
+<g id="map-otl_10">
 <path d="M489.832 406.298L499.384 381.378L528.619 391.395C529.137 391.573 529.416 392.135 529.244 392.656L517.442 428.263C517.267 428.789 516.698 429.073 516.173 428.895C507.628 426.003 499.144 422.993 490.724 419.869C488.945 419.209 487.168 418.544 485.395 417.874L489.832 406.298Z" fill="#33D18F" fill-opacity="0.2"/>
 <path d="M485.395 417.874C485.021 417.732 485.769 418.016 485.395 417.874ZM485.395 417.874L499.384 381.378M485.395 417.874L489.832 406.298L499.384 381.378M485.395 417.874C487.168 418.544 488.945 419.209 490.724 419.869C499.144 422.993 507.628 426.003 516.173 428.895C516.698 429.073 517.267 428.789 517.442 428.263L529.244 392.656C529.416 392.135 529.137 391.573 528.619 391.395L499.384 381.378" stroke="#33D18F" stroke-opacity="0.2" stroke-width="2.00001" stroke-linejoin="round"/>
 </g>
-<text id="title_12" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="496.163" y="408.467">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
-<g id="n_9">
+<text id="title_11" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3.75001" font-weight="500" letter-spacing="0em"><tspan x="496.163" y="408.467">&#x41f;&#x435;&#x440;&#x435;&#x433;&#x43e;&#x432;&#x43e;&#x440;&#x43a;&#x430;</tspan></text>
+<g id="n_8">
 <rect x="504.562" y="398.208" width="6.25" height="5.5" rx="1.125" fill="#33D18F" fill-opacity="0.2"/>
 <text id="4&#208;&#177;" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="3" font-weight="500" letter-spacing="0.02em"><tspan x="505.779" y="401.993">4&#x431;</tspan></text>
 </g>
 </g>
 <g id="b1f4-k">
-<path id="map-otl_12" d="M577.121 403.04L548.195 394.7L530.394 391.85C529.91 391.773 529.441 392.058 529.287 392.523L517.438 428.273C517.265 428.795 517.546 429.359 518.067 429.534C533.718 434.794 549.571 439.662 565.609 444.122C566.14 444.269 566.69 443.959 566.839 443.428L577.807 404.271C577.955 403.742 577.649 403.192 577.121 403.04Z" fill="#FFEDD6" stroke="#FFCF94" stroke-width="2.00001" stroke-linejoin="round"/>
-<text id="title_13" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="530.988" y="419.939">&#x41c;&#x438;&#x43d;&#x438;-&#x43a;&#x443;&#x445;&#x43d;&#x44f;</tspan></text>
+<path id="map-otl_11" d="M577.121 403.04L548.195 394.7L530.394 391.85C529.91 391.773 529.441 392.058 529.287 392.523L517.438 428.273C517.265 428.795 517.546 429.359 518.067 429.534C533.718 434.794 549.571 439.662 565.609 444.122C566.14 444.269 566.69 443.959 566.839 443.428L577.807 404.271C577.955 403.742 577.649 403.192 577.121 403.04Z" fill="#FFEDD6" stroke="#FFCF94" stroke-width="2.00001" stroke-linejoin="round"/>
+<text id="title_12" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="5.62502" font-weight="500" letter-spacing="0em"><tspan x="530.988" y="419.939">&#x41c;&#x438;&#x43d;&#x438;-&#x43a;&#x443;&#x445;&#x43d;&#x44f;</tspan></text>
 </g>
 <g id="b1f4-r">
-<text id="title_14" transform="translate(257.202 209.931) rotate(-16.5658)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="8" font-weight="500" letter-spacing="0em"><tspan x="16.8698" y="6.76">&#x420;&#x435;&#x441;&#x435;&#x43f;&#x448;&#x43d;</tspan></text>
+<text id="title_13" transform="translate(257.202 209.931) rotate(-16.5658)" fill="#172736" xml:space="preserve" style="white-space: pre" font-family="CoFo Weather 20240219" font-size="8" font-weight="500" letter-spacing="0em"><tspan x="16.8698" y="6.76">&#x420;&#x435;&#x441;&#x435;&#x43f;&#x448;&#x43d;</tspan></text>
 <path id="Line 16" d="M273.806 220.995C273.806 220.995 281.854 213.961 293.194 210.821C304.534 207.682 315.179 209.45 315.179 209.45" stroke="#475DEB" stroke-width="2"/>
 </g>
 <g id="b1f4-w">
