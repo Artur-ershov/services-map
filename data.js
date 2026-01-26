@@ -175,7 +175,7 @@ const allServices = [
         areaId: "b1f2-212",
         desc: "Бронируй через календарь в Outlook<br>или в @CrocLiveBot",
         contacts: "Во вопросам оборудования: HelpDesk@croc.ru<br><br>По вопросам организации встреч и канцелярии : Receptions_Group@croc.ru",
-        img: "images/andreymashkin_ozWe94uAZMd9k.jpg\nimages/andreymashkin_6MZG26hp9mPvX.jpg\nimages/andreymashkin_zoqVAmHJ71gkb.jpg"#",
+        img: "images/andreymashkin_ozWe94uAZMd9k.jpg\nimages/andreymashkin_6MZG26hp9mPvX.jpg\nimages/andreymashkin_zoqVAmHJ71gkb.jpg",
         attributes: {
             location: "212",
             capacity: 100
