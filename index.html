@@ -39,6 +39,15 @@
                 </div>
                 <div id="ksmm-subfilter-controls" class="ksmm-subfilter-controls">
                 </div>
+                <!-- Уведомление о праздничных/перенесенных днях -->
+                <div id="ksmm-day-notice" class="ksmm-day-notice" style="display: none;"></div>
+                <!-- Фильтры по часам работы (скрыты по умолчанию, показываются для Питание/Сервис) -->
+                <div id="ksmm-hours-filter-controls" class="ksmm-hours-filter-controls" style="display: none;">
+                    <button class="ksmm-hours-filter-btn active" data-hours-filter="all">📋 Все</button>
+                    <button class="ksmm-hours-filter-btn" data-hours-filter="open">🟢 Сейчас открыто</button>
+                    <button class="ksmm-hours-filter-btn" data-hours-filter="weekends">🏖️ Выходные</button>
+                    <button class="ksmm-hours-filter-btn" data-hours-filter="24h">🌙 24/7 (Круглосуточно)</button>
+                </div>
                 <div id="ksmm-services-list" class="ksmm-scroll-list">
                 </div>
             </div>
@@ -82,6 +91,7 @@
                         <span id="ksmm-popup-category-indicator" class="ksmm-category-indicator filled"></span>
                         <h3 id="ksmm-popup-title"></h3>
                     </div>
+                    <div id="ksmm-popup-status" class="ksmm-popup-status" style="display: none;"></div>
                     <p id="ksmm-popup-contacts"></p>
                     <p id="ksmm-popup-desc"></p>
                     <a id="ksmm-popup-link" href="#" target="_blank" class="ksmm-btn">Бронировать</a>
@@ -90,7 +100,7 @@
         </div>
     </div>
     <script src="data.js?v=5"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=14"></script>
 </body>
 
 </html>

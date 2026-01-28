@@ -491,7 +491,7 @@
       if (item.otShefa) tagsHtml += '<span class="tag ot-shefa">От Шефа</span>';
       if (item.stantsiya) tagsHtml += '<span class="tag stantsiya">Станция</span>';
       if (item.allergies) tagsHtml += '<span class="tag allergy">⚠️ ' + item.allergies + '</span>';
-      if (item.harvardPlate && item.harvardPlate.toUpperCase() === 'TRUE') tagsHtml += '<span class="tag harvard">🍽️ Гарвардская тарелка</span>';
+      if (item.harvardPlate && item.harvardPlate.toUpperCase() === 'TRUE') tagsHtml += '<span class="tag harvard">????️ Гарвардская тарелка</span>';
 
       var hasNutrition = item.nutri.kcal > 0 || item.nutri.prot > 0 || item.nutri.fat > 0 || item.nutri.carb > 0;
       var nutritionHtml = hasNutrition ? 
@@ -694,7 +694,14 @@
 
   // === СОЗДАНИЕ СТРУКТУРЫ ===
   function createStructure() {
-    if (document.getElementById('menu-app')) return;
+    // Если menu-app уже существует, просто возвращаем его
+    var existingMenuApp = document.getElementById('menu-app');
+    if (existingMenuApp) return existingMenuApp;
+    
+    // Проверяем активный таб при инициализации
+    var activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
+    var activeTabText = activeTab ? (activeTab.textContent || '').trim() : '';
+    var isBuffetActive = activeTabText.indexOf('Буфет') !== -1;
     
     // Ищем tabpanel "Столовая" для вставки контента
     var targetPanel = null;
@@ -752,10 +759,17 @@
         '<div style="text-align:center; padding:40px;">Загрузка...</div>' +
       '</div>';
     
-    // Вставляем в tabpanel если нашли, иначе в body
-    if (targetPanel) {
+    // Если активен таб "Буфет", создаем контент, но не вставляем в tabpanel сразу
+    // Он будет перемещен при переключении на таб "Столовая"
+    if (isBuffetActive) {
+      // Вставляем в body временно, скрытым
+      body.appendChild(menuApp);
+      menuApp.style.display = 'none';
+    } else if (targetPanel) {
+      // Если активен таб "Столовая" или другой, вставляем в правильный tabpanel
       targetPanel.appendChild(menuApp);
     } else {
+      // Fallback: вставляем в body
       body.insertBefore(menuApp, body.firstChild);
     }
     
@@ -808,28 +822,102 @@
   window.edaCloseDiaryList = closeDiaryList;
   window.edaRemoveFromDiary = removeFromDiary;
 
-  // === ИНИЦИАЛИЗАЦИЯ ===
-  function init() {
-    // Ждем, пока Tilda загрузится и табы будут готовы
-    var attempts = 0;
-    var maxAttempts = 50; // 5 секунд максимум
+  // Функция ожидания элемента
+  function waitForElement(selector, callback, timeout) {
+    timeout = timeout || 10000; // 10 секунд по умолчанию
+    var startTime = Date.now();
     
-    function tryInit() {
-      attempts++;
+    function check() {
+      var element = document.querySelector(selector);
+      if (element) {
+        callback(element);
+        return;
+      }
       
-      // Проверяем наличие табов Tilda
-      var hasTildaTabs = document.querySelectorAll('[role="tablist"]').length > 0;
-      
-      if (hasTildaTabs || attempts >= maxAttempts) {
-        createStructure();
-        startDataLoading();
+      if (Date.now() - startTime < timeout) {
+        requestAnimationFrame(check);
       } else {
-        setTimeout(tryInit, 100);
+        console.warn('Timeout waiting for:', selector);
+        callback(null);
       }
     }
     
-    function startDataLoading() {
-      if (typeof Papa !== 'undefined') {
+    check();
+  }
+  
+  // Функция ожидания нескольких условий
+  function waitForConditions(conditions, callback, timeout) {
+    timeout = timeout || 10000;
+    var startTime = Date.now();
+    
+    function check() {
+      var allMet = true;
+      for (var i = 0; i < conditions.length; i++) {
+        if (!conditions[i]()) {
+          allMet = false;
+          break;
+        }
+      }
+      
+      if (allMet) {
+        callback();
+        return;
+      }
+      
+      if (Date.now() - startTime < timeout) {
+        requestAnimationFrame(check);
+      } else {
+        console.warn('Timeout waiting for conditions');
+        callback();
+      }
+    }
+    
+    check();
+  }
+
+  // Функция перемещения menu-app в правильный tabpanel
+  function moveMenuAppToPanel(menuAppEl, activeTabRef, tablistRef) {
+    if (!menuAppEl || !activeTabRef) return;
+    
+    var tabId = activeTabRef.id;
+    var correctPanel = null;
+    
+    if (tabId) {
+      var panels = document.querySelectorAll('[role="tabpanel"]');
+      for (var p = 0; p < panels.length; p++) {
+        if (panels[p].getAttribute('aria-labelledby') === tabId) {
+          correctPanel = panels[p];
+          break;
+        }
+      }
+    }
+    
+    // Если не нашли по aria-labelledby, используем порядок
+    if (!correctPanel && tablistRef) {
+      var tabs = tablistRef.querySelectorAll('[role="tab"]');
+      var tabIndex = Array.prototype.indexOf.call(tabs, activeTabRef);
+      var panels = document.querySelectorAll('[role="tabpanel"]');
+      if (tabIndex >= 0 && tabIndex < panels.length) {
+        correctPanel = panels[tabIndex];
+      }
+    }
+    
+    // Перемещаем контент в правильный tabpanel, если он не там
+    if (correctPanel && !correctPanel.contains(menuAppEl)) {
+      menuAppEl.style.display = ''; // Показываем, если был скрыт
+      correctPanel.appendChild(menuAppEl);
+    } else if (correctPanel && menuAppEl.style.display === 'none') {
+      // Если уже в правильном месте, но скрыт - показываем
+      menuAppEl.style.display = '';
+    } else if (!correctPanel) {
+      // Если не нашли panel, просто показываем
+      menuAppEl.style.display = '';
+    }
+  }
+
+  // Функция загрузки данных столовой
+  function startDataLoading() {
+    if (typeof Papa !== 'undefined') {
       Papa.parse(GOOGLE_SHEET_URL, {
         download: true,
         header: true,
@@ -881,28 +969,50 @@
         }
       });
     }
-    
+  }
+
+  // === ИНИЦИАЛИЗАЦИЯ ===
+  function init() {
+    // Ждем появления табов и активного таба
+    waitForConditions([
+      function() { return document.querySelector('[role="tablist"]') !== null; },
+      function() { return document.querySelector('[role="tab"][aria-selected="true"]') !== null; },
+      function() { return document.querySelectorAll('[role="tabpanel"]').length > 0; }
+    ], function() {
+      createStructure();
+      startDataLoading();
+      
+      // Ждем загрузки API и появления карточек товаров
       loadTildaAPI().then(function() {
-        injectBuffet();
-        setTimeout(injectBuffet, 300);
+        waitForElement('.t-store__card', function() {
+          injectBuffet();
+        });
       });
       
-      injectBuffet();
-      setTimeout(injectBuffet, 800);
-      setTimeout(injectBuffet, 2000);
+      // Также ждем появления карточек независимо от API
+      waitForElement('.t-store__card', function() {
+        injectBuffet();
+      });
       
       var lastInject = 0;
       var mo = typeof MutationObserver !== 'undefined' ? new MutationObserver(function() {
         var now = Date.now();
         if (now - lastInject < 400) return;
         lastInject = now;
-        setTimeout(injectBuffet, 300);
+        
+        // Проверяем наличие карточек перед вызовом
+        if (document.querySelectorAll('.t-store__card').length > 0) {
+          injectBuffet();
+        }
       }) : null;
       if (mo && document.body) mo.observe(document.body, { childList: true, subtree: true });
       
       document.addEventListener('click', function(e) {
         if ((e.target.textContent || '').indexOf('Загрузить еще') !== -1) {
-          setTimeout(injectBuffet, 1500);
+          // Ждем появления новых карточек после загрузки
+          waitForElement('.t-store__card', function() {
+            injectBuffet();
+          });
         }
         var modal = document.getElementById('diary-modal');
         if (e.target === modal) {
@@ -931,43 +1041,50 @@
           
           var activeTabText = (activeTab.textContent || '').trim();
           
-          // Если переключились на таб "Буфет", вызываем injectBuffet
+          // Если переключились на таб "Буфет", ждем появления карточек и вызываем injectBuffet
           if (activeTabText.indexOf('Буфет') !== -1) {
-            setTimeout(function() {
+            waitForElement('.t-store__card', function() {
               injectBuffet();
-              setTimeout(injectBuffet, 300);
-              setTimeout(injectBuffet, 800);
-            }, 100);
+            });
           }
           
           // Если переключились на таб "Столовая", проверяем tabpanel
-          if (activeTabText.indexOf('Столовая') !== -1 && menuApp) {
-            var tabId = activeTab.id;
-            var correctPanel = null;
+          if (activeTabText.indexOf('Столовая') !== -1) {
+            // Убеждаемся, что menu-app создан
+            if (!menuApp) {
+              createStructure();
+              // Запускаем загрузку данных, если еще не загружены
+              if (allMenuData.length === 0) {
+                startDataLoading();
+              }
+            }
             
-            if (tabId) {
-              var panels = document.querySelectorAll('[role="tabpanel"]');
-              for (var p = 0; p < panels.length; p++) {
-                if (panels[p].getAttribute('aria-labelledby') === tabId) {
-                  correctPanel = panels[p];
-                  break;
+            // Получаем актуальную ссылку на menu-app
+            menuApp = document.getElementById('menu-app');
+            
+            if (menuApp) {
+              // Сохраняем ссылки на переменные для использования в requestAnimationFrame
+              var activeTabRef = activeTab;
+              var tablistRef = tablist;
+              
+              // Используем requestAnimationFrame для гарантии, что DOM обновлен
+              requestAnimationFrame(function() {
+                var menuAppEl = document.getElementById('menu-app');
+                if (menuAppEl) {
+                  moveMenuAppToPanel(menuAppEl, activeTabRef, tablistRef);
                 }
-              }
-            }
-            
-            // Если не нашли по aria-labelledby, используем порядок
-            if (!correctPanel) {
-              var tabs = tablist.querySelectorAll('[role="tab"]');
-              var tabIndex = Array.prototype.indexOf.call(tabs, activeTab);
-              var panels = document.querySelectorAll('[role="tabpanel"]');
-              if (tabIndex >= 0 && tabIndex < panels.length) {
-                correctPanel = panels[tabIndex];
-              }
-            }
-            
-            // Перемещаем контент в правильный tabpanel, если он не там
-            if (correctPanel && !correctPanel.contains(menuApp)) {
-              correctPanel.appendChild(menuApp);
+              });
+            } else {
+              // Если menu-app все еще не найден, ждем его создания
+              waitForElement('#menu-app', function(menuAppEl) {
+                if (menuAppEl) {
+                  var activeTabRef = activeTab;
+                  var tablistRef = tablist;
+                  requestAnimationFrame(function() {
+                    moveMenuAppToPanel(menuAppEl, activeTabRef, tablistRef);
+                  });
+                }
+              });
             }
           }
         });
@@ -978,30 +1095,120 @@
           tabObserver.observe(tabs[k], { attributes: true, attributeFilter: ['aria-selected'] });
         }
         
-        // Также добавляем обработчики кликов на табы для немедленного вызова injectBuffet
+        // Также добавляем обработчики кликов на табы
         for (var m = 0; m < tabs.length; m++) {
           tabs[m].addEventListener('click', function() {
             var clickedTab = this;
-            setTimeout(function() {
-              var tabText = (clickedTab.textContent || '').trim();
-              if (tabText.indexOf('Буфет') !== -1) {
+            var tabText = (clickedTab.textContent || '').trim();
+            if (tabText.indexOf('Буфет') !== -1) {
+              // Ждем появления карточек после переключения таба
+              waitForElement('.t-store__card', function() {
                 injectBuffet();
-                setTimeout(injectBuffet, 500);
-                setTimeout(injectBuffet, 1500);
+              });
+            } else if (tabText.indexOf('Столовая') !== -1) {
+              // При переключении на "Столовая" проверяем наличие menu-app
+              var menuApp = document.getElementById('menu-app');
+              if (!menuApp) {
+                createStructure();
+                // Запускаем загрузку данных, если еще не загружены
+                if (allMenuData.length === 0) {
+                  startDataLoading();
+                }
+                menuApp = document.getElementById('menu-app');
               }
-            }, 200);
+              
+              if (menuApp) {
+                // Показываем menu-app, если он скрыт
+                if (menuApp.style.display === 'none') {
+                  menuApp.style.display = '';
+                }
+                
+                // Перемещаем в правильный tabpanel
+                var tabId = clickedTab.id;
+                var correctPanel = null;
+                
+                if (tabId) {
+                  var panels = document.querySelectorAll('[role="tabpanel"]');
+                  for (var p = 0; p < panels.length; p++) {
+                    if (panels[p].getAttribute('aria-labelledby') === tabId) {
+                      correctPanel = panels[p];
+                      break;
+                    }
+                  }
+                }
+                
+                if (!correctPanel) {
+                  var tablistEl = document.querySelector('[role="tablist"]');
+                  if (tablistEl) {
+                    var tabs = tablistEl.querySelectorAll('[role="tab"]');
+                    var tabIndex = Array.prototype.indexOf.call(tabs, clickedTab);
+                    var panels = document.querySelectorAll('[role="tabpanel"]');
+                    if (tabIndex >= 0 && tabIndex < panels.length) {
+                      correctPanel = panels[tabIndex];
+                    }
+                  }
+                }
+                
+                if (correctPanel && !correctPanel.contains(menuApp)) {
+                  correctPanel.appendChild(menuApp);
+                }
+              }
+            }
           });
         }
+        
+        // Проверяем активный таб при инициализации (на случай загрузки с hash)
+        var initialActiveTab = document.querySelector('[role="tab"][aria-selected="true"]');
+        if (initialActiveTab) {
+          var initialTabText = (initialActiveTab.textContent || '').trim();
+          if (initialTabText.indexOf('Столовая') !== -1) {
+            // Если активен таб "Столовая", ждем появления menu-app и проверяем размещение
+            waitForElement('#menu-app', function(menuApp) {
+              if (menuApp) {
+                var tabId = initialActiveTab.id;
+                var correctPanel = null;
+                
+                if (tabId) {
+                  var panels = document.querySelectorAll('[role="tabpanel"]');
+                  for (var p = 0; p < panels.length; p++) {
+                    if (panels[p].getAttribute('aria-labelledby') === tabId) {
+                      correctPanel = panels[p];
+                      break;
+                    }
+                  }
+                }
+                
+                if (!correctPanel) {
+                  var tablistEl = document.querySelector('[role="tablist"]');
+                  if (tablistEl) {
+                    var tabs = tablistEl.querySelectorAll('[role="tab"]');
+                    var tabIndex = Array.prototype.indexOf.call(tabs, initialActiveTab);
+                    var panels = document.querySelectorAll('[role="tabpanel"]');
+                    if (tabIndex >= 0 && tabIndex < panels.length) {
+                      correctPanel = panels[tabIndex];
+                    }
+                  }
+                }
+                
+                if (correctPanel && !correctPanel.contains(menuApp)) {
+                  menuApp.style.display = '';
+                  correctPanel.appendChild(menuApp);
+                } else if (menuApp.style.display === 'none') {
+                  menuApp.style.display = '';
+                }
+              }
+            });
+          }
+        }
       }
-    }
-    
-    tryInit();
+    });
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    setTimeout(init, 100); // Небольшая задержка для Tilda
+    // Используем requestAnimationFrame вместо setTimeout для более быстрой инициализации
+    requestAnimationFrame(init);
   }
 })();
 </script>

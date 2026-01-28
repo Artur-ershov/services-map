@@ -70,7 +70,8 @@
         let parts = [];
         if (attrs.location) parts.push(attrs.location);
         for (const key in attrs) {
-            if (key !== 'location') {
+            // Исключаем location (уже добавлен) и hours (показывается в статусе)
+            if (key !== 'location' && key !== 'hours') {
                 parts.push(attrs[key]);
             }
         }
@@ -254,6 +255,11 @@
         
         setActiveArea(service.areaId);
         popup.style.display = 'block';
+        
+        // Добавляем статус работы сразу (без задержки)
+        if (typeof addStatusToPopup === 'function') {
+            addStatusToPopup(service);
+        }
     }
 
     // Упрощенный парсинг ссылки
@@ -1545,17 +1551,17 @@
         updateView();
     }
     // --- 6. ЛОГИКА ФИЛЬТРОВ ---
+    // Подфильтры по категориям
+    // hours удалён - теперь есть отдельные статусы работы и фильтры (Сейчас открыто, Выходные, 24/7)
     const subfilterDefinitions = {
-        'food': ['hours'],
         'sport': ['access'],
         'meeting': ['capacity', 'equipment'], // вместимость и оборудование
-        'relax': ['type'],
-        'service': ['hours']
+        'relax': ['type']
+        // food и service больше не имеют subfilters - используют новые hours filters
     };
 
     // Названия подфильтров на русском
     const subfilterLabels = {
-        'hours': 'Часы работы',
         'access': 'Доступ',
         'capacity': 'Вместимость',
         'equipment': 'Оборудование',
@@ -1845,8 +1851,18 @@
             }
             updateView();
         });
-        // Обработчик Поиска
-        searchInput.addEventListener('input', updateView);
+        // Обработчик Поиска с дебаунсом
+        let searchDebounceTimeout = null;
+        searchInput.addEventListener('input', () => {
+            if (searchDebounceTimeout) clearTimeout(searchDebounceTimeout);
+            searchDebounceTimeout = setTimeout(() => {
+                updateView();
+                // После updateView вызываем hours filter если он определён
+                if (typeof updateViewWithHoursFilter === 'function') {
+                    updateViewWithHoursFilter();
+                }
+            }, 150);
+        });
         // Закрытие Pop-up
         popupCloseBtn.addEventListener('click', hidePopup);
         
@@ -1909,4 +1925,972 @@
     window.addEventListener('resize', applyMobileStyles);
     
     init();
+    
+    // === ИНТЕГРАЦИЯ С isDayOff API ===
+    // https://isdayoff.ru/ - API производственного календаря РФ
+    
+    // Глобальное состояние дня (0 - рабочий, 1 - выходной, 2 - сокращенный, 4 - праздник)
+    let dayOffStatus = null;
+    let isDayOffLoaded = false;
+    
+    // Категории, для которых показываем графики работы
+    const CATEGORIES_WITH_HOURS = ['service', 'food'];
+    
+    // Запрос к isDayOff API
+    async function fetchDayOffStatus() {
+        try {
+            const now = getMoscowDate();
+            const dateStr = now.getFullYear().toString() +
+                String(now.getMonth() + 1).padStart(2, '0') +
+                String(now.getDate()).padStart(2, '0');
+            
+            const response = await fetch(`https://isdayoff.ru/${dateStr}`, {
+                method: 'GET',
+                cache: 'default'
+            });
+            
+            if (response.ok) {
+                const text = await response.text();
+                dayOffStatus = parseInt(text, 10);
+                isDayOffLoaded = true;
+                console.log('[isDayOff] Статус дня:', dayOffStatus, 
+                    dayOffStatus === 0 ? '(рабочий)' :
+                    dayOffStatus === 1 ? '(выходной)' :
+                    dayOffStatus === 2 ? '(сокращенный)' :
+                    dayOffStatus === 4 ? '(праздник)' : '(неизвестно)');
+                showDayNotice();
+            }
+        } catch (e) {
+            console.warn('[isDayOff] Ошибка получения данных:', e);
+            isDayOffLoaded = true;
+        }
+    }
+    
+    // Показ уведомления о праздничном/переносе дня
+    function showDayNotice() {
+        const notice = document.getElementById('ksmm-day-notice');
+        if (!notice) return;
+        
+        const now = getMoscowDate();
+        const dayOfWeek = now.getDay();
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        
+        // Праздник или выходной в рабочий день (пн-пт)
+        if (!isWeekend && (dayOffStatus === 1 || dayOffStatus === 4)) {
+            const isHoliday = dayOffStatus === 4;
+            notice.className = 'ksmm-day-notice holiday';
+            notice.innerHTML = `
+                <span class="ksmm-day-notice-icon">${isHoliday ? '🎉' : '📅'}</span>
+                <span class="ksmm-day-notice-text">
+                    <strong>Сегодня ${isHoliday ? 'праздничный' : 'выходной'} день</strong><br>
+                    Сервисы и точки питания могут не работать
+                </span>
+            `;
+            notice.style.display = 'flex';
+        }
+        // Рабочая суббота (перенос)
+        else if (isWeekend && dayOffStatus === 0) {
+            notice.className = 'ksmm-day-notice working-weekend';
+            notice.innerHTML = `
+                <span class="ksmm-day-notice-icon">💼</span>
+                <span class="ksmm-day-notice-text">
+                    <strong>Сегодня рабочий день</strong><br>
+                    Сервисы и точки питания работают по будничному графику
+                </span>
+            `;
+            notice.style.display = 'flex';
+        }
+        // Сокращенный день
+        else if (dayOffStatus === 2) {
+            notice.className = 'ksmm-day-notice holiday';
+            notice.innerHTML = `
+                <span class="ksmm-day-notice-icon">⏰</span>
+                <span class="ksmm-day-notice-text">
+                    <strong>Сегодня сокращенный рабочий день</strong><br>
+                    Некоторые сервисы могут закрыться раньше
+                </span>
+            `;
+            notice.style.display = 'flex';
+        }
+        else {
+            notice.style.display = 'none';
+        }
+    }
+    
+    // Кэш статусов дней (для проверки будущих дат)
+    const dayOffCache = {};
+    
+    // Проверка, является ли сегодня рабочим днем (с учетом isDayOff)
+    function isTodayWorkingDay() {
+        const now = getMoscowDate();
+        const dayOfWeek = now.getDay();
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        
+        if (isDayOffLoaded && dayOffStatus !== null) {
+            return dayOffStatus === 0 || dayOffStatus === 2;
+        }
+        
+        return !isWeekend;
+    }
+    
+    // Проверка, является ли конкретная дата рабочим днём
+    async function isWorkingDay(date) {
+        const dateStr = date.getFullYear().toString() +
+            String(date.getMonth() + 1).padStart(2, '0') +
+            String(date.getDate()).padStart(2, '0');
+        
+        // Проверяем кэш
+        if (dayOffCache[dateStr] !== undefined) {
+            return dayOffCache[dateStr] === 0 || dayOffCache[dateStr] === 2;
+        }
+        
+        // Сегодняшняя дата - используем уже загруженный статус
+        const now = getMoscowDate();
+        const todayStr = now.getFullYear().toString() +
+            String(now.getMonth() + 1).padStart(2, '0') +
+            String(now.getDate()).padStart(2, '0');
+        
+        if (dateStr === todayStr && isDayOffLoaded && dayOffStatus !== null) {
+            dayOffCache[dateStr] = dayOffStatus;
+            return dayOffStatus === 0 || dayOffStatus === 2;
+        }
+        
+        // Запрашиваем API для другой даты
+        try {
+            const response = await fetch(`https://isdayoff.ru/${dateStr}`, {
+                method: 'GET',
+                cache: 'default'
+            });
+            if (response.ok) {
+                const text = await response.text();
+                const status = parseInt(text, 10);
+                dayOffCache[dateStr] = status;
+                return status === 0 || status === 2;
+            }
+        } catch (e) {
+            console.warn('[isDayOff] Ошибка проверки даты:', dateStr, e);
+        }
+        
+        // Fallback: обычная проверка по дню недели
+        const dayOfWeek = date.getDay();
+        return dayOfWeek !== 0 && dayOfWeek !== 6;
+    }
+    
+    // Найти следующий рабочий день (синхронная версия с fallback)
+    function findNextWorkingDaySync(fromDate) {
+        const date = fromDate.clone ? fromDate.clone() : new Date(fromDate);
+        const maxDays = 14; // Максимум 2 недели вперёд
+        
+        for (let i = 1; i <= maxDays; i++) {
+            date.setDate(date.getDate() + 1);
+            const dateStr = date.getFullYear().toString() +
+                String(date.getMonth() + 1).padStart(2, '0') +
+                String(date.getDate()).padStart(2, '0');
+            
+            // Проверяем кэш
+            if (dayOffCache[dateStr] !== undefined) {
+                if (dayOffCache[dateStr] === 0 || dayOffCache[dateStr] === 2) {
+                    return { date: date, daysAhead: i };
+                }
+                continue;
+            }
+            
+            // Fallback: обычная проверка по дню недели
+            const dayOfWeek = date.getDay();
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                return { date: date, daysAhead: i };
+            }
+        }
+        
+        return { date: date, daysAhead: maxDays };
+    }
+    
+    // Предзагрузка статусов на ближайшие дни
+    async function preloadDayOffStatuses() {
+        const now = getMoscowDate();
+        const promises = [];
+        
+        for (let i = 1; i <= 7; i++) {
+            const date = now.clone();
+            date.setDate(now.getDate() + i);
+            const dateStr = date.getFullYear().toString() +
+                String(date.getMonth() + 1).padStart(2, '0') +
+                String(date.getDate()).padStart(2, '0');
+            
+            if (dayOffCache[dateStr] === undefined) {
+                const promise = fetch(`https://isdayoff.ru/${dateStr}`, {
+                    method: 'GET',
+                    cache: 'default'
+                }).then(response => {
+                    if (response.ok) {
+                        return response.text().then(text => {
+                            dayOffCache[dateStr] = parseInt(text, 10);
+                        });
+                    }
+                }).catch(() => {});
+                promises.push(promise);
+            }
+        }
+        
+        await Promise.all(promises);
+        console.log('[isDayOff] Предзагружены статусы дней:', Object.keys(dayOffCache).length);
+    }
+    
+    // Запускаем загрузку статуса дня
+    fetchDayOffStatus().then(() => {
+        // После загрузки сегодняшнего статуса, загружаем статусы на неделю вперёд
+        preloadDayOffStatuses();
+    });
+    
+    // === МОСКОВСКОЕ ВРЕМЯ ===
+    
+    // ============================================================
+    // !!! ВРЕМЕННЫЙ КОД - ТЕСТОВАЯ ПАНЕЛЬ !!!
+    // !!! УДАЛИТЬ ПЕРЕД ИНТЕГРАЦИЕЙ В ПРОДАКШН !!!
+    // ============================================================
+    let testModeEnabled = false;
+    let testDate = null; // формат: { year, month, day, hour, minute }
+    
+    function createTestPanel() {
+        const panel = document.createElement('div');
+        panel.id = 'ksmm-test-panel';
+        panel.innerHTML = `
+            <style>
+                #ksmm-test-panel {
+                    position: fixed;
+                    bottom: 10px;
+                    right: 10px;
+                    background: #1a1a2e;
+                    color: #fff;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    font-family: system-ui, sans-serif;
+                    font-size: 13px;
+                    z-index: 99999;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                    min-width: 280px;
+                }
+                #ksmm-test-panel .test-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid #333;
+                }
+                #ksmm-test-panel .test-header span {
+                    color: #ff6b6b;
+                    font-weight: bold;
+                }
+                #ksmm-test-panel .test-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin: 8px 0;
+                }
+                #ksmm-test-panel label {
+                    min-width: 50px;
+                }
+                #ksmm-test-panel input {
+                    background: #2d2d44;
+                    border: 1px solid #444;
+                    color: #fff;
+                    padding: 6px 8px;
+                    border-radius: 4px;
+                    font-size: 13px;
+                }
+                #ksmm-test-panel input[type="date"] { width: 140px; }
+                #ksmm-test-panel input[type="time"] { width: 100px; }
+                #ksmm-test-panel button {
+                    background: #4a4aff;
+                    color: #fff;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    margin-top: 8px;
+                    width: 100%;
+                }
+                #ksmm-test-panel button:hover { background: #5a5aff; }
+                #ksmm-test-panel button.off { background: #666; }
+                #ksmm-test-panel .test-status {
+                    margin-top: 8px;
+                    padding: 6px;
+                    background: #2d2d44;
+                    border-radius: 4px;
+                    font-size: 12px;
+                }
+            </style>
+            <div class="test-header">
+                <span>⚠️ ТЕСТ РЕЖИМ</span>
+                <small style="color:#888">удалить перед релизом</small>
+            </div>
+            <div class="test-row">
+                <label>Дата:</label>
+                <input type="date" id="test-date-input" />
+            </div>
+            <div class="test-row">
+                <label>Время:</label>
+                <input type="time" id="test-time-input" />
+            </div>
+            <button id="test-toggle-btn" class="off">Включить тест-режим</button>
+            <div class="test-status" id="test-status">Режим: реальное время</div>
+        `;
+        document.body.appendChild(panel);
+        
+        const dateInput = document.getElementById('test-date-input');
+        const timeInput = document.getElementById('test-time-input');
+        const toggleBtn = document.getElementById('test-toggle-btn');
+        const statusDiv = document.getElementById('test-status');
+        
+        // Установить текущую дату/время по умолчанию
+        const now = new Date();
+        dateInput.value = now.toISOString().split('T')[0];
+        timeInput.value = now.toTimeString().slice(0, 5);
+        
+        toggleBtn.addEventListener('click', async () => {
+            testModeEnabled = !testModeEnabled;
+            
+            if (testModeEnabled) {
+                const [year, month, day] = dateInput.value.split('-').map(Number);
+                const [hour, minute] = timeInput.value.split(':').map(Number);
+                testDate = { year, month: month - 1, day, hour, minute };
+                
+                toggleBtn.textContent = 'Выключить тест-режим';
+                toggleBtn.classList.remove('off');
+                
+                // Загрузить статус дня для тестовой даты
+                const dateStr = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
+                try {
+                    const response = await fetch(`https://isdayoff.ru/${dateStr}`);
+                    if (response.ok) {
+                        const text = await response.text();
+                        dayOffStatus = parseInt(text, 10);
+                        const statusText = dayOffStatus === 0 ? 'рабочий' :
+                                          dayOffStatus === 1 ? 'выходной' :
+                                          dayOffStatus === 2 ? 'сокращённый' :
+                                          dayOffStatus === 4 ? 'праздник' : 'неизвестно';
+                        statusDiv.innerHTML = `Тест: ${dateInput.value} ${timeInput.value}<br>isDayOff: ${dayOffStatus} (${statusText})`;
+                        
+                        // Очищаем кэш чтобы загрузить новые данные
+                        Object.keys(dayOffCache).forEach(k => delete dayOffCache[k]);
+                        await preloadDayOffStatuses();
+                    }
+                } catch (e) {
+                    statusDiv.textContent = `Тест: ${dateInput.value} ${timeInput.value} (API недоступен)`;
+                }
+                
+                showDayNotice();
+            } else {
+                testDate = null;
+                toggleBtn.textContent = 'Включить тест-режим';
+                toggleBtn.classList.add('off');
+                statusDiv.textContent = 'Режим: реальное время';
+                
+                // Восстановить реальный статус дня
+                await fetchDayOffStatus();
+            }
+            
+            // Обновить статусы
+            if (typeof addStatusToItems === 'function') addStatusToItems();
+            if (typeof updateViewWithHoursFilter === 'function') updateViewWithHoursFilter();
+        });
+    }
+    
+    // Создать панель только если в URL есть ?test=1
+    // Для тестирования: добавить ?test=1 к URL
+    if (new URLSearchParams(window.location.search).get('test') === '1') {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createTestPanel);
+        } else {
+            createTestPanel();
+        }
+    }
+    // ============================================================
+    // !!! КОНЕЦ ВРЕМЕННОГО КОДА !!!
+    // ============================================================
+    
+    function getMoscowDate() {
+        // Если тест-режим включен, возвращаем тестовую дату
+        if (testModeEnabled && testDate) {
+            const moscowDate = new Date(Date.UTC(
+                testDate.year, testDate.month, testDate.day, 
+                testDate.hour, testDate.minute, 0
+            ));
+            
+            return {
+                getDay: () => moscowDate.getUTCDay(),
+                getHours: () => moscowDate.getUTCHours(),
+                getMinutes: () => moscowDate.getUTCMinutes(),
+                getSeconds: () => 0,
+                getDate: () => moscowDate.getUTCDate(),
+                getMonth: () => moscowDate.getUTCMonth(),
+                getFullYear: () => moscowDate.getUTCFullYear(),
+                setDate: (d) => moscowDate.setUTCDate(d),
+                setHours: (h, m, s, ms) => moscowDate.setUTCHours(h, m || 0, s || 0, ms || 0),
+                getTime: () => moscowDate.getTime(),
+                clone: function() {
+                    const cloned = new Date(moscowDate.getTime());
+                    return {
+                        getDay: () => cloned.getUTCDay(),
+                        getHours: () => cloned.getUTCHours(),
+                        getMinutes: () => cloned.getUTCMinutes(),
+                        getDate: () => cloned.getUTCDate(),
+                        getMonth: () => cloned.getUTCMonth(),
+                        getFullYear: () => cloned.getUTCFullYear(),
+                        setDate: (d) => cloned.setUTCDate(d),
+                        setHours: (h, m, s, ms) => cloned.setUTCHours(h, m || 0, s || 0, ms || 0),
+                        getTime: () => cloned.getTime(),
+                        clone: function() { return getMoscowDate(); }
+                    };
+                }
+            };
+        }
+        
+        // Реальное московское время
+        const now = new Date();
+        const moscowTimeStr = now.toLocaleString('en-US', { 
+            timeZone: 'Europe/Moscow',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+        const [datePart, timePart] = moscowTimeStr.split(', ');
+        const [month, day, year] = datePart.split('/').map(Number);
+        const [hours, minutes, seconds] = timePart.split(':').map(Number);
+        
+        const moscowDate = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
+        
+        return {
+            getDay: () => moscowDate.getUTCDay(),
+            getHours: () => moscowDate.getUTCHours(),
+            getMinutes: () => moscowDate.getUTCMinutes(),
+            getSeconds: () => moscowDate.getUTCSeconds(),
+            getDate: () => moscowDate.getUTCDate(),
+            getMonth: () => moscowDate.getUTCMonth(),
+            getFullYear: () => moscowDate.getUTCFullYear(),
+            setDate: (d) => moscowDate.setUTCDate(d),
+            setHours: (h, m, s, ms) => moscowDate.setUTCHours(h, m || 0, s || 0, ms || 0),
+            getTime: () => moscowDate.getTime(),
+            clone: function() {
+                const cloned = new Date(moscowDate.getTime());
+                return {
+                    getDay: () => cloned.getUTCDay(),
+                    getHours: () => cloned.getUTCHours(),
+                    getMinutes: () => cloned.getUTCMinutes(),
+                    getDate: () => cloned.getUTCDate(),
+                    getMonth: () => cloned.getUTCMonth(),
+                    getFullYear: () => cloned.getUTCFullYear(),
+                    setDate: (d) => cloned.setUTCDate(d),
+                    setHours: (h, m, s, ms) => cloned.setUTCHours(h, m || 0, s || 0, ms || 0),
+                    getTime: () => cloned.getTime(),
+                    clone: function() { return getMoscowDate(); }
+                };
+            }
+        };
+    }
+    
+    // === ФУНКЦИИ ДЛЯ РАБОТЫ С ГРАФИКАМИ ===
+    
+    // Парсинг графика работы
+    function parseHours(hoursText) {
+        if (!hoursText) return null;
+        const text = hoursText.toLowerCase().trim();
+        
+        if (text.includes('круглосуточно') || text.includes('24/7') || text.includes('24 часа')) {
+            return { type: '24-7', schedule: null };
+        }
+        
+        const weekdayMatch = text.match(/(?:понедельник|вторник|среда|четверг|пятница|суббота|воскресенье).*?с\s+(\d{1,2}):(\d{2})\s+до\s+(\d{1,2}):(\d{2})/);
+        if (weekdayMatch) {
+            return {
+                type: 'weekday',
+                schedule: {
+                    weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+                    open: { hour: parseInt(weekdayMatch[1]), minute: parseInt(weekdayMatch[2]) },
+                    close: { hour: parseInt(weekdayMatch[3]), minute: parseInt(weekdayMatch[4]) }
+                }
+            };
+        }
+        
+        const simpleMatch = text.match(/с\s+(\d{1,2}):(\d{2})\s+до\s+(\d{1,2}):(\d{2})/);
+        if (simpleMatch) {
+            return {
+                type: 'weekday',
+                schedule: {
+                    weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+                    open: { hour: parseInt(simpleMatch[1]), minute: parseInt(simpleMatch[2]) },
+                    close: { hour: parseInt(simpleMatch[3]), minute: parseInt(simpleMatch[4]) }
+                }
+            };
+        }
+        
+        const dashMatch = text.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
+        if (dashMatch) {
+            return {
+                type: 'weekday',
+                schedule: {
+                    weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+                    open: { hour: parseInt(dashMatch[1]), minute: parseInt(dashMatch[2]) },
+                    close: { hour: parseInt(dashMatch[3]), minute: parseInt(dashMatch[4]) }
+                }
+            };
+        }
+        
+        return null;
+    }
+    
+    // Определение статуса работы
+    function getWorkStatus(service) {
+        const hoursText = service.attributes && service.attributes.hours;
+        const parsed = parseHours(hoursText);
+        if (!parsed) return { status: '24-7', text: 'Круглосуточно', nextOpen: null };
+        
+        const now = getMoscowDate();
+        const currentDay = now.getDay();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+        const currentTime = currentHour * 60 + currentMinute;
+        
+        if (parsed.type === '24-7') {
+            return { status: '24-7', text: 'Круглосуточно', nextOpen: null };
+        }
+        
+        if (parsed.type === 'weekday' && parsed.schedule) {
+            const isWorkingDay = isTodayWorkingDay();
+            const dayNames = ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу'];
+            
+            if (!isWorkingDay) {
+                // Сегодня выходной/праздник - ищем следующий рабочий день
+                const nextWorking = findNextWorkingDaySync(now);
+                const nextDate = nextWorking.date;
+                nextDate.setHours(parsed.schedule.open.hour, parsed.schedule.open.minute, 0, 0);
+                
+                const openTimeStr = `${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')}`;
+                let text;
+                if (nextWorking.daysAhead === 1) {
+                    text = `Закрыто (откр. завтра в ${openTimeStr})`;
+                } else {
+                    text = `Закрыто (откр. в ${dayNames[nextDate.getDay()]} в ${openTimeStr})`;
+                }
+                
+                return {
+                    status: 'closed',
+                    text: text,
+                    nextOpen: nextDate
+                };
+            }
+            
+            const openTime = parsed.schedule.open.hour * 60 + parsed.schedule.open.minute;
+            const closeTime = parsed.schedule.close.hour * 60 + parsed.schedule.close.minute;
+            
+            if (currentTime < openTime) {
+                const today = now.clone();
+                today.setHours(parsed.schedule.open.hour, parsed.schedule.open.minute, 0, 0);
+                return {
+                    status: 'closed',
+                    text: `Закрыто (откр. сегодня в ${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')})`,
+                    nextOpen: today
+                };
+            }
+            
+            if (currentTime >= closeTime) {
+                // Закрыто после рабочего дня - ищем следующий рабочий день
+                const nextWorking = findNextWorkingDaySync(now);
+                const nextDate = nextWorking.date;
+                nextDate.setHours(parsed.schedule.open.hour, parsed.schedule.open.minute, 0, 0);
+                
+                const openTimeStr = `${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')}`;
+                let text;
+                if (nextWorking.daysAhead === 1) {
+                    text = `Закрыто (откр. завтра в ${openTimeStr})`;
+                } else {
+                    text = `Закрыто (откр. в ${dayNames[nextDate.getDay()]} в ${openTimeStr})`;
+                }
+                
+                return {
+                    status: 'closed',
+                    text: text,
+                    nextOpen: nextDate
+                };
+            }
+            
+            const minutesUntilClose = closeTime - currentTime;
+            
+            if (minutesUntilClose <= 30) {
+                return {
+                    status: 'closing',
+                    text: `Закроется через ${minutesUntilClose} мин`,
+                    nextOpen: null
+                };
+            }
+            
+            return {
+                status: 'open',
+                text: `Открыто до ${String(parsed.schedule.close.hour).padStart(2, '0')}:${String(parsed.schedule.close.minute).padStart(2, '0')}`,
+                nextOpen: null
+            };
+        }
+        
+        return { status: 'unknown', text: 'График не распознан', nextOpen: null };
+    }
+    
+    // === ИНТЕГРАЦИЯ С СУЩЕСТВУЮЩИМ КОДОМ ===
+    
+    // Функция для добавления времени работы в элемент списка
+    // Объявляем функции
+    let addStatusToItems, updateViewWithHoursFilter, addStatusToPopup;
+    
+    // Ждём создания DOM элементов списка (allServices уже загружен синхронно из data.js)
+    function waitForListItems() {
+        const servicesList = document.getElementById('ksmm-services-list');
+        const hasItems = servicesList && servicesList.querySelectorAll('.ksmm-list-item').length > 0;
+        
+        if (hasItems) {
+            try {
+                initHoursFilters();
+            } catch (e) {
+                console.error('Hours filter: initialization error', e);
+            }
+        } else {
+            // Элементы ещё не созданы - ждём следующего кадра отрисовки
+            requestAnimationFrame(waitForListItems);
+        }
+    }
+    
+    // Запускаем после готовности DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', waitForListItems);
+    } else {
+        waitForListItems();
+    }
+    
+    // Определяем функции
+    addStatusToItems = function() {
+        try {
+            if (typeof allServices === 'undefined' || !allServices || allServices.length === 0) {
+                return;
+            }
+            
+            const items = document.querySelectorAll('.ksmm-list-item');
+            if (items.length === 0) return;
+            
+            items.forEach(item => {
+                const existingStatus = item.querySelector('.ksmm-work-status');
+                if (existingStatus) {
+                    const serviceId = parseInt(item.getAttribute('data-id'));
+                    if (!serviceId || isNaN(serviceId)) return;
+                    
+                    const service = allServices.find(s => s.id === serviceId);
+                    if (!service) return;
+                    
+                    if (!CATEGORIES_WITH_HOURS.includes(service.category)) {
+                        existingStatus.closest('div')?.remove();
+                        return;
+                    }
+                    
+                    const status = getWorkStatus(service);
+                    const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
+                    const statusEmoji = {
+                        'open': '🟢',
+                        'closing': '🟠',
+                        'closed': '🔴',
+                        '24-7': '🔵',
+                        'unknown': '⚪'
+                    }[status.status] || '⚪';
+                    
+                    existingStatus.className = `ksmm-work-status ${statusClass}`;
+                    existingStatus.innerHTML = `<span>${statusEmoji}</span><span>${status.text}</span>`;
+                    return;
+                }
+                
+                const serviceId = parseInt(item.getAttribute('data-id'));
+                if (!serviceId || isNaN(serviceId)) return;
+                
+                const service = allServices.find(s => s.id === serviceId);
+                if (!service) return;
+                
+                if (!CATEGORIES_WITH_HOURS.includes(service.category)) return;
+                
+                const status = getWorkStatus(service);
+                const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
+                const statusEmoji = {
+                    'open': '🟢',
+                    'closing': '🟠',
+                    'closed': '🔴',
+                    '24-7': '🔵',
+                    'unknown': '⚪'
+                }[status.status] || '⚪';
+                
+                const statusEl = document.createElement('span');
+                statusEl.className = `ksmm-work-status ${statusClass}`;
+                statusEl.innerHTML = `<span>${statusEmoji}</span><span>${status.text}</span>`;
+                
+                const contentEl = item.querySelector('.ksmm-item-content');
+                if (contentEl) {
+                    const nameEl = contentEl.querySelector('h4');
+                    if (nameEl) {
+                        const statusContainer = document.createElement('div');
+                        statusContainer.style.marginTop = '4px';
+                        statusContainer.style.display = 'block';
+                        statusContainer.style.width = '100%';
+                        statusContainer.appendChild(statusEl);
+                        nameEl.insertAdjacentElement('afterend', statusContainer);
+                    }
+                }
+            });
+        } catch (e) {
+            console.error('Hours filter: addStatusToItems error', e);
+        }
+    };
+    
+    addStatusToPopup = function(service) {
+        if (!service) return;
+        
+        const popupStatus = document.getElementById('ksmm-popup-status');
+        if (!popupStatus) return;
+        
+        const showHours = CATEGORIES_WITH_HOURS.includes(service.category);
+        
+        if (!showHours) {
+            popupStatus.style.display = 'none';
+            return;
+        }
+        
+        const status = getWorkStatus(service);
+        const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
+        const statusEmoji = {
+            'open': '🟢',
+            'closing': '🟠',
+            'closed': '🔴',
+            '24-7': '🔵',
+            'unknown': '⚪'
+        }[status.status] || '⚪';
+        
+        popupStatus.className = `ksmm-popup-status ${statusClass}`;
+        
+        let statusHTML = `${statusEmoji} ${status.text}`;
+        
+        if (service.attributes && service.attributes.hours) {
+            const hoursText = service.attributes.hours;
+            const cleanHoursText = hoursText.replace(/^График работы:\s*/i, '').trim();
+            statusHTML += `<br><span class="ksmm-popup-status-hours">${cleanHoursText}</span>`;
+        }
+        
+        popupStatus.innerHTML = statusHTML;
+        popupStatus.style.display = 'block';
+    };
+    
+    updateViewWithHoursFilter = function() {
+        try {
+            const filter = window.currentHoursFilter || 'all';
+            const items = document.querySelectorAll('.ksmm-list-item');
+            
+            // Сначала убираем hidden-hours со всех элементов
+            items.forEach(item => {
+                item.classList.remove('hidden-hours');
+            });
+            
+            // Применяем фильтр по часам только если не "Все"
+            if (filter !== 'all') {
+                items.forEach(item => {
+                    const serviceId = parseInt(item.getAttribute('data-id'));
+                    if (!serviceId || isNaN(serviceId)) {
+                        item.classList.add('hidden-hours');
+                        return;
+                    }
+                    
+                    const service = allServices.find(s => s.id === serviceId);
+                    if (!service) {
+                        item.classList.add('hidden-hours');
+                        return;
+                    }
+                    
+                    const status = getWorkStatus(service);
+                    let shouldShow = false;
+                    
+                    if (filter === 'open') {
+                        shouldShow = status.status === 'open' || status.status === 'closing' || status.status === '24-7';
+                    } else if (filter === 'weekends') {
+                        const parsed = parseHours(service.attributes && service.attributes.hours);
+                        shouldShow = !parsed || parsed.type !== 'weekday';
+                    } else if (filter === '24h') {
+                        shouldShow = status.status === '24-7';
+                    }
+                    
+                    if (!shouldShow) {
+                        item.classList.add('hidden-hours');
+                    }
+                });
+            }
+            
+            // Обновляем заголовки секций
+            document.querySelectorAll('.ksmm-list-section-title').forEach(sectionTitle => {
+                let hasVisibleItems = false;
+                let nextElement = sectionTitle.nextElementSibling;
+                while (nextElement && !nextElement.classList.contains('ksmm-list-section-title')) {
+                    if (nextElement.classList.contains('ksmm-list-item')) {
+                        const isHidden = nextElement.classList.contains('hidden') || nextElement.classList.contains('hidden-hours');
+                        if (!isHidden) {
+                            hasVisibleItems = true;
+                            break;
+                        }
+                    }
+                    nextElement = nextElement.nextElementSibling;
+                }
+                sectionTitle.style.display = hasVisibleItems ? 'block' : 'none';
+            });
+            
+            // Применяем фильтр к карте
+            document.querySelectorAll('.ksmm-map-area').forEach(mapArea => {
+                const areaId = mapArea.getAttribute('data-area-id');
+                if (areaId) {
+                    const service = allServices.find(s => s.areaId === areaId);
+                    if (service) {
+                        const listItem = document.querySelector(`.ksmm-list-item[data-id="${service.id}"]`);
+                        if (listItem) {
+                            const isHidden = listItem.classList.contains('hidden-hours') || listItem.classList.contains('hidden');
+                            if (isHidden) {
+                                mapArea.classList.add('dimmed');
+                            } else {
+                                mapArea.classList.remove('dimmed');
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (e) {
+            console.error('Hours filter: updateViewWithHoursFilter error', e);
+        }
+    };
+    
+    function initHoursFilters() {
+        const hoursFilterControls = document.getElementById('ksmm-hours-filter-controls');
+        if (!hoursFilterControls) {
+            return;
+        }
+        
+        hoursFilterControls.addEventListener('click', (e) => {
+            const btn = e.target.closest('.ksmm-hours-filter-btn');
+            if (!btn) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const activeBtn = hoursFilterControls.querySelector('.active');
+            if (activeBtn) activeBtn.classList.remove('active');
+            btn.classList.add('active');
+            const filter = btn.getAttribute('data-hours-filter');
+            window.currentHoursFilter = filter;
+            
+            updateViewWithHoursFilter();
+        });
+        
+        function updateHoursFilterVisibilityForCategory() {
+            const filterControls = document.querySelector('.ksmm-filter-controls');
+            const activeBtn = filterControls?.querySelector('.ksmm-filter-btn.active');
+            const category = activeBtn?.getAttribute('data-category') || 'all';
+            
+            const showHoursFilter = category === 'service' || category === 'food';
+            hoursFilterControls.style.display = showHoursFilter ? 'flex' : 'none';
+            
+            if (!showHoursFilter) {
+                const allBtn = hoursFilterControls.querySelector('[data-hours-filter="all"]');
+                const activeHoursBtn = hoursFilterControls.querySelector('.active');
+                if (activeHoursBtn) activeHoursBtn.classList.remove('active');
+                if (allBtn) allBtn.classList.add('active');
+                window.currentHoursFilter = 'all';
+            }
+        }
+        
+        updateHoursFilterVisibilityForCategory();
+        
+        const filterControls = document.querySelector('.ksmm-filter-controls');
+        if (filterControls) {
+            filterControls.addEventListener('click', (e) => {
+                const btn = e.target.closest('.ksmm-filter-btn');
+                if (btn) {
+                    // requestAnimationFrame для синхронизации с DOM
+                    requestAnimationFrame(() => {
+                        updateHoursFilterVisibilityForCategory();
+                        updateViewWithHoursFilter();
+                    });
+                }
+            });
+        }
+        
+        // Поиск обрабатывается в init() через searchInput.addEventListener
+        // Здесь только синхронизируем с hours filter после updateView
+        
+        const subfilterControls = document.getElementById('ksmm-subfilter-controls');
+        if (subfilterControls) {
+            subfilterControls.addEventListener('click', (e) => {
+                const btn = e.target.closest('.ksmm-subfilter');
+                if (btn) {
+                    requestAnimationFrame(() => {
+                        updateViewWithHoursFilter();
+                    });
+                }
+            });
+        }
+        
+        // MutationObserver для отслеживания изменений в списке (смена этажа/корпуса)
+        let statusUpdateTimeout = null;
+        const listObserver = new MutationObserver((mutations) => {
+            const hasListItems = mutations.some(m => 
+                Array.from(m.addedNodes).some(node => 
+                    node.nodeType === 1 && node.classList && node.classList.contains('ksmm-list-item')
+                )
+            );
+            
+            if (hasListItems) {
+                if (statusUpdateTimeout) clearTimeout(statusUpdateTimeout);
+                // Минимальный дебаунс - 50ms достаточно для группировки быстрых добавлений
+                statusUpdateTimeout = setTimeout(() => {
+                    addStatusToItems();
+                    updateViewWithHoursFilter();
+                }, 50);
+            }
+        });
+        
+        const servicesList = document.getElementById('ksmm-services-list');
+        if (servicesList) {
+            listObserver.observe(servicesList, { childList: true, subtree: true });
+            // Начальная инициализация - сразу после подключения observer
+            addStatusToItems();
+            updateViewWithHoursFilter();
+        }
+        
+        window.currentHoursFilter = 'all';
+    }
+    
+    // Обновление статусов каждую минуту
+    setInterval(() => {
+        try {
+            if (typeof allServices === 'undefined' || !allServices || allServices.length === 0) {
+                return;
+            }
+            addStatusToItems();
+            updateViewWithHoursFilter();
+            
+            const popupEl = document.getElementById('ksmm-popup');
+            if (popupEl && popupEl.style.display !== 'none' && popupEl.style.display !== '') {
+                const popupTitle = document.getElementById('ksmm-popup-title');
+                if (popupTitle && popupTitle.textContent) {
+                    const serviceName = popupTitle.textContent.trim();
+                    const service = allServices.find(s => s.name === serviceName);
+                    if (service) {
+                        addStatusToPopup(service);
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('Hours filter: periodic update error', e);
+        }
+    }, 60000);
 })();
