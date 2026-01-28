@@ -1544,14 +1544,20 @@ body p.ksmm-item-location {
 /* Статус в попапе */
 .ksmm-popup-status {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 4px;
     font-size: 13px;
     font-variation-settings: 'wdth' 87.5;
     margin: 8px 0;
     padding: 6px 12px;
     border-radius: 16px;
     background: #f5f5f5;
+}
+
+.ksmm-popup-status .status-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* Двойной кружок для попапа */
@@ -1620,6 +1626,7 @@ body p.ksmm-item-location {
     gap: 6px;
     font-size: 12px;
     font-variation-settings: 'wdth' 87.5;
+    margin-top: 6px;
 }
 
 /* Двойной кружок: внешний полупрозрачный + внутренний сплошной */

@@ -2613,21 +2613,14 @@
                 const status = getWorkStatus(service);
                 const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
                 
-                const statusEl = document.createElement('span');
+                const statusEl = document.createElement('div');
                 statusEl.className = `ksmm-work-status ${statusClass}`;
                 statusEl.innerHTML = `<span class="status-icon"></span><span class="status-text">${status.text}</span>`;
                 
                 const contentEl = item.querySelector('.ksmm-item-content');
                 if (contentEl) {
-                    const nameEl = contentEl.querySelector('h4');
-                    if (nameEl) {
-                        const statusContainer = document.createElement('div');
-                        statusContainer.style.marginTop = '4px';
-                        statusContainer.style.display = 'block';
-                        statusContainer.style.width = '100%';
-                        statusContainer.appendChild(statusEl);
-                        nameEl.insertAdjacentElement('afterend', statusContainer);
-                    }
+                    // Добавляем статус в конец элемента списка
+                    contentEl.appendChild(statusEl);
                 }
             });
         } catch (e) {
@@ -2653,12 +2646,12 @@
         
         popupStatus.className = `ksmm-popup-status ${statusClass}`;
         
-        let statusHTML = `<span class="status-icon"></span><span class="status-text">${status.text}</span>`;
+        let statusHTML = `<span class="status-row"><span class="status-icon"></span><span class="status-text">${status.text}</span></span>`;
         
         if (service.attributes && service.attributes.hours) {
             const hoursText = service.attributes.hours;
             const cleanHoursText = hoursText.replace(/^График работы:\s*/i, '').trim();
-            statusHTML += `<br><span class="ksmm-popup-status-hours">${cleanHoursText}</span>`;
+            statusHTML += `<span class="ksmm-popup-status-hours">${cleanHoursText}</span>`;
         }
         
         popupStatus.innerHTML = statusHTML;
