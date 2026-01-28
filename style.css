@@ -1494,37 +1494,51 @@ body p.ksmm-item-location {
     font-size: 12px;
     font-variation-settings: 'wdth' 87.5;
     margin-top: 4px;
-    padding: 4px 8px;
-    border-radius: 12px;
-    background: #f5f5f5;
-    width: fit-content;
 }
 
+/* Двойной кружок */
 .ksmm-item-status .status-icon {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ksmm-item-status .status-icon::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    position: absolute;
 }
 
 .ksmm-item-status .status-text {
     color: #666;
 }
 
-/* Цвета иконок и текста для статусов */
-.ksmm-item-status.status-open .status-icon { background-color: #27ae60; }
-.ksmm-item-status.status-open .status-text { color: #27ae60; }
+/* Цвета из SVG иконок */
+.ksmm-item-status.status-open .status-icon { background-color: rgba(0, 197, 115, 0.2); }
+.ksmm-item-status.status-open .status-icon::after { background-color: #00C573; }
+.ksmm-item-status.status-open .status-text { color: #00C573; }
 
-.ksmm-item-status.status-closed .status-icon { background-color: #c0392b; }
-.ksmm-item-status.status-closed .status-text { color: #c0392b; }
+.ksmm-item-status.status-closed .status-icon { background-color: rgba(255, 100, 90, 0.2); }
+.ksmm-item-status.status-closed .status-icon::after { background-color: #FF645A; }
+.ksmm-item-status.status-closed .status-text { color: #FF645A; }
 
-.ksmm-item-status.status-closing .status-icon { background-color: #e67e22; }
-.ksmm-item-status.status-closing .status-text { color: #e67e22; }
+.ksmm-item-status.status-closing .status-icon { background-color: rgba(255, 164, 54, 0.2); }
+.ksmm-item-status.status-closing .status-icon::after { background-color: #FFA436; }
+.ksmm-item-status.status-closing .status-text { color: #FFA436; }
 
-.ksmm-item-status.status-24h .status-icon { background-color: #3498db; }
-.ksmm-item-status.status-24h .status-text { color: #3498db; }
+.ksmm-item-status.status-24h .status-icon { background-color: rgba(71, 93, 235, 0.2); }
+.ksmm-item-status.status-24h .status-icon::after { background-color: #475DEB; }
+.ksmm-item-status.status-24h .status-text { color: #475DEB; }
 
-.ksmm-item-status.status-weekend .status-icon { background-color: #9b59b6; }
+.ksmm-item-status.status-weekend .status-icon { background-color: rgba(155, 89, 182, 0.2); }
+.ksmm-item-status.status-weekend .status-icon::after { background-color: #9b59b6; }
 .ksmm-item-status.status-weekend .status-text { color: #9b59b6; }
 
 /* Статус в попапе */
@@ -1540,11 +1554,24 @@ body p.ksmm-item-location {
     background: #f5f5f5;
 }
 
+/* Двойной кружок для попапа */
 .ksmm-popup-status .status-icon {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ksmm-popup-status .status-icon::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    position: absolute;
 }
 
 .ksmm-popup-status .status-text {
@@ -1552,24 +1579,29 @@ body p.ksmm-item-location {
 }
 
 /* Попап: цвета фона и иконок */
-.ksmm-popup-status.status-open { background: #e8f5e9; }
-.ksmm-popup-status.status-open .status-icon { background-color: #27ae60; }
-.ksmm-popup-status.status-open .status-text { color: #27ae60; }
+.ksmm-popup-status.status-open { background: rgba(0, 197, 115, 0.1); }
+.ksmm-popup-status.status-open .status-icon { background-color: rgba(0, 197, 115, 0.2); }
+.ksmm-popup-status.status-open .status-icon::after { background-color: #00C573; }
+.ksmm-popup-status.status-open .status-text { color: #00C573; }
 
-.ksmm-popup-status.status-closed { background: #ffebee; }
-.ksmm-popup-status.status-closed .status-icon { background-color: #c0392b; }
-.ksmm-popup-status.status-closed .status-text { color: #c0392b; }
+.ksmm-popup-status.status-closed { background: rgba(255, 100, 90, 0.1); }
+.ksmm-popup-status.status-closed .status-icon { background-color: rgba(255, 100, 90, 0.2); }
+.ksmm-popup-status.status-closed .status-icon::after { background-color: #FF645A; }
+.ksmm-popup-status.status-closed .status-text { color: #FF645A; }
 
-.ksmm-popup-status.status-closing { background: #fff3e0; }
-.ksmm-popup-status.status-closing .status-icon { background-color: #e67e22; }
-.ksmm-popup-status.status-closing .status-text { color: #e67e22; }
+.ksmm-popup-status.status-closing { background: rgba(255, 164, 54, 0.1); }
+.ksmm-popup-status.status-closing .status-icon { background-color: rgba(255, 164, 54, 0.2); }
+.ksmm-popup-status.status-closing .status-icon::after { background-color: #FFA436; }
+.ksmm-popup-status.status-closing .status-text { color: #FFA436; }
 
-.ksmm-popup-status.status-24h { background: #e3f2fd; }
-.ksmm-popup-status.status-24h .status-icon { background-color: #3498db; }
-.ksmm-popup-status.status-24h .status-text { color: #3498db; }
+.ksmm-popup-status.status-24h { background: rgba(71, 93, 235, 0.1); }
+.ksmm-popup-status.status-24h .status-icon { background-color: rgba(71, 93, 235, 0.2); }
+.ksmm-popup-status.status-24h .status-icon::after { background-color: #475DEB; }
+.ksmm-popup-status.status-24h .status-text { color: #475DEB; }
 
-.ksmm-popup-status.status-weekend { background: #f3e5f5; }
-.ksmm-popup-status.status-weekend .status-icon { background-color: #9b59b6; }
+.ksmm-popup-status.status-weekend { background: rgba(155, 89, 182, 0.1); }
+.ksmm-popup-status.status-weekend .status-icon { background-color: rgba(155, 89, 182, 0.2); }
+.ksmm-popup-status.status-weekend .status-icon::after { background-color: #9b59b6; }
 .ksmm-popup-status.status-weekend .status-text { color: #9b59b6; }
 
 /* Часы работы внутри статуса попапа */
@@ -1590,24 +1622,42 @@ body p.ksmm-item-location {
     font-variation-settings: 'wdth' 87.5;
 }
 
+/* Двойной кружок: внешний полупрозрачный + внутренний сплошной */
 .ksmm-work-status .status-icon {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.ksmm-work-status.status-open .status-icon { background-color: #27ae60; }
-.ksmm-work-status.status-open .status-text { color: #27ae60; }
+.ksmm-work-status .status-icon::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    position: absolute;
+}
 
-.ksmm-work-status.status-closed .status-icon { background-color: #c0392b; }
-.ksmm-work-status.status-closed .status-text { color: #c0392b; }
+/* Цвета из SVG: open=#00C573, closed=#FF645A, closing=#FFA436, 24-7=#475DEB */
+.ksmm-work-status.status-open .status-icon { background-color: rgba(0, 197, 115, 0.2); }
+.ksmm-work-status.status-open .status-icon::after { background-color: #00C573; }
+.ksmm-work-status.status-open .status-text { color: #00C573; }
 
-.ksmm-work-status.status-closing .status-icon { background-color: #e67e22; }
-.ksmm-work-status.status-closing .status-text { color: #e67e22; }
+.ksmm-work-status.status-closed .status-icon { background-color: rgba(255, 100, 90, 0.2); }
+.ksmm-work-status.status-closed .status-icon::after { background-color: #FF645A; }
+.ksmm-work-status.status-closed .status-text { color: #FF645A; }
 
-.ksmm-work-status.status-24-7 .status-icon { background-color: #3498db; }
-.ksmm-work-status.status-24-7 .status-text { color: #3498db; }
+.ksmm-work-status.status-closing .status-icon { background-color: rgba(255, 164, 54, 0.2); }
+.ksmm-work-status.status-closing .status-icon::after { background-color: #FFA436; }
+.ksmm-work-status.status-closing .status-text { color: #FFA436; }
+
+.ksmm-work-status.status-24-7 .status-icon { background-color: rgba(71, 93, 235, 0.2); }
+.ksmm-work-status.status-24-7 .status-icon::after { background-color: #475DEB; }
+.ksmm-work-status.status-24-7 .status-text { color: #475DEB; }
 
 /* Скрытие элементов по фильтру часов */
 .ksmm-list-item.hidden-hours {
