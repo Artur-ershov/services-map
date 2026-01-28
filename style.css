@@ -1572,9 +1572,9 @@ body p.ksmm-item-location {
 .ksmm-item-status.status-closing .status-icon::after { background-color: #FFA436; }
 .ksmm-item-status.status-closing .status-text { color: #FFA436; }
 
-.ksmm-item-status.status-24h .status-icon { background-color: rgba(71, 93, 235, 0.2); }
-.ksmm-item-status.status-24h .status-icon::after { background-color: #475DEB; }
-.ksmm-item-status.status-24h .status-text { color: #475DEB; }
+.ksmm-item-status.status-24-7 .status-icon { background-color: rgba(71, 93, 235, 0.2); }
+.ksmm-item-status.status-24-7 .status-icon::after { background-color: #475DEB; }
+.ksmm-item-status.status-24-7 .status-text { color: #475DEB; }
 
 .ksmm-item-status.status-weekend .status-icon { background-color: rgba(155, 89, 182, 0.2); }
 .ksmm-item-status.status-weekend .status-icon::after { background-color: #9b59b6; }
@@ -1639,10 +1639,10 @@ body p.ksmm-item-location {
 .ksmm-popup-status.status-closing .status-icon::after { background-color: #FFA436; }
 .ksmm-popup-status.status-closing .status-text { color: #FFA436; }
 
-.ksmm-popup-status.status-24h { background: rgba(71, 93, 235, 0.1); }
-.ksmm-popup-status.status-24h .status-icon { background-color: rgba(71, 93, 235, 0.2); }
-.ksmm-popup-status.status-24h .status-icon::after { background-color: #475DEB; }
-.ksmm-popup-status.status-24h .status-text { color: #475DEB; }
+.ksmm-popup-status.status-24-7 { background: rgba(71, 93, 235, 0.1); }
+.ksmm-popup-status.status-24-7 .status-icon { background-color: rgba(71, 93, 235, 0.2); }
+.ksmm-popup-status.status-24-7 .status-icon::after { background-color: #475DEB; }
+.ksmm-popup-status.status-24-7 .status-text { color: #475DEB; }
 
 .ksmm-popup-status.status-weekend { background: rgba(155, 89, 182, 0.1); }
 .ksmm-popup-status.status-weekend .status-icon { background-color: rgba(155, 89, 182, 0.2); }
