@@ -1588,9 +1588,6 @@ body p.ksmm-item-location {
     gap: 6px;
     font-size: 12px;
     font-variation-settings: 'wdth' 87.5;
-    padding: 4px 8px;
-    border-radius: 12px;
-    background: #f5f5f5;
 }
 
 .ksmm-work-status .status-icon {
@@ -1600,19 +1597,15 @@ body p.ksmm-item-location {
     flex-shrink: 0;
 }
 
-.ksmm-work-status.status-open { background: #e8f5e9; }
 .ksmm-work-status.status-open .status-icon { background-color: #27ae60; }
 .ksmm-work-status.status-open .status-text { color: #27ae60; }
 
-.ksmm-work-status.status-closed { background: #ffebee; }
 .ksmm-work-status.status-closed .status-icon { background-color: #c0392b; }
 .ksmm-work-status.status-closed .status-text { color: #c0392b; }
 
-.ksmm-work-status.status-closing { background: #fff3e0; }
 .ksmm-work-status.status-closing .status-icon { background-color: #e67e22; }
 .ksmm-work-status.status-closing .status-text { color: #e67e22; }
 
-.ksmm-work-status.status-24-7 { background: #e3f2fd; }
 .ksmm-work-status.status-24-7 .status-icon { background-color: #3498db; }
 .ksmm-work-status.status-24-7 .status-text { color: #3498db; }
 
