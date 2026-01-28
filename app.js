@@ -2688,9 +2688,6 @@
                     
                     if (filter === 'open') {
                         shouldShow = status.status === 'open' || status.status === 'closing' || status.status === '24-7';
-                    } else if (filter === 'weekends') {
-                        const parsed = parseHours(service.attributes && service.attributes.hours);
-                        shouldShow = !parsed || parsed.type !== 'weekday';
                     } else if (filter === '24h') {
                         shouldShow = status.status === '24-7';
                     }
