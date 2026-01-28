@@ -1486,6 +1486,45 @@ body p.ksmm-item-location {
     border-color: var(--krok-blue);
 }
 
+/* Иконки в кнопках фильтров */
+.ksmm-hours-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ksmm-hours-filter-btn .filter-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ksmm-hours-filter-btn .filter-icon::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.ksmm-hours-filter-btn .filter-icon.open { background-color: rgba(0, 197, 115, 0.2); }
+.ksmm-hours-filter-btn .filter-icon.open::after { background-color: #00C573; }
+
+.ksmm-hours-filter-btn .filter-icon.closed { background-color: rgba(255, 100, 90, 0.2); }
+.ksmm-hours-filter-btn .filter-icon.closed::after { background-color: #FF645A; }
+
+.ksmm-hours-filter-btn .filter-icon.h24 { background-color: rgba(71, 93, 235, 0.2); }
+.ksmm-hours-filter-btn .filter-icon.h24::after { background-color: #475DEB; }
+
+/* В активном состоянии иконки белые */
+.ksmm-hours-filter-btn.active .filter-icon { background-color: rgba(255, 255, 255, 0.3); }
+.ksmm-hours-filter-btn.active .filter-icon::after { background-color: white; }
+
 /* Статус работы в списке */
 .ksmm-item-status {
     display: flex;
