@@ -2596,16 +2596,9 @@
                     
                     const status = getWorkStatus(service);
                     const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
-                    const statusEmoji = {
-                        'open': '🟢',
-                        'closing': '🟠',
-                        'closed': '🔴',
-                        '24-7': '🔵',
-                        'unknown': '⚪'
-                    }[status.status] || '⚪';
                     
                     existingStatus.className = `ksmm-work-status ${statusClass}`;
-                    existingStatus.innerHTML = `<span>${statusEmoji}</span><span>${status.text}</span>`;
+                    existingStatus.innerHTML = `<span class="status-icon"></span><span class="status-text">${status.text}</span>`;
                     return;
                 }
                 
@@ -2619,17 +2612,10 @@
                 
                 const status = getWorkStatus(service);
                 const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
-                const statusEmoji = {
-                    'open': '🟢',
-                    'closing': '🟠',
-                    'closed': '🔴',
-                    '24-7': '🔵',
-                    'unknown': '⚪'
-                }[status.status] || '⚪';
                 
                 const statusEl = document.createElement('span');
                 statusEl.className = `ksmm-work-status ${statusClass}`;
-                statusEl.innerHTML = `<span>${statusEmoji}</span><span>${status.text}</span>`;
+                statusEl.innerHTML = `<span class="status-icon"></span><span class="status-text">${status.text}</span>`;
                 
                 const contentEl = item.querySelector('.ksmm-item-content');
                 if (contentEl) {
@@ -2664,17 +2650,10 @@
         
         const status = getWorkStatus(service);
         const statusClass = `status-${status.status === 'closing' ? 'closing' : status.status}`;
-        const statusEmoji = {
-            'open': '🟢',
-            'closing': '🟠',
-            'closed': '🔴',
-            '24-7': '🔵',
-            'unknown': '⚪'
-        }[status.status] || '⚪';
         
         popupStatus.className = `ksmm-popup-status ${statusClass}`;
         
-        let statusHTML = `${statusEmoji} ${status.text}`;
+        let statusHTML = `<span class="status-icon"></span><span class="status-text">${status.text}</span>`;
         
         if (service.attributes && service.attributes.hours) {
             const hoursText = service.attributes.hours;

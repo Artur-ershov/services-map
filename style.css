@@ -1492,6 +1492,7 @@ body p.ksmm-item-location {
     align-items: center;
     gap: 6px;
     font-size: 12px;
+    font-variation-settings: 'wdth' 87.5;
     margin-top: 4px;
     padding: 4px 8px;
     border-radius: 12px;
@@ -1499,49 +1500,76 @@ body p.ksmm-item-location {
     width: fit-content;
 }
 
-.ksmm-item-status .status-emoji {
-    font-size: 10px;
+.ksmm-item-status .status-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .ksmm-item-status .status-text {
     color: #666;
 }
 
+/* Цвета иконок и текста для статусов */
+.ksmm-item-status.status-open .status-icon { background-color: #27ae60; }
 .ksmm-item-status.status-open .status-text { color: #27ae60; }
+
+.ksmm-item-status.status-closed .status-icon { background-color: #c0392b; }
 .ksmm-item-status.status-closed .status-text { color: #c0392b; }
+
+.ksmm-item-status.status-closing .status-icon { background-color: #e67e22; }
 .ksmm-item-status.status-closing .status-text { color: #e67e22; }
+
+.ksmm-item-status.status-24h .status-icon { background-color: #3498db; }
 .ksmm-item-status.status-24h .status-text { color: #3498db; }
+
+.ksmm-item-status.status-weekend .status-icon { background-color: #9b59b6; }
 .ksmm-item-status.status-weekend .status-text { color: #9b59b6; }
 
 /* Статус в попапе */
 .ksmm-popup-status {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 13px;
+    font-variation-settings: 'wdth' 87.5;
     margin: 8px 0;
     padding: 6px 12px;
     border-radius: 16px;
     background: #f5f5f5;
 }
 
-.ksmm-popup-status .status-emoji {
-    font-size: 12px;
+.ksmm-popup-status .status-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .ksmm-popup-status .status-text {
     color: #666;
 }
 
+/* Попап: цвета фона и иконок */
 .ksmm-popup-status.status-open { background: #e8f5e9; }
+.ksmm-popup-status.status-open .status-icon { background-color: #27ae60; }
 .ksmm-popup-status.status-open .status-text { color: #27ae60; }
+
 .ksmm-popup-status.status-closed { background: #ffebee; }
+.ksmm-popup-status.status-closed .status-icon { background-color: #c0392b; }
 .ksmm-popup-status.status-closed .status-text { color: #c0392b; }
+
 .ksmm-popup-status.status-closing { background: #fff3e0; }
+.ksmm-popup-status.status-closing .status-icon { background-color: #e67e22; }
 .ksmm-popup-status.status-closing .status-text { color: #e67e22; }
+
 .ksmm-popup-status.status-24h { background: #e3f2fd; }
+.ksmm-popup-status.status-24h .status-icon { background-color: #3498db; }
 .ksmm-popup-status.status-24h .status-text { color: #3498db; }
+
 .ksmm-popup-status.status-weekend { background: #f3e5f5; }
+.ksmm-popup-status.status-weekend .status-icon { background-color: #9b59b6; }
 .ksmm-popup-status.status-weekend .status-text { color: #9b59b6; }
 
 /* Часы работы внутри статуса попапа */
@@ -1559,19 +1587,34 @@ body p.ksmm-item-location {
     align-items: center;
     gap: 6px;
     font-size: 12px;
+    font-variation-settings: 'wdth' 87.5;
     padding: 4px 8px;
     border-radius: 12px;
     background: #f5f5f5;
 }
 
+.ksmm-work-status .status-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
 .ksmm-work-status.status-open { background: #e8f5e9; }
-.ksmm-work-status.status-open span:last-child { color: #27ae60; }
+.ksmm-work-status.status-open .status-icon { background-color: #27ae60; }
+.ksmm-work-status.status-open .status-text { color: #27ae60; }
+
 .ksmm-work-status.status-closed { background: #ffebee; }
-.ksmm-work-status.status-closed span:last-child { color: #c0392b; }
+.ksmm-work-status.status-closed .status-icon { background-color: #c0392b; }
+.ksmm-work-status.status-closed .status-text { color: #c0392b; }
+
 .ksmm-work-status.status-closing { background: #fff3e0; }
-.ksmm-work-status.status-closing span:last-child { color: #e67e22; }
+.ksmm-work-status.status-closing .status-icon { background-color: #e67e22; }
+.ksmm-work-status.status-closing .status-text { color: #e67e22; }
+
 .ksmm-work-status.status-24-7 { background: #e3f2fd; }
-.ksmm-work-status.status-24-7 span:last-child { color: #3498db; }
+.ksmm-work-status.status-24-7 .status-icon { background-color: #3498db; }
+.ksmm-work-status.status-24-7 .status-text { color: #3498db; }
 
 /* Скрытие элементов по фильтру часов */
 .ksmm-list-item.hidden-hours {
