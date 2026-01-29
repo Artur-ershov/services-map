@@ -36,6 +36,7 @@ while ($listener.IsListening) {
             ".png" { $mimeType = "image/png" }
             ".jpg" { $mimeType = "image/jpeg" }
             ".jpeg" { $mimeType = "image/jpeg" }
+            ".pdf" { $mimeType = "application/pdf" }
         }
         
         $response.ContentType = $mimeType

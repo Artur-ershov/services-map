@@ -1,19 +1,18 @@
 <!--
-  МОДУЛЬ: КБЖУ + "Съел" для Буфета и Бизнес-завтраков
+  МОДУЛЬ: КБЖУ + "Съел" для Буфета, Бизнес-завтрака и Заказа пиццы
   Страница: https://zabota.croc.ru/eda
 
   КАК ДОБАВИТЬ В TILDA:
   1. Добавьте блок T123 (HTML-код) на странице /eda.
-  2. Разместите блок ПОСЛЕ блока с каталогом Tilda Store (Буфет / Бизнес-завтрак).
+  2. Разместите блок ПОСЛЕ блока с каталогом Tilda Store (Буфет / Бизнес-завтрак / Пицца).
   3. Вставьте весь этот код в блок.
   4. На странице должна быть панель дневника калорий (#diary-panel с total-kcal и т.д.).
 
   Модуль:
-  - загружает данные из API Tilda Store;
-  - находит карточки товаров Буфета и Бизнес-завтрака;
-  - выводит КБЖУ под каждым товаром;
-  - добавляет кнопку "+ Съел";
-  - использует глобальные функции из eda.html для добавления в дневник.
+  - использует КБЖУ из API Tilda Store (если есть), иначе — локальный маппинг по PDF;
+  - находит карточки Буфета, Бизнес-завтрака и Пиццы;
+  - выводит КБЖУ и кнопку "+ Съел";
+  - интегрируется с дневником (eda / глобальные функции).
 -->
 <div id="eda-buffet-calories-root" style="display:none;"></div>
 <style>
@@ -31,6 +30,100 @@
   function normalize(s) {
     if (!s) return '';
     return s.trim().toLowerCase().replace(/\s+/g,' ').replace(/[^\w\sа-яё]/gi,'');
+  }
+
+  var N = {
+    "Каша из киноа на кокосовом молоке с сахаром, фруктами и орехами":[199,5,12,17],
+    "Блинчики с мясом":[192,11,6,23],"Блинчики c мясом":[192,11,6,23],
+    "Блинчики с творогом":[197,10,8,21],"Блинчики c творогом":[197,10,8,21],
+    "Блинчики с клубнично сливочной начинкой и ягодным соусом":[429,10,21,50],
+    "Сырники из творога со свежими фруктами и муссом из сметаны":[478,30,26,30],
+    "Салат фруктовый с орехами":[113,2,4,18],"Хрустящая гранола":[474,7,22,59],
+    "Скрембл с помидорами, авокадо и миксом салатных листьев":[159,12,11,4],
+    "Яичница с колбасой из индейки, беконом и белой фасолью":[199,16,12,6],
+    "Шакшука с овощами":[85,5,5,4],
+    "Омлет конвертик фаршированный овощами, ветчиной и сыром":[97,4,3,13],
+    "Тост с яйцом пашот, семгой и австралийским соусом":[170,10,1,5],
+    "Брускетта с ростбифом из вырезки с вялеными томатами и рукколой":[141,10,2,21],
+    "Цезарь с тигровыми":[168,12,8,11],"Цезарь с тигровыми креветками":[168,12,8,11],
+    "Цезарь с куриным филе":[237,7,22,2],
+    "Греческий из свежих овощей Холодные закуски":[189,4,18,3],"Греческий из свежих овощей":[189,4,18,3],
+    "Салат с авокадо":[188,8,16,1.9],"Салат с авокадо и тигровыми креветками":[188,8,16,1.9],
+    "Салат зеленый":[54,2,4,2],
+    "Борщ украинский с мясом*":[429,10,21,50],
+    "Бульон куриный меню Гарниры":[116,10,2,15],"Бульон куриный с перепелиными яйцами*":[116,10,2,15],
+    "Овощная тарелка":[27,1,0,5],"Семга с маслом и лимоном":[142,23,10,0],
+    "Маслины/оливки в ассортименте Первые блюда":[175,2,16,5],"Маслины/оливки":[175,2,16,5],
+    "Картофельное пюре":[116,3,4,17],
+    "Каша гречневая Вторые блюда":[101,4,1,19],"Каша гречневая":[101,4,1,19],
+    "Брокколи зелень в ассортименте":[31,3,0,4],"Брокколи":[31,3,0,4],
+    "Смесь рисов":[346,8,2,77],
+    "Овощи гриль/соте":[55,2,1,9],"Овощи гриль/соте на ароматном оливковом масле":[55,2,1,9],
+    "Шампиньоны жаренные":[37,4,2,1],"Шампиньоны жаренные с луком":[37,4,2,1],
+    "Стейк из семги":[219,20,15,0],"Сибас на гриле с лимоном":[101,17,9,0],
+    "Золотистый дорадо с лимоном на ароматном оливковом масле":[291,45,13,1],"Золотистый дорадо с лимоном":[291,45,13,1],
+    "Язык говяжий отварной":[231,24,15,3],
+    "помидоры, тимьян, розмарин, масло оливковое, Язык говяжий отварной (добавка к гарниру)":[231,24,15,3],
+    "Вырезка говяжья cy-вид":[137,23,5,0],
+    "Куриные окорочка cу-вид/ отварные return":[158,17,10,0],"Куриные окорочка cу-вид/ отварные":[158,17,10,0],
+    "Филе индейки су-вид/отварное":[130,25,1,0],
+    "Бефстроганов из говядины Напитки":[193,17,11,6],"Бефстроганов из говядины":[193,17,11,6],
+    "Паста Карбонара":[208,7,12,18],
+    "Паста с креветками":[139,7,4,16],"Паста с креветками и сливочным соусом":[139,7,4,16],
+    "Апельсиновый сок":[90,1,0,20],"Яблочный сок (200мл)":[90,0,0,22],
+    "Морковный сок":[50,1,0,11],"Морковный сок (200мл)":[50,1,0,11],
+    "Марковно-яблочный сок (200мл)":[70,1,0,16],
+    "Черный чай":[0,0,0,0],"Черный чай (200мл)":[0,0,0,0],
+    "Зеленый чай":[0,0,0,0],"Зеленый чай (200мл)":[0,0,0,0],
+    "Чиз Карбонара":[2050,92,88,210],"Четыре сыра":[1980,95,85,200],
+    "Пепперони":[1920,88,82,215],"Баварская мясная":[2150,98,95,205]
+  };
+
+  function findNutrition(title) {
+    if (!title) return null;
+    var u = normalize(title);
+    if (N[title]) return N[title];
+    for (var k in N) {
+      var v = normalize(k);
+      if (u.indexOf(v) !== -1 || v.indexOf(u) !== -1) return N[k];
+    }
+    if (u.indexOf('цезарь') !== -1 && u.indexOf('тигров') !== -1) return N["Цезарь с тигровыми"];
+    if (u.indexOf('цезарь') !== -1 && u.indexOf('курин') !== -1) return N["Цезарь с куриным филе"];
+    if (u.indexOf('греческ') !== -1 && u.indexOf('овощ') !== -1) return N["Греческий из свежих овощей"];
+    if (u.indexOf('салат') !== -1 && u.indexOf('авокадо') !== -1) return N["Салат с авокадо"];
+    if (u.indexOf('салат') !== -1 && u.indexOf('зелен') !== -1) return N["Салат зеленый"];
+    if (u.indexOf('борщ') !== -1) return N["Борщ украинский с мясом*"];
+    if (u.indexOf('бульон') !== -1 && u.indexOf('курин') !== -1) return N["Бульон куриный меню Гарниры"];
+    if (u.indexOf('овощн') !== -1 && u.indexOf('тарел') !== -1) return N["Овощная тарелка"];
+    if (u.indexOf('семга') !== -1 && u.indexOf('масл') !== -1) return N["Семга с маслом и лимоном"];
+    if (u.indexOf('маслин') !== -1 || u.indexOf('оливк') !== -1) return N["Маслины/оливки"];
+    if (u.indexOf('картофел') !== -1 && u.indexOf('пюре') !== -1) return N["Картофельное пюре"];
+    if (u.indexOf('каша') !== -1 && u.indexOf('гречнев') !== -1) return N["Каша гречневая"];
+    if (u.indexOf('брокколи') !== -1) return N["Брокколи"];
+    if (u.indexOf('смесь') !== -1 && u.indexOf('рис') !== -1) return N["Смесь рисов"];
+    if (u.indexOf('овощ') !== -1 && (u.indexOf('гриль') !== -1 || u.indexOf('соте') !== -1)) return N["Овощи гриль/соте"];
+    if (u.indexOf('шампиньон') !== -1) return N["Шампиньоны жаренные"];
+    if (u.indexOf('стейк') !== -1 && u.indexOf('семг') !== -1) return N["Стейк из семги"];
+    if (u.indexOf('сибас') !== -1) return N["Сибас на гриле с лимоном"];
+    if (u.indexOf('дорадо') !== -1) return N["Золотистый дорадо с лимоном"];
+    if (u.indexOf('язык') !== -1 && u.indexOf('говяж') !== -1) return N["Язык говяжий отварной"];
+    if (u.indexOf('вырезка') !== -1 && u.indexOf('говяж') !== -1) return N["Вырезка говяжья cy-вид"];
+    if (u.indexOf('окорочк') !== -1 && u.indexOf('курин') !== -1) return N["Куриные окорочка cу-вид/ отварные"];
+    if (u.indexOf('филе') !== -1 && u.indexOf('индейк') !== -1) return N["Филе индейки су-вид/отварное"];
+    if (u.indexOf('бефстроганов') !== -1) return N["Бефстроганов из говядины"];
+    if (u.indexOf('паста') !== -1 && u.indexOf('карбонар') !== -1) return N["Паста Карбонара"];
+    if (u.indexOf('паста') !== -1 && u.indexOf('креветк') !== -1) return N["Паста с креветками"];
+    if (u.indexOf('апельсинов') !== -1 && u.indexOf('сок') !== -1) return N["Апельсиновый сок"];
+    if (u.indexOf('яблочн') !== -1 && u.indexOf('сок') !== -1) return N["Яблочный сок (200мл)"];
+    if (u.indexOf('морковн') !== -1 && u.indexOf('сок') !== -1) return N["Морковный сок"];
+    if (u.indexOf('марковн') !== -1 && u.indexOf('яблочн') !== -1) return N["Марковно-яблочный сок (200мл)"];
+    if (u.indexOf('черн') !== -1 && u.indexOf('чай') !== -1) return N["Черный чай"];
+    if (u.indexOf('зелен') !== -1 && u.indexOf('чай') !== -1) return N["Зеленый чай"];
+    if (u.indexOf('чиз') !== -1 && u.indexOf('карбонар') !== -1) return N["Чиз Карбонара"];
+    if (u.indexOf('четыре') !== -1 && u.indexOf('сыр') !== -1) return N["Четыре сыра"];
+    if (u.indexOf('пепперони') !== -1) return N["Пепперони"];
+    if (u.indexOf('баварск') !== -1 && u.indexOf('мясн') !== -1) return N["Баварская мясная"];
+    return null;
   }
 
   var cache = null;
@@ -77,29 +170,28 @@
       });
   }
 
-  function getNutrition(el) {
-    if (!el || !cache) return null;
+  function getNutrition(el, name) {
+    var card = el ? (el.closest('[class*="card"], [class*="product"], [class*="item"]') || el.closest('div') && el.closest('div').parentElement) : null;
+    var n = (name || (el && (el.textContent || '').trim()) || '').trim();
     
-    var card = el.closest('[class*="card"], [class*="product"], [class*="item"]') || el.closest('div').parentElement;
-    if (!card) return null;
+    if (cache) {
+      if (cache.byTitle[n]) return cache.byTitle[n];
+      if (cache.byTitle[normalize(n)]) return cache.byTitle[normalize(n)];
+      if (card) {
+        var uid = card.getAttribute('data-product-uid') || card.getAttribute('data-uid') || (card.querySelector('[data-product-uid]') && card.querySelector('[data-product-uid]').getAttribute('data-product-uid'));
+        if (uid && cache.byUid[uid]) return cache.byUid[uid];
+        var extId = card.getAttribute('data-external-id') || card.getAttribute('data-externalid');
+        if (extId && cache.byExternalId[extId]) return cache.byExternalId[extId];
+      }
+    }
     
-    var name = (el.textContent || '').trim();
-    var normName = normalize(name);
-    
-    if (cache.byTitle[name]) return cache.byTitle[name];
-    if (cache.byTitle[normName]) return cache.byTitle[normName];
-    
-    var uid = card.getAttribute('data-product-uid') || card.getAttribute('data-uid') || 
-              card.querySelector('[data-product-uid]')?.getAttribute('data-product-uid');
-    if (uid && cache.byUid[uid]) return cache.byUid[uid];
-    
-    var extId = card.getAttribute('data-external-id') || card.getAttribute('data-externalid');
-    if (extId && cache.byExternalId[extId]) return cache.byExternalId[extId];
-    
+    var fallback = findNutrition(n);
+    if (fallback) return fallback;
     return null;
   }
 
-  function addToDiary(name, nutrition, el) {
+  function addToDiary(name, nutrition, el, category) {
+    var cat = category || 'Буфет';
     if (typeof window.addBuffetItemToDiary === 'function') {
       window.addBuffetItemToDiary(name, el);
       return;
@@ -111,13 +203,13 @@
     window.dailyLog.push({
       id: window.buffetItemCounter++,
       name: name,
-      category: 'Буфет',
-      type: 'Буфет',
+      category: cat,
+      type: cat,
       weight: '1 порция',
       nutri: { kcal: nutrition[0], prot: nutrition[1], fat: nutrition[2], carb: nutrition[3] },
       tags: { protein: nutrition[1] > 20, fiber: false, lactose: false, gf: false, vegan: false },
       allergies: '',
-      source: 'buffet'
+      source: cat === 'Пицца' ? 'pizza' : 'buffet'
     });
     
     if (typeof window.saveDiary === 'function') window.saveDiary();
@@ -136,23 +228,33 @@
       if (!card) return;
       
       var p = card;
-      var isBuffet = false;
+      var section = '';
       for (var i = 0; i < 12 && p; i++) {
-        if ((p.textContent || '').indexOf('Буфет') !== -1 || (p.textContent || '').indexOf('Бизнес-завтрак') !== -1) {
-          isBuffet = true;
+        var t = (p.textContent || '');
+        if (t.indexOf('Пицца') !== -1 || t.indexOf('Заказ пиццы') !== -1 || t.indexOf('римской пиццы') !== -1) {
+          section = 'Пицца';
+          break;
+        }
+        if (t.indexOf('Бизнес-завтрак') !== -1) {
+          section = 'Бизнес-завтрак';
+          break;
+        }
+        if (t.indexOf('Буфет') !== -1) {
+          section = 'Буфет';
           break;
         }
         p = p.parentElement;
       }
-      if (!isBuffet) return;
+      if (!section) return;
       if (card.getAttribute('data-eda-buffet-done')) return;
       if (card.querySelector('.eda-buffet-kbju')) return;
       
       card.setAttribute('data-eda-buffet-done', '1');
       
       var name = (titleEl.textContent || '').trim();
-      var nutrition = getNutrition(titleEl);
-      if (!nutrition || !nutrition[0]) return;
+      var nutrition = getNutrition(titleEl, name);
+      var sum = nutrition ? (nutrition[0] + nutrition[1] + nutrition[2] + nutrition[3]) : 0;
+      if (!nutrition || sum === 0) return;
       
       var wrap = document.createElement('div');
       wrap.className = 'eda-buffet-kbju';
@@ -162,13 +264,12 @@
       btn.type = 'button';
       btn.className = 'eda-buffet-syel';
       btn.textContent = '+ Съел';
+      var cat = section;
       btn.onclick = function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        
-        addToDiary(name, nutrition, titleEl);
-        
+        addToDiary(name, nutrition, titleEl, cat);
         var orig = btn.textContent;
         btn.textContent = '✓ Добавлено';
         btn.classList.add('done');
@@ -176,7 +277,6 @@
           btn.textContent = orig;
           btn.classList.remove('done');
         }, 1000);
-        
         return false;
       };
       

@@ -627,16 +627,19 @@ body p.ksmm-item-location {
 
 /* Заголовки секций */
 .ksmm-list-section-title {
-    padding: 12px 20px 8px 20px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: #999;
-    letter-spacing: 0.5px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid var(--bg);
-    margin-top: 8px;
-}
+        padding: 0 0 8px 0;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 1);
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgba(0, 0, 0, 0.25);
+        margin: 16px 22px 8px 22px;
+        font-variation-settings: "wdth" 87.5;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1.75px;
+    }
+
 
 .ksmm-list-item p {
     margin: 0;
@@ -833,6 +836,37 @@ body p.ksmm-item-location {
 #ksmm-map-wrapper {
     transition: transform 0.15s ease-out;
     /* Transform-origin по умолчанию (0, 0) - это правильно для нашей логики */
+}
+
+/* Анимации переключения этажей */
+#ksmm-map-base.ksmm-floor-exit,
+#ksmm-map-areas.ksmm-floor-exit {
+    animation: ksmm-floor-out 0.22s ease-in forwards;
+    transform-origin: 50% 50%;
+}
+
+#ksmm-map-base.ksmm-floor-enter,
+#ksmm-map-areas.ksmm-floor-enter {
+    animation: ksmm-floor-in 0.28s ease-out forwards;
+    transform-origin: 50% 50%;
+}
+
+@keyframes ksmm-floor-out {
+    to {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+}
+
+@keyframes ksmm-floor-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 /* Переходы только для интерактивных областей, не для базового слоя */

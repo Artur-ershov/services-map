@@ -886,7 +886,8 @@
         return item;
     }
 
-    function renderBuildingView(building) {
+    function renderBuildingView(building, options) {
+        options = options || {};
         // Очищаем слои
         mapBaseLayer.innerHTML = '';
         mapAreasContainer.innerHTML = '';
@@ -1019,11 +1020,12 @@
                         circle.style.cursor = 'pointer';
                         circle.addEventListener('click', (e) => {
                             e.stopPropagation();
-                            switchFloor(building, floor);
-                            setTimeout(() => {
-                                showPopup(service);
-                                centerOnArea(service.areaId);
-                            }, 100);
+                            switchFloor(building, floor, {
+                                onFloorReady: () => {
+                                    showPopup(service);
+                                    centerOnArea(service.areaId);
+                                }
+                            });
                         });
                         circle.addEventListener('mouseenter', () => {
                             circle.setAttribute('r', CIRCLE_RADIUS + 3);
@@ -1040,13 +1042,16 @@
                         floorWrapper.appendChild(circle);
                     });
                 });
-                
+
                 // Обновляем список
                 updateListAndFilters();
                 updateNavigationButtons();
+                if (options.onContentReady) options.onContentReady();
             })
             .catch(err => {
                 console.error('Ошибка загрузки floors.svg:', err);
+                updateListAndFilters();
+                updateNavigationButtons();
             });
     }
 
@@ -1282,26 +1287,49 @@
         }
     }
     
-    function switchFloor(b, f) {
-        // Если f === null, активируем режим просмотра корпуса
+    function switchFloor(b, f, options) {
+        // Если f === null, активируем режим просмотра корпуса (с анимацией как при смене этажа)
         if (f === null) {
-            isBuildingViewMode = true;
-            currentBuilding = b;
-            currentFloor = null;
-            renderBuildingView(b);
-            // updateListAndFilters вызывается в renderBuildingView после загрузки всех этажей
-            mapState.x = 0;
-            mapState.y = 0;
-            mapState.scale = 1;
-            applyMapTransform();
-            hidePopup();
-            // Обновляем активный элемент в дропдауне
-            document.querySelectorAll('.ksmm-floor-dropdown-floor-btn, .ksmm-floor-dropdown-building-header').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            const buildingHeader = document.querySelector(`.ksmm-floor-dropdown-building-header[data-building="${b}"]`);
-            if (buildingHeader) buildingHeader.classList.add('active');
-            updateNavigationButtons();
+            const FLOOR_ANIM_OUT_MS = 220;
+            const FLOOR_ANIM_IN_MS = 280;
+            mapBaseLayer.classList.remove('ksmm-floor-enter');
+            mapAreasContainer.classList.remove('ksmm-floor-enter');
+            mapBaseLayer.classList.add('ksmm-floor-exit');
+            mapAreasContainer.classList.add('ksmm-floor-exit');
+
+            setTimeout(() => {
+                mapBaseLayer.innerHTML = '';
+                mapAreasContainer.innerHTML = '';
+                mapBaseLayer.classList.remove('ksmm-floor-exit');
+                mapAreasContainer.classList.remove('ksmm-floor-exit');
+                setActiveArea(null);
+                isBuildingViewMode = true;
+                currentBuilding = b;
+                currentFloor = null;
+                mapState.x = 0;
+                mapState.y = 0;
+                mapState.scale = 1;
+                applyMapTransform(true);
+                hidePopup();
+                document.querySelectorAll('.ksmm-floor-dropdown-floor-btn, .ksmm-floor-dropdown-building-header').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                const buildingHeader = document.querySelector(`.ksmm-floor-dropdown-building-header[data-building="${b}"]`);
+                if (buildingHeader) buildingHeader.classList.add('active');
+                updateListAndFilters();
+                updateNavigationButtons();
+
+                renderBuildingView(b, {
+                    onContentReady: () => {
+                        mapBaseLayer.classList.add('ksmm-floor-enter');
+                        mapAreasContainer.classList.add('ksmm-floor-enter');
+                        setTimeout(() => {
+                            mapBaseLayer.classList.remove('ksmm-floor-enter');
+                            mapAreasContainer.classList.remove('ksmm-floor-enter');
+                        }, FLOOR_ANIM_IN_MS);
+                    }
+                });
+            }, FLOOR_ANIM_OUT_MS);
             return;
         }
         
@@ -1310,7 +1338,6 @@
         currentBuilding = b;
         currentFloor = f;
         const floorKey = `${b}-F${f}`;
-        // Increment sequence number to mark this as the most recent switch
         floorSwitchSequence++;
         const thisSwitchSequence = floorSwitchSequence;
         
@@ -1321,33 +1348,59 @@
         const currentBtn = document.querySelector(`.ksmm-floor-dropdown-floor-btn[data-building="${b}"][data-floor="${f}"]`);
         if (currentBtn) currentBtn.classList.add('active');
 
-        renderFloorBaseLayer(floorKey, thisSwitchSequence).then(() => {
-            // Check if this is still the most recent floor switch
-            // If user switched floors again, ignore this stale completion
-            if (thisSwitchSequence !== floorSwitchSequence) {
-                return; // Stale operation, ignore
-            }
-            
-            // Use closure-captured values to prevent race conditions
-            // if user switches floors before async operation completes
-            renderMapAreas(b, f);
-            // Temporarily set globals to closure values for updateListAndFilters
-            // to ensure consistency even if user switched floors during async operation
-            const savedBuilding = currentBuilding;
-            const savedFloor = currentFloor;
-            currentBuilding = b;
-            currentFloor = f;
-            updateListAndFilters();
-            // Restore actual current values (may have changed if user switched floors)
-            currentBuilding = savedBuilding;
-            currentFloor = savedFloor;
-            mapState.x = 0;
-            mapState.y = 0;
-            mapState.scale = 1;
-            applyMapTransform();
-            hidePopup();
-            updateNavigationButtons();
-        });
+        const FLOOR_ANIM_OUT_MS = 220;
+        const FLOOR_ANIM_IN_MS = 280;
+
+        // Анимация выхода: zoom out + fade
+        mapBaseLayer.classList.add('ksmm-floor-exit');
+        mapAreasContainer.classList.add('ksmm-floor-exit');
+
+        setTimeout(() => {
+            if (thisSwitchSequence !== floorSwitchSequence) return;
+
+            renderFloorBaseLayer(floorKey, thisSwitchSequence).then(() => {
+                if (thisSwitchSequence !== floorSwitchSequence) return;
+                mapBaseLayer.classList.remove('ksmm-floor-exit');
+                mapAreasContainer.classList.remove('ksmm-floor-exit');
+                
+                renderMapAreas(b, f);
+                const savedBuilding = currentBuilding;
+                const savedFloor = currentFloor;
+                currentBuilding = b;
+                currentFloor = f;
+                updateListAndFilters();
+                currentBuilding = savedBuilding;
+                currentFloor = savedFloor;
+                mapState.x = 0;
+                mapState.y = 0;
+                mapState.scale = 1;
+                applyMapTransform(true);
+                hidePopup();
+                updateNavigationButtons();
+
+                if (options && typeof options.onFloorReady === 'function') {
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            if (thisSwitchSequence === floorSwitchSequence) options.onFloorReady();
+                        });
+                    });
+                }
+
+                // Анимация входа: zoom in + fade in up
+                mapBaseLayer.classList.add('ksmm-floor-enter');
+                mapAreasContainer.classList.add('ksmm-floor-enter');
+                setTimeout(() => {
+                    mapBaseLayer.classList.remove('ksmm-floor-enter');
+                    mapAreasContainer.classList.remove('ksmm-floor-enter');
+                    if (thisSwitchSequence === floorSwitchSequence && !(options && options.onFloorReady)) {
+                        mapState.x = 0;
+                        mapState.y = 0;
+                        mapState.scale = 1;
+                        applyMapTransform(true);
+                    }
+                }, FLOOR_ANIM_IN_MS);
+            });
+        }, FLOOR_ANIM_OUT_MS);
     }
 
     function createSectionTitle(text) {
@@ -1418,15 +1471,12 @@
                 sortedFloorServices.forEach(service => {
                     const item = createListItem(service, false);
                     item.addEventListener('click', () => {
-                        switchFloor(service.building, service.floor);
-                        setTimeout(() => {
-                            requestAnimationFrame(() => {
-                                requestAnimationFrame(() => {
-                                    showPopup(service);
-                                    centerOnArea(service.areaId);
-                                });
-                            });
-                        }, 150);
+                        switchFloor(service.building, service.floor, {
+                            onFloorReady: () => {
+                                showPopup(service);
+                                centerOnArea(service.areaId);
+                            }
+                        });
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1440,15 +1490,12 @@
                 otherBuildingsServices.forEach(service => {
                     const item = createListItem(service, false);
                     item.addEventListener('click', () => {
-                        switchFloor(service.building, service.floor);
-                        setTimeout(() => {
-                            requestAnimationFrame(() => {
-                                requestAnimationFrame(() => {
-                                    showPopup(service);
-                                    centerOnArea(service.areaId);
-                                });
-                            });
-                        }, 150);
+                        switchFloor(service.building, service.floor, {
+                            onFloorReady: () => {
+                                showPopup(service);
+                                centerOnArea(service.areaId);
+                            }
+                        });
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1503,16 +1550,12 @@
                 otherFloorsServices.forEach(service => {
                     const item = createListItem(service, false);
                     item.addEventListener('click', () => {
-                        switchFloor(service.building, service.floor);
-                        // После переключения показываем попап и центрируем на области
-                        setTimeout(() => {
-                            requestAnimationFrame(() => {
-                                requestAnimationFrame(() => {
-                                    showPopup(service);
-                                    centerOnArea(service.areaId);
-                                });
-                            });
-                        }, 150);
+                        switchFloor(service.building, service.floor, {
+                            onFloorReady: () => {
+                                showPopup(service);
+                                centerOnArea(service.areaId);
+                            }
+                        });
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -1525,16 +1568,12 @@
                 otherBuildingsServices.forEach(service => {
                     const item = createListItem(service, false);
                     item.addEventListener('click', () => {
-                        switchFloor(service.building, service.floor);
-                        // После переключения показываем попап и центрируем на области
-                        setTimeout(() => {
-                            requestAnimationFrame(() => {
-                                requestAnimationFrame(() => {
-                                    showPopup(service);
-                                    centerOnArea(service.areaId);
-                                });
-                            });
-                        }, 150);
+                        switchFloor(service.building, service.floor, {
+                            onFloorReady: () => {
+                                showPopup(service);
+                                centerOnArea(service.areaId);
+                            }
+                        });
                     });
                     item.addEventListener('mouseenter', () => setHighlight(service.id, true));
                     item.addEventListener('mouseleave', () => setHighlight(service.id, false));
@@ -2474,9 +2513,9 @@
                 const openTimeStr = `${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')}`;
                 let text;
                 if (nextWorking.daysAhead === 1) {
-                    text = `Закрыто (откр. завтра в ${openTimeStr})`;
+                    text = `Закрыто • откроется завтра в ${openTimeStr}`;
                 } else {
-                    text = `Закрыто (откр. в ${dayNames[nextDate.getDay()]} в ${openTimeStr})`;
+                    text = `Закрыто • откроется в ${dayNames[nextDate.getDay()]} в ${openTimeStr}`;
                 }
                 
                 return {
@@ -2494,7 +2533,7 @@
                 today.setHours(parsed.schedule.open.hour, parsed.schedule.open.minute, 0, 0);
                 return {
                     status: 'closed',
-                    text: `Закрыто (откр. сегодня в ${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')})`,
+                    text: `Закрыто • откроется сегодня в ${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')}`,
                     nextOpen: today
                 };
             }
@@ -2508,9 +2547,9 @@
                 const openTimeStr = `${String(parsed.schedule.open.hour).padStart(2, '0')}:${String(parsed.schedule.open.minute).padStart(2, '0')}`;
                 let text;
                 if (nextWorking.daysAhead === 1) {
-                    text = `Закрыто (откр. завтра в ${openTimeStr})`;
+                    text = `Закрыто • откроется завтра в ${openTimeStr}`;
                 } else {
-                    text = `Закрыто (откр. в ${dayNames[nextDate.getDay()]} в ${openTimeStr})`;
+                    text = `Закрыто • откроется в ${dayNames[nextDate.getDay()]} в ${openTimeStr}`;
                 }
                 
                 return {

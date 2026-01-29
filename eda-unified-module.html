@@ -59,6 +59,23 @@
   .eda-buffet-syel:active { transform: scale(0.98); }
   .eda-buffet-syel.done { background: #4CAF50; }
   
+  /* Статус заказа: как на карте + в корзине (стиль приложений доставки) */
+  .eda-order-status-block { text-align: center; margin: 12px 0 16px; }
+  .eda-order-status-badge { display: inline-block; padding: 6px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; max-width: 90%; }
+  .eda-order-status-badge.status-open { background: #e8f5e9; color: #2e7d32; }
+  .eda-order-status-badge.status-closing { background: #fff3e0; color: #ef6c00; }
+  .eda-order-status-badge.status-closed { background: #ffebee; color: #c62828; }
+  /* Категории в списке товаров корзины — только в списке, без фона, цвет в подписи */
+  .eda-cart-categories { margin-bottom: 16px; }
+  .eda-cart-category { margin-top: 30px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #ddd; background: none; }
+  .eda-cart-category:first-child { margin-top: 0; }
+  .eda-cart-category-name { font-size: 16px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; font-variation-settings: 'wdth' 87.5; color: #222; margin-bottom: 4px; }
+  .eda-cart-category-delivery { font-size: 13px; font-weight: 500; line-height: 1.4; color: #555; }
+  .eda-cart-category.status-open .eda-cart-category-delivery { color: #2e7d32; }
+  .eda-cart-category.status-closing .eda-cart-category-delivery { color: #ef6c00; }
+  .eda-cart-category.status-closed .eda-cart-category-delivery { color: #c62828; }
+  .eda-cart-pickup-note { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.08); font-size: 12px; font-weight: 500; color: #555; }
+  
   /* Дневник питания */
   .nutrition-diary { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #ddd; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); padding: 15px 20px; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 20px; font-family: 'Croc', sans-serif; }
   .diary-content { max-width: 1000px; width: 100%; display: flex; justify-content: space-between; align-items: center; font-family: 'Croc', sans-serif; }
@@ -151,6 +168,11 @@
     return fetch(TILDA_API_URL)
       .then(function(r) { return r.json(); })
       .then(function(data) {
+        if (data && data.parts && Array.isArray(data.parts)) {
+          data.parts.forEach(function(p) {
+            if (p.uid != null && p.title) PART_UID_TO_NAME[String(p.uid)] = p.title;
+          });
+        }
         if (data && data.products && Array.isArray(data.products)) {
           tildaCache = { byTitle: {}, byUid: {}, byExternalId: {} };
           
@@ -606,6 +628,338 @@
     });
   }
 
+  /*
+   * Стиль приложений доставки: коротко, по делу.
+   * Учёт выходных и праздников через isdayoff.ru (как на карте в app.js).
+   */
+  var ORDER_STATUS_CONFIG = {
+    'Буфет': { deadlineHour: 16, deliveryEnd: '19:00' },
+    'Бизнес-завтрак': { deadlineHour: 10, deliveryEnd: '12:00' },
+    'Пицца': { deadlineHour: 16, deliveryEnd: '19:00' }
+  };
+
+  // === isdayoff.ru (как на карте в app.js) ===
+  // 0 — рабочий, 1 — выходной, 2 — сокращённый, 4 — праздник
+  var edaDayOffStatus = null;
+  var edaDayOffLoaded = false;
+  var edaDayOffCache = {};
+  var EDA_DAY_NAMES = ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу'];
+
+  function getMoscowDate() {
+    var d = new Date();
+    var s = d.toLocaleString('en-CA', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    var parts = s.match(/(\d+)-(\d+)-(\d+).*?(\d+):(\d+):(\d+)/);
+    if (!parts) return d;
+    var y = parseInt(parts[1], 10), mo = parseInt(parts[2], 10) - 1, day = parseInt(parts[3], 10), h = parseInt(parts[4], 10), min = parseInt(parts[5], 10), sec = parseInt(parts[6], 10);
+    var moscow = new Date(Date.UTC(y, mo, day, h, min, sec));
+    return {
+      getDay: function() { return moscow.getUTCDay(); },
+      getHours: function() { return moscow.getUTCHours(); },
+      getDate: function() { return moscow.getUTCDate(); },
+      getMonth: function() { return moscow.getUTCMonth(); },
+      getFullYear: function() { return moscow.getUTCFullYear(); },
+      setDate: function(d) { moscow.setUTCDate(d); },
+      clone: function() {
+        var m2 = new Date(moscow.getTime());
+        return {
+          getDay: function() { return m2.getUTCDay(); },
+          getDate: function() { return m2.getUTCDate(); },
+          getMonth: function() { return m2.getUTCMonth(); },
+          getFullYear: function() { return m2.getUTCFullYear(); },
+          setDate: function(d) { m2.setUTCDate(d); }
+        };
+      }
+    };
+  }
+
+  function fetchEdaDayOffStatus() {
+    var now = getMoscowDate();
+    var dateStr = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+    fetch('https://isdayoff.ru/' + dateStr, { method: 'GET', cache: 'default' })
+      .then(function(r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function(text) {
+        edaDayOffStatus = parseInt(text, 10);
+        edaDayOffCache[dateStr] = edaDayOffStatus;
+        edaDayOffLoaded = true;
+      })
+      .catch(function() { edaDayOffLoaded = true; });
+  }
+
+  function isTodayWorkingDayEda() {
+    var now = getMoscowDate();
+    var dayOfWeek = now.getDay();
+    var isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    if (edaDayOffLoaded && edaDayOffStatus !== null) return edaDayOffStatus === 0 || edaDayOffStatus === 2;
+    return !isWeekend;
+  }
+
+  function findNextWorkingDayEda(fromDate) {
+    var date = fromDate.clone ? fromDate.clone() : fromDate;
+    var maxDays = 14;
+    for (var i = 1; i <= maxDays; i++) {
+      date.setDate(date.getDate() + 1);
+      var dateStr = date.getFullYear().toString() + String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0');
+      if (edaDayOffCache[dateStr] !== undefined) {
+        if (edaDayOffCache[dateStr] === 0 || edaDayOffCache[dateStr] === 2) return { date: date, daysAhead: i };
+        continue;
+      }
+      var dow = date.getDay();
+      if (dow !== 0 && dow !== 6) return { date: date, daysAhead: i };
+    }
+    return { date: date, daysAhead: maxDays };
+  }
+
+  function preloadEdaDayOffNextDays() {
+    var now = getMoscowDate();
+    for (var i = 1; i <= 7; i++) {
+      var copy = now.clone();
+      copy.setDate(copy.getDate() + i);
+      var dateStr = copy.getFullYear().toString() + String(copy.getMonth() + 1).padStart(2, '0') + String(copy.getDate()).padStart(2, '0');
+      if (edaDayOffCache[dateStr] !== undefined) continue;
+      (function(ds) {
+        fetch('https://isdayoff.ru/' + ds, { method: 'GET', cache: 'default' })
+          .then(function(r) { return r.ok ? r.text() : null; })
+          .then(function(text) { if (text !== null) edaDayOffCache[ds] = parseInt(text, 10); })
+          .catch(function() {});
+      })(dateStr);
+    }
+  }
+
+  /** partUid из API (parts.uid) → название категории. Буфет / Бизнес-завтрак */
+  var PART_UID_TO_NAME = { '392951452092': 'Буфет', '573227517752': 'Бизнес-завтрак' };
+  var CART_CATEGORY_ORDER = ['Буфет', 'Бизнес-завтрак', 'Пицца'];
+
+  function getProductCategory(product) {
+    if (!product) return 'Буфет';
+    var uids = product.part_uids;
+    if (Array.isArray(uids) && uids.length > 0) {
+      var name = PART_UID_TO_NAME[String(uids[0]).trim()];
+      if (name) return name;
+    }
+    if (typeof uids === 'string') {
+      var raw = uids.replace(/[\[\]\s]/g, '').split(',')[0];
+      if (raw) {
+        var n = PART_UID_TO_NAME[String(raw).trim()];
+        if (n) return n;
+      }
+    }
+    uids = product.partuids;
+    if (typeof uids === 'string') {
+      var r = uids.replace(/[\[\]\s]/g, '').split(',')[0];
+      if (r && PART_UID_TO_NAME[String(r).trim()]) return PART_UID_TO_NAME[String(r).trim()];
+    }
+    if (Array.isArray(uids) && uids.length > 0 && PART_UID_TO_NAME[String(uids[0]).trim()]) {
+      return PART_UID_TO_NAME[String(uids[0]).trim()];
+    }
+    return 'Буфет';
+  }
+
+  function getOrderDeliveryStatus(config) {
+    var now = getMoscowDate();
+    var h = now.getHours();
+    var deadline = config.deadlineHour;
+    var end = config.deliveryEnd;
+    var d = String(deadline).padStart(2, '0') + ':00';
+    var status, text;
+    var workingToday = isTodayWorkingDayEda();
+    if (!workingToday) {
+      status = 'closed';
+      var next = findNextWorkingDayEda(now);
+      var dayName = EDA_DAY_NAMES[next.date.getDay()];
+      text = 'Сегодня выходной/праздник. Ближайшая доставка в ' + dayName + ' до ' + end + ' — укажи дату в корзине.';
+      return { status: status, text: text };
+    }
+    if (h < deadline) {
+      if (deadline - h === 1) {
+        status = 'closing';
+        text = 'До ' + d + ' → сегодня до ' + end;
+      } else {
+        status = 'open';
+        text = 'Сегодня до ' + end;
+      }
+    } else {
+      status = 'closed';
+      var nextW = findNextWorkingDayEda(now);
+      var dayN = EDA_DAY_NAMES[nextW.date.getDay()];
+      text = nextW.daysAhead === 1 ? 'Завтра до ' + end + ' — укажи дату в корзине.' : 'В ' + dayN + ' до ' + end + ' — укажи дату в корзине.';
+    }
+    return { status: status, text: text };
+  }
+
+  function getOrderDeliveryStatusCart(config) {
+    var now = getMoscowDate();
+    var h = now.getHours();
+    var deadline = config.deadlineHour;
+    var end = config.deliveryEnd;
+    var d = String(deadline).padStart(2, '0') + ':00';
+    var status, line;
+    var workingToday = isTodayWorkingDayEda();
+    if (!workingToday) {
+      status = 'closed';
+      var next = findNextWorkingDayEda(now);
+      var dayName = EDA_DAY_NAMES[next.date.getDay()];
+      line = 'сегодня не доставляем (выходной/праздник). Ближайшая — в ' + dayName + ' до ' + end + ', укажи дату ниже';
+      return { status: status, line: line };
+    }
+    if (h < deadline) {
+      status = deadline - h === 1 ? 'closing' : 'open';
+      line = 'сегодня до ' + end + (deadline - h === 1 ? ' (оформи до ' + d + ')' : '');
+    } else {
+      status = 'closed';
+      var nextW = findNextWorkingDayEda(now);
+      var dayN = EDA_DAY_NAMES[nextW.date.getDay()];
+      line = nextW.daysAhead === 1 ? 'завтра до ' + end + ' — укажи дату ниже' : 'в ' + dayN + ' до ' + end + ' — укажи дату ниже';
+    }
+    return { status: status, line: line };
+  }
+
+  function getCartDeliveryCategories() {
+    var buffet = getOrderDeliveryStatusCart(ORDER_STATUS_CONFIG['Буфет']);
+    var breakfast = getOrderDeliveryStatusCart(ORDER_STATUS_CONFIG['Бизнес-завтрак']);
+    var pizza = getOrderDeliveryStatusCart(ORDER_STATUS_CONFIG['Пицца']);
+    return [
+      { name: 'Буфет', line: buffet.line, status: buffet.status },
+      { name: 'Бизнес-завтрак', line: breakfast.line, status: breakfast.status },
+      { name: 'Пицца', line: pizza.line, status: pizza.status }
+    ];
+  }
+
+  function buildCartCategoriesDom(categories) {
+    var wrap = document.createElement('div');
+    wrap.className = 'eda-cart-categories';
+    wrap.setAttribute('data-eda-cart-delivery', '1');
+    categories.forEach(function(cat) {
+      var block = document.createElement('div');
+      block.className = 'eda-cart-category status-' + cat.status;
+      block.innerHTML = '<div class="eda-cart-category-name">' + cat.name + '</div>' +
+        '<div class="eda-cart-category-delivery">Доставка: ' + cat.line + '. Или самовывоз в буфете.</div>';
+      wrap.appendChild(block);
+    });
+    var pickup = document.createElement('div');
+    pickup.className = 'eda-cart-pickup-note';
+    pickup.textContent = 'Доставка или самовывоз — укажи дату, время и способ в форме ниже.';
+    wrap.appendChild(pickup);
+    return wrap;
+  }
+
+  function updateCartCategoriesEl(wrap, categories) {
+    var catEls = wrap.querySelectorAll('.eda-cart-category');
+    categories.forEach(function(cat, i) {
+      if (catEls[i]) {
+        catEls[i].className = 'eda-cart-category status-' + cat.status;
+        var nameEl = catEls[i].querySelector('.eda-cart-category-name');
+        var delEl = catEls[i].querySelector('.eda-cart-category-delivery');
+        if (nameEl) nameEl.textContent = cat.name;
+        if (delEl) delEl.textContent = 'Доставка: ' + cat.line + '. Или самовывоз в буфете.';
+      }
+    });
+  }
+
+  function buildCartCategoryBlock(cat) {
+    var block = document.createElement('div');
+    block.className = 'eda-cart-category status-' + cat.status;
+    block.setAttribute('data-eda-cart-delivery', '1');
+    block.innerHTML = '<div class="eda-cart-category-name">' + cat.name + '</div>' +
+      '<div class="eda-cart-category-delivery">Доставка: ' + cat.line + '. Или самовывоз в буфете.</div>';
+    return block;
+  }
+
+  function regroupCartProductsByCategory() {
+    if (!window.tcart || !window.tcart.products || !window.tcart.products.length) return;
+    var containers = document.querySelectorAll('.t706__sidebar-products, .t706__cartwin-products, .t706__cartpage-products');
+    var categories = getCartDeliveryCategories();
+    containers.forEach(function(container) {
+      var productEls = container.querySelectorAll('.t706__product');
+      if (!productEls.length) return;
+      if (container.querySelector('.eda-cart-category')) return;
+      var byCat = {};
+      Array.prototype.forEach.call(productEls, function(el) {
+        var i = el.getAttribute('data-cart-product-i');
+        var product = window.tcart.products[parseInt(i, 10)];
+        var cat = getProductCategory(product);
+        if (!byCat[cat]) byCat[cat] = []; byCat[cat].push(el);
+      });
+      while (container.firstChild) container.removeChild(container.firstChild);
+      CART_CATEGORY_ORDER.forEach(function(catName) {
+        var items = byCat[catName]; if (!items || !items.length) return;
+        var catConfig = categories.find(function(c) { return c.name === catName; });
+        if (catConfig) container.appendChild(buildCartCategoryBlock(catConfig));
+        items.forEach(function(el) { container.appendChild(el); });
+      });
+      Object.keys(byCat).forEach(function(catName) {
+        if (CART_CATEGORY_ORDER.indexOf(catName) === -1) {
+          byCat[catName].forEach(function(el) { container.appendChild(el); });
+        }
+      });
+    });
+  }
+
+  function injectCartDeliveryStatus() {
+    regroupCartProductsByCategory();
+  }
+
+  function injectOrderStatuses() {
+    var tabs = document.querySelectorAll('[role="tablist"] [role="tab"]');
+    var panels = document.querySelectorAll('[role="tabpanel"]');
+    if (!tabs.length || !panels.length) return;
+
+    tabs.forEach(function(tab) {
+      var tabText = (tab.textContent || '').trim();
+      var tabId = tab.getAttribute('id');
+      var config = null;
+      if (tabText.indexOf('Бизнес-завтрак') !== -1) config = ORDER_STATUS_CONFIG['Бизнес-завтрак'];
+      else if (tabText.indexOf('Буфет') !== -1) config = ORDER_STATUS_CONFIG['Буфет'];
+      else if (tabText.indexOf('Пицца') !== -1) config = ORDER_STATUS_CONFIG['Пицца'];
+      if (!config) return;
+
+      var panel = null;
+      if (tabId) {
+        for (var p = 0; p < panels.length; p++) {
+          if (panels[p].getAttribute('aria-labelledby') === tabId) {
+            panel = panels[p];
+            break;
+          }
+        }
+      }
+      if (!panel) return;
+
+      var candidates = [];
+      var walk = panel.querySelectorAll('*');
+      for (var i = 0; i < walk.length; i++) {
+        if ((walk[i].textContent || '').indexOf('Заказы принимаются') !== -1) candidates.push(walk[i]);
+      }
+      candidates.sort(function(a, b) {
+        return (a.textContent || '').length - (b.textContent || '').length;
+      });
+      var el = candidates[0];
+      if (!el) return;
+
+      var existingBlock = el.nextElementSibling && el.nextElementSibling.classList.contains('eda-order-status-block') ? el.nextElementSibling : null;
+      if (!existingBlock) existingBlock = panel.querySelector('.eda-order-status-block');
+      var state = getOrderDeliveryStatus(config);
+      if (existingBlock) {
+        var badge = existingBlock.querySelector('.eda-order-status-badge');
+        if (badge) {
+          badge.textContent = state.text;
+          badge.className = 'eda-order-status-badge status-' + state.status;
+        }
+        return;
+      }
+
+      var badge = document.createElement('span');
+      badge.className = 'eda-order-status-badge status-' + state.status;
+      badge.textContent = state.text;
+      badge.setAttribute('data-eda-status-badge', '1');
+
+      var block = document.createElement('div');
+      block.className = 'eda-order-status-block';
+      block.setAttribute('data-eda-status-block', '1');
+      block.appendChild(badge);
+      if (el.nextSibling) el.parentNode.insertBefore(block, el.nextSibling);
+      else el.parentNode.appendChild(block);
+    });
+  }
+
   function injectBuffet() {
     var titleElements = document.querySelectorAll('.t-store__card__title');
     
@@ -979,16 +1333,52 @@
       function() { return document.querySelector('[role="tab"][aria-selected="true"]') !== null; },
       function() { return document.querySelectorAll('[role="tabpanel"]').length > 0; }
     ], function() {
+      fetchEdaDayOffStatus();
+      preloadEdaDayOffNextDays();
       createStructure();
       startDataLoading();
-      
+      injectOrderStatuses();
+      setTimeout(injectCartDeliveryStatus, 500);
+      waitForElement('.t706__orderform', injectCartDeliveryStatus);
+      waitForElement('.t706', function() { setTimeout(injectCartDeliveryStatus, 300); });
+      document.addEventListener('click', function(e) {
+        if (e.target.closest && e.target.closest('a[href*="opencart"], .t706__carticon, [aria-label="Cart"]')) {
+          setTimeout(injectCartDeliveryStatus, 500);
+        }
+      });
+      setInterval(injectCartDeliveryStatus, 60000);
+
+      var cartRegroupTimer = null;
+      function scheduleCartRegroup() {
+        if (cartRegroupTimer) return;
+        cartRegroupTimer = setTimeout(function() {
+          cartRegroupTimer = null;
+          var sel = '.t706__sidebar-products, .t706__cartwin-products, .t706__cartpage-products';
+          var containers = document.querySelectorAll(sel);
+          for (var c = 0; c < containers.length; c++) {
+            var cn = containers[c];
+            if (cn.querySelector('.t706__product') && !cn.querySelector('.eda-cart-category')) {
+              regroupCartProductsByCategory();
+              break;
+            }
+          }
+        }, 100);
+      }
+      waitForElement('.t706', function() {
+        var cartBlock = document.querySelector('.t706');
+        if (cartBlock && typeof MutationObserver !== 'undefined') {
+          var cartMo = new MutationObserver(function() { scheduleCartRegroup(); });
+          cartMo.observe(cartBlock, { childList: true, subtree: true });
+        }
+      });
+
       // Ждем загрузки API и появления карточек товаров
       loadTildaAPI().then(function() {
         waitForElement('.t-store__card', function() {
           injectBuffet();
         });
       });
-      
+
       // Также ждем появления карточек независимо от API
       waitForElement('.t-store__card', function() {
         injectBuffet();
@@ -1041,8 +1431,9 @@
           
           var activeTabText = (activeTab.textContent || '').trim();
           
-          // Если переключились на таб "Буфет", ждем появления карточек и вызываем injectBuffet
-          if (activeTabText.indexOf('Буфет') !== -1) {
+          // Если переключились на таб "Буфет", "Бизнес-завтрак" или "Пицца"
+          if (activeTabText.indexOf('Буфет') !== -1 || activeTabText.indexOf('Бизнес-завтрак') !== -1 || activeTabText.indexOf('Пицца') !== -1) {
+            injectOrderStatuses();
             waitForElement('.t-store__card', function() {
               injectBuffet();
             });
@@ -1100,8 +1491,8 @@
           tabs[m].addEventListener('click', function() {
             var clickedTab = this;
             var tabText = (clickedTab.textContent || '').trim();
-            if (tabText.indexOf('Буфет') !== -1) {
-              // Ждем появления карточек после переключения таба
+            if (tabText.indexOf('Буфет') !== -1 || tabText.indexOf('Бизнес-завтрак') !== -1 || tabText.indexOf('Пицца') !== -1) {
+              injectOrderStatuses();
               waitForElement('.t-store__card', function() {
                 injectBuffet();
               });
