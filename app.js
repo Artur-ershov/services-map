@@ -59,6 +59,7 @@
     const galleryNextBtn = document.getElementById('ksmm-gallery-next');
     const galleryIndicators = document.getElementById('ksmm-gallery-indicators');
     const popupLink = document.getElementById('ksmm-popup-link');
+    const popupAttrs = document.getElementById('ksmm-popup-attrs');
     
     let currentGalleryImages = [];
     let currentGalleryIndex = 0;
@@ -67,12 +68,19 @@
 
     function formatAttributes(service) {
         const attrs = service.attributes;
+        if (!attrs) return '';
         let parts = [];
         if (attrs.location) parts.push(attrs.location);
         for (const key in attrs) {
-            // Исключаем location (уже добавлен) и hours (показывается в статусе)
-            if (key !== 'location' && key !== 'hours') {
-                parts.push(attrs[key]);
+            if (key === 'location' || key === 'hours') continue;
+            const value = attrs[key];
+            if (key === 'capacity' && (typeof value === 'number' || value)) {
+                parts.push(value + ' чел.');
+            } else if (key === 'equipment') {
+                const list = Array.isArray(value) ? value : (typeof value === 'string' ? value.split(',').map(e => e.trim()).filter(Boolean) : []);
+                if (list.length) parts.push(list.join(', '));
+            } else if (value != null && value !== '') {
+                parts.push(value);
             }
         }
         return parts.join(' • ');
@@ -221,6 +229,21 @@
             popupContacts.innerHTML = service.contacts;
         } else {
             popupContacts.textContent = '';
+        }
+        
+        // Вместимость и оснащение для переговорных (как в списке)
+        if (popupAttrs) {
+            if (service.category === 'meeting' && service.attributes) {
+                const parts = formatAttributes(service);
+                if (parts) {
+                    popupAttrs.textContent = parts;
+                    popupAttrs.style.display = 'block';
+                } else {
+                    popupAttrs.style.display = 'none';
+                }
+            } else {
+                popupAttrs.style.display = 'none';
+            }
         }
         
         // Установка индикатора категории
