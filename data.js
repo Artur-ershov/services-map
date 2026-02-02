@@ -1,6 +1,6 @@
 // --- ДАННЫЕ СЕРВИСОВ, ЭТАЖЕЙ И КОМНАТ ---
 // Автоматически сгенерировано из CSV таблицы
-// Дата генерации: 2026-01-30 18:22:21
+// Дата генерации: 2026-02-02 16:47:34
 
 const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
 
@@ -131,7 +131,7 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-eco-point",
-        desc: "Пункт сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
+        desc: "Пункт сбора трудноперерабатываемых отходов<br>Собираем:  Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё, пластиковые карты , LEGO, зубные щётки<br><br><a href=\"https://nextcloud.croc.ru/s/BKkJ3xecE33DkXS?dir=/&editing=false&openfile=true\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=EcoPoint",
         link: "#",

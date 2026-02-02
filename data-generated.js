@@ -1,6 +1,6 @@
 // --- ДАННЫЕ СЕРВИСОВ, ЭТАЖЕЙ И КОМНАТ ---
 // Автоматически сгенерировано из CSV таблицы
-// Дата генерации: 2026-01-26 13:24:54
+// Дата генерации: 2026-02-02 16:47:34
 
 const DUMMY_IMG_URL = 'https://dummyimage.com/600x400/f3f3f3/000.png&text=';
 
@@ -131,7 +131,7 @@ const allServices = [
         building: "B1",
         floor: 1,
         areaId: "b1f1-eco-point",
-        desc: "Точка сбора трудноперерабатываемых отходов<br>Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё (позже заменим на пластиковые карты / LEGO), зубные щётки.<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
+        desc: "Пункт сбора трудноперерабатываемых отходов<br>Собираем:  Собираем: ручки и фломастеры, блистеры от таблеток, постельное бельё, пластиковые карты , LEGO, зубные щётки<br><br><a href=\"https://nextcloud.croc.ru/s/BKkJ3xecE33DkXS?dir=/&editing=false&openfile=true\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=EcoPoint",
         link: "#",
@@ -140,14 +140,14 @@ const allServices = [
     },
     {
         id: 1009,
-        name: "Утилизация батареек",
+        name: "Сбор батареек",
         category: "eco",
         building: "B1",
         floor: 1,
         areaId: "b1f1-batteries",
         desc: "Точка утилизации батареек<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "images/battery.jpg",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор батареек",
         link: "#",
         attributes: {
         }
@@ -264,7 +264,7 @@ const allServices = [
     },
     {
         id: 1017,
-        name: "Учебный класс (аудитория  202)",
+        name: "Учебный класс (аудитория 202)",
         category: "meeting",
         building: "B1",
         floor: 2,
@@ -302,7 +302,7 @@ const allServices = [
         floor: 2,
         areaId: "b1f2-stolovaya",
         desc: "Столовая полного цикла для питания сотрудников и гостей КРОК<br>Основной зал<br>2 мягкие зоны",
-        contacts: "<a href=\"mailto:foodfeedback@croc.ru\">foodfeedback@croc.ru</a>",
+        contacts: "",
         img: "images/andreymashkin_kmDWabUzP83Q2.jpg\nimages/andreymashkin_G09JoeSx16y3M.jpg\nimages/andreymashkin_22gG7MuDggp6G.jpg\nimages/andreymashkin_b8AVKqhX9ekd6.jpg\nimages/andreymashkin_4KvpGYu59b10O.jpg",
         link: "https://zabota.croc.ru/stolovaya",
         attributes: {
@@ -326,7 +326,7 @@ const allServices = [
     },
     {
         id: 1021,
-        name: "Утилизация пластиковых крышек",
+        name: "Сбор пластиковых крышек",
         category: "eco",
         building: "B1",
         floor: 2,
@@ -371,14 +371,14 @@ const allServices = [
     },
     {
         id: 1024,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B1",
         floor: 3,
         areaId: "b1f3-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -395,7 +395,6 @@ const allServices = [
         img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Кикер",
         link: "#",
         attributes: {
-            location: "холл (оранжевый квадратик на карте )"
         }
     },
     {
@@ -437,13 +436,13 @@ const allServices = [
         building: "B1",
         floor: 3,
         areaId: "b1f3-rest",
-        desc: "Уютное пространство для отдыха, разделённое на несколько зон:<br>     ·Игровая — с плазмой и мультимедийным оборудованием;<br>     ·Мягкая — с акустической стеной и диваном-трансформером<br>     ·Дзен — с массажными креслами и расслабляющей подсветкой под настроение.<br>Бронируй пространство<br>      через календарь в Outlook",
+        desc: "Уютное пространство для отдыха, разделённое на несколько зон:<br>  ·Игровая — с плазмой и мультимедийным оборудованием;<br>  ·Мягкая — с акустической стеной и диваном-трансформером<br>  ·Дзен — с массажными креслами и расслабляющей подсветкой под настроение.<br>Бронируй пространство<br>  через календарь в Outlook",
         contacts: "<a href=\"mailto:FieldService@croc.ru\">FieldService@croc.ru</a>",
         img: "images/andreymashkin_WOMWqau3KqPo9.jpg\nimages/andreymashkin_JZeVJvuWxJ70x.jpg",
         link: "#",
         attributes: {
             location: "316",
-            hours: "Время бронирования\n      доступно с 9 до 21ч"
+            hours: "Время бронирования\n  доступно с 9 до 21ч"
         }
     },
     {
@@ -453,9 +452,9 @@ const allServices = [
         building: "B1",
         floor: 3,
         areaId: "b1f3-gym",
-        desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы <br><br><a href=\"https://jive.croc.ru/community/knowledge/everyday/corporate/sport/gym\" target=\"_blank\" rel=\"noopener noreferrer\">Подробнее о спортзале</a>",
+        desc: "Площадь 190 м2,<br>Доступ 24/7<br>5 зон для занятия различными видами спорта<br>8 тренажеров<br>Групповые программы",
         contacts: "",
-        img: "images/andreymashkin_WOMWqau3Kq5xn.jpg\nimages/andreymashkin_D4WEXGSnYXpQY.jpg\nimages/andreymashkin_RrOMAYu0qAe0q.jpg\nimages/andreymashkin_8nbGEPsG6VRdv.jpg",
+        img: "images/andreymashkin_WOMWqau3Kq5xn.jpg\nimages/andreymashkin_D4WEXGSnYXpQY.jpg",
         link: "https://zabota.croc.ru/sportzal",
         attributes: {
             location: "318"
@@ -470,7 +469,7 @@ const allServices = [
         areaId: "b1f3-razdevalka",
         desc: "Мужская/женская раздевалки <br>Шкафчики для ождежды <br>Фен <br>Душевые кабинки<br>Санузел",
         contacts: "",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Раздевалка и душевые (спортзал)",
+        img: "images/andreymashkin_RrOMAYu0qAe0q.jpg\nimages/andreymashkin_8nbGEPsG6VRdv.jpg",
         link: "https://zabota.croc.ru/sportzal",
         attributes: {
             location: "318"
@@ -483,13 +482,13 @@ const allServices = [
         building: "B1",
         floor: 3,
         areaId: "b1f3-308b",
-        desc: "Услуги оказываются по ДМС.<br>Доктор:  Климчук Мария <br>Запись на прием:<br>+7-926-535-52-27<br><br>Внутренний телефон стоматологического кабинета: 8321",
+        desc: "Услуги оказываются по ДМС.<br>Доктор: Климчук Мария <br>Запись на прием:<br>+7-926-535-52-27<br><br>Внутренний телефон стоматологического кабинета: 8321",
         contacts: "",
         img: "images/andreymashkin_ZRP375srMARBr.jpg",
         link: "https://jive.croc.ru/community/knowledge/everyday/social/stomatology",
         attributes: {
             location: "308",
-            hours: "Каждую неделю по вторникам.\nТребуется предварительная запись"
+            hours: "Каждую неделю по вторникам и четвергам.\nТребуется предварительная запись"
         }
     },
     {
@@ -855,14 +854,14 @@ const allServices = [
     },
     {
         id: 1055,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B1",
         floor: 6,
         areaId: "b1f6-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -901,14 +900,14 @@ const allServices = [
     },
     {
         id: 1058,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B1",
         floor: 7,
         areaId: "b1f7-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1025,14 +1024,14 @@ const allServices = [
     },
     {
         id: 1066,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B1",
         floor: 9,
         areaId: "b1f9-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1105,28 +1104,28 @@ const allServices = [
     },
     {
         id: 1071,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B1",
         floor: 10,
         areaId: "b1f10-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
     },
     {
         id: 1072,
-        name: "Утилизация батареек",
+        name: "Сбор батареек",
         category: "eco",
         building: "B1",
         floor: 10,
-        areaId: "service_Утилизация-батареек",
+        areaId: "service_Сбор-батареек",
         desc: "Точка утилизации батареек<br><br><a href=\"https://jive.croc.ru/docs/DOC-239136\" target=\"_blank\" rel=\"noopener noreferrer\">Больше информации</a>",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "images/battery.jpg",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор батареек",
         link: "#",
         attributes: {
         }
@@ -1197,14 +1196,14 @@ const allServices = [
     },
     {
         id: 1077,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B1",
         floor: 11,
         areaId: "b1f11-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1498,14 +1497,14 @@ const allServices = [
     },
     {
         id: 1097,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B3",
         floor: 3,
         areaId: "b3f3-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1560,14 +1559,14 @@ const allServices = [
     },
     {
         id: 1101,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B3",
         floor: 4,
         areaId: "b3f4-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1811,14 +1810,14 @@ const allServices = [
     },
     {
         id: 1117,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B3",
         floor: 9,
         areaId: "b3f9-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
@@ -1950,14 +1949,14 @@ const allServices = [
     },
     {
         id: 1126,
-        name: "Утилизация бумаги",
+        name: "Сбор бумаги",
         category: "eco",
         building: "B3",
         floor: 11,
         areaId: "b3f11-paper",
         desc: "Точка сбора бумаги<br>можно поставить у лифтового холла однотипно для всех локаций",
         contacts: "<a href=\"mailto:WorkCare@croc.ru\">WorkCare@croc.ru</a>",
-        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Утилизация бумаги",
+        img: "https://dummyimage.com/600x400/f3f3f3/000.png&text=Сбор бумаги",
         link: "https://jive.croc.ru/photos/4205",
         attributes: {
         }
